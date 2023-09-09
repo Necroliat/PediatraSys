@@ -1,0 +1,191 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: sans-serif;
+	background: linear-gradient(to right, #e6e6e6, #f2f2f2);
+	
+}
+
+.login-box {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 350px;
+	background: #fff;
+	padding: 40px;
+	border-radius: 10px;
+	box-shadow: 0 0 20px 0px rgba(0,0,0,0.2);
+}
+
+.login-box h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	color: #444;
+}
+
+.login-box .user-box {
+	position: relative;
+}
+
+.login-box .user-box input {
+	width: 100%;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #444;
+	margin-bottom: 30px;
+	border: none;
+	border-bottom: 1px solid #444;
+	outline: none;
+	background: transparent;
+}
+
+.login-box .user-box label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #444;
+	pointer-events: none;
+	transition: 0.5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+	top: -20px;
+	left: 0;
+	color: #0d0d0d;
+	font-size: 12px;
+}
+
+.login-box input[type="submit"] {
+    text-decoration: none;
+	border: none;
+	outline: none;
+	height: 40px;
+	color: #fff;
+	font-size: 16px;
+	background: linear-gradient(to right, #4a90e2, #63b8ff);
+	cursor: pointer;
+	border-radius: 20px;
+	width: 100%;
+	margin: 0 auto;
+	display: block;
+}
+
+.login-box input[type="submit"]:hover {
+	background: linear-gradient(to right, #63b8ff, #4a90e2);
+}
+
+.message {
+	padding: 10px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.green {
+	background-color: green;
+	color: white;
+}
+
+.red {
+	background-color: red;
+	color: white;
+}
+
+/* Estilos para las tarjetas (card) */
+.card {
+	float: left;
+	width: 25%;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 0 0 20px 0px rgba(0,0,0,0.2);
+	background: #fff;
+	text-align: center;
+	margin-bottom: 30px;
+	color: #444;
+	margin: 10px;
+	transition: transform 0.3s;
+}
+
+.card:hover {
+	transform: scale(1.1);
+}
+
+.card-title {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.card-icon {
+	width: 50px;
+	height: 50px;
+}
+
+.card-description {
+	display: none;
+}
+
+.card:hover .card-description {
+	display: block;
+}
+
+input[type="submit"] {
+	border: none;
+	outline: none;
+	height: 40px;
+	color: #fff;
+	font-size: 16px;
+	background: linear-gradient(to right, #4a90e2, #63b8ff);
+	cursor: pointer;
+	border-radius: 20px;
+	width: 20%;
+	margin: 0 auto;
+	display: block;
+}
+
+.claseboton{
+	border: none;
+	outline: none;
+	height: 40px;
+	color: #fff;
+	font-size: 16px;
+	background: linear-gradient(to right, #4a90e2, #63b8ff);
+	cursor: pointer;
+	border-radius: 20px;
+	width: 100%;
+	margin: 0 auto;
+	display: block;
+}
+
+.claseboton:hover {
+	background: linear-gradient(to right, #63b8ff, #4a90e2);
+}
+
+.contenedor_popup 
+{
+
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%,-50%);
+	width:400px; 
+	transition: all 0.2s;
+	background-color:white;
+}
+
+.caja_popup2 
+{
+	display: block;
+        position: absolute;
+	padding:0;
+	background-color:rgba(0, 0, 0, 0.5); 
+	width:100%;
+	height:100%;
+}
+
