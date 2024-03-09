@@ -1,0 +1,239 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html{background: linear-gradient(to right, #E8A9F7,#e4e5dc );}
+
+body {
+	font-family: sans-serif;
+	/*background: linear-gradient(to right, #e6e6e6, #f2f2f2);*/
+	background: linear-gradient(to right, #E8A9F7,#e4e5dc );
+}
+
+.login-box {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 350px;
+	background: linear-gradient(to right, #e4e5dc, #62c4f9);
+	padding: 40px;
+	border-radius: 10px;
+	box-shadow: 0 0 20px 0px rgba(0,0,0,0.2);
+}
+
+.login-box h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	color: #444;
+}
+
+.login-box .user-box {
+	position: relative;
+}
+
+.login-box .user-box input {
+	width: 100%;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #444;
+	margin-bottom: 30px;
+	border: none;
+	border-bottom: 1px solid #444;
+	outline: none;
+	background: transparent;
+}
+
+.login-box .user-box label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #444;
+	pointer-events: none;
+	transition: 0.5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+	top: -20px;
+	left: 0;
+	color: #0d0d0d;
+	font-size: 12px;
+}
+
+.login-box input[type="submit"] {
+    text-decoration: none;
+	border: none;
+	outline: none;
+	height: 40px;
+	color: #fff;
+	font-size: 16px;
+	background: linear-gradient(to right, #4a90e2, #63b8ff);
+	cursor: pointer;
+	border-radius: 20px;
+	width: 100%;
+	margin: 0 auto;
+	display: block;
+}
+
+.login-box input[type="submit"]:hover {
+	background: linear-gradient(to right, #63b8ff, #4a90e2);
+}
+
+.message {
+	padding: 10px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.green {
+	background-color: green;
+	color: white;
+}
+
+.red {
+	background-color: red;
+	color: white;
+}
+
+/* Estilos para las tarjetas (card) */
+.card {
+	float: left;
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
+	background: linear-gradient(to right, #e4e5dc, #62c4f9);
+	text-align: center;
+    margin-bottom: 30px;
+    color: #444;
+    margin: 10px;
+    transition: transform 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card img {
+    width: 50px; /* Ajusta el tamaño del icono según sea necesario */
+    height: 50px;
+    margin-top: 10px; /* Espaciado entre el icono y el texto */
+}
+
+.card:hover {
+  transform: scale(1.0);
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card-description {
+    display: none;
+}
+
+.card:hover .card-description {
+  display: block;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-around; /* Ajusta según tus necesidades de espaciado */
+    margin: 15% 15%;
+}
+
+
+
+
+input[type="submit"] {
+	border: none;
+	outline: none;
+	height: 40px;
+	color: #fff;
+	font-size: 16px;
+	background: linear-gradient(to right, #4a90e2, #63b8ff);
+	cursor: pointer;
+	border-radius: 20px;
+	width: 20%;
+	margin: 0 auto;
+	display: block;
+}
+
+
+.claseboton {
+	border: none;
+	outline: none;
+	background: linear-gradient(to right, #4a90e2, #63b8ff);
+	border-radius: 7px;
+	width: auto;
+	text-decoration: none;
+	height: 40px;
+	color: #fff;
+	font-size: 16px;
+	padding: 7px;
+
+}
+
+.claseboton:hover {
+	background: linear-gradient(to right, #63b8ff, #4a90e2);
+}
+
+.botones-container {
+	margin: 2px;
+	padding: 2px;
+	box-sizing:unset;
+	width: 100%;
+	float: left;
+	text-align: center;
+	/*justify-content: center;*/
+}
+.clasebotonVER {
+	border: none;
+	outline: none;
+	background: linear-gradient(to right, #05c20e, #84e788);
+	border-radius: 7px;
+	width: auto;
+	text-decoration: none;
+	height: 40px;
+	color: #080808;
+	font-size: 16px;
+	padding: 7px;
+
+}
+
+.clasebotonVER:hover {
+	background: linear-gradient(to right, #84e788,  #05c20e);
+}
+input[type="text"]:read-only {
+	background-color: rgb(115, 140, 136);
+	color: #000;
+	font-weight: bold;
+	width: 65px;
+}
+
+.boton {
+	border: none;
+	outline: none;
+	height: 4vw;
+	color: #fff;
+	font-size: 14px;
+	background: linear-gradient(to right, #4a90e2, #63b8ff);
+	cursor: pointer;
+	border-radius: 2vw;
+	width: 110px;
+	margin-top: 2vw;
+	text-decoration: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: auto;
+	min-height: 40px;
+}

@@ -1,85 +1,136 @@
 
+<?php
+error_reporting(E_ERROR | E_PARSE);
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "pediatra_sis";
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("No se pudo conectar a la base de datos: " . $conn->connect_error);
+}
+
+// Procesar inicio de sesión si se envió el formulario
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    // Consultar el usuario en la base de datos
+    $sql = "SELECT * FROM usuario WHERE nombre_usuario = '$username' AND Pass1 = '$password'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows === 1) {
+        // Inicio de sesión exitoso, redirigir al menú
+        header("Location: menu.php");
+        exit();
+    } else {
+        $message = "Usuario o contraseña incorrectos";
+        $messageColor = "red";
+    }
+}
+
+// Cerrar la conexión
+$conn->close();
+
+?>
+
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Login | Inventario de Medicamentos</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="description" content="Aplikasi Persediaan Obat pada Apotek">
-    <meta name="author" content="Indra Styawantoro" />
+<head>
+    <title>Login Sistema de Pediatría</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
+    <style>body {
+			background: linear-gradient(to right, #E8A9F7, #e4e5dc);
+		}
 
-    <!-- favicon -->
-    <link rel="shortcut icon" href="assets/img/favicon.png" />
+		fieldset {
+			background: linear-gradient(to right, #e4e5dc, #62c4f9);
+		}
 
-    <!-- Bootstrap 3.3.2 -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="assets/plugins/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="assets/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <!-- iCheck -->
-    <link href="assets/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
-    <!-- Custom CSS -->
-    <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+        /* Estilos para las tarjetas (card) */
+.card {
+	float: left;
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
+	background: linear-gradient(to right, #e4e5dc, #62c4f9);
+	text-align: center;
+    margin-bottom: 30px;
+    color: #444;
+    margin: 10px;
+    transition: transform 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-  </head>
-  <body class="login-page bg-login">
-    <div class="login-box">
-      <div style="color:#3c8dbc" class="login-logo">
-        <img style="margin-top:-12px" src="assets/img/logo-blue.png" alt="Logo" height="50"> <b>MEDISYS</b>
-      </div><!-- /.login-logo -->
-      <?php  
+.card img {
+      width: 50px;
+      /* Ajusta el tamaño del icono según sea necesario */
+      height: 50px;
+      margin-top: 10px;
+      /* Espaciado entre el icono y el texto */
+    }
+
+    /*.card:hover {
+    transform: scale(1.1);
+}*/
+
+    .card-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .card-description {
+      display: none;
+    }
+
+    .card:hover .card-description {
+      display: block;
+    }
+
+    .card-container {
  
-      if (empty($_GET['alert'])) {
-        echo "";
-      } 
-
-      elseif ($_GET['alert'] == 1) {
-        echo "<div class='alert alert-danger alert-dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-times-circle'></i> Error al entrar!</h4>
-               Usuario o la contraseña es incorrecta, vuelva a verificar su nombre de usuario y contraseña.
-              </div>";
-      }
-
-      elseif ($_GET['alert'] == 2) {
-        echo "<div class='alert alert-success alert-dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Exito!!</h4>
-              Has salido con éxito.
-              </div>";
-      }
-      ?>
-
-      <div class="login-box-body">
-        <p class="login-box-msg"><i class="fa fa-user icon-title"></i> Por favor Inicie Sesión</p>
-        <br/>
-        <form action="login-check.php" method="POST">
-          <div class="form-group has-feedback">
-            <input type="text" class="form-control" name="username" placeholder="Username" autocomplete="off" required />
-            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-          </div>
-
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" name="password" placeholder="Password" required />
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
-          <br/>
-          <div class="row">
-            <div class="col-xs-12">
-              <input type="submit" class="btn btn-primary btn-lg btn-block btn-flat" name="login" value="Ingresar" />
-            </div><!-- /.col -->
-          </div>
+ display: flex;
+ justify-content: space-around; /* Ajusta según tus necesidades de espaciado */
+ /*display: flex;
+ flex-direction: column;*/
+ display: grid;
+   grid-template-columns: repeat(3, 30%);
+   grid-template-rows: repeat(3, 1fr);
+   /* "1fr" representa una fracción del espacio disponible */
+   grid-gap: 6px 10px;
+ width: 60%;
+ margin:2% 20% 0% 20%;
+}
+</style>
+</head>
+<body>
+<div class="message <?php echo $messageColor; ?>"><?php echo $message; ?></div>
+    <div class="login-box" style="background: linear-gradient(to right, #e4e5dc, #62c4f9);" >
+    <img src="IMAGENES/hospital-3-30.png" class="card-icon" alt="Mantenimientos" style="margin-right:40%;margin-left:40%"> 
+    <h2>Login Sistema de Pediatría</h2>
+        <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+            <div class="user-box">
+                <input type="text" name="username" required="">
+                <label>Usuario</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name="password" required="">
+                <label>Contraseña</label>
+            </div>
+            <button type="submit" class="claseboton">Ingresar</button>
         </form>
-
-      </div><!-- /.login-box-body -->
-    </div><!-- /.login-box -->
-
-    <!-- jQuery 2.1.3 -->
-    <script src="assets/plugins/jQuery/jQuery-2.1.3.min.js"></script>
-    <!-- Bootstrap 3.3.2 JS -->
-    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-
-  </body>
+    </div>
+</body>
 </html>
