@@ -6,7 +6,7 @@ $password = "";
 $database = "pediatra_sis";
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $database);
-
+$conn->set_charset("utf8");
 // Verificar la conexión
 if ($conn->connect_error) {
   die("Error de conexión: " . $conn->connect_error);
@@ -353,7 +353,7 @@ function in_iframe()
 </head>
 
 <body>
-  <table id="tabla_trabajos" class="display" style="width:100%">
+  <table id="tabla_trabajos" class="display" style="width:100%;font-size:10px;">
     <thead>
       <tr>
         <th>Id Trabajo Medico</th>
@@ -368,9 +368,9 @@ function in_iframe()
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
           echo "<tr onclick=\"seleccionartrabajo('" . $row["id_trabajo_medico"] . "', '" . $row["fecha_creacion"] . "', '" . $row["descripcion_trabajo_medico"] . "')\">";
-          echo "<td>" . $row["id_trabajo_medico"] . "</td>";
-          echo "<td>" . $row["fecha_creacion"] . "</td>";
-          echo "<td>" . $row["descripcion_trabajo_medico"] . "</td>";
+          echo "<td>" . htmlentities($row["id_trabajo_medico"] ). "</td>";
+          echo "<td>" . htmlentities($row["fecha_creacion"] ). "</td>";
+          echo "<td>" . htmlentities($row["descripcion_trabajo_medico"]) . "</td>";
           echo "</td>"; // Closing tag for the td element
           echo "<td> <a class='clasebotonVER' href=\"modulo/trabajomedico/editar.php?id_trabajo_medico=$row[id_trabajo_medico]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
           echo "</tr>";
