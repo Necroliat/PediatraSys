@@ -147,7 +147,7 @@
 </head>
 
 <?php
-include("menu_lateral.php");
+//include("menu_lateral.php");
 ?>
 
 <body>
@@ -159,9 +159,15 @@ include("menu_lateral.php");
       <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
         <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
       </a>
-      <a href="index.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
+      <a id="redireccionar" href="#" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
         <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
       </a>
+      <script>
+      document.getElementById("redireccionar").addEventListener("click", function(event) {
+        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+        window.top.location.href = "index.php"; // Redirige a menuadmin.php en la ventana principal
+      });
+    </script>
     </div>
   </div>
 
@@ -169,22 +175,22 @@ include("menu_lateral.php");
     <a href="proces_citas.php">
       <div class="card-wrapper">
         <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:white;text-shadow:2px 2px 5px hsl(344, 100%, 54%);">CITAS</div>
-          <img src="IMAGENES\rs2.png" class="card-icon" alt="Mantenimientos">
+          <div class="card-title" style="font-family: Arial Black; color:black;">CITAS</div>
+          <img src="IMAGENES/citamedica-64.png" class="card-icon" alt="Mantenimientos">
           <div class="card-description">
-          <p><b>Menú</b> sobre todo lo referente a <b>Pacientes</b> y subtareas.</p>
+          <p>Generar las citas</p>
           </div>
         </div>
       </div>
     </a>
 
-    <a href="mant_seguro.php">
+    <a href="report_certificadomed.php">
       <div class="card-wrapper">
         <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
           <div class="card-title" style="font-family: Arial Black; color:black;">Seguros</b></div>
-          <img src="IMAGENES/seguros3.png" class="card-icon" alt="Procesos">
+          <img src="IMAGENES/certificado-98.png" class="card-icon" alt="Procesos">
           <div class="card-description">
-            <p> Registrar y editar listado las aseguradoras de salud.</p>
+            <p>Generar Certificado Medico.</p>
           </div>
         </div>
       </div>

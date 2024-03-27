@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($result->num_rows === 1) {
         // Inicio de sesión exitoso, redirigir al menú
-        header("Location: menu.php");
+        header("Location: menuadmin.php");
         exit();
     } else {
         $message = "Usuario o contraseña incorrectos";
@@ -42,7 +42,7 @@ $conn->close();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login Sistema de Pediatría</title>
+    <title>Sistema PediatraSys</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
     <style>body {
@@ -119,7 +119,7 @@ $conn->close();
 <div class="message <?php echo $messageColor; ?>"><?php echo $message; ?></div>
     <div class="login-box" style="background: linear-gradient(to right, #e4e5dc, #62c4f9);" >
     <img src="IMAGENES/hospital-3-30.png" class="card-icon" alt="Mantenimientos" style="margin-right:40%;margin-left:40%"> 
-    <h2>Login Sistema de Pediatría</h2>
+    <h2>PediatraSys</h2>
         <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
             <div class="user-box">
                 <input type="text" name="username" required="">

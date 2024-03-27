@@ -109,7 +109,7 @@
       width: 100%;
       float: left;
       text-align: center;
-     
+
     }
 
     .boton {
@@ -147,7 +147,7 @@
 </head>
 
 <?php
-include("menu_lateral.php");
+//include("menu_lateral.php");
 ?>
 
 <body>
@@ -159,8 +159,16 @@ include("menu_lateral.php");
       <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
         <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
       </a>
-      <a href="index.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
+      <a id="redireccionar" href="#" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
         <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
+
+        <script>
+          document.getElementById("redireccionar").addEventListener("click", function(event) {
+            event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+            window.top.location.href = "index.php"; // Redirige a menuadmin.php en la ventana principal
+          });
+        </script>
+
       </a>
     </div>
   </div>
@@ -172,7 +180,7 @@ include("menu_lateral.php");
           <div class="card-title" style="font-family: Arial Black; color:white;text-shadow:2px 2px 5px hsl(344, 100%, 54%);">PACIENTES</div>
           <img src="IMAGENES\rs2.png" class="card-icon" alt="Mantenimientos">
           <div class="card-description">
-          <p><b>Menú</b> sobre todo lo referente a <b>Pacientes</b> y subtareas.</p>
+            <p><b>Menú</b> sobre todo lo referente a <b>Pacientes</b> y subtareas.</p>
           </div>
         </div>
       </div>
@@ -243,7 +251,9 @@ include("menu_lateral.php");
         <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
           <div class="card-title" style="font-family: Arial Black; color:white;text-shadow:2px 2px 5px hsl(344, 100%, 54%);">MÉDICOS</div>
           <img src="IMAGENES/doctor2.png" class="card-icon" alt="Procesos">
-          <div class="card-description"> <p><b>Menú</b> sobre todo lo referente a <b>Médicos</b> y subtareas.</p> </div>
+          <div class="card-description">
+            <p><b>Menú</b> sobre todo lo referente a <b>Médicos</b> y subtareas.</p>
+          </div>
         </div>
       </div>
     </a>
