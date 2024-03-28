@@ -55,7 +55,8 @@ $result = $conn->query($query);
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },
+        pageLength: 5 // Establecer el número de filas por página
       });
     });
 
@@ -129,10 +130,10 @@ $result = $conn->query($query);
   </style>
 </head>
 
-<body>
+<body    style="width:90%; font-size: 14px;">
   <h3 style="padding:0; margin:0;">Consulta de Tipos de Vacunas</h3>
 
-  <table id="tabla_tipos_vacunas" class="display" style="width:90%;">
+  <table id="tabla_tipos_vacunas" class="display" style="/*width:90%; font-size: x-small;*/">
     <thead>
       <tr>
         <th>Id</th>

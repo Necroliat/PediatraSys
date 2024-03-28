@@ -79,7 +79,7 @@ $result = $conn->query($query);
     <?php
     if ($result->num_rows > 0) {
     ?>
-        <table id="tabla_vacunas" class="display" style="width:100%">
+        <table id="tabla_vacunas" class="display" style="width:100%; font-size: x-small;">
             <thead>
                 <tr>
                     <th>ID Vacuna</th>

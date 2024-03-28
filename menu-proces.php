@@ -187,10 +187,22 @@
     <a href="report_certificadomed.php">
       <div class="card-wrapper">
         <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">Seguros</b></div>
+          <div class="card-title" style="font-family: Arial Black; color:black;">Cert. Médico</b></div>
           <img src="IMAGENES/certificado-98.png" class="card-icon" alt="Procesos">
           <div class="card-description">
             <p>Generar Certificado Medico.</p>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="#">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">Consulta Medica</b></div>
+          <img src="IMAGENES/consulta-64.png" class="card-icon" alt="Procesos">
+          <div class="card-description">
+            <p>Proceso consulta, Médico - Paciente.</p>
           </div>
         </div>
       </div>
