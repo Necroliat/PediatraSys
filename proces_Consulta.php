@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-
+error_reporting(E_ALL & ~E_WARNING);
 require_once "include/conec.php";
 
-
-//$pagina = $_GET['pag'];
-
-// Consultar el último ID de la tabla usuarios
-/*$query = "SELECT MAX(id_usuario) AS max_id FROM usuario";
+// Consultar el último ID de la tabla consulta
+$query = "SELECT MAX(id_consulta) AS max_id FROM consultas";
 $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
@@ -21,7 +18,23 @@ if ($result->num_rows > 0) {
 }
 
 // Guardar el nuevo ID en una variable PHP
-$userid = $newId;*/
+$idConsulta = $newId;
+
+
+function obtenerDatosPaciente($idPaciente, $conn)
+{
+    $query = "SELECT nombre, apellido FROM paciente WHERE id_paciente = '$idPaciente'";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $datosPaciente = array('nombre' => $row['nombre'], 'apellido' => $row['apellido']);
+        return $datosPaciente;
+    } else {
+        // Si no se encuentra el paciente, devolver un array vacío
+        return array();
+    }
+}
 ?>
 <html>
 
@@ -31,8 +44,9 @@ $userid = $newId;*/
     <link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -106,9 +120,10 @@ $userid = $newId;*/
 
 
         label {
-            width:auto;
+            width: auto;
             text-align: left;
             margin-top: 15px;
+            font-weight: bold;
 
         }
 
@@ -354,41 +369,78 @@ $userid = $newId;*/
         }
 
         .boton_bus {
-			border: none;
-			outline: none;
-			height: 4vw;
-			color: #fff;
-			font-size: 1.6vw;
-			background: linear-gradient(to right, #4a90e2, #63b8ff);
-			cursor: pointer;
-			border-radius: 60px;
-			width: 60px;
-			margin-top: 2vw;
-			text-decoration: none;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			height: auto;
+            border: none;
+            outline: none;
+            height: 4vw;
+            color: #fff;
+            font-size: 1.6vw;
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            cursor: pointer;
+            border-radius: 60px;
+            width: 60px;
+            margin-top: 2vw;
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: auto;
 
 
-		}
+        }
 
-		.boton_bus:active {
-			background-color: #5bc0f7;
-			scale: 1.5;
-			cursor: pointer;
+        .boton_bus:active {
+            background-color: #5bc0f7;
+            scale: 1.5;
+            cursor: pointer;
 
-			transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.8s ease, font-weight 0.8s ease;
-			/* Animaciones de 0.5 segundos */
-			box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
-			/* Sombra inicial y sombra roja */
-			font-size: 25px;
-			color: white;
-			/* Cambiar el color del texto */
-			font-weight: bold;
-			/* Cambiar a negritas */
-			font-family: "Copperplate", Fantasy;
-		}
+            transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.8s ease, font-weight 0.8s ease;
+            /* Animaciones de 0.5 segundos */
+            box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
+            /* Sombra inicial y sombra roja */
+            font-size: 25px;
+            color: white;
+            /* Cambiar el color del texto */
+            font-weight: bold;
+            /* Cambiar a negritas */
+            font-family: "Copperplate", Fantasy;
+        }
+
+
+        .custom-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .custom-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            background: linear-gradient(to right, #e4e5dc, #62c4f9);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 
 
@@ -421,7 +473,7 @@ $userid = $newId;*/
 
         fieldset {
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
-           text-align: left;
+            text-align: left;
         }
     </style>
 
@@ -487,34 +539,145 @@ $userid = $newId;*/
             <fieldset style="width: 60%; float: left;">
                 <legend>Consulta de Pacientes</legend>
                 <label for="id_consulta">ID Consulta:</label>
-                <input type="text" id="id_consulta" name="id_consulta" readonly>
+                <input type="text" id="id_consulta" name="id_consulta" value="<?php echo $idConsulta; ?>" readonly>
 
                 <!-- Fieldset del paciente -->
                 <fieldset>
                     <legend>Paciente</legend>
                     <input type="text" id="id_paciente" name="id_paciente" placeholder="ID Paciente">
-                    <button type="button" onclick="buscarPaciente()"class="boton_bus" title="Buscar pacientes registrados"><i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button><br>
-                    <p style=" text-align:left"><label for="nombre_paciente">Nombre:</label>
-                    <input type="text" id="nombre_paciente" name="nombre_paciente" readonly>
-                    <label for="apellido_paciente">Apellido:</label>
-                    <input type="text" id="apellido_paciente" name="apellido_paciente" readonly></p>
+                    <button type="button" onclick="mostrarModal()" class="boton_bus" title="Buscar pacientes registrados"><i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button><br>
+                    <p style=" text-align:left"><label for="nombre_paciente1">Nombre:</label>
+                        <label id="nombre_paciente" style="background-color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                        <label for="apellido_paciente1">Apellido:</label>
+                        <label id="apellido_paciente" style="background-color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    </p>
                 </fieldset>
 
+                <div id="Modalpaciente" class="custom-modal">
+                    <div class="custom-modal-content">
+                        <span class="close" onclick="cerrarModal()">&times;</span>
+                        <iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+                    </div>
+                </div>
+
+                <script>
+                    // Función para mostrar el modal
+                    function mostrarModal() {
+                        var modal = document.getElementById('Modalpaciente');
+                        modal.style.display = 'block';
+                    }
+
+                    // Función para cerrar el modal
+                    function cerrarModal() {
+                        var modal = document.getElementById('Modalpaciente');
+                        modal.style.display = 'none';
+                    }
+
+                    $("#id_paciente").on("input", function() {
+                        var idPaciente = $(this).val();
+                        // Realizar la solicitud AJAX para obtener los datos del paciente
+                        $.ajax({
+                            url: 'consulta_apellido_nombre_paciente.php', // Ruta al archivo PHP que creamos
+                            type: 'POST',
+                            data: {
+                                id_paciente: idPaciente
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                $("#nombre_paciente").text(data.nombre || '');
+                                $("#apellido_paciente").text(data.apellido || '');
+                            },
+                            error: function() {
+                                alert('Hubo un error al obtener los datos del paciente.');
+                            }
+                        });
+                    });
+                </script>
+
+
+
+                <!-- fin del Fieldset del paciente -->
                 <!-- Fieldset del médico -->
                 <fieldset>
+
                     <legend>Médico</legend>
                     <input type="text" id="id_medico" name="id_medico" placeholder="ID Médico">
-                    <button type="button" onclick="buscarMedico()" class="boton_bus" title="Buscar medicos registrados"><i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button><br>
-                    <label for="nombre_medico">Nombre:</label>
-                    <input type="text" id="nombre_medico" name="nombre_medico" readonly>
-                    <label for="apellido_medico">Apellido:</label>
-                    <input type="text" id="apellido_medico" name="apellido_medico" readonly>
+                    <script>
+                        function mostrarModal2() {
+                            var modal = document.getElementById('Modalmedico');
+                            modal.style.display = 'block';
+                        }
+
+                        // Función para cerrar el modal
+                        function cerrarModal2() {
+                            var modal = document.getElementById('Modalmedico');
+                            modal.style.display = 'none';
+                        }
+
+
+                        $("#id_medico").on("input", function() {
+                            var idmedico = $(this).val();
+                            // Realizar la solicitud AJAX para obtener los datos del paciente
+                            $.ajax({
+                                url: 'consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
+                                type: 'POST',
+                                data: {
+                                    id_medico: idmedico
+                                },
+                                dataType: 'json',
+                                success: function(data) {
+                                    $("#nombre_medico").text(data.nombre || '');
+                                    $("#apellido_medico").text(data.apellido || '');
+                                },
+                                error: function() {
+                                    alert('Hubo un error al obtener los datos del medico.');
+                                }
+                            });
+                        });
+                    </script>
+                    <button id="buscarmedico" type="button" onclick="buscarMedico()" class="boton_bus" title="Buscar medicos registrados"><i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button><br>
+                    <label for="nombre_medico1">Nombre:</label>
+                    <label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <!-- <input type="text" id="nombre_medico" name="nombre_medico" readonly> -->
+                    <label for="apellido_medico1">Apellido:</label>
+                    <label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <!-- <input type="text" id="apellido_medico" name="apellido_medico" readonly> -->
+
+                    <div id="Modalmedico" class="custom-modal">
+                        <div class="custom-modal-content">
+                            <span class="close" onclick="cerrarModal2()">&times;</span>
+                            <iframe id="modal-iframe" src="consulta_medico.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+                        </div>
+                    </div>
+
+                   
+
                 </fieldset>
 
-                <label for="fecha">Fecha:</label>
-                <input type="datetime-local" id="fecha" name="fecha">
-                <label for="hora">Hora:</label>
-                <input type="time" id="hora" name="hora">
+
+
+                <p><label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha">
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" name="hora">
+                </p>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        cargarFechaHoraActual();
+                    });
+
+                    function cargarFechaHoraActual() {
+                        var fechaInput = document.getElementById('fecha');
+                        var horaInput = document.getElementById('hora');
+
+                        var fechaActual = new Date();
+                        var fechaFormateada = fechaActual.getFullYear() + '-' + ('0' + (fechaActual.getMonth() + 1)).slice(-2) + '-' + ('0' + fechaActual.getDate()).slice(-2);
+                        var horaFormateada = ('0' + fechaActual.getHours()).slice(-2) + ':' + ('0' + fechaActual.getMinutes()).slice(-2);
+
+                        fechaInput.value = fechaFormateada;
+                        horaInput.value = horaFormateada;
+                    }
+                </script>
 
                 <label for="diagnostico">Diagnóstico:</label><br>
                 <textarea id="diagnostico" name="diagnostico" rows="4" cols="50"></textarea><br>
@@ -524,7 +687,7 @@ $userid = $newId;*/
 
                 <fieldset>
                     <legend>Detalle de Consulta</legend>
-                    <button type="button" onclick="agregarFila()">Agregar</button>
+                    <button type="button" onclick="agregarFila()" class="btn btn-primary boton"><i class="fa-solid fa-circle-plus"></i> Agregar</button>
                     <table id="tabla_detalle_consulta">
                         <thead>
                             <tr>
@@ -540,7 +703,7 @@ $userid = $newId;*/
                     </table>
                 </fieldset>
 
-                <button type="submit">Guardar Consulta</button>
+                <button type="submit" class="btn btn-primary boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
 
 
 
@@ -595,6 +758,51 @@ $userid = $newId;*/
 
 
 
+        <script>
+            var idmedicoActual = "";
+            // Obtener referencia al botón y al modal del paciente
+            const btnbusquedamedico = document.getElementById("buscarmedico");
+            const modalmedico = document.getElementById("Modalmedico");
+            // Función para mostrar el modal de vacuna
+            function mostrarModalm() {
+                modalmedico.style.display = "block";
+            }
+            // Función para ocultar el modal vacuna
+            function ocultarModalm() {
+                modalmedico.style.display = "none";
+            }
+            // Asignar evento de clic al botón para mostrar u ocultar el modal DE VACUNA y evitar recargar la página
+            btnbusquedamedico.addEventListener("click", function(event) {
+                event.preventDefault(); // Evitar recargar la página
+                if (modalmedico.style.display === "none") {
+                    mostrarModalm();
+                } else {
+                    ocultarModalm();
+                }
+            });
+
+            var idpacienteActual = "";
+            // Obtener referencia al botón y al modal del paciente
+            const btnbusquedapaciente = document.getElementById("buscarpaciente");
+            const modalpaciente = document.getElementById("Modalpaciente");
+            // Función para mostrar el modal de vacuna
+            function mostrarModalp() {
+                modalpaciente.style.display = "block";
+            }
+            // Función para ocultar el modal vacuna
+            function ocultarModalp() {
+                modalpaciente.style.display = "none";
+            }
+            // Asignar evento de clic al botón para mostrar u ocultar el modal DE VACUNA y evitar recargar la página
+            btnbusquedapaciente.addEventListener("click", function(event) {
+                event.preventDefault(); // Evitar recargar la página
+                if (modalpaciente.style.display === "none") {
+                    mostrarModalp();
+                } else {
+                    ocultarModalp();
+                }
+            });
+        </script>
 
 
 

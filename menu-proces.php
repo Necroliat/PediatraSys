@@ -138,6 +138,8 @@
       margin-right: 10px;
       margin-left: 10px;
     }
+
+    
   </style>
   <?php
 
@@ -196,7 +198,7 @@
       </div>
     </a>
 
-    <a href="#">
+    <a href="proces_consulta.php">
       <div class="card-wrapper">
         <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
           <div class="card-title" style="font-family: Arial Black; color:black;">Consulta Medica</b></div>
