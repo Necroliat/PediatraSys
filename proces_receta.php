@@ -737,40 +737,110 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <hr>
                 <label for="id_consulta">ID Consulta</label>
                 <input type="text" id="id_consulta" name="id_consulta">
-                <button class="btn btn-primary " type="button" id="buscar_consulta" onclick="buscarConsulta()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModal()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <div id="Modalconsulta" class="custom-modal">
+                    <div class="custom-modal-content">
+                        <span class="close" onclick="cerrarModal()"><span class="material-symbols-outlined">
+                                cancel
+                            </span></span>
+                        <iframe id="modal-iframe" src="consulta_Consulta_pacientepormedicoX.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+                    </div>
+                </div>
+                <script>
+                    // Función para mostrar el modal
+                    function mostrarModal() {
+                        var modal = document.getElementById('Modalconsulta');
+                        modal.style.display = 'block';
+                    }
+
+                    // Función para cerrar el modal
+                    function cerrarModal() {
+                        var modal = document.getElementById('Modalconsulta');
+                        modal.style.display = 'none';
+                    }
+                </script>
                 <input type="checkbox" id="id_consulta_na" name="id_consulta_na">
                 <label for="id_consulta_na">NA</label>
+                <label id="nombre_paciente" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <label id="fecha_consulta" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 
 
+
+                    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var checkbox = document.getElementById("id_consulta_na");
+        var nombreLabel = document.getElementById("nombre_paciente");
+        var nombreLabel2 = document.getElementById("fecha_consulta");
+        checkbox.addEventListener("change", function() {
+            if (checkbox.checked) {
+                nombreLabel.textContent = "";
+                nombreLabel2.textContent = "";
+            }
+        });
+    });
+</script>
                 <!-- ID Centro -->
                 <hr>
                 <label for="id_centro">ID Centro</label>
                 <input type="text" id="id_centro" name="id_centro">
                 <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModal2()"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <div id="ModalCENTRO" class="custom-modal">
-                        <div class="custom-modal-content">
-                            <span class="close" onclick="cerrarModal2()"><span class="material-symbols-outlined">
-                                    cancel
-                                </span></span>
-                            <iframe id="modal-iframe" src="consulta_centromedico.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
-                        </div>
+                    <div class="custom-modal-content">
+                        <span class="close" onclick="cerrarModal2()"><span class="material-symbols-outlined">
+                                cancel
+                            </span></span>
+                        <iframe id="modal-iframe" src="consulta_centromedicoX.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
                     </div>
-                    <script>
-                        // Función para mostrar el modal
-                        function mostrarModal2() {
-                            var modal = document.getElementById('ModalCENTRO');
-                            modal.style.display = 'block';
-                        }
+                </div>
+                <script>
+                    // Función para mostrar el modal
+                    function mostrarModal2() {
+                        var modal = document.getElementById('ModalCENTRO');
+                        modal.style.display = 'block';
+                    }
 
-                        // Función para cerrar el modal
-                        function cerrarModal2() {
-                            var modal = document.getElementById('ModalCENTRO');
-                            modal.style.display = 'none';
-                        }
-                    </script>
+                    // Función para cerrar el modal
+                    function cerrarModal2() {
+                        var modal = document.getElementById('ModalCENTRO');
+                        modal.style.display = 'none';
+                    }
+                </script>
                 <input type="checkbox" id="id_centro_na" name="id_centro_na">
                 <label for="id_centro_na">NA</label>
+                <label id="nombre" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var checkbox = document.getElementById("id_centro_na");
+                        var nombreLabel = document.getElementById("nombre");
 
+                        checkbox.addEventListener("change", function() {
+                            if (checkbox.checked) {
+                                nombreLabel.textContent = "";
+                            }
+                        });
+                    });
+                </script>
+                <script>
+                    $("#id_centro").on("input", function() {
+                        var idcentro = $(this).val();
+                        // Realizar la solicitud AJAX para obtener los datos del medicamento
+                        $.ajax({
+                            url: 'consulta_centromedico_Simple.php', // Ruta al archivo PHP adaptado para medicamento
+                            type: 'POST',
+                            data: {
+                                id_centro: idcentro
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                $("#nombre").text(data.nombre || '');
+                                //  $("#descripcion_medicamento").text(data.descripcion || '');
+                            },
+                            error: function() {
+                                alert('Hubo un error al obtener los datos del medicamento.');
+                            }
+                        });
+                    });
+                </script>
             </fieldset>
 
 
@@ -790,7 +860,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             <iframe id="modal-iframe" src="consulta_medicamentoX.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
                         </div>
                     </div>
-                    
+
                     <script>
                         // Función para mostrar el modal
                         function mostrarModal3() {
