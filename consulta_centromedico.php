@@ -38,17 +38,17 @@ $result = $conn->query($query);
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-<style>
-  .dataTables_wrapper .dataTables_filter input {
-    border: 1px solid #aaa;
-    border-radius: 3px;
-    padding: 5px;
-    background-color: white;
-    color: inherit;
-    margin-left: 3px;
-}
-</style>
-<style>
+  <style>
+    .dataTables_wrapper .dataTables_filter input {
+      border: 1px solid #aaa;
+      border-radius: 3px;
+      padding: 5px;
+      background-color: white;
+      color: inherit;
+      margin-left: 3px;
+    }
+  </style>
+  <style>
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 3px;
@@ -65,21 +65,27 @@ $result = $conn->query($query);
     .resaltado {
       background-color: #A8A4DE;
     }
-    #tabla_seguros tbody tr:hover {
-       background-color: #A8A4DE;
-       cursor: pointer;
-   }
-   #tabla_seguros tbody tr:active {
-    background-color: #5bc0f7;
-    cursor: pointer;
-   border:4px solid red ;
-    transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease; /* Animaciones de 0.5 segundos */
-    box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red; /* Sombra inicial y sombra roja */
-    font-size: 25px;
-    color: white; /* Cambiar el color del texto */
-    font-weight: bold; /* Cambiar a negritas */
-    font-family: "Copperplate",  Fantasy;
-   }
+
+    #tabla_centros tbody tr:hover {
+      background-color: #A8A4DE;
+      cursor: pointer;
+    }
+
+    #tabla_centros tbody tr:active {
+      background-color: #5bc0f7;
+      cursor: pointer;
+      border: 4px solid red;
+      transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease;
+      /* Animaciones de 0.5 segundos */
+      box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
+      /* Sombra inicial y sombra roja */
+      font-size: 25px;
+      color: white;
+      /* Cambiar el color del texto */
+      font-weight: bold;
+      /* Cambiar a negritas */
+      font-family: "Copperplate", Fantasy;
+    }
   </style>
 
   <script>
@@ -149,35 +155,41 @@ $result = $conn->query($query);
     //evento click para el mantenimiento del paciente
 
     $(document).ready(function() {
-      // Asignar un evento de clic a las filas de la tabla
-      $("#tabla_centros tbody").on("click", "tr", function() {
-        // Obtener las celdas de la fila clicada
-        var celdas = $(this).find("td");
+          // Asignar un evento de clic a las filas de la tabla
+          $("#tabla_centros tbody").on("click", "tr", function() {
+            // Obtener las celdas de la fila clicada
+            var celdas = $(this).find("td");
 
-        // Obtener los datos de las celdas
-        var idSeguro = celdas.eq(0).text();
-        var nombreSeguro = celdas.eq(1).text();
-        var nombreSeguro = celdas.eq(2).text();
-        var nombreSeguro = celdas.eq(3).text();
+            // Obtener los datos de las celdas
+            var idcentro = celdas.eq(0).text();
+            var nombrecentro = celdas.eq(1).text();
+            var direccioncentro = celdas.eq(2).text();
+            var telefonocentro = celdas.eq(3).text();
 
-        // Asignar los valores al campo de texto y al label en paciente.php
-        window.parent.document.getElementById("Id_centro").value = idcentro;
-        window.parent.document.getElementById("nombre").textContent = nombrecentro;
-        window.parent.document.getElementById("direccion").textContent = direccioncentro;
-        window.parent.document.getElementById("telefono").textContent = telefonocentro;
-      });
 
-      // Asignar un evento de clic al botón de cierre del modal
-      window.parent.document.querySelector("#myModal .close").addEventListener("click", function() {
+
+            setTimeout(function() {
+              window.parent.document.getElementById('ModalCENTRO').style.display = 'none';
+            }, 600);
+            // Asignar los valores al campo de texto y al label en paciente.php
+            window.parent.document.getElementById("id_centro").value = idcentro;
+
+            window.parent.document.getElementById("nombre").textContent = nombrecentro;
+            window.parent.document.getElementById("direccion").textContent = direccioncentro;
+            window.parent.document.getElementById("telefono").textContent = telefonocentro;
+          });
+
+          // Asignar un evento de clic al botón de cierre del modal
+          /* window.parent.document.querySelector("#ModalCENTRO .close").addEventListener("click", function() {
         // Cerrar el modal
-        window.parent.document.getElementById("myModal").style.display = "none";
+        window.parent.document.getElementById("ModalCENTRO").style.display = "none";
       });
 
       // Evitar que el evento de clic en el modal cierre el modal
-      window.parent.document.querySelector("#myModal .modal-content").addEventListener("click", function(event) {
+      window.parent.document.querySelector("#ModalCENTRO .modal-content").addEventListener("click", function(event) {
         event.stopPropagation();
       });
-    });
+    });*/
   </script>
 
 </body>

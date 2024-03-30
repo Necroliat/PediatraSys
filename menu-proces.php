@@ -210,7 +210,17 @@
       </div>
     </a>
    
-
+    <a href="proces_receta.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">Receta</b></div>
+          <img src="IMAGENES/receta-100.png" class="card-icon" alt="Procesos">
+          <div class="card-description">
+            <p>Proceso hacer recetas.</p>
+          </div>
+        </div>
+      </div>
+    </a>
 
 </body>
 

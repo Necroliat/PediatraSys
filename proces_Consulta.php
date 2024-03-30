@@ -84,11 +84,11 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
     <style>
         .container {
             display: grid;
-            grid-template-columns: 80%;
-            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: 100%;
+            grid-template-rows: repeat(2, 1fr);
             grid-gap: 6px 10px;
-            margin-left: 10%;
-            margin-right: 10%;
+            margin-left: 00%;
+            margin-right: 00%;
         }
 
         .botones-container2 {
@@ -129,7 +129,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             /* Esto hace que los botones se expandan igualmente */
             max-width: 200px;
             /* Establece el ancho máximo para mantener la responsividad */
-            font-size: 1.2em;
+            font-size: 14;
         }
 
         .botones-container>a:hover,
@@ -189,7 +189,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             text-decoration: none;
             height: 40px;
             color: #fff;
-            font-size: 16px;
+            font-size: 14;
             padding: 7px;
 
         }
@@ -214,7 +214,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             background: linear-gradient(to right, #e4e5dc, #45bac9db);
             padding: 1vw;
             box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-            margin-bottom: 2vw;
+            margin-bottom: 10px;
         }
 
 
@@ -227,7 +227,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             text-decoration: none;
             height: 40px;
             color: #080808;
-            font-size: 16px;
+            font-size: 14;
             padding: 7px;
 
         }
@@ -246,7 +246,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             text-decoration: none;
             height: 40px;
             color: #fff;
-            font-size: 16px;
+            font-size: 14;
             padding: 7px;
         }
 
@@ -255,7 +255,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         }
 
         fieldset fieldset legend {
-            font-size: 20px;
+            font-size: 16px;
             text-transform: uppercase;
             padding-left: 10%;
             padding-right: 10%;
@@ -264,7 +264,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
         legend {
             font-weight: bold;
-            font-size: 30px;
+            font-size: 16px;
             font-weight: bold;
             margin-bottom: 1vw;
             background: linear-gradient(to right, #e4e5dc, #45bac9db);
@@ -292,7 +292,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         .dataTables_wrapper .dataTables_filter input {
             width: 170px;
             padding: 10px;
-            font-size: 1vw;
+            font-size: 14;
             color: #444;
             margin-bottom: 2vw;
             border: none;
@@ -330,7 +330,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             width: auto;
             text-decoration: none;
             height: 40px;
-            font-size: 16px;
+            font-size: 14;
             padding: 7px;
         }
 
@@ -352,7 +352,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             width: auto;
             text-decoration: none;
             height: 40px;
-            font-size: 16px;
+            font-size: 14;
             padding: 7px;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
@@ -368,7 +368,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         .cajalegend {
             border: 0px solid rgba(102, 153, 144, 0.0);
             font-weight: bolder;
-            font-size: 16px;
+            font-size: 14;
             color: white;
             margin: 0;
             padding: 0;
@@ -385,7 +385,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             outline: none;
             height: 4vw;
             color: #fff;
-            font-size: 14px;
+            font-size: 14;
             background: linear-gradient(to right, #4a90e2, #63b8ff);
             cursor: pointer;
             border-radius: 2vw;
@@ -404,7 +404,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             outline: none;
             height: 4vw;
             color: #fff;
-            font-size: 1.6vw;
+            font-size: 14;
             background: linear-gradient(to right, #4a90e2, #63b8ff);
             cursor: pointer;
             border-radius: 60px;
@@ -428,7 +428,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             /* Animaciones de 0.5 segundos */
             box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
             /* Sombra inicial y sombra roja */
-            font-size: 25px;
+            font-size: 14;
             color: white;
             /* Cambiar el color del texto */
             font-weight: bold;
@@ -522,6 +522,71 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
             /* Espaciado interior */
         }
+
+        input,
+        label {
+            font-size: 14;
+        }
+
+        .resaltado {
+            background-color: #A8A4DE;
+        }
+
+        #tabla_detalle_consulta {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #tabla_detalle_consulta th,
+        #tabla_detalle_consulta td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #tabla_detalle_consulta th {
+            background-color: #f2f2f2;
+        }
+
+        #tabla_detalle_consulta tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        #tabla_detalle_consulta .resaltado {
+            background-color: #ffc107 !important;
+            /* Cambiar el color de fondo resaltado */
+        }
+
+        #tabla_detalle_consulta button {
+            padding: 6px 10px;
+            border: none;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        #tabla_detalle_consulta button:hover {
+            background-color: #c82333;
+        }
+
+        /* Resaltar la fila al hacer clic en ella */
+        #tabla_detalle_consulta tbody tr.resaltado {
+            background-color: #A8A4DE;
+            /* Cambia el color de fondo como prefieras */
+        }
+
+        /* Resaltar la fila al pasar el mouse sobre ella */
+        #tabla_detalle_consulta tbody tr.resaltado-hover {
+            background-color: #E0E0E0;
+            /* Cambia el color de fondo como prefieras */
+        }
+
+        #tabla_detalle_consulta tbody tr.nueva-fila {
+            background-color: yellow;
+            /* Estilo de resaltado */
+        }
     </style>
 
 
@@ -613,9 +678,9 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
 ?>
 
-<body>
+<body style="font-size:14;">
     <div class="container">
-        <form id="formulario_consulta">
+        <form id="formulario_consulta" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
             <!-- Encabezado de consulta -->
             <fieldset style="width: 60%; float: left;">
@@ -626,9 +691,9 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <!-- Fieldset del paciente -->
                 <fieldset>
                     <legend>Paciente</legend>
-                    <input type="text" id="id_paciente" name="id_paciente" placeholder="ID Paciente">
-                    <button type="button" onclick="mostrarModal()" class="boton_bus" title="Buscar pacientes registrados"><i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button><br>
-                    <p style=" text-align:left"><label for="nombre_paciente1">Nombre:</label>
+                    <p style=" text-align:left"><input type="text" id="id_paciente" name="id_paciente" placeholder="ID Paciente">
+                        <button type="button" onclick="mostrarModal()" class="boton_bus" title="Buscar pacientes registrados"><i class="material-icons" style="font-size:22px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button>
+                        <label for="nombre_paciente1">Nombre:</label>
                         <label id="nombre_paciente" style="background-color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
                         <label for="apellido_paciente1">Apellido:</label>
                         <label id="apellido_paciente" style="background-color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
@@ -687,54 +752,54 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <fieldset>
 
                     <legend>Médico</legend>
-                    <input type="text" id="id_medico" name="id_medico" placeholder="ID Médico" onchange="cargarHistorialConsultas()">
+                    <p style=" text-align:left"> <input type="text" id="id_medico" name="id_medico" placeholder="ID Médico" onchange="cargarHistorialConsultas()">
 
-                    <!-- <button id="btnCargarHistorial" type="button" onclick="cargarHistorialConsultas()" class="" title="Buscar medicos registrados">Cargar</button> -->
-
-
-                    <script>
-                        function mostrarModal2() {
-                            var modal = document.getElementById('Modalmedico');
-                            modal.style.display = 'block';
-                        }
-
-                        // Función para cerrar el modal
-                        function cerrarModal2() {
-                            var modal = document.getElementById('Modalmedico');
-                            modal.style.display = 'none';
-                        }
+                        <!-- <button id="btnCargarHistorial" type="button" onclick="cargarHistorialConsultas()" class="" title="Buscar medicos registrados">Cargar</button> -->
 
 
-                        $("#id_medico").on("input", function() {
-                            var idmedico = $(this).val();
-                            // Realizar la solicitud AJAX para obtener los datos del paciente
-                            $.ajax({
-                                url: 'consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
-                                type: 'POST',
-                                data: {
-                                    id_medico: idmedico
-                                },
-                                dataType: 'json',
-                                success: function(data) {
-                                    // Llamar a la función para cargar el historial de consultas
-                                    //cargarHistorialConsultas();
-                                    $("#nombre_medico").text(data.nombre || '');
-                                    $("#apellido_medico").text(data.apellido || '');
-                                    cargarHistorialConsultas();
-                                },
-                                error: function() {
-                                    alert('Hubo un error al obtener los datos del medico.');
-                                }
+                        <script>
+                            function mostrarModal2() {
+                                var modal = document.getElementById('Modalmedico');
+                                modal.style.display = 'block';
+                            }
+
+                            // Función para cerrar el modal
+                            function cerrarModal2() {
+                                var modal = document.getElementById('Modalmedico');
+                                modal.style.display = 'none';
+                            }
+
+
+                            $("#id_medico").on("input", function() {
+                                var idmedico = $(this).val();
+                                // Realizar la solicitud AJAX para obtener los datos del paciente
+                                $.ajax({
+                                    url: 'consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
+                                    type: 'POST',
+                                    data: {
+                                        id_medico: idmedico
+                                    },
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        // Llamar a la función para cargar el historial de consultas
+                                        //cargarHistorialConsultas();
+                                        $("#nombre_medico").text(data.nombre || '');
+                                        $("#apellido_medico").text(data.apellido || '');
+                                        cargarHistorialConsultas();
+                                    },
+                                    error: function() {
+                                        alert('Hubo un error al obtener los datos del medico.');
+                                    }
+                                });
                             });
-                        });
-                    </script>
-                    <button id="buscarmedico" type="button" onclick="buscarMedico()" class="boton_bus" title="Buscar medicos registrados"><i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button><br>
-                    <label for="nombre_medico1">Nombre:</label>
-                    <label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                    <!-- <input type="text" id="nombre_medico" name="nombre_medico" readonly> -->
-                    <label for="apellido_medico1">Apellido:</label>
-                    <label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                    <!-- <input type="text" id="apellido_medico" name="apellido_medico" readonly> -->
+                        </script>
+                        <button id="buscarmedico" type="button" onclick="buscarMedico()" class="boton_bus" title="Buscar medicos registrados"><i class="material-icons" style="font-size:22px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button>
+                        <label for="nombre_medico1">Nombre:</label>
+                        <label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+
+                        <label for="apellido_medico1">Apellido:</label>
+                        <label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    </p>
 
                     <div id="Modalmedico" class="custom-modal">
                         <div class="custom-modal-content">
@@ -781,12 +846,36 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <fieldset>
                     <legend>Detalle de Consulta</legend>
                     <!-- Input para el ID del trabajo médico -->
-                    <input type="text" id="id_trabajo_medico" placeholder="ID del Trabajo Médico">
-                    <!-- Label para la descripción -->
-                    <label id="descripcion_trabajo_medico" style="background-color: #fffff1; padding: 8px; border-radius: 10px; box-shadow: 2px 2px 4px #000000;"></label>
-                    <!-- Botón para agregar fila -->
-                    <button type="button" onclick="mostrarModal3()" class="btn btn-primary boton"><i class="fa-solid fa-magnifying-glass"></i> buscar</button>
-                    <button type="button" onclick="agregarFila()" class="btn btn-primary boton"><i class="fa-solid fa-circle-plus"></i> Agregar</button>
+                    <p><input type="text" id="id_trabajo_medico" placeholder="ID del Trabajo Médico">
+                        <!-- Label para la descripción -->
+                        <label id="descripcion_trabajo_medico" style="background-color: #fffff1; padding: 8px; border-radius: 10px; box-shadow: 2px 2px 4px #000000;"></label>
+                        <!-- Botón para agregar fila -->
+                        <button type="button" onclick="mostrarModal3()" class="btn btn-primary boton"><i class="fa-solid fa-magnifying-glass"></i> buscar</button>
+                    </p>
+
+                    <script>
+                        $("#id_trabajo_medico").on("input", function() {
+                            var idtrabajo = $(this).val();
+                            // Realizar la solicitud AJAX para obtener los datos del trabajo médico
+                            $.ajax({
+                                url: 'consulta_trabajomedico_simple.php', // Ruta al archivo PHP que creamos
+                                type: 'POST',
+                                data: {
+                                    id_trabajo_medico: idtrabajo
+                                },
+                                dataType: 'json',
+                                success: function(data) {
+                                    $("#descripcion_trabajo_medico").text(data.descripcion_trabajo_medico || '');
+                                },
+                                error: function() {
+                                    alert('Hubo un error al obtener los datos del trabajo médico.');
+                                }
+                            });
+                        });
+                    </script>
+
+
+                    <!-- <button type="button" onclick="agregarFila()" class="btn btn-primary boton"><i class="fa-solid fa-circle-plus"></i> Agregar</button> -->
 
 
                     <div id="Modaltrabajomedico" class="custom-modal">
@@ -811,9 +900,124 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         }
                     </script>
 
-                    <table id="tabla_detalle_consulta">
+                    <script>
+                        $(document).ready(function() {
+                            // Resaltar la fila al hacer clic en ella
+                            $('#tabla_detalle_consulta tbody').on('click', 'tr', function() {
+                                // Quitar el resaltado de otras filas
+                                $('#tabla_detalle_consulta tbody tr').removeClass('resaltado');
+                                // Resaltar la fila clicada
+                                $(this).addClass('resaltado');
+                            });
+
+                            // Resaltar la fila al pasar el mouse sobre ella
+                            $('#tabla_detalle_consulta tbody').on('mouseover', 'tr', function() {
+                                // Resaltar la fila
+                                $(this).addClass('resaltado-hover');
+                            });
+
+                            // Quitar el resaltado cuando se quite el mouse de la fila
+                            $('#tabla_detalle_consulta tbody').on('mouseout', 'tr', function() {
+                                // Quitar el resaltado
+                                $(this).removeClass('resaltado-hover');
+                            });
+                        });
+
+
+                        /*  $(document).ready(function() {
+                             // Resaltar la fila al pasar el mouse sobre ella
+                             $('#tabla_detalle_consulta tbody').on('mouseover', 'tr', function() {
+                                 $(this).addClass('resaltado');
+                             });
+
+                             // Quitar el resaltado cuando se quite el mouse de la fila
+                             $('#tabla_detalle_consulta tbody').on('mouseout', 'tr', function() {
+                                 $(this).removeClass('resaltado');
+                             });
+                         }); */
+
+                        /*                        function agregarFila() {
+                                                   var idTrabajoMedico = $("#id_trabajo_medico").val();
+                                                   var descripcionTrabajoMedico = $("#descripcion_trabajo_medico").text();
+
+                                                   if (idTrabajoMedico !== '' && descripcionTrabajoMedico !== '') {
+                                                       var newRow = "<tr><td style='display:none;'>0</td><td style='display:none;'>0</td><td>" + idTrabajoMedico + "</td><td>" + descripcionTrabajoMedico + "</td><td>Observación</td><td><button type='button' onclick='eliminarFila(this)' class='btn btn-danger'><i class='fa-solid fa-circle-minus'></i> Eliminar</button></td></tr>";
+                                                       $("#tabla_detalle_consulta tbody").append(newRow);
+                                                   } else {
+                                                       var errorMessage = "";
+                                                       if (idTrabajoMedico === '') {
+                                                           errorMessage += "El ID del trabajo médico está vacío.\n";
+                                                       }
+                                                       if (descripcionTrabajoMedico === '') {
+                                                           errorMessage += "La descripción del trabajo médico está vacía.";
+                                                       }
+                                                       alert(errorMessage);
+                                                   }
+                                               }
+
+                                               function eliminarFila(button) {
+                                                   $(button).closest('tr').remove();
+                                               } */
+                        function agregarFila() {
+                            var idTrabajoMedico = document.getElementById('id_trabajo_medico').value;
+                            var descripcionTrabajoMedico = document.getElementById('descripcion_trabajo_medico').textContent;
+                            var observacion = "Observación de prueba"; // Puedes cambiar esto según tus necesidades
+
+                            // Verificar si el ID del trabajo médico no está vacío
+                            if (idTrabajoMedico.trim() === '') {
+                                alert('Por favor, ingresa un ID del Trabajo Médico.');
+                                return;
+                            }
+
+                            // Verificar si el ID del trabajo médico ya existe en la tabla
+                            var table = document.getElementById('tabla_detalle_consulta');
+                            var rowCount = table.rows.length;
+                            for (var i = 1; i < rowCount; i++) {
+                                var cell = table.rows[i].cells[0];
+                                if (cell.textContent.trim() === idTrabajoMedico) {
+                                    alert('El ID del Trabajo Médico ya existe en la tabla.');
+                                    return;
+                                }
+                            }
+
+                            // Agregar la fila a la tabla
+                            var row = table.insertRow(-1);
+                            var cell1 = row.insertCell(0);
+                            var cell2 = row.insertCell(1);
+                            var cell3 = row.insertCell(2);
+                            var cell4 = row.insertCell(3);
+                            cell1.textContent = idTrabajoMedico;
+                            cell2.textContent = descripcionTrabajoMedico;
+                            cell3.textContent = observacion;
+                            cell4.innerHTML = '<button onclick="removerFila(this)"><i class="fa-solid fa-circle-minus"></i> Remover</button>';
+                            row.classList.add('nueva-fila'); // Agregar una clase para resaltar la nueva fila
+                            /*  row.classList.add('resaltado'); */ // Agregar la clase de resaltado
+                            // Aplicar estilos después de agregar la fila
+                            $('#tabla_detalle_consulta tbody tr.nueva-fila').addClass('resaltado');
+                            // Limpiar el input y el label del trabajo médico
+                            document.getElementById('id_trabajo_medico').value = '';
+                            document.getElementById('descripcion_trabajo_medico').textContent = '';
+                        }
+
+
+                        function removerFila(btn) {
+                            var row = btn.parentNode.parentNode;
+                            if (row.classList.contains('nueva-fila')) {
+                                row.parentNode.removeChild(row); // Eliminar la fila si es una nueva fila
+                            } else {
+                                alert('No se puede eliminar esta fila.');
+                            }
+                        }
+                    </script>
+
+
+                    <button type="button" onclick="agregarFila()" class="btn btn-primary boton"><i class="fa-solid fa-circle-plus"></i> Agregar</button>
+
+                    <table id="tabla_detalle_consulta" style="font-size:10px">
                         <thead>
                             <tr>
+                                <th style='display:none;'>ID Detalle Consulta</th>
+                                <th style='display:none;'>ID Consulta</th>
                                 <th>ID Trabajo Médico</th>
                                 <th>Descripción Trabajo Médico</th>
                                 <th>Observación</th>
@@ -824,9 +1028,31 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             <!-- Aquí se agregarán dinámicamente las filas -->
                         </tbody>
                     </table>
+
+                    <!--  <button type="button" onclick="eliminarFilaSeleccionada()" class="btn btn-danger"><i class="fa-solid fa-circle-minus"></i> Remover Fila Seleccionada</button> -->
+
+                    <script>
+                        function eliminarFilaSeleccionada() {
+                            var rowCount = $("#tabla_detalle_consulta tbody tr").length;
+                            if (rowCount > 0) {
+                                $("#tabla_detalle_consulta tbody tr:last").remove();
+                            } else {
+                                alert("No hay filas para remover.");
+                            }
+                        }
+                    </script>
+
+
+
+                    <!-- Div para mostrar mensajes de error -->
+                    <div id="mensaje" style="display: none; padding: 10px; background-color: #ffcccc; color: red;"></div>
+
+                    <!-- Botón de guardar -->
+                    <button id="btnguardar" class="btn btn-primary boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+
                 </fieldset>
 
-                <button type="submit" class="btn btn-primary boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+
 
 
 
@@ -837,7 +1063,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             <fieldset style="width: 40%; float: right;">
                 <legend>Historial de Consultas</legend>
                 <!--  <table id="historial_consultas"> -->
-                <div id="historial_consultas" style="font-size:14px;"></div>
+                <div id="historial_consultas" style="font-size:8px;"></div>
                 <!-- Aquí se mostrará dinámicamente el historial de consultas -->
                 </table>
                 <script>
@@ -870,7 +1096,6 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 </script>
             </fieldset>
 
-            <!-- Detalle de consulta -->
 
         </form>
         <div class="botones-container2">
@@ -888,28 +1113,6 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
 
         </div>
-
-        <script>
-            // Funciones JavaScript para la búsqueda de pacientes y médicos, y para agregar y eliminar filas en la tabla
-            function buscarPaciente() {
-                // Implementa la lógica para buscar un paciente y llenar los campos correspondientes
-            }
-
-            function buscarMedico() {
-                // Implementa la lógica para buscar un médico y llenar los campos correspondientes
-            }
-
-            function agregarFila() {
-                // Implementa la lógica para agregar una nueva fila a la tabla
-            }
-
-            function eliminarFila(idFila) {
-                // Implementa la lógica para eliminar una fila de la tabla
-            }
-        </script>
-
-
-
         <script>
             var idmedicoActual = "";
             // Obtener referencia al botón y al modal del paciente
@@ -958,27 +1161,179 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
 
 
+        <script>
+            function verificarCamposCompletos() {
+                // Encabezado de consulta
+                var idPaciente = document.getElementById('id_paciente').value.trim();
+                var idMedico = document.getElementById('id_medico').value.trim();
+                var fecha = document.getElementById('fecha').value.trim();
+                var hora = document.getElementById('hora').value.trim();
+
+                // Verificar campos del encabezado de consulta
+                if (idPaciente === '' || idMedico === '' || fecha === '' || hora === '') {
+                    mostrarMensajeError('Por favor, complete todos los campos obligatorios.');
+                    resaltarCamposVacios(idPaciente, idMedico, fecha, hora);
+                    return false;
+                }
+
+                // Si todos los campos obligatorios están llenos, enviar el formulario
+                return true;
+            }
+
+            function mostrarMensajeError(mensaje) {
+                document.getElementById('mensaje-error').textContent = mensaje;
+                document.getElementById('mensaje-error').style.display = 'block';
+            }
+
+            function resaltarCamposVacios(...campos) {
+                campos.forEach(function(campo) {
+                    if (campo === '') {
+                        document.getElementById(campo).classList.add('obligatorio');
+                    }
+                });
+            }
+
+
+            /*  function guardarConsulta() {
+                 const idPaciente = document.getElementById("id_paciente").value.trim();
+                 const fecha = document.getElementById("fecha").value.trim();
+                 const hora = document.getElementById("hora").value.trim();
+                 const diagnostico = document.getElementById("diagnostico").value.trim();
+                 const tratamiento = document.getElementById("tratamiento").value.trim();
+
+                 // Hacer una petición AJAX a PHP para guardar los datos en la base de datos
+                 const xhr = new XMLHttpRequest();
+                 xhr.open("POST", "guardar_consulta.php", true);
+                 xhr.setRequestHeader("Content-Type", "application/json");
+                 xhr.onreadystatechange = function() {
+                     if (xhr.readyState === 4) {
+                         if (xhr.status === 200) {
+                             const response = JSON.parse(xhr.responseText);
+                             if (response.success) {
+                                 mostrarMensaje("Consulta guardada correctamente.", "green");
+                                 limpiarFormulario();
+                             } else {
+                                 mostrarMensaje("Error al guardar la consulta: " + response.message, "red");
+                             }
+                         } else {
+                             mostrarMensaje("Error al realizar la petición. Por favor, inténtelo nuevamente.", "red");
+                         }
+                     }
+                 };
+
+                 const datosJSON = JSON.stringify({
+                     id_paciente: idPaciente,
+                     fecha: fecha,
+                     hora: hora,
+                     diagnostico: diagnostico,
+                     tratamiento: tratamiento
+                 });
+
+                 xhr.send(datosJSON);
+             } */
+
+
+            function guardarConsulta() {
+                // Obtener los datos del formulario de consulta
+                const id_paciente = document.getElementById("id_paciente").value;
+                const id_medico = document.getElementById("id_medico").value;
+                const fecha = document.getElementById("fecha").value;
+                const hora = document.getElementById("hora").value;
+                const diagnostico = document.getElementById("diagnostico").value;
+                const tratamiento = document.getElementById("tratamiento").value;
+
+                // Crear objeto de consulta
+                const consulta = {
+                    id_paciente: id_paciente,
+                    id_medico: id_medico,
+                    fecha: fecha,
+                    hora: hora,
+                    diagnostico: diagnostico,
+                    tratamiento: tratamiento
+                };
+
+                // Obtener los datos de la tabla de detalle de consulta si existen
+                const detalleConsulta = [];
+                const tablaDetalle = document.getElementById("tabla_detalle_consulta");
+                const filasDetalle = tablaDetalle.getElementsByTagName("tr");
+
+                if (filasDetalle.length > 1) {
+                    for (let i = 1; i < filasDetalle.length; i++) {
+                        const fila = filasDetalle[i];
+                        const id_trabajo_medico = fila.cells[0].textContent;
+                        const observacion = fila.cells[1].textContent;
+                        detalleConsulta.push({
+                            id_trabajo_medico,
+                            observacion
+                        });
+                    }
+                }
+
+                // Crear objeto de detalle de consulta
+                const datos = {
+                    consulta: consulta,
+                    detalle_consulta: detalleConsulta
+                };
+
+                // Hacer una petición AJAX para guardar los datos
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "guardar_consulta.php", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        alert(xhr.responseText); // Mostrar respuesta del servidor
+                        location.reload(); // Recargar la página después de guardar
+                    }
+                };
+
+                xhr.send(JSON.stringify(datos)); // Enviar datos al servidor en formato JSON
+            }
+
+
+            function verificarCamposCompletos() {
+                const idPaciente = document.getElementById("id_paciente").value.trim();
+                const fecha = document.getElementById("fecha").value.trim();
+                const hora = document.getElementById("hora").value.trim();
+
+                if (idPaciente === "" || fecha === "" || hora === "") {
+                    mostrarMensaje("Por favor, complete todos los campos obligatorios.", "red");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function mostrarMensaje(mensaje, color) {
+                const mensajeDiv = document.getElementById("mensaje");
+                mensajeDiv.textContent = mensaje;
+                mensajeDiv.style.color = color;
+            }
+
+            function limpiarFormulario() {
+                document.getElementById("fecha").value = "";
+                document.getElementById("hora").value = "";
+                document.getElementById("diagnostico").value = "";
+                document.getElementById("tratamiento").value = "";
+            }
+
+            document.getElementById("btnguardar").addEventListener("click", function(event) {
+                event.preventDefault();
+                if (verificarCamposCompletos()) {
+                    guardarConsulta();
+                }
+            });
+        </script>
+
+
+
+
+
 </body>
 
+
+
+
+
+
 </html>
-<?php
-
-if (isset($_POST['btnregistrar'])) {
-    $vaiusu     = $_POST['txtnom'];
-    $vaipass     = $_POST['txtpass1'];
-    $vaiconf     = $_POST['txtconfi'];
-    $vaiestado     = $_POST['txtest'];
-    $vainomcom     = $_POST['txtnomcom'];
-    $vairol     = $_POST['txtrol'];
-
-    $queryadd    = mysqli_query($conn, "INSERT INTO usuario(id_usuario,nombre_usuario,pass1,confirm_pass,estado,nombre_completo,rol) VALUES('$userid','$vaiusu','$vaipass','$vaiconf','$vaiestado','$vainomcom','$vairol')");
-
-    if (!$queryadd) {
-        echo "Error con el registro: " . mysqli_error($conn);
-        //echo "<script>alert('DNI duplicado, intenta otra vez');</script>";
-
-    } else {
-        echo "<script>window.location= '../../mant-Agregaruser.php?pag=1' </script>";
-    }
-}
-?>

@@ -40,8 +40,8 @@ $result = $conn->query($query);
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> 
-  
+  <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css">
+
   <style>
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
@@ -82,235 +82,227 @@ $result = $conn->query($query);
     }
   </style>
   <style>
-        .caja {
-            border: 3px solid #ddd;
-            padding: 10px;
-            box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-            margin: 10px;
-            border-radius: 5px;
-        }
+    .caja {
+      border: 3px solid #ddd;
+      padding: 10px;
+      box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      border-radius: 5px;
+    }
 
-        .cajalegend {
-            border: 0px solid rgba(102, 153, 144, 0.0);
-            font-weight: bolder;
-            font-size: 16px;
-            color: white;
-            margin: 0;
-            padding: 0;
-            background-color: transparent;
-            border-radius: 2px;
-            margin-top: -20px;
-            text-shadow: 2px 1px 2px #000000;
-
-
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: 80%;
-            grid-template-rows: repeat(3, 1fr);
-            grid-gap: 6px 10px;
-            margin-left: 10%;
-            margin-right: 10%;
-        }
-
-        label {
-            font-size: 14px;
-            color: #444;
-            margin: 8px;
-            font-weight: bold;
-        }
-
-        button,
-        input,
-        optgroup,
-        select,
-        textarea {
-            margin: 0;
-
-            font-size: 12px;
-            line-height: 14px;
-            margin: 10px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        select {
-
-            width: 150px;
-            height: 40px;
-            color: #444;
-            margin-bottom: 6%;
-            border: none;
-            border-bottom: 0.1vw solid #444;
-            outline: none;
-            border-radius: 10px;
-
-        }
-
-        button {
-            border: none;
-            outline: none;
-            color: #fff;
-            font-size: 1.6vw;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 2vw;
-
-            margin: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            height: auto;
-            min-height: 40px;
-        }
+    .cajalegend {
+      border: 0px solid rgba(102, 153, 144, 0.0);
+      font-weight: bolder;
+      font-size: 16px;
+      color: white;
+      margin: 0;
+      padding: 0;
+      background-color: transparent;
+      border-radius: 2px;
+      margin-top: -20px;
+      text-shadow: 2px 1px 2px #000000;
 
 
-        .boton_bus {
-            border: none;
-            outline: none;
-            height: 4vw;
-            color: #fff;
-            font-size: 1.6vw;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-            cursor: pointer;
-            border-radius: 60px;
-            width: 60px;
-            margin-top: 2vw;
-            text-decoration: none;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            height: auto;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 80%;
+      grid-template-rows: repeat(3, 1fr);
+      grid-gap: 6px 10px;
+      margin-left: 10%;
+      margin-right: 10%;
+    }
+
+    label {
+      font-size: 14px;
+      color: #444;
+      margin: 8px;
+      font-weight: bold;
+    }
+
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+      margin: 0;
+
+      font-size: 12px;
+      line-height: 14px;
+      margin: 10px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+
+      width: 150px;
+      height: 40px;
+      color: #444;
+      margin-bottom: 6%;
+      border: none;
+      border-bottom: 0.1vw solid #444;
+      outline: none;
+      border-radius: 10px;
+
+    }
+
+    button {
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 1.6vw;
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 2vw;
+
+      margin: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: auto;
+      min-height: 40px;
+    }
 
 
-        }
+    .boton_bus {
+      border: none;
+      outline: none;
+      height: 4vw;
+      color: #fff;
+      font-size: 1.6vw;
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+      cursor: pointer;
+      border-radius: 60px;
+      width: 60px;
+      margin-top: 2vw;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: auto;
 
-        .boton_bus:active {
-            background-color: #5bc0f7;
-            scale: 1.5;
-            cursor: pointer;
 
-            transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.8s ease, font-weight 0.8s ease;
-            /* Animaciones de 0.5 segundos */
-            box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
-            /* Sombra inicial y sombra roja */
-            font-size: 25px;
-            color: white;
-            /* Cambiar el color del texto */
-            font-weight: bold;
-            /* Cambiar a negritas */
-            font-family: "Copperplate", Fantasy;
-        }
+    }
 
-        /* Estilos específicos para el modal personalizado */
-        .custom-modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
+    .boton_bus:active {
+      background-color: #5bc0f7;
+      scale: 1.5;
+      cursor: pointer;
 
-        .custom-modal-content {
-            width: 80%;
-            height: 80%;
-            margin: auto;
-            background: linear-gradient(to right, #e4e5dc, #45bac9db);
-            padding: 20px;
-            border-radius: 20PX;
-        }
+      transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.8s ease, font-weight 0.8s ease;
+      /* Animaciones de 0.5 segundos */
+      box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
+      /* Sombra inicial y sombra roja */
+      font-size: 25px;
+      color: white;
+      /* Cambiar el color del texto */
+      font-weight: bold;
+      /* Cambiar a negritas */
+      font-family: "Copperplate", Fantasy;
+    }
 
-        .custom-close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
+    /* Estilos específicos para el modal personalizado */
+    .custom-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
 
-        .custom-close:hover,
-        .custom-close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    .custom-modal-content {
+      width: 80%;
+      height: 80%;
+      margin: auto;
+      background: linear-gradient(to right, #e4e5dc, #45bac9db);
+      padding: 20px;
+      border-radius: 20PX;
+    }
 
-        /* Estilos adicionales específicos para el iframe dentro del modal */
-        .custom-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+    .custom-close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
 
-        .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: none;
-            outline: none;
-            background: linear-gradient(to right, #05c20e, #84e788);
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-          
-            font-size: 16px;
-            padding: 7px;
-            margin: 5px;
+    .custom-close:hover,
+    .custom-close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
-        }
+    /* Estilos adicionales específicos para el iframe dentro del modal */
+    .custom-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
 
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
-    </style>
+    .clasebotonVER {
+      color: #f0f0f0;
+      text-shadow: 2px 2px 4px #000000;
+      font-weight: bold;
+      border: none;
+      outline: none;
+      background: linear-gradient(to right, #05c20e, #84e788);
+      border-radius: 7px;
+      width: auto;
+      text-decoration: none;
+      height: 40px;
+
+      font-size: 16px;
+      padding: 7px;
+      margin: 5px;
+
+    }
+
+    .clasebotonVER:hover {
+      background: linear-gradient(to right, #84e788, #05c20e);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+
   <script>
-    /* $(document).ready(function() {
-      $('#tabla_seguros').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-          'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-      });
-    });*/
     $(document).ready(function() {
-      $('#tabla_medicamento').DataTable({
+      var table = $('#tabla_medicamento').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        language: obtenerIdioma(),
+        pageLength: 5 // Limitar el número de filas mostradas por página a 5
       });
-      var table = $('#tabla_medicamento').DataTable();
-      $('#tabla_medicamento').on('click', 'tr', function() {
-        var data = table.row(this).data();
-        // below some operations with the data
-        // How can I set the row color as red?
-        $(this).addClass('highlight').siblings().removeClass('highlight');
-      });
-
-
-
-
     });
 
-
-
-    function seleccionarmedicamento(idmedicamento, nombremedicamento, descripcionmed, formatomed, cantidadmed) {
-      var openerWindow = window.opener;
-      openerWindow.document.getElementById("Id_seguro_salud").value = idmed;
-      openerWindow.document.getElementById("Nombre_med").textContent = nombremed;
-      openerWindow.document.getElementById("descripcion_med").textContent = descripcionmed;
-      openerWindow.document.getElementById("formato_med").textContent = formatomed;
-      openerWindow.document.getElementById("cantidad_med").textContent = cantidadmed;
-      window.close();
+    function obtenerIdioma() {
+      return {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+          "first": "Primero",
+          "last": "Ultimo",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+      };
     }
   </script>
 </head>
@@ -349,52 +341,31 @@ $result = $conn->query($query);
   </table>
 
   <script>
-    //evento click para el mantenimiento del paciente
+    // Asignar un evento de clic a las filas de la tabla
+    $("#tabla_medicamento tbody").on("click", "tr", function() {
+      // Obtener las celdas de la fila clicada
+      var celdas = $(this).find("td");
 
-    $(document).ready(function() {
-      var tablamedicamento = $('#tabla_medicamento').DataTable();
+      // Obtener los datos de las celdas
+      var idMedicamento = celdas.eq(0).text();
+      var nombreMedicamento = celdas.eq(1).text();
+      var descripcion = celdas.eq(2).text();
+      var formato = celdas.eq(3).text();
+      var medida = celdas.eq(4).text();
 
-      // Asignar un evento de clic a las filas de la tabla
-      $('#tabla_medicamento tbody').on('click', 'tr', function() {
-        // Obtener la fila clicada
-        var fila = $(this);
+      // Asignar los valores al campo de texto y al label en el otro documento
+      window.parent.document.getElementById("id_medicamento").value = idMedicamento;
+      window.parent.document.getElementById("nombre_medicamento").textContent = nombreMedicamento;
+      window.parent.document.getElementById("descripcion_medicamento").textContent = descripcion;
+      window.parent.document.getElementById("formato").textContent = formato;
+      window.parent.document.getElementById("medida").textContent = medida;
+      window.parent.document.getElementById("id_medicamento").focus();
 
-        // Obtener los datos de las celdas
-        var idmed = tablaSeguros.row(fila).data()[0];
-        var nombremed = tablaSeguros.row(fila).data()[1];
-        var descmed = tablaSeguros.row(fila).data()[2];
-        var formmed = tablaSeguros.row(fila).data()[3];
-        var cantmed = tablaSeguros.row(fila).data()[4];
-
-        // Asignar los valores al campo de texto y al label en paciente.php
-        window.parent.document.getElementById('Id_medicamento ').value = idmed;
-        window.parent.document.getElementById('nombremedicamento').textContent = nombremed;
-        window.parent.document.getElementById('descripcionmed').textContent = descripcionmed;
-        window.parent.document.getElementById('formatomed').textContent = formatomed;
-        window.parent.document.getElementById('cantmed').textContent = cantmed;
-
-
-
-        // Resaltar toda la fila con un delay de 2 segundos
-        fila.addClass('resaltado');
-
-        // Cerrar el modal después de 2 segundos
-        setTimeout(function() {
-          fila.removeClass('resaltado');
-          window.parent.document.getElementById('myModal').style.display = 'none';
-        }, 800);
-      });
-
-      // Asignar un evento de clic al botón de cierre del modal
-      window.parent.document.querySelector('#myModal .close').addEventListener('click', function() {
-        // Cerrar el modal
-        window.parent.document.getElementById('myModal').style.display = 'none';
-      });
-
-      // Evitar que el evento de clic en el modal cierre el modal
-      window.parent.document.querySelector('#myModal .modal-content').addEventListener('click', function(event) {
-        event.stopPropagation();
-      });
+      // Cerrar el modal después de un breve retraso para asegurar que se hayan asignado los valores
+      setTimeout(function() {
+        var modal = window.parent.document.getElementById('Modalmedicamento');
+        modal.style.display = 'none';
+      }, 200);
     });
   </script>
 

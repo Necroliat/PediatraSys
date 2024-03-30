@@ -53,7 +53,7 @@ $result = $conn->query($query);
         <table id="tabla_consultas" class="display" style="width: 100%; font-size: 12px;">
             <thead>
                 <tr>
-                    <th>ID Consulta</th>
+                    <th>ID </th>
                     <th>Fecha</th>
                     <th>Hora</th>
                     <th>Diagnóstico</th>

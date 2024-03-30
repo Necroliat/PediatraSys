@@ -388,7 +388,7 @@
 
 
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="#" onclick="cambiarIframe('proces_consulta.php')" class="nav-link">
                 <i class="fa-solid fa-book-medical"></i>
                 <p>
                   Consultas

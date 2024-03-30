@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ALL & ~E_WARNING);
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -13,16 +14,9 @@ if ($conn->connect_error) {
   die("Error de conexión: " . $conn->connect_error);
 }
 
-// Consulta para obtener los datos de la tabla "medicos"
-// Consulta para obtener los datos de la tabla "laboratorio"
-$query = "SELECT * FROM trabajos_medicos";
+// Consulta para obtener los datos de la tabla "tipo_vacunas"
+$query = "SELECT * FROM medicamento";
 $result = $conn->query($query);
-
-
-function in_iframe()
-{
-  return $_SERVER['HTTP_REFERER'] !== null && $_SERVER['HTTP_REFERER'] !== $_SERVER['REQUEST_URI'];
-}
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +25,7 @@ function in_iframe()
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta de trabajos Médicos</title>
+  <title>Consulta de Médicos</title>
   <!-- Enlaces a los archivos CSS de DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
   <!-- Enlaces a los scripts de JavaScript de jQuery y DataTables -->
@@ -55,13 +49,13 @@ function in_iframe()
     .resaltado {
       background-color: #A8A4DE;
     }
-
-    #tabla_trabajos tbody tr:hover {
-      background-color: #A8A4DE;
-      cursor: pointer;
+    
+    #tabla_medicamento tbody tr:hover {
+       background-color: #A8A4DE;
+       cursor: pointer;
     }
 
-    #tabla_trabajos tbody tr:active {
+    #tabla_medicamento tbody tr:active {
       background-color: #5bc0f7;
       cursor: pointer;
       border: 4px solid red;
@@ -97,15 +91,16 @@ function in_iframe()
 </head>
 
 <body>
-  <h3 style="padding:0; margin:0;">Consulta Trabajos de Médicos</h3>
+  <h3 style="padding:0; margin:0;">Consulta de medicamentos</h3>
 
-  <table id="tabla_trabajos" class="display" style="width:100%">
+  <table id="tabla_medicamento" class="display" style="width:100%">
     <thead>
       <tr>
-        <th>Id Trabajo Medico</th>
-        <th>Fecha De Creacion</th>
-        <th>Descripcion</th>
-
+        <th>ID</th>
+        <th>Nombre Medicamento</th>
+        <th>Description</th>
+        <th>Formato</th>
+        <th>Medida</th>
       </tr>
     </thead>
     <tbody>
@@ -113,12 +108,13 @@ function in_iframe()
       // Iterar a través de los resultados de la consulta y generar filas en la tabla
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-          echo "<tr onclick=\"seleccionartrabajo('" . $row["id_trabajo_medico"] . "', '" . $row["fecha_creacion"] . "', '" . $row["descripcion_trabajo_medico"] . "')\">";
-          echo "<td>" . $row["id_trabajo_medico"] . "</td>";
-          echo "<td>" . $row["fecha_creacion"] . "</td>";
-          echo "<td>" . $row["descripcion_trabajo_medico"] . "</td>";
-          echo "</td>"; // Closing tag for the td element
-
+          echo "<tr onclick=\"seleccionarmedicamento('" . $row["Id_medicamento"] . "', '" . $row["nombre_medicamento"] . "', '" . $row["descripcion"] . "', '" . $row["formato"] . "', '" . $row["Cantidad_total"] . "')\">";
+          echo "<td>" . $row['Id_medicamento'] . "</td>";
+          echo "<td>" . $row['nombre_medicamento'] . "</td>";
+          echo "<td>" . $row['descripcion'] . "</td>";
+          echo "<td>" . $row['formato'] . "</td>";
+          echo "<td>" . $row['Cantidad_total'] . "</td>";
+          echo "</tr>";
         }
       } else {
         echo "<tr><td colspan='2'>No se encontraron resultados.</td></tr>";
@@ -129,32 +125,33 @@ function in_iframe()
 
   <script>
     $(document).ready(function() {
-      $('#tabla_trabajos').DataTable({
+      $('#tabla_medicamento').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        
+        },pageLength: 5 
       });
 
       // Asignar un evento de clic a las filas de la tabla
-      $("#tabla_trabajos tbody").on("click", "tr", function() {
+      $("#tabla_medicamento tbody").on("click", "tr", function() {
         // Obtener las celdas de la fila clicada
         var celdas = $(this).find("td");
 
         // Obtener los datos de las celdas
-        var idtrabajo = celdas.eq(0).text();
-        var descripcion = celdas.eq(2).text();
-        
+        var idMedicamento = celdas.eq(0).text();
+      var nombreMedicamento = celdas.eq(1).text();
+      var descripcion = celdas.eq(2).text();
 
         setTimeout(function() {
-          window.parent.document.getElementById('Modaltrabajomedico').style.display = 'none';
+          window.parent.document.getElementById('Modalmedicamento').style.display = 'none';
         }, 600);
 
         // Asignar los valores al campo de texto y al label en el otro documento
-        window.parent.document.getElementById("id_trabajo_medico").value = idtrabajo;
-        window.parent.document.getElementById("descripcion_trabajo_medico").textContent = descripcion;
-        /* window.parent.document.getElementById("apellido_medico").textContent = apellidoMedico;*/
-        window.parent.document.getElementById("id_trabajo_medico").focus(); 
+    window.parent.document.getElementById("id_medicamento").value = idMedicamento;
+ window.parent.document.getElementById("nombre_medicamento").textContent = nombreMedicamento;
+ window.parent.document.getElementById("descripcion_medicamento").textContent = descripcion;
+        window.parent.document.getElementById("id_medico").focus();
 
         var currentPath = window.parent.location.pathname;
         var currentPage = currentPath.substring(currentPath.lastIndexOf("/") + 1);
