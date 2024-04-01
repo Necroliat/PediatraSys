@@ -16,28 +16,29 @@ if (!$conn) {
 $data = file_get_contents('php://input');
 $dataArray = json_decode($data, true);
 
-// Verificar si se recibieron datos para la receta y el detalle de receta
-if (isset($dataArray['receta'])) {
+// Verificar si se recibieron datos para la receta y los detalles de la receta
+if (isset($dataArray['receta']) && isset($dataArray['detalles_receta'])) {
     $receta = $dataArray['receta'];
+    $detallesReceta = $dataArray['detalles_receta'];
 
-    // Insertar datos en la tabla recetas
-    $sql_receta = "INSERT INTO recetas (id_consulta, id_centro) 
+    // Insertar la prescripción médica
+    $sql_receta = "INSERT INTO prescripcion_medica (id_consulta, id_centro) 
                    VALUES ('{$receta['id_consulta']}', '{$receta['id_centro']}')";
 
     if ($conn->query($sql_receta) === TRUE) {
         $last_id = $conn->insert_id;
 
-        if (isset($dataArray['detalle_receta'])) {
-            $detalleReceta = $dataArray['detalle_receta'];
+        // Insertar los detalles de la prescripción médica
+        foreach ($detallesReceta as $detalle) {
+            $id_medicamento = $detalle['id_medicamento'];
+            $cantidad = $detalle['cantidad'];
+            $unidad_medida = $detalle['unidad_medida'];
+            $frecuencia = $detalle['frecuencia'];
+            $tiempo_uso = $detalle['tiempo_uso'];
 
-            // Verificar si hay detalles de receta para insertar
-            if (!empty($detalleReceta)) {
-                foreach ($detalleReceta as $detalle) {
-                    $sql_detalle_receta = "INSERT INTO detalle_receta (ID_Receta, id_medicamento, nombre_medicamento, cantidad, unidad_medida, frecuencia, tiempo_uso) 
-                                           VALUES ('$last_id', '{$detalle['id_medicamento']}', '{$detalle['nombre_medicamento']}', '{$detalle['cantidad']}', '{$detalle['unidad_medida']}', '{$detalle['frecuencia']}', '{$detalle['tiempo_uso']}')";
-                    $conn->query($sql_detalle_receta);
-                }
-            }
+            $sql_detalle_receta = "INSERT INTO detalle_prescripcion (id_receta, id_medicamento, cantidad, unidad_de_medida, frecuencia, tiempo_de_uso) 
+                                   VALUES ('$last_id', '$id_medicamento', '$cantidad', '$unidad_medida', '$frecuencia', '$tiempo_uso')";
+            $conn->query($sql_detalle_receta);
         }
 
         echo "Receta guardada exitosamente con ID: $last_id";

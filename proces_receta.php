@@ -1097,19 +1097,41 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 // Obtener los datos del formulario de receta
                 const id_consulta = document.getElementById("id_consulta").value;
                 const id_centro = document.getElementById("id_centro").value;
-                const detalleReceta = obtenerDetalleReceta();
-
-                // Verificar si se ha agregado al menos un detalle de receta
-                if (detalleReceta.length === 0) {
-                    mostrarMensaje("Por favor, agregue al menos un medicamento a la receta.", "red");
-                    return;
-                }
 
                 // Crear objeto de receta
                 const receta = {
                     id_consulta: id_consulta,
-                    id_centro: id_centro,
-                    detalle_receta: detalleReceta
+                    id_centro: id_centro
+                };
+
+                // Obtener los detalles de la receta
+                const detallesReceta = [];
+                const tablaDetalle = document.getElementById("tabla_detalle");
+                const filasDetalle = tablaDetalle.getElementsByTagName("tr");
+
+                if (filasDetalle.length > 1) {
+                    for (let i = 1; i < filasDetalle.length; i++) {
+                        const fila = filasDetalle[i];
+                        const id_medicamento = fila.cells[0].textContent;
+                        const cantidad = fila.cells[2].textContent;
+                        const unidad_medida = fila.cells[3].textContent;
+                        const frecuencia = fila.cells[4].textContent;
+                        const tiempo_uso = fila.cells[5].textContent;
+
+                        detallesReceta.push({
+                            id_medicamento,
+                            cantidad,
+                            unidad_medida,
+                            frecuencia,
+                            tiempo_uso
+                        });
+                    }
+                }
+
+                // Crear objeto de detalles de la receta
+                const datosReceta = {
+                    receta: receta,
+                    detalles_receta: detallesReceta
                 };
 
                 // Hacer una petición AJAX para guardar los datos
@@ -1124,38 +1146,9 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                     }
                 };
 
-                xhr.send(JSON.stringify(receta)); // Enviar datos al servidor en formato JSON
+                xhr.send(JSON.stringify(datosReceta)); // Enviar datos al servidor en formato JSON
             }
 
-            function obtenerDetalleReceta() {
-                const detalleReceta = [];
-                const tablaDetalle = document.getElementById("tabla_detalle");
-                const filasDetalle = tablaDetalle.getElementsByTagName("tr");
-
-                // Verificar si se han agregado detalles de receta
-                if (filasDetalle.length > 1) {
-                    for (let i = 1; i < filasDetalle.length; i++) {
-                        const fila = filasDetalle[i];
-                        const id_medicamento = fila.cells[0].textContent;
-                        const nombre_medicamento = fila.cells[1].textContent;
-                        const cantidad = fila.cells[2].textContent;
-                        const unidad_medida = fila.cells[3].textContent;
-                        const frecuencia = fila.cells[4].textContent;
-                        const tiempo_uso = fila.cells[5].textContent;
-
-                        detalleReceta.push({
-                            id_medicamento,
-                            nombre_medicamento,
-                            cantidad,
-                            unidad_medida,
-                            frecuencia,
-                            tiempo_uso
-                        });
-                    }
-                }
-
-                return detalleReceta;
-            }
 
             function verificarCamposCompletos() {
                 const idConsulta = document.getElementById("id_consulta").value.trim();
