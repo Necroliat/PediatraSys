@@ -762,23 +762,23 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <input type="checkbox" id="id_consulta_na" name="id_consulta_na">
                 <label for="id_consulta_na">NA</label>
                 <label id="nombre_paciente" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                    <label id="fecha_consulta" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                <label id="fecha_consulta" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 
 
 
-                    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var checkbox = document.getElementById("id_consulta_na");
-        var nombreLabel = document.getElementById("nombre_paciente");
-        var nombreLabel2 = document.getElementById("fecha_consulta");
-        checkbox.addEventListener("change", function() {
-            if (checkbox.checked) {
-                nombreLabel.textContent = "";
-                nombreLabel2.textContent = "";
-            }
-        });
-    });
-</script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var checkbox = document.getElementById("id_consulta_na");
+                        var nombreLabel = document.getElementById("nombre_paciente");
+                        var nombreLabel2 = document.getElementById("fecha_consulta");
+                        checkbox.addEventListener("change", function() {
+                            if (checkbox.checked) {
+                                nombreLabel.textContent = "";
+                                nombreLabel2.textContent = "";
+                            }
+                        });
+                    });
+                </script>
                 <!-- ID Centro -->
                 <hr>
                 <label for="id_centro">ID Centro</label>
@@ -936,15 +936,43 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         <!-- Filas dinámicas se agregarán aquí -->
                     </tbody>
                 </table>
+
+
+                <!-- Botón para guardar -->
+                <button class="btn btn-primary boton" type="button" onclick="guardarReceta()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+
+                <!-- Elemento para mostrar mensajes de error -->
+                <p id="error-message" style="color: red; display: none;"></p>
             </fieldset>
 
-            <!-- Botón para guardar -->
-            <button type="button" onclick="guardarReceta()">Guardar Receta</button>
 
-            <!-- Elemento para mostrar mensajes de error -->
-            <p id="error-message" style="color: red; display: none;"></p>
         </form>
         <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Obtener todos los elementos <input type="number">
+                var inputsNumber = document.querySelectorAll("input[type=number]");
+
+                // Iterar sobre cada elemento y agregar un evento input
+                inputsNumber.forEach(function(input) {
+                    input.addEventListener("input", function() {
+                        // Obtener el valor actual del input como un número
+                        var valor = parseFloat(this.value);
+
+                        // Verificar si el valor es menor que cero
+                        if (valor < 0) {
+                            // Si es menor que cero, establecer el valor del input como cero
+                            this.value = 0;
+                        }
+                    });
+                });
+            });
+
+
+
+
+
+
+
             function gestionarCheckBox(idCheckbox, idInput, idBoton) {
                 const checkbox = document.getElementById(idCheckbox);
                 const input = document.getElementById(idInput);
@@ -976,12 +1004,38 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             // Llamar a la función para gestionar el checkbox de ID Centro
             gestionarCheckBox('id_centro_na', 'id_centro', 'buscar_centro');
 
+            function verificarMedicamentoExistente(idMedicamento) {
+                // Obtener todas las filas de la tabla de detalles de la receta
+                var filas = document.querySelectorAll("#tabla_detalle tbody tr");
 
+                // Iterar sobre las filas para verificar si el medicamento ya está en la tabla
+                for (var i = 0; i < filas.length; i++) {
+                    // Obtener el ID del medicamento de la fila actual
+                    var idMedicamentoActual = filas[i].cells[0].textContent;
 
+                    // Verificar si el ID del medicamento actual coincide con el ID del medicamento que se quiere agregar
+                    if (idMedicamentoActual === idMedicamento) {
+                        // Si el medicamento ya está en la tabla, mostrar un mensaje de error y devolver true para indicar que ya existe
+                        alert("El medicamento ya está agregado en el detalle de la receta.");
+                        return true;
+                    }
+                }
+
+                // Si el medicamento no está en la tabla, devolver false para indicar que no existe
+                return false;
+            }
 
             function agregarDetalle() {
+                // Obtener el ID del medicamento que se quiere agregar
+                var idMedicamento = document.getElementById("id_medicamento").value;
+
+                // Verificar si el medicamento ya está en el detalle de la receta
+                if (verificarMedicamentoExistente(idMedicamento)) {
+                    // Si el medicamento ya existe, no hacer nada más
+                    return;
+                }
+
                 // Verificar si todos los campos del fieldset de detalle de receta están llenos
-                const idMedicamento = document.getElementById("id_medicamento").value;
                 const nombreMedicamento = document.getElementById("nombre_medicamento").textContent;
                 /* const nombreMedicamento = document.getElementById("nombre_medicamento").value; */
                 const cantidad = document.getElementById("cantidad").value;
@@ -1035,6 +1089,92 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 const fila = boton.parentNode.parentNode;
                 fila.parentNode.removeChild(fila);
             }
+
+
+
+
+            function guardarReceta() {
+                // Obtener los datos del formulario de receta
+                const id_consulta = document.getElementById("id_consulta").value;
+                const id_centro = document.getElementById("id_centro").value;
+                const detalleReceta = obtenerDetalleReceta();
+
+                // Verificar si se ha agregado al menos un detalle de receta
+                if (detalleReceta.length === 0) {
+                    mostrarMensaje("Por favor, agregue al menos un medicamento a la receta.", "red");
+                    return;
+                }
+
+                // Crear objeto de receta
+                const receta = {
+                    id_consulta: id_consulta,
+                    id_centro: id_centro,
+                    detalle_receta: detalleReceta
+                };
+
+                // Hacer una petición AJAX para guardar los datos
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "guardar_receta.php", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        alert(xhr.responseText); // Mostrar respuesta del servidor
+                        location.reload(); // Recargar la página después de guardar
+                    }
+                };
+
+                xhr.send(JSON.stringify(receta)); // Enviar datos al servidor en formato JSON
+            }
+
+            function obtenerDetalleReceta() {
+                const detalleReceta = [];
+                const tablaDetalle = document.getElementById("tabla_detalle");
+                const filasDetalle = tablaDetalle.getElementsByTagName("tr");
+
+                // Verificar si se han agregado detalles de receta
+                if (filasDetalle.length > 1) {
+                    for (let i = 1; i < filasDetalle.length; i++) {
+                        const fila = filasDetalle[i];
+                        const id_medicamento = fila.cells[0].textContent;
+                        const nombre_medicamento = fila.cells[1].textContent;
+                        const cantidad = fila.cells[2].textContent;
+                        const unidad_medida = fila.cells[3].textContent;
+                        const frecuencia = fila.cells[4].textContent;
+                        const tiempo_uso = fila.cells[5].textContent;
+
+                        detalleReceta.push({
+                            id_medicamento,
+                            nombre_medicamento,
+                            cantidad,
+                            unidad_medida,
+                            frecuencia,
+                            tiempo_uso
+                        });
+                    }
+                }
+
+                return detalleReceta;
+            }
+
+            function verificarCamposCompletos() {
+                const idConsulta = document.getElementById("id_consulta").value.trim();
+                const idCentro = document.getElementById("id_centro").value.trim();
+
+                if (idConsulta === "" || idCentro === "") {
+                    mostrarMensaje("Por favor, complete todos los campos obligatorios.", "red");
+                    return false;
+                }
+
+                return true;
+            }
+
+            document.getElementById("btnguardar").addEventListener("click", function(event) {
+                event.preventDefault();
+                if (verificarCamposCompletos()) {
+                    guardarReceta();
+                }
+            });
         </script>
 
 
