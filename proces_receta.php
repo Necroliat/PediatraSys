@@ -737,6 +737,27 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <hr>
                 <label for="id_consulta">ID Consulta</label>
                 <input type="text" id="id_consulta" name="id_consulta">
+                <script>
+                    $("#id_consulta").on("input", function() {
+                        var idconsulta = $(this).val();
+                        // Realizar la solicitud AJAX para obtener los datos de la consulta
+                        $.ajax({
+                            url: 'consulta_simple_histo_consultaspacientes.php', // Ruta al archivo PHP adaptado para la consulta
+                            type: 'POST',
+                            data: {
+                                id_consulta: idconsulta
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                $("#nombre_paciente").text(data.nombre_pacientes || ''); // Actualiza el elemento HTML con el nombre del paciente y médico
+                                $("#fecha_consulta").text(data.fecha || ''); // Actualiza el elemento HTML con la fecha de la consulta
+                            },
+                            error: function() {
+                                alert('Hubo un error al obtener los datos de la consulta.');
+                            }
+                        });
+                    });
+                </script>
                 <button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModal()"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <div id="Modalconsulta" class="custom-modal">
                     <div class="custom-modal-content">
@@ -783,6 +804,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <hr>
                 <label for="id_centro">ID Centro</label>
                 <input type="text" id="id_centro" name="id_centro">
+
                 <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModal2()"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <div id="ModalCENTRO" class="custom-modal">
                     <div class="custom-modal-content">
