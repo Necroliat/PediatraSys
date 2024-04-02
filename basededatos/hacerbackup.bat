@@ -13,7 +13,7 @@ for /f "tokens=1-3 delims=/ " %%a in ('date /t') do (
 )
 
 REM Definir la ruta y el nombre del archivo de respaldo
-set "ruta=C:\wamp64\www\sistema-medico-old\basededatos"
+set "ruta=C:\wamp64\www\PediatraSys\basededatos"
 set "nombre=pediatra_sis_%fecha%.sql"
 set "archivo=%ruta%\%nombre%"
 

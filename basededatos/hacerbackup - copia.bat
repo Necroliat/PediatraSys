@@ -18,7 +18,7 @@ set "nombre=pediatra_sis_%fecha%.sql"
 set "archivo=%ruta%\%nombre%"
 
 REM Ejecutar el comando de respaldo
-"C:\wamp64\bin\mysql\mysql8.0.31\bin\mysqldump" -u %username% -p%password% -h %servername% %database% > %archivo%
+"C:\wamp64\bin\mysql\mysql8.2.0\bin\mysqldump" -u %username% -p%password% -h %servername% %database% > %archivo%
 
 REM Verificar si el comando se ejecutó correctamente
 if %errorlevel% equ 0 (
