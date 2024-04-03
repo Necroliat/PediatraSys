@@ -16,25 +16,28 @@ if ($conn->connect_error) {
 $idmedico = $_POST['id_medico'];
 
 // Consulta para obtener el nombre y el apellido del paciente
-$query = "SELECT nombre, apellido FROM medicos WHERE id_medico = '$idmedico'";
+$query = "SELECT exequatur, nombre, apellido FROM medicos WHERE id_medico = '$idmedico'";
 $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $nombremedico = $row['nombre'];
     $apellidomedico = $row['apellido'];
+    $exequatur = $row['exequatur'];
 
     // Devolver el nombre y el apellido del paciente como JSON
     $response = array(
         'nombre' => $nombremedico,
-        'apellido' => $apellidomedico
+        'apellido' => $apellidomedico,
+        'exequatur' => $exequatur
     );
     echo json_encode($response);
 } else {
     // No se encontró ningún paciente con ese ID
     $response = array(
         'nombre' => '',
-        'apellido' => ''
+        'apellido' => '',
+        'exequatur' =>''
     );
     echo json_encode($response);
 }
