@@ -3,7 +3,7 @@ require('fpdf186/fpdf.php');
 
 
 class PDF extends FPDF {
-    function Header() {
+    function Header() { 
         // Título
         $this->SetFont('Arial','B',14);
         $this->Cell(0,10,'Consultorio Pediatrico',0,1,'C');
