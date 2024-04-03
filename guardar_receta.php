@@ -12,6 +12,9 @@ if (!$conn) {
     die("Error de conexión: " . mysqli_connect_error());
 }
 
+// Establecer la zona horaria a Santo Domingo, República Dominicana
+date_default_timezone_set('America/Santo_Domingo');
+
 // Obtener los datos enviados desde el formulario
 $data = file_get_contents('php://input');
 $dataArray = json_decode($data, true);
@@ -54,3 +57,5 @@ if (isset($dataArray['receta']) && isset($dataArray['detalles_receta'])) {
 
 // Cerrar la conexión a la base de datos
 mysqli_close($conn);
+
+
