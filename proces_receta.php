@@ -750,8 +750,13 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             },
                             dataType: 'json',
                             success: function(data) {
-                                $("#nombre_paciente").text(data.nombre_pacientes || ''); // Actualiza el elemento HTML con el nombre del paciente y médico
+                                $("#nombre_paciente").text(data.nombre_pacientes || ''); // Actualiza el elemento HTML con el nombre y apellido del paciente
+                                $("#nombre_medico").text(data.nombre_medico || ''); // Actualiza el elemento HTML con el nombre y apellido del médico
+                                $("#apellido_paciente").text(data.apellido_paciente || ''); // Actualiza el elemento HTML con el nombre y apellido del paciente
+                                $("#apellido_medico").text(data.apellido_medico || '');
                                 $("#fecha_consulta").text(data.fecha || ''); // Actualiza el elemento HTML con la fecha de la consulta
+                                $("#id_medico").val(data.id_medico || ''); // Actualiza el input ID del médico
+                                $("#id_paciente").val(data.id_paciente || ''); // Actualiza el input ID del paciente
                             },
                             error: function() {
                                 alert('Hubo un error al obtener los datos de la consulta.');
@@ -759,6 +764,8 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         });
                     });
                 </script>
+
+
                 <button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModal()"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <div id="Modalconsulta" class="custom-modal">
                     <div class="custom-modal-content">
@@ -791,16 +798,38 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {
                         var checkbox = document.getElementById("id_consulta_na");
-                        var nombreLabel = document.getElementById("nombre_paciente");
-                        var nombreLabel2 = document.getElementById("fecha_consulta");
+                        var idMedicoInput = document.getElementById("id_medico");
+                        var idPacienteInput = document.getElementById("id_paciente");
+                        var buscarMedicoBtn = document.getElementById("buscar_medico");
+                        var buscarPacienteBtn = document.getElementById("buscar_paciente");
+
+                        // Función para deshabilitar campos y botones
+                        function disableCampos() {
+                            idMedicoInput.readOnly = true;
+                            idPacienteInput.readOnly = true;
+                            buscarMedicoBtn.disabled = true;
+                            buscarPacienteBtn.disabled = true;
+                        }
+
+                        // Deshabilitar campos y botones al cargar el documento
+                        disableCampos();
+
+                        // Escuchar cambios en el estado del checkbox
                         checkbox.addEventListener("change", function() {
-                            if (checkbox.checked) {
-                                nombreLabel.textContent = "";
-                                nombreLabel2.textContent = "";
+                            if (this.checked) {
+                                // Habilitar campos y botones si se marca el checkbox
+                                idMedicoInput.readOnly = false;
+                                idPacienteInput.readOnly = false;
+                                buscarMedicoBtn.disabled = false;
+                                buscarPacienteBtn.disabled = false;
+                            } else {
+                                // Deshabilitar campos y botones si se desmarca el checkbox
+                                disableCampos();
                             }
                         });
                     });
                 </script>
+
                 <!-- ID Centro -->
                 <hr>
                 <label for="id_centro">ID Centro</label>
@@ -890,7 +919,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             });
                         });
                     </script>
-                    <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="btn btn-primary " type="button" id="buscar_paciente" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button>
                     <div id="Modalpaciente" class="custom-modal">
                         <div class="custom-modal-content">
                             <span class="close" onclick="cerrarModalpaciente()"><span class="material-symbols-outlined">
@@ -931,7 +960,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                     <span style="padding:25px">.</span>
                     <label for="id_medico"> ID medico:</label>
                     <input type="text" id="id_medico" name="id_medico" style="width: 55px;" required>
-                    <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
                     <div id="Modalmedico" class="custom-modal">
                         <div class="custom-modal-content">
                             <span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">

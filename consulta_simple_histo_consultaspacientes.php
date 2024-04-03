@@ -16,8 +16,8 @@ if ($conn->connect_error) {
 $idConsulta = $_POST['id_consulta'];
 
 // Consulta para obtener los datos de la consulta
-$query = "SELECT c.id_consulta, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente, 
-                 CONCAT(m.nombre, ' ', m.apellido) AS nombre_medico, c.fecha, c.hora
+$query = "SELECT c.id_consulta, c.id_paciente, p.nombre AS nombre_paciente, p.apellido AS apellido_paciente,
+                 c.id_medico, m.nombre AS nombre_medico, m.apellido AS apellido_medico, c.fecha, c.hora
           FROM consultas c
           INNER JOIN paciente p ON c.id_paciente = p.id_paciente
           INNER JOIN medicos m ON c.id_medico = m.id_medico
@@ -32,16 +32,20 @@ if ($result->num_rows > 0) {
     $response = array(
         'id_consulta' => $row['id_consulta'],
         'nombre_pacientes' => $row['nombre_paciente'],
+        'apellido_paciente' => $row['apellido_paciente'],
         'nombre_medico' => $row['nombre_medico'],
+        'apellido_medico' => $row['apellido_medico'],
         'fecha' => $row['fecha'],
+        'id_medico' => $row['id_medico'],
+        'id_paciente' => $row['id_paciente'],
         'hora' => $row['hora']
     );
     echo json_encode($response);
 } else {
     // No se encontró ninguna consulta con ese ID
-    echo json_encode(array('id_consulta' => '', 'nombre_pacientes' => 'nada', 'nombre_medico' => '', 'fecha' => '', 'hora' => ''));
+    echo json_encode(array('id_consulta' => '', 'nombre_pacientes' => '', 'apellido_paciente' => '', 'nombre_medico' => '', 'apellido_medico' => '', 'fecha' => '', 'hora' => '', 'id_medico' => '', 'id_paciente' => ''));
 }
 
 // Cerrar la conexión
 $conn->close();
-?>
+
