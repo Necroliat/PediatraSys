@@ -1096,6 +1096,24 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
                 <!-- Elemento para mostrar mensajes de error -->
                 <p id="error-message" style="color: red; display: none;"></p>
+                <button id="btnGenerarReporte" onclick="generarReporte()">Generar Reporte de Prueba</button>
+                <script>
+                    function generarReporte() {
+                        // Realizar una solicitud AJAX para obtener el último registro de prescripción médica y detalle de prescripción médica
+                        $.ajax({
+                            url: 'obtener_ultimo_registro.php', // Ruta al archivo PHP que obtiene el último registro
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                // Redirigir a la página de reporte_receta.php y pasar los datos como parámetros en la URL
+                                window.location.href = 'reporte_receta.php?id_receta=' + data.id_receta;
+                            },
+                            error: function() {
+                                alert('Error al obtener el último registro de prescripción médica.');
+                            }
+                        });
+                    }
+                </script>
             </fieldset>
 
 
