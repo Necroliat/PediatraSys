@@ -606,7 +606,8 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         #id_centro,
         #id_medicamento,
         #cantidad,
-        #tiempo_uso {
+        #tiempo_uso,
+        #id_paciente {
             width: 55px;
         }
     </style>
@@ -782,7 +783,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 </script>
                 <input type="checkbox" id="id_consulta_na" name="id_consulta_na">
                 <label for="id_consulta_na">NA</label>
-                <label id="nombre_paciente" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                <!-- <label id="nombre_paciente" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label> -->
                 <label id="fecha_consulta" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 
 
@@ -863,6 +864,106 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         });
                     });
                 </script>
+
+                <hr>
+                <div>
+                    <label for="id_paciente">ID PACIENTE:</label>
+                    <input type="text" id="id_paciente" name="id_paciente" style="width: 55px;" required>
+                    <script>
+                        $("#id_paciente").on("input", function() {
+                            var idPaciente = $(this).val();
+                            // Realizar la solicitud AJAX para obtener los datos del paciente
+                            $.ajax({
+                                url: 'consulta_apellido_nombre_paciente.php', // Ruta al archivo PHP que creamos
+                                type: 'POST',
+                                data: {
+                                    id_paciente: idPaciente
+                                },
+                                dataType: 'json',
+                                success: function(data) {
+                                    $("#nombre_paciente").text(data.nombre || '');
+                                    $("#apellido_paciente").text(data.apellido || '');
+                                },
+                                error: function() {
+                                    alert('Hubo un error al obtener los datos del paciente.');
+                                }
+                            });
+                        });
+                    </script>
+                    <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div id="Modalpaciente" class="custom-modal">
+                        <div class="custom-modal-content">
+                            <span class="close" onclick="cerrarModalpaciente()"><span class="material-symbols-outlined">
+                                    cancel
+                                </span></span>
+                            <iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Función para mostrar el modal
+                        function mostrarModalpaciente() {
+                            var modal = document.getElementById('Modalpaciente');
+                            modal.style.display = 'block';
+                        }
+
+                        // Función para cerrar el modal
+                        function cerrarModalpaciente() {
+                            var modal = document.getElementById('Modalpaciente');
+                            modal.style.display = 'none';
+                        }
+
+                        // Función para mostrar el modal
+                        function mostrarModalmedico() {
+                            var modal = document.getElementById('Modalmedico');
+                            modal.style.display = 'block';
+                        }
+
+                        // Función para cerrar el modal
+                        function cerrarModalmedico() {
+                            var modal = document.getElementById('Modalmedico');
+                            modal.style.display = 'none';
+                        }
+                    </script>
+
+                    <label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <span style="padding:25px">.</span>
+                    <label for="id_medico"> ID medico:</label>
+                    <input type="text" id="id_medico" name="id_medico" style="width: 55px;" required>
+                    <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div id="Modalmedico" class="custom-modal">
+                        <div class="custom-modal-content">
+                            <span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">
+                                    cancel
+                                </span></span>
+                            <iframe id="modal-iframe" src="consulta_medico2.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+                        </div>
+                    </div>
+                    <script>
+                        $("#id_medico").on("input", function() {
+                            var idmedico = $(this).val();
+                            // Realizar la solicitud AJAX para obtener los datos del paciente
+                            $.ajax({
+                                url: 'consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
+                                type: 'POST',
+                                data: {
+                                    id_medico: idmedico
+                                },
+                                dataType: 'json',
+                                success: function(data) {
+                                    $("#nombre_medico").text(data.nombre || '');
+                                    $("#apellido_medico").text(data.apellido || '');
+                                },
+                                error: function() {
+                                    alert('Hubo un error al obtener los datos del medico.');
+                                }
+                            });
+                        });
+                    </script>
+                    <label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                </div>
             </fieldset>
 
 
@@ -924,6 +1025,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         });
                     </script>
                 </div>
+
 
                 <div>
                     <label for="cantidad">Cantidad:</label>
@@ -1119,11 +1221,15 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 // Obtener los datos del formulario de receta
                 const id_consulta = document.getElementById("id_consulta").value;
                 const id_centro = document.getElementById("id_centro").value;
+                const id_paciente = document.getElementById("id_paciente").value;
+                const id_medico = document.getElementById("id_medico").value;
 
                 // Crear objeto de receta
                 const receta = {
                     id_consulta: id_consulta,
-                    id_centro: id_centro
+                    id_centro: id_centro,
+                    id_paciente: id_paciente,
+                    id_medico: id_medico
                 };
 
                 // Obtener los detalles de la receta
@@ -1171,12 +1277,13 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 xhr.send(JSON.stringify(datosReceta)); // Enviar datos al servidor en formato JSON
             }
 
-
             function verificarCamposCompletos() {
                 const idConsulta = document.getElementById("id_consulta").value.trim();
                 const idCentro = document.getElementById("id_centro").value.trim();
+                const idPaciente = document.getElementById("id_paciente").value.trim();
+                const idMedico = document.getElementById("id_medico").value.trim();
 
-                if (idConsulta === "" || idCentro === "") {
+                if (idConsulta === "" || idCentro === "" || idPaciente === "" || idMedico === "") {
                     mostrarMensaje("Por favor, complete todos los campos obligatorios.", "red");
                     return false;
                 }

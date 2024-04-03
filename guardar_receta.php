@@ -21,9 +21,12 @@ if (isset($dataArray['receta']) && isset($dataArray['detalles_receta'])) {
     $receta = $dataArray['receta'];
     $detallesReceta = $dataArray['detalles_receta'];
 
-    // Insertar la prescripción médica
-    $sql_receta = "INSERT INTO prescripcion_medica (id_consulta, id_centro) 
-                   VALUES ('{$receta['id_consulta']}', '{$receta['id_centro']}')";
+    // Obtener la fecha y hora actual
+    $fechaHoraActual = date("Y-m-d H:i:s");
+
+    // Insertar la prescripción médica con la fecha y hora actual
+    $sql_receta = "INSERT INTO prescripcion_medica (id_consulta, id_centro, id_paciente, id_medico, fecha_hora) 
+                   VALUES ('{$receta['id_consulta']}', '{$receta['id_centro']}', '{$receta['id_paciente']}', '{$receta['id_medico']}', '$fechaHoraActual')";
 
     if ($conn->query($sql_receta) === TRUE) {
         $last_id = $conn->insert_id;
@@ -51,4 +54,3 @@ if (isset($dataArray['receta']) && isset($dataArray['detalles_receta'])) {
 
 // Cerrar la conexión a la base de datos
 mysqli_close($conn);
-?>
