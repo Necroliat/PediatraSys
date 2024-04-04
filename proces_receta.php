@@ -857,8 +857,8 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         modal.style.display = 'none';
                     }
                 </script>
-                <input type="checkbox" id="id_centro_na" name="id_centro_na">
-                <label for="id_centro_na">NA</label>
+               <!--  <input type="checkbox" id="id_centro_na" name="id_centro_na">
+                <label for="id_centro_na">NA</label> -->
                 <label id="nombre" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {

@@ -53,6 +53,8 @@ mysqli_close($conn);
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	<style>
 		/* Agrega estilos para resaltar los campos incompletos */
 		.campo-incompleto {
@@ -332,31 +334,55 @@ mysqli_close($conn);
 		.custom-modal {
 			display: none;
 			position: fixed;
-			z-index: 9999;
+			z-index: 1;
 			left: 0;
 			top: 0;
 			width: 100%;
 			height: 100%;
 			overflow: auto;
-			overflow: auto;
-			background-color: rgba(0, 0, 0, 0.7);
+			background-color: rgba(0, 0, 0, 0.4);
 		}
 
 		.custom-modal-content {
-			width: 80%;
-			height: 80%;
-			margin: auto;
-			background: linear-gradient(to right, #e4e5dc, #45bac9db);
+			opacity: 95%;
+			background-color: #fefefe;
+			margin: 5% auto 0;
+			/* Margen superior ajustado */
 			padding: 20px;
+			border: 1px solid #888;
 			border-radius: 20px;
+			width: 80%;
+			height: 50%;
+			max-width: 1100px;
+			background: linear-gradient(to right, #e4e5dc, #62c4f9);
+			/* Ancho máximo para el contenido */
+		}
 
-			/* Agregado para permitir desplazamiento si el contenido es demasiado grande */
-			box-sizing: border-box;
-			/* Asegura que el padding no afecte el tamaño total */
-			font-size: 12px;
-			/* Tamaño de fuente relativo al tamaño del contenedor */
-			max-width: 100%;
-			/* Evitar que el texto se salga del contenedor */
+		/* Centrar horizontalmente en pantallas pequeñas */
+		@media screen and (max-width: 600px) {
+			.custom-modal-content {
+				width: 90%;
+			}
+		}
+
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 20px;
+			/* Ajustar el tamaño de la fuente */
+			font-weight: bold;
+			color: #d06c6c;
+			padding: 6px 8px;
+			/* Ajustar el padding */
+			border-radius: 50%;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+			color: #cf2626;
 		}
 
 		.custom-modal-content p,
@@ -456,10 +482,15 @@ mysqli_close($conn);
 			font-weight: bold;
 			width: 65px;
 		}
-		.custom-modal-content p, table, th, td, tr {
-    font-size: 10px;
-    max-width: 100%;
-}
+
+		.custom-modal-content p,
+		table,
+		th,
+		td,
+		tr {
+			font-size: 10px;
+			max-width: 100%;
+		}
 	</style>
 	<script>
 		document.getElementById('btnguardar').addEventListener('click', function() {
@@ -792,20 +823,43 @@ mysqli_close($conn);
 				<legend>Historia Clínica</legend>
 				<label for="id_padecimiento">ID Padecimiento:</label>
 				<input type="text" id="id_padecimiento" style="width:110px">
-				<button id="busquedaHC" class="boton_bus" title="Buscar Padecimientos/enfermedades registrados/as">
+				<!-- <button id="busquedaHC" class="boton_bus"  title="Buscar Padecimientos/enfermedades registrados/as">
 					<i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i>
-				</button>
+				</button> -->
+				<button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModalHistoriaClinica()"><i class="fa-solid fa-magnifying-glass"></i></button>
+
 				<div>
 					<label for="Nombre_padecimiento">Nombre del padecimiento:</label>
 					<label id="nombre_padecimiento" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 				</div>
 				<div id="ModalHistoriaClinica" class="custom-modal">
 					<div class="custom-modal-content">
+						<span class="close" onclick="cerrarModalHistoriaClinica()"><span class="material-symbols-outlined">
+								cancel
+							</span></span>
+						<iframe id="modal-iframe" src="consulta_padecimientos.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+					</div>
+				</div>
+				<script>
+					// Función para mostrar el modal
+					function mostrarModalHistoriaClinica() {
+						var modal = document.getElementById('ModalHistoriaClinica');
+						modal.style.display = 'block';
+					}
+
+					// Función para cerrar el modal
+					function cerrarModalHistoriaClinica() {
+						var modal = document.getElementById('ModalHistoriaClinica');
+						modal.style.display = 'none';
+					}
+				</script>
+				<!-- <div id="ModalHistoriaClinica" class="custom-modal">
+					<div class="custom-modal-content">
 						<span class="close">&times;</span>
 						<iframe id="modal-iframe" src="consulta_padecimientos.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
 
 					</div>
-				</div>
+				</div> -->
 
 
 
@@ -874,22 +928,44 @@ mysqli_close($conn);
 				<div>
 					<label for="Id_seguro_salud">ID Seguro de Salud:</label>
 					<input type="text" id="Id_seguro_salud" name="Id_seguro_salud" title="Ingrese el ID del seguro de salud" placeholder="ID Seguro de Salud" oninput="buscarSeguro()" style="width:110px" required>
-					<button id="busquedaseguro" class="boton_bus" title="Buscar aseguradoras de salud registradas registrados/as">
+					<button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModalSeguros()"><i class="fa-solid fa-magnifying-glass"></i></button>
+					<!-- <button id="busquedaseguro" class="boton_bus" title="Buscar aseguradoras de salud registradas registrados/as">
 						<i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i>
-					</button>
+					</button> -->
 				</div>
 				<div>
 					<label for="Nombre_seguro">Nombre del Seguro:</label>
 					<label id="Nombre_seguro"></label>
 				</div>
 				<br>
+				<div id="ModalSeguros" class="custom-modal">
+					<div class="custom-modal-content">
+						<span class="close" onclick="cerrarModalSeguros()"><span class="material-symbols-outlined">
+								cancel
+							</span></span>
+						<iframe id="modal-iframe" src="consulta_seguros.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+					</div>
+				</div>
+				<script>
+					// Función para mostrar el modal
+					function mostrarModalSeguros() {
+						var modal = document.getElementById('ModalSeguros');
+						modal.style.display = 'block';
+					}
 
-				<div id="myModal" class="custom-modal">
+					// Función para cerrar el modal
+					function cerrarModalSeguros() {
+						var modal = document.getElementById('ModalSeguros');
+						modal.style.display = 'none';
+					}
+				</script>
+
+				<!-- <div id="myModal" class="custom-modal">
 					<div class="custom-modal-content">
 						<span class="close">&times;</span>
 						<iframe id="modal-iframe" src="consulta_seguros.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
 					</div>
-				</div>
+				</div> -->
 				<!-- Agrega un div para mostrar mensajes de error -->
 				<!--<div id="error-message"></div> -->
 			</fieldset>
@@ -901,9 +977,10 @@ mysqli_close($conn);
 				<div>
 					<label for="id_vacuna">ID Vacuna:</label>
 					<input type="text" id="id_vacuna" style="width: 115px;">
-					<button id="buscarvacuna" class="boton_bus" title="Buscar en los Seguros registrados">
+					<button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModalvacuna()"><i class="fa-solid fa-magnifying-glass"></i></button>
+					<!-- <button id="buscarvacuna" class="boton_bus" title="Buscar en los Seguros registrados">
 						<i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i>
-					</button>
+					</button> -->
 				</div>
 				<div>
 					<label for="Nombre_vacuna">Nombre de la Vacuna:</label>
@@ -911,10 +988,32 @@ mysqli_close($conn);
 				</div>
 				<div id="Modalvacuna" class="custom-modal">
 					<div class="custom-modal-content">
-						<span class="close">&times;</span>
+						<span class="close" onclick="cerrarModalvacuna()"><span class="material-symbols-outlined">
+								cancel
+							</span></span>
 						<iframe id="modal-iframe" src="consulta_vacunas.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
 					</div>
 				</div>
+				<script>
+					// Función para mostrar el modal
+					function mostrarModalvacuna() {
+						var modal = document.getElementById('Modalvacuna');
+						modal.style.display = 'block';
+					}
+
+					// Función para cerrar el modal
+					function cerrarModalvacuna() {
+						var modal = document.getElementById('Modalvacuna');
+						modal.style.display = 'none';
+					}
+				</script>
+
+				<!-- <div id="Modalvacuna" class="custom-modal">
+					<div class="custom-modal-content">
+						<span class="close">&times;</span>
+						<iframe id="modal-iframe" src="consulta_vacunas.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+					</div>
+				</div> -->
 
 
 				<div style="border-top:20px;">

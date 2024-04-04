@@ -39,6 +39,7 @@ $result = $conn->query($query);
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
   <style>
+    *{font-size: small;}
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 3px;
@@ -108,7 +109,7 @@ $result = $conn->query($query);
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },pageLength: 5 
       });
       var table = $('#tabla_seguros').DataTable();
       $('#tabla_seguros').on('click', 'tr', function() {
@@ -187,18 +188,18 @@ $result = $conn->query($query);
         // Cerrar el modal después de 2 segundos
         setTimeout(function() {
           fila.removeClass('resaltado');
-          window.parent.document.getElementById('myModal').style.display = 'none';
+          window.parent.document.getElementById('ModalSeguros').style.display = 'none';
         }, 800);
       });
 
       // Asignar un evento de clic al botón de cierre del modal
-      window.parent.document.querySelector('#myModal .close').addEventListener('click', function() {
+      window.parent.document.querySelector('#ModalSeguros .close').addEventListener('click', function() {
         // Cerrar el modal
-        window.parent.document.getElementById('myModal').style.display = 'none';
+        window.parent.document.getElementById('ModalSeguros').style.display = 'none';
       });
 
       // Evitar que el evento de clic en el modal cierre el modal
-      window.parent.document.querySelector('#myModal .modal-content').addEventListener('click', function(event) {
+      window.parent.document.querySelector('#ModalSeguros .modal-content').addEventListener('click', function(event) {
         event.stopPropagation();
       });
     });

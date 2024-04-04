@@ -49,14 +49,14 @@ $result = $conn->query($query);
       });
     });*/
 
-
+    
     $(document).ready(function() {
       $('#tabla_tipos_vacunas').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
         },
-        pageLength: 5 // Establecer el número de filas por página
+        pageLength: 3 // Establecer el número de filas por página
       });
     });
 
@@ -70,6 +70,7 @@ $result = $conn->query($query);
 
 
 <style>
+  *{font-size:small;}
   table,th, td, tr{
     border: 0.5px solid white;
   }
