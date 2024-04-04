@@ -234,6 +234,7 @@
         </div>
       </div>
     </a>
+    <a href="menu-consultas.php">
     <div class="card-wrapper">
       <div class="card">
         <div class="card-title">Consultas</div>
@@ -243,7 +244,7 @@
         </div>
       </div>
     </div>
-
+    </a>
     <div class="card-wrapper">
       <div class="card">
         <div class="card-title">Reportes</div>
