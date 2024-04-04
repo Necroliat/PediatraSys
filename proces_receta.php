@@ -1096,7 +1096,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
                 <!-- Elemento para mostrar mensajes de error -->
                 <p id="error-message" style="color: red; display: none;"></p>
-                <button id="btnGenerarReporte" onclick="generarReporte()">Generar Reporte de Prueba</button>
+                <button style="width: 211px;" class="btn btn-primary boton" id="btnGenerarReporte" onclick="generarReporte()"><i class="fa-solid fa-print"></i> Imprimir última Receta</button>
                 <script>
                     function generarReporte() {
                         // Realizar una solicitud AJAX para obtener el último registro de prescripción médica y detalle de prescripción médica
