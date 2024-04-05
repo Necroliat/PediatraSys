@@ -336,8 +336,8 @@
         <a href="consultas/consulta_centromedicoP.php"><button onmouseover="mostrarInformacionCatalogo('infoCatalogo3')" onmouseout="ocultarInformacionCatalogo('infoCatalogo3')"><i class="fa-solid fa-hospital"></i> Centro Médico</button></a>
         <a href="consultas/consulta_medicamentoP.php"> <button onmouseover="mostrarInformacionCatalogo('infoCatalogo4')" onmouseout="ocultarInformacionCatalogo('infoCatalogo4')"><i class="fa-solid fa-capsules"></i> Consulta Medicamentos</button></a>
         <a href="consultas/consulta_vacunasP.php"><button onmouseover="mostrarInformacionCatalogo('infoCatalogo5')" onmouseout="ocultarInformacionCatalogo('infoCatalogo5')"><i class="material-icons">vaccines</i> Consulta Vacunas</button></a>
-        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo6')" onmouseout="ocultarInformacionCatalogo('infoCatalogo6')"><i class="fa-solid fa-head-side-cough"></i> Consulta Padecimientos</button>
-        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo7')" onmouseout="ocultarInformacionCatalogo('infoCatalogo7')"><i class="fa-solid fa-flask-vial"></i> Consulta Laboratorio</button>
+        <a href="consultas/consulta_padecimientosP.php"><button onmouseover="mostrarInformacionCatalogo('infoCatalogo6')" onmouseout="ocultarInformacionCatalogo('infoCatalogo6')"><i class="fa-solid fa-head-side-cough"></i> Consulta Padecimientos</button></a>
+        <a href="consultas/consulta_laboratorioP.php"><button onmouseover="mostrarInformacionCatalogo('infoCatalogo7')" onmouseout="ocultarInformacionCatalogo('infoCatalogo7')"><i class="fa-solid fa-flask-vial"></i> Consulta Laboratorio</button></a>
       </div>
       <div class="contenido">
         <fieldset>
