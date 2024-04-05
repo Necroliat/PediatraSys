@@ -5,13 +5,13 @@
   <link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
   <!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -151,80 +151,261 @@
     * {
       font-size: medium;
     }
+
     fieldset {
-    border: 1px solid #ddd;
-    border-radius: 2vw;
-    background: linear-gradient(to right, #e4e5dc, #45bac9db);
-    padding: 1vw;
-    box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 2vw;
+      background: linear-gradient(to right, #e4e5dc, #45bac9db);
+      padding: 1vw;
+      box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
 
-  
-}
- .divisor {   /* Agregar grid */
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas con el mismo ancho */
-    grid-column-gap: 10px; /* Espacio entre columnas */
-    grid-row-gap: 10px; /* Espacio entre filas */}
-        fieldset fieldset legend {
-            font-size: 16px;
-            text-transform: uppercase;
-            padding-left: 10%;
-            padding-right: 10%;
-            background-color: transparent;
-        }
 
-        legend {
-            font-weight: bold;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 1vw;
-            background: linear-gradient(to right, #e4e5dc, #45bac9db);
-            border: solid 1px #45bac9db;
-            border-radius: 10px;
-            width: 100%;
-        }
+    }
+
+    .divisor {
+      /* Agregar grid */
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      /* 4 columnas con el mismo ancho */
+      grid-column-gap: 10px;
+      /* Espacio entre columnas */
+      grid-row-gap: 10px;
+      /* Espacio entre filas */
+    }
+
+    fieldset fieldset legend {
+      font-size: 16px;
+      text-transform: uppercase;
+      padding-left: 10%;
+      padding-right: 10%;
+      background-color: transparent;
+    }
+
+    legend {
+      font-weight: bold;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 1vw;
+      background: linear-gradient(to right, #e4e5dc, #45bac9db);
+      border: solid 1px #45bac9db;
+      border-radius: 10px;
+      width: 100%;
+    }
   </style>
-  <?php
+  <style>
+    fieldset {
+      border: 1px solid #ddd;
+      border-radius: 2vw;
+      background: linear-gradient(to right, #e4e5dc, #45bac9db);
+      padding: 1vw;
+      box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
+    }
 
-  //include("menu_lateral_header.php");
+    .divisor {
+      /* Agregar grid */
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      /* Dos columnas de igual ancho */
+      grid-column-gap: 10px;
+      /* Espacio entre columnas */
+    }
 
-  ?>
+    .botones {
+      /* Estilo para la columna de los botones */
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      /* Dos columnas de igual ancho */
+      grid-column-gap: 5px;
+      /* Espacio entre columnas */
+      grid-row-gap: 10px;
+      /* Espacio entre filas (separación vertical) */
+    }
+
+    .botones button {
+      /* Estilo para los botones dentro de la columna de botones */
+      width: 100%;
+      /* Los botones ocuparán todo el ancho de su contenedor */
+    }
+
+    /* Estilo para la descripción */
+    .descripcion {
+      display: none;
+      /* Por defecto, la descripción estará oculta */
+    }
+
+    /* Mostrar descripción al pasar el mouse sobre los botones */
+    .botones button:hover+.descripcion {
+      display: block;
+      /* Mostrar la descripción al pasar el mouse sobre el botón */
+    }
+  </style>
 </head>
 
-<?php
-//include("menu_lateral.php");
-?>
-
 <body>
-  <h1>MENU CONSULTAS Y REPORTES</h1>
+
   <fieldset id="Pacientes">
     <legend>Pacientes</legend>
-   <div class="divisor">
-   <a href="documento.php" class="btn btn-primary "><i class="fa-solid fa-hospital-user"></i>Consulta Paciente General</a>
-   <a href="documento.php" class="btn btn-primary "><i class="fa-solid fa-hospital-user"></i>Consulta Paciente General</a>
-   <a href="documento.php" class="btn btn-primary "><i class="fa-solid fa-hospital-user"></i>Consulta Paciente General</a>
-   <a href="documento.php" class="btn btn-primary "><i class="fa-solid fa-hospital-user"></i>Consulta Paciente General</a>
-
-
-   <a href="documento.php" class="btn btn-primary "><i class="fa-solid fa-hospital-user"></i>Consulta Paciente General</a>
-   <a href="documento.php" class="btn btn-primary "><i class="fa-solid fa-hospital-user"></i>Consulta Paciente General</a>
-   <a href="documento.php" class="btn btn-primary "><i class="fa-solid fa-hospital-user"></i>Consulta Paciente General</a>
-   <a href="documento.php" class="btn btn-primary "><i class="fa-solid fa-hospital-user"></i>Consulta Paciente General</a>
-   </div>
-   
-
+    <div class="divisor">
+      <div class="botones">
+        <button onmouseover="mostrarInformacion('info1')" onmouseout="ocultarInformacion('info1')"><i class="fa-solid fa-hospital-user"></i> Consulta Paciente General</button>
+        <button onmouseover="mostrarInformacion('info2')" onmouseout="ocultarInformacion('info2')"><i class="fa-solid fa-syringe"></i> Consulta Vacunas Paciente</button>
+        <button onmouseover="mostrarInformacion('info3')" onmouseout="ocultarInformacion('info3')"><span class="material-symbols-outlined">diagnosis</span> Historia clínica paciente</button>
+        <button onmouseover="mostrarInformacion('info4')" onmouseout="ocultarInformacion('info4')"><i class="fa-solid fa-people-roof"></i> Consulta Padres Pacientes</button>
+      </div>
+      <div class="contenido">
+        <fieldset>
+          <legend>Información de cada botón</legend>
+          <p id="infoBotonPacientes"></p>
+        </fieldset>
+      </div>
+    </div>
   </fieldset>
+
+  <script>
+    // Objeto que mapea el ID de la descripción con su contenido para Pacientes
+    var descripcionesPacientes = {
+      info1: "Información: Esta consulta proporciona información general sobre el paciente.",
+      info2: "Información: Esta consulta muestra las vacunas administradas al paciente.",
+      info3: "Información: Esta consulta presenta la historia clínica del paciente.",
+      info4: "Información: Esta consulta muestra información sobre los padres del paciente."
+    };
+
+    // Función para mostrar la información del botón de Pacientes
+    function mostrarInformacion(id) {
+      document.getElementById("infoBotonPacientes").textContent = descripcionesPacientes[id];
+    }
+
+    // Función para ocultar la información del botón de Pacientes
+    function ocultarInformacion(id) {
+      document.getElementById("infoBotonPacientes").textContent = "";
+    }
+  </script>
+
+
   <fieldset id="Médicos">
     <legend>Médicos</legend>
+    <div class="divisor">
+      <div class="botones">
+        <button onmouseover="mostrarInformacionMedico('infoMedico1')" onmouseout="ocultarInformacionMedico('infoMedico1')"><i class="fa-solid fa-user-doctor"></i> Médico General</button>
+        <button onmouseover="mostrarInformacionMedico('infoMedico2')" onmouseout="ocultarInformacionMedico('infoMedico2')"><i class="fa-solid fa-book-medical"></i> Trabajo/actividad Médico</button>
+        <button onmouseover="mostrarInformacionMedico('infoMedico3')" onmouseout="ocultarInformacionMedico('infoMedico3')"><i class="fa-solid fa-staff-snake"></i> Especialidad Médico</button>
+        <button onmouseover="mostrarInformacionMedico('infoMedico4')" onmouseout="ocultarInformacionMedico('infoMedico4')"><i class="fa-solid fa-calendar-days"></i> Horario Médico</button>
+        <button onmouseover="mostrarInformacionMedico('infoMedico5')" onmouseout="ocultarInformacionMedico('infoMedico5')"><i class="fa-solid fa-address-book"></i> Directorio Médico</button>
+      </div>
+      <div class="contenido">
+        <fieldset>
+          <legend>Información de cada botón</legend>
+          <p id="infoBotonMedicos"></p>
+        </fieldset>
+      </div>
+    </div>
   </fieldset>
+
+  <script>
+    // Objeto que mapea el ID de la descripción con su contenido para Médicos
+    var descripcionesMedicos = {
+      infoMedico1: "Información: Esta consulta proporciona información general sobre el médico.",
+      infoMedico2: "Información: Esta consulta muestra el trabajo y las actividades del médico.",
+      infoMedico3: "Información: Esta consulta muestra la especialidad del médico.",
+      infoMedico4: "Información: Esta consulta muestra el horario del médico.",
+      infoMedico5: "Información: Esta consulta muestra el directorio de médicos disponibles."
+    };
+
+    // Función para mostrar la información del botón de Médicos
+    function mostrarInformacionMedico(id) {
+      document.getElementById("infoBotonMedicos").textContent = descripcionesMedicos[id];
+    }
+
+    // Función para ocultar la información del botón de Médicos
+    function ocultarInformacionMedico(id) {
+      document.getElementById("infoBotonMedicos").textContent = "";
+    }
+  </script>
+
+
   <fieldset id="Catálogos datos médicos">
     <legend>Catálogos datos médicos</legend>
-
+    <div class="divisor">
+      <div class="botones">
+        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo1')" onmouseout="ocultarInformacionCatalogo('infoCatalogo1')"><i class="fa-solid fa-id-card-clip"></i> Seguros Médicos</button>
+        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo2')" onmouseout="ocultarInformacionCatalogo('infoCatalogo2')"><i class="material-icons">account_circle</i> Consulta Usuarios</button>
+        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo3')" onmouseout="ocultarInformacionCatalogo('infoCatalogo3')"><i class="fa-solid fa-hospital"></i> Centro Médico</button>
+        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo4')" onmouseout="ocultarInformacionCatalogo('infoCatalogo4')"><i class="fa-solid fa-capsules"></i> Consulta Medicamentos</button>
+        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo5')" onmouseout="ocultarInformacionCatalogo('infoCatalogo5')"><i class="material-icons">vaccines</i> Consulta Vacunas</button>
+        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo6')" onmouseout="ocultarInformacionCatalogo('infoCatalogo6')"><i class="fa-solid fa-head-side-cough"></i> Consulta Padecimientos</button>
+        <button onmouseover="mostrarInformacionCatalogo('infoCatalogo7')" onmouseout="ocultarInformacionCatalogo('infoCatalogo7')"><i class="fa-solid fa-flask-vial"></i> Consulta Laboratorio</button>
+      </div>
+      <div class="contenido">
+        <fieldset>
+          <legend>Información de cada botón</legend>
+          <p id="infoBotonCatalogo"></p>
+        </fieldset>
+      </div>
+    </div>
   </fieldset>
+
+  <script>
+    // Objeto que mapea el ID de la descripción con su contenido para Catálogos datos médicos
+    var descripcionesCatalogos = {
+      infoCatalogo1: "Información: Esta consulta muestra los seguros médicos disponibles.",
+      infoCatalogo2: "Información: Esta consulta permite consultar usuarios.",
+      infoCatalogo3: "Información: Esta consulta muestra el centro médico.",
+      infoCatalogo4: "Información: Esta consulta muestra los medicamentos disponibles.",
+      infoCatalogo5: "Información: Esta consulta muestra las vacunas disponibles.",
+      infoCatalogo6: "Información: Esta consulta muestra los padecimientos disponibles.",
+      infoCatalogo7: "Información: Esta consulta muestra los laboratorios disponibles."
+    };
+
+    // Función para mostrar la información del botón de Catálogos datos médicos
+    function mostrarInformacionCatalogo(id) {
+      document.getElementById("infoBotonCatalogo").textContent = descripcionesCatalogos[id];
+    }
+
+    // Función para ocultar la información del botón de Catálogos datos médicos
+    function ocultarInformacionCatalogo(id) {
+      document.getElementById("infoBotonCatalogo").textContent = "";
+    }
+  </script>
+
+
   <fieldset id="Procesos">
     <legend>Procesos</legend>
+    <div class="divisor">
+      <div class="botones">
+        <button onmouseover="mostrarInformacionProceso('infoProceso1')" onmouseout="ocultarInformacionProceso('infoProceso1')"><i class="fa-solid fa-house-chimney-medical"></i> Consultas Médicas</button>
+        <button onmouseover="mostrarInformacionProceso('infoProceso2')" onmouseout="ocultarInformacionProceso('infoProceso2')"><i class="fa-solid fa-prescription"></i> Consulta Recetas Médicas</button>
+        <button onmouseover="mostrarInformacionProceso('infoProceso3')" onmouseout="ocultarInformacionProceso('infoProceso3')"><i class="fa-solid fa-file-medical"></i> Consulta Certificados Médicos</button>
+      </div>
+      <div class="contenido">
+        <fieldset>
+          <legend>Información de cada botón</legend>
+          <p id="infoBotonProcesos"></p>
+        </fieldset>
+      </div>
+    </div>
   </fieldset>
+
+  <script>
+    // Objeto que mapea el ID de la descripción con su contenido para Procesos
+    var descripcionesProcesos = {
+      infoProceso1: "Información: Esta consulta muestra los procesos de consultas médicas.",
+      infoProceso2: "Información: Esta consulta permite consultar recetas médicas.",
+      infoProceso3: "Información: Esta consulta permite consultar certificados médicos."
+    };
+
+    // Función para mostrar la información del botón de Procesos
+    function mostrarInformacionProceso(id) {
+      document.getElementById("infoBotonProcesos").textContent = descripcionesProcesos[id];
+    }
+
+    // Función para ocultar la información del botón de Procesos
+    function ocultarInformacionProceso(id) {
+      document.getElementById("infoBotonProcesos").textContent = "";
+    }
+  </script>
+
   <!--  <div style="width:100%; padding: 6px; width: 100%; display: flex; flex-direction: column; align-items: center;">
     <h3 style="padding: 1%;text-align: center;text-transform: uppercase;font-family: bitter; color:black; padding: 5px; width: 100%; display: flex; flex-direction: column; align-items: center; font-weight:bolder;">Menú de procesos</h3>
     <img src="IMAGENES\app90.png" class="" alt="crud" height="48" width="48">
