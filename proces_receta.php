@@ -737,7 +737,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <!-- ID Consulta -->
                 <hr>
                 <label for="id_consulta">ID Consulta</label>
-                <input type="text" id="id_consulta" name="id_consulta">
+                <input type="text" id="id_consulta" name="id_consulta" required>
                 <script>
                     $("#id_consulta").on("input", function() {
                         var idconsulta = $(this).val();
@@ -833,7 +833,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <!-- ID Centro -->
                 <hr>
                 <label for="id_centro">ID Centro</label>
-                <input type="text" id="id_centro" name="id_centro">
+                <input type="text" id="id_centro" name="id_centro" required>
 
                 <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModal2()"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <div id="ModalCENTRO" class="custom-modal">
@@ -857,7 +857,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         modal.style.display = 'none';
                     }
                 </script>
-               <!--  <input type="checkbox" id="id_centro_na" name="id_centro_na">
+                <!--  <input type="checkbox" id="id_centro_na" name="id_centro_na">
                 <label for="id_centro_na">NA</label> -->
                 <label id="nombre" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
                 <script>
@@ -1092,7 +1092,8 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
 
                 <!-- Botón para guardar -->
-                <button class="btn btn-primary boton" type="button" onclick="guardarReceta()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                <button class="btn btn-primary boton" type="button" onclick="verificarYGuardarReceta()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+
 
                 <!-- Elemento para mostrar mensajes de error -->
                 <p id="error-message" style="color: red; display: none;"></p>
@@ -1325,24 +1326,74 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             }
 
             function verificarCamposCompletos() {
+                const camposVacios = []; // Array para almacenar los nombres de los campos vacíos
+
+                // Obtener valores de los campos del formulario
                 const idConsulta = document.getElementById("id_consulta").value.trim();
                 const idCentro = document.getElementById("id_centro").value.trim();
                 const idPaciente = document.getElementById("id_paciente").value.trim();
                 const idMedico = document.getElementById("id_medico").value.trim();
 
-                if (idConsulta === "" || idCentro === "" || idPaciente === "" || idMedico === "") {
-                    mostrarMensaje("Por favor, complete todos los campos obligatorios.", "red");
-                    return false;
+                // Validar si los campos obligatorios del encabezado están vacíos
+                if (idConsulta === "") camposVacios.push("Consulta");
+                if (idCentro === "") camposVacios.push("Centro");
+                if (idPaciente === "") camposVacios.push("Paciente");
+                if (idMedico === "") camposVacios.push("Médico");
+
+                // Validar si hay detalles de receta
+                const tablaDetalle = document.getElementById("tabla_detalle");
+                const filasDetalle = tablaDetalle.getElementsByTagName("tr");
+
+                if (filasDetalle.length <= 1) {
+                    mostrarMensaje("Por favor, agregue al menos un medicamento a la receta.", "red");
+                    return false; // Devolver falso si no hay detalles de receta
                 }
 
-                return true;
+                // Iterar sobre las filas de detalles de receta para verificar campos vacíos
+                for (let i = 1; i < filasDetalle.length; i++) {
+                    const fila = filasDetalle[i];
+                    const idMedicamento = fila.cells[0].textContent.trim();
+                    const cantidad = fila.cells[2].textContent.trim();
+                    const unidadMedida = fila.cells[3].textContent.trim();
+                    const frecuencia = fila.cells[4].textContent.trim();
+                    const tiempoUso = fila.cells[5].textContent.trim();
+
+                    // Verificar si algún campo de detalle de receta está vacío
+                    if (idMedicamento === "" || cantidad === "" || unidadMedida === "" || frecuencia === "" || tiempoUso === "") {
+                        camposVacios.push("Medicamento en fila " + i);
+                    }
+                }
+
+                // Mostrar mensaje si hay campos vacíos
+                if (camposVacios.length > 0) {
+                    const mensaje = "Por favor, complete los siguientes campos:\n" + camposVacios.join("\n");
+                    mostrarMensaje(mensaje, "red");
+                    return false; // Devolver falso si hay campos vacíos
+                }
+
+                return true; // Devolver verdadero si todos los campos están completos
             }
 
-            document.getElementById("btnguardar").addEventListener("click", function(event) {
-                event.preventDefault();
+            function mostrarMensaje(camposVacios, color) {
+                let mensaje = "Por favor, complete los siguientes campos:\n";
+                for (let i = 0; i < camposVacios.length; i++) {
+                    mensaje += "- " + camposVacios[i] + "\n";
+                }
+                alert(mensaje); // Mostrar el mensaje con una alerta
+            }
+
+
+            // Define la función verificarYGuardarReceta fuera del evento click
+            function verificarYGuardarReceta() {
                 if (verificarCamposCompletos()) {
                     guardarReceta();
                 }
+            }
+
+            // Agrega el evento click al botón
+            document.getElementById("btnguardar").addEventListener("click", function(event) {
+                event.preventDefault(); // Previene el comportamiento predeterminado del botón
+                verificarYGuardarReceta(); // Llama a la función para verificar y guardar la receta
             });
         </script>
 
