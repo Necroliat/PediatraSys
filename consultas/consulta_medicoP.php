@@ -13,20 +13,20 @@ if ($conn->connect_error) {
   die("Error de conexión: " . $conn->connect_error);
 }
 
-// Consulta para obtener los datos de la tabla "paciente"
-$query = "SELECT id_paciente, nombre, apellido, sexo, fecha_nacimiento, Nacionalidad, Con_quien_vive, Direccion_reside FROM paciente";
+// Consulta para obtener los datos de la tabla "medicos"
+$query = "SELECT m.id_medico, m.cedula, m.exequatur, m.nombre, m.apellido, e.especialidad FROM medicos m JOIN especialidad e ON m.id_especialidad = e.id_especialidad";
 $result = $conn->query($query);
 
-// Función para obtener los datos del paciente por ID
-function obtenerDatosPaciente($idPaciente, $conn)
+// Función para obtener los datos del médico por ID
+function obtenerDatosMedico($idMedico, $conn)
 {
-  $query = "SELECT nombre, apellido FROM paciente WHERE id_paciente = '$idPaciente'";
+  $query = "SELECT nombre, apellido FROM medicos WHERE id_medico = '$idMedico'";
   $result = $conn->query($query);
 
   if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $datosPaciente = array('nombre' => $row['nombre'], 'apellido' => $row['apellido']);
-    return $datosPaciente;
+    $datosMedico = array('nombre' => $row['nombre'], 'apellido' => $row['apellido']);
+    return $datosMedico;
   } else {
     return false;
   }
@@ -40,14 +40,14 @@ function obtenerDatosPaciente($idPaciente, $conn)
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta/Reporte General de los Pacientes</title>
+  <title>Consulta de Médicos</title>
   <!-- Enlaces a los archivos CSS de DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
   <!-- Enlaces a los scripts de JavaScript de jQuery y DataTables -->
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-
-  <!-- Enlaces a los archivos CSS externos -->
+    
+    <!-- Enlaces a los archivos CSS externos -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 
@@ -69,7 +69,8 @@ function obtenerDatosPaciente($idPaciente, $conn)
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
   <meta charset="UTF-8">
-  <style>
+
+ <style>
     body {
       background: linear-gradient(to right, #E8A9F7, #e4e5dc);
     }
@@ -219,8 +220,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
       width: 100%;
     }
   </style>
-
-  <style>
+    <style>
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 3px;
@@ -238,12 +238,12 @@ function obtenerDatosPaciente($idPaciente, $conn)
       background-color: #A8A4DE;
     }
 
-    #tabla_pacientes tbody tr:hover {
+    #tabla_medicos tbody tr:hover {
       background-color: #A8A4DE;
       cursor: pointer;
     }
 
-    #tabla_pacientes tbody tr:active {
+    #tabla_medicos tbody tr:active {
       background-color: #5bc0f7;
       cursor: pointer;
       border: 4px solid red;
@@ -282,8 +282,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
       background: linear-gradient(to right, #84e788, #05c20e);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
       text-align: center;
-    }
-    .centrado {
+    } .centrado {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -299,63 +298,59 @@ function obtenerDatosPaciente($idPaciente, $conn)
     <div class="centrado">
             <img src="../IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
         </div>
-    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Consulta de Pacientes</h2>
-    <h3 style="padding:0; text-align: center; ">PediatraSys</h3>
+    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Consulta de Médicos</h2>
+  <h3 style="padding:0; margin:0;text-align: center;">PediatraSys</h3>
 
-    <table id="tabla_pacientes" class="display">
-      <thead>
-        <tr>
-          <th>ID Paciente</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Sexo</th>
-          <th>Fecha Nacimiento</th>
-          <th>Nacionalidad</th>
-          <th>Con Quién Vive</th>
-          <th>Dirección Reside</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        // Iterar a través de los resultados de la consulta y generar filas en la tabla
-        if ($result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row["id_paciente"] . "</td>";
-            echo "<td>" . $row["nombre"] . "</td>";
-            echo "<td>" . $row["apellido"] . "</td>";
-            echo "<td>" . $row["sexo"] . "</td>";
-            echo "<td>" . $row["fecha_nacimiento"] . "</td>";
-            echo "<td>" . $row["Nacionalidad"] . "</td>";
-            echo "<td>" . $row["Con_quien_vive"] . "</td>";
-            echo "<td>" . $row["Direccion_reside"] . "</td>";
-            echo "</tr>";
-          }
-        } else {
-          echo "<tr><td colspan='8'>No se encontraron resultados.</td></tr>";
+  <table id="tabla_medicos" class="display">
+    <thead>
+      <tr>
+        <th>ID Médico</th>
+        <th>Cédula</th>
+        <th>Exequátur</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Especialidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      // Iterar a través de los resultados de la consulta y generar filas en la tabla
+      if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+          echo "<tr>";
+          echo "<td>" . $row["id_medico"] . "</td>";
+          echo "<td>" . $row["cedula"] . "</td>";
+          echo "<td>" . $row["exequatur"] . "</td>";
+          echo "<td>" . $row["nombre"] . "</td>";
+          echo "<td>" . $row["apellido"] . "</td>";
+          echo "<td>" . $row["especialidad"] . "</td>";
+          echo "</tr>";
         }
-        ?>
-      </tbody>
-    </table>
-
+      } else {
+        echo "<tr><td colspan='6'>No se encontraron resultados.</td></tr>";
+      }
+      ?>
+    </tbody>
+  </table>
     <a href="../menu-consultas.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
       <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">reply</i> atrás
     </a>
   </fieldset>
-  <script>
-    /*$(document).ready(function() {
-      $('#tabla_pacientes').DataTable({
+<script>
+   /*  $(document).ready(function() {
+      $('#tabla_medicos').DataTable({
         dom: 'Bfrtip',
         buttons: [
           'copy', 'csv', 'excel', 'pdf', 'print'
         ],
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json', // Ruta al archivo de traducción
         }
       });
     });*/
-  </script>
-    <script>
+ </script>  
+    
+  <script>
    function configurarTabla() {
   var idioma = {
     "processing": "Procesando...",
@@ -602,7 +597,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
     "infoThousands": "."
   };
   
-  $('#tabla_pacientes').DataTable({
+  $('#tabla_medicos').DataTable({
     dom: 'Bfrtip',
     buttons: [
       'copy', 'csv', 'excel', 'pdf', 'print'
