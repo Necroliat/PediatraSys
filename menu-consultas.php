@@ -175,7 +175,7 @@
     }
 
     fieldset fieldset legend {
-      font-size: 16px;
+      font-size: 14px;
       text-transform: uppercase;
       padding-left: 10%;
       padding-right: 10%;
@@ -184,7 +184,8 @@
 
     legend {
       font-weight: bold;
-      font-size: 16px;
+      font-size: 18px;
+      text-transform: uppercase;
       font-weight: bold;
       margin-bottom: 1vw;
       background: linear-gradient(to right, #e4e5dc, #45bac9db);
@@ -249,14 +250,14 @@
     <legend>Pacientes</legend>
     <div class="divisor">
       <div class="botones">
-        <button onmouseover="mostrarInformacion('info1')" onmouseout="ocultarInformacion('info1')"><i class="fa-solid fa-hospital-user"></i> Consulta Paciente General</button>
+        <a href="consultas/consulta_paciente_p.php"><button onmouseover="mostrarInformacion('info1')" onmouseout="ocultarInformacion('info1')"><i class="fa-solid fa-hospital-user"></i> Consulta Paciente General</button></a>
         <button onmouseover="mostrarInformacion('info2')" onmouseout="ocultarInformacion('info2')"><i class="fa-solid fa-syringe"></i> Consulta Vacunas Paciente</button>
         <button onmouseover="mostrarInformacion('info3')" onmouseout="ocultarInformacion('info3')"><span class="material-symbols-outlined">diagnosis</span> Historia clínica paciente</button>
         <button onmouseover="mostrarInformacion('info4')" onmouseout="ocultarInformacion('info4')"><i class="fa-solid fa-people-roof"></i> Consulta Padres Pacientes</button>
       </div>
       <div class="contenido">
         <fieldset>
-          <legend>Información de cada botón</legend>
+          <legend>INFORMACIÓN ADICIONAL</legend>
           <p id="infoBotonPacientes"></p>
         </fieldset>
       </div>
@@ -285,7 +286,7 @@
 
 
   <fieldset id="Médicos">
-    <legend>Médicos</legend>
+    <legend>MÉDICOS</legend>
     <div class="divisor">
       <div class="botones">
         <button onmouseover="mostrarInformacionMedico('infoMedico1')" onmouseout="ocultarInformacionMedico('infoMedico1')"><i class="fa-solid fa-user-doctor"></i> Médico General</button>
@@ -296,7 +297,7 @@
       </div>
       <div class="contenido">
         <fieldset>
-          <legend>Información de cada botón</legend>
+          <legend>Información ADICIONAL</legend>
           <p id="infoBotonMedicos"></p>
         </fieldset>
       </div>
@@ -339,7 +340,7 @@
       </div>
       <div class="contenido">
         <fieldset>
-          <legend>Información de cada botón</legend>
+          <legend>INFORMACIÓN ADICIONAL</legend>
           <p id="infoBotonCatalogo"></p>
         </fieldset>
       </div>
@@ -380,7 +381,7 @@
       </div>
       <div class="contenido">
         <fieldset>
-          <legend>Información de cada botón</legend>
+          <legend>INFORMACIÓN ADICIONAL</legend>
           <p id="infoBotonProcesos"></p>
         </fieldset>
       </div>
@@ -406,73 +407,7 @@
     }
   </script>
 
-  <!--  <div style="width:100%; padding: 6px; width: 100%; display: flex; flex-direction: column; align-items: center;">
-    <h3 style="padding: 1%;text-align: center;text-transform: uppercase;font-family: bitter; color:black; padding: 5px; width: 100%; display: flex; flex-direction: column; align-items: center; font-weight:bolder;">Menú de procesos</h3>
-    <img src="IMAGENES\app90.png" class="" alt="crud" height="48" width="48">
-    <div class="botones-container" style="margin-top:0%;">
-      <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
-        <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
-      </a>
-      <a id="redireccionar" href="#" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
-        <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
-      </a>
-      <script>
-      document.getElementById("redireccionar").addEventListener("click", function(event) {
-        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-        window.top.location.href = "index.php"; // Redirige a menuadmin.php en la ventana principal
-      });
-    </script>
-    </div>
-  </div>
-
-  <div class="card-container">
-    <a href="proces_citas.php">
-      <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">CITAS</div>
-          <img src="IMAGENES/citamedica-64.png" class="card-icon" alt="Mantenimientos">
-          <div class="card-description">
-          <p>Generar las citas</p>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <a href="report_certificadomed.php">
-      <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">Cert. Médico</b></div>
-          <img src="IMAGENES/certificado-98.png" class="card-icon" alt="Procesos">
-          <div class="card-description">
-            <p>Generar Certificado Medico.</p>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <a href="proces_consulta.php">
-      <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">Consulta Medica</b></div>
-          <img src="IMAGENES/consulta-64.png" class="card-icon" alt="Procesos">
-          <div class="card-description">
-            <p>Proceso consulta, Médico - Paciente.</p>
-          </div>
-        </div>
-      </div>
-    </a>
-   
-    <a href="proces_receta.php">
-      <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">Receta</b></div>
-          <img src="IMAGENES/receta-100.png" class="card-icon" alt="Procesos">
-          <div class="card-description">
-            <p>Proceso hacer recetas.</p>
-          </div>
-        </div>
-      </div>
-    </a> -->
+ 
 
 </body>
 

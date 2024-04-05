@@ -56,7 +56,7 @@ $result = $conn->query($query);
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
         },
-        pageLength: 3 // Establecer el número de filas por página
+        pageLength: 2 // Establecer el número de filas por página
       });
     });
 
