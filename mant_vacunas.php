@@ -29,6 +29,11 @@ $result = $conn->query($query);
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
     <!-- Otros enlaces y scripts necesarios -->
     <style>
         .caja {
@@ -64,7 +69,7 @@ $result = $conn->query($query);
             margin-left: 10%;
             margin-right: 10%;
             padding: 0;
-          
+
         }
 
         /* Añadí una regla para eliminar el margen del cuerpo del documento */
@@ -258,7 +263,8 @@ $result = $conn->query($query);
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
         }
     </style>
-    <?php //include("menu_lateral_header.php"); ?>
+    <?php //include("menu_lateral_header.php"); 
+    ?>
 </head>
 <?php
 //include("menu_lateral.php");
@@ -281,11 +287,11 @@ $result = $conn->query($query);
             <iframe id="modal-iframe" src="consulta_vacunas2.php" frameborder="0" style="width: 100%; height: 100%; max-height: 400px;"></iframe>
         </div>
 
-   
 
-        
-         </fieldset>
-         <div style="margin-top:-10%;padding:0; height:0cm;">
+
+
+        </fieldset>
+        <div style="margin-top:-10%;padding:0; height:0cm;">
             <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                 <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
             </a>

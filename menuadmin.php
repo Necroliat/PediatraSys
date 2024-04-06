@@ -399,7 +399,7 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
 
-                  <a href="#" onclick="" class="nav-link">
+                  <a href="#" onclick="cambiarIframe('proces_receta.php')" class="nav-link">
                     <i class="fa-solid fa-file-prescription"></i>
                     <p>Recetas</p>
                   </a>
