@@ -1403,7 +1403,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                      return false; // Devolver falso si hay campos vacíos
                  }
 
-                 return true; // Devolver verdadero si todos los campos están completos
+                 return true; // Devolver verdadero si todos los campos están completosdddd
              } */
 
             function verificarCamposCompletos() {
