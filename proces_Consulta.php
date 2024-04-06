@@ -587,6 +587,42 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             background-color: yellow;
             /* Estilo de resaltado */
         }
+
+
+
+
+
+
+        #tabla_detalle button {
+            padding: 6px 10px;
+            border: none;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        #tabla_detalle button:hover {
+            background-color: #c82333;
+        }
+
+        /* Resaltar la fila al hacer clic en ella */
+        #tabla_detalle tbody tr.resaltado {
+            background-color: #A8A4DE;
+            /* Cambia el color de fondo como prefieras */
+        }
+
+        /* Resaltar la fila al pasar el mouse sobre ella */
+        #tabla_detalle tbody tr.resaltado-hover {
+            background-color: #E0E0E0;
+            /* Cambia el color de fondo como prefieras */
+        }
+
+        #tabla_detalle tbody tr.nueva-fila {
+            background-color: yellow;
+            /* Estilo de resaltado */
+        }
     </style>
 
 
@@ -683,7 +719,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         <form id="formulario_consulta" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
             <!-- Encabezado de consulta -->
-            <fieldset style="width: 60%; float: left;">
+            <fieldset style="width: 50%; float: left;">
                 <legend>Consulta de Pacientes</legend>
                 <label for="id_consulta">ID Consulta:</label>
                 <input type="text" id="id_consulta" name="id_consulta" value="<?php echo $idConsulta; ?>" readonly>
@@ -924,40 +960,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         });
 
 
-                        /*  $(document).ready(function() {
-                             // Resaltar la fila al pasar el mouse sobre ella
-                             $('#tabla_detalle_consulta tbody').on('mouseover', 'tr', function() {
-                                 $(this).addClass('resaltado');
-                             });
-
-                             // Quitar el resaltado cuando se quite el mouse de la fila
-                             $('#tabla_detalle_consulta tbody').on('mouseout', 'tr', function() {
-                                 $(this).removeClass('resaltado');
-                             });
-                         }); */
-
-                        /*                        function agregarFila() {
-                                                   var idTrabajoMedico = $("#id_trabajo_medico").val();
-                                                   var descripcionTrabajoMedico = $("#descripcion_trabajo_medico").text();
-
-                                                   if (idTrabajoMedico !== '' && descripcionTrabajoMedico !== '') {
-                                                       var newRow = "<tr><td style='display:none;'>0</td><td style='display:none;'>0</td><td>" + idTrabajoMedico + "</td><td>" + descripcionTrabajoMedico + "</td><td>Observación</td><td><button type='button' onclick='eliminarFila(this)' class='btn btn-danger'><i class='fa-solid fa-circle-minus'></i> Eliminar</button></td></tr>";
-                                                       $("#tabla_detalle_consulta tbody").append(newRow);
-                                                   } else {
-                                                       var errorMessage = "";
-                                                       if (idTrabajoMedico === '') {
-                                                           errorMessage += "El ID del trabajo médico está vacío.\n";
-                                                       }
-                                                       if (descripcionTrabajoMedico === '') {
-                                                           errorMessage += "La descripción del trabajo médico está vacía.";
-                                                       }
-                                                       alert(errorMessage);
-                                                   }
-                                               }
-
-                                               function eliminarFila(button) {
-                                                   $(button).closest('tr').remove();
-                                               } */
+                      
                         function agregarFila() {
                             var idTrabajoMedico = document.getElementById('id_trabajo_medico').value;
                             var descripcionTrabajoMedico = document.getElementById('descripcion_trabajo_medico').textContent;
@@ -1060,7 +1063,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             </fieldset>
 
             <!-- Historial de consultas -->
-            <fieldset style="width: 40%; float: right;">
+            <fieldset style="width: 50%; float: right;">
                 <legend>Historial de Consultas</legend>
                 <!--  <table id="historial_consultas"> -->
                 <div id="historial_consultas" style="font-size:8px;"></div>

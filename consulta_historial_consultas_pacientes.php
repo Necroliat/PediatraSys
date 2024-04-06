@@ -39,7 +39,38 @@ $result = $conn->query($query);
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
     <style>
-        /* Estilos CSS */
+        /* Estilos para la tabla */
+        #tabla_consultas {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Estilos para las celdas del encabezado de la tabla */
+        #tabla_consultas th {
+            background-color: #f2f2f2;
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Estilos para las celdas de datos de la tabla */
+        #tabla_consultas td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+        }
+
+        #tabla_consultas {
+            width: 45%;
+            /* Establecer el ancho máximo de la tabla */
+        }
+
+        #tabla_consultas th,
+        #tabla_consultas td {
+            max-width: 100px;
+            /* Ancho máximo de las celdas */
+            word-wrap: break-word;
+            /* Permitir que el texto largo se divida en múltiples líneas */
+        }
     </style>
 </head>
 
@@ -79,9 +110,26 @@ $result = $conn->query($query);
         echo "<p>No se encontraron consultas para el paciente y médico especificados.</p>";
     }
     ?>
-
     <script>
-        $(document).ready(function () {
+        window.addEventListener('DOMContentLoaded', function() {
+            // Obtener todas las filas de la tabla
+            const filas = document.querySelectorAll('#tabla_consultas tbody tr');
+
+            // Iterar sobre cada fila y ajustar su altura según el contenido de las celdas
+            filas.forEach(function(fila) {
+                // Obtener la altura máxima de las celdas de diagnóstico y tratamiento en la fila
+                const maxAltura = Math.max(
+                    fila.querySelector('td:nth-child(4)').scrollHeight,
+                    fila.querySelector('td:nth-child(5)').scrollHeight
+                );
+
+                // Establecer la altura de la fila como la altura máxima + 20px (para un margen)
+                fila.style.height = maxAltura + 20 + 'px';
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
             $('#tabla_consultas').DataTable({
                 dom: 'frtip', // Mostrar solo búsqueda y paginación
                 language: {
