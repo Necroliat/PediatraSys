@@ -1217,10 +1217,13 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 const frecuencia = document.getElementById("frecuencia").value;
                 const tiempoUso = document.getElementById("tiempo_uso").value;
 
-                if (idMedicamento === "" || nombreMedicamento === "" || cantidad === "" || unidadMedida === "" || frecuencia === "" || tiempoUso === "") {
+                if (idMedicamento === "" || nombreMedicamento === "" || cantidad === "" || unidadMedida === "" || frecuencia === "" || tiempoUso === ""|| cantidad === "0"|| tiempoUso === "0") {
                     // Mostrar mensaje de error si algún campo está vacío
                     const errorMessageDiv = document.getElementById("error-message");
                     errorMessageDiv.textContent = "Error: Todos los campos del detalle de receta son obligatorios.";
+                    if (cantidad === "0"|| tiempoUso === "0"){
+                        errorMessageDiv.textContent =errorMessageDiv.textContent+" Cantidad y/o tiempo tiene que ser mayor que 0(cero)";
+                    }
                     errorMessageDiv.style.display = "block"; // Mostrar el mensaje de error
                     errorMessageDiv.style.color = "red";
                     return;
@@ -1447,7 +1450,28 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 if (nombrecentro === "") {
                     camposVacios.push("Nombre del Centro de Salud (Información faltante)");
                 }
+                // Validar si hay detalles de receta
+                const tablaDetalle = document.getElementById("tabla_detalle");
+                 const filasDetalle = tablaDetalle.getElementsByTagName("tr");
 
+                 if (filasDetalle.length <= 1) {
+                     camposVacios.push("No hay ni 1 solo Medicamento (Detalle de receta vacío)");
+                 } else {
+                     // Iterar sobre las filas de detalles de receta para verificar campos vacíos
+                     for (let i = 1; i < filasDetalle.length; i++) {
+                         const fila = filasDetalle[i];
+                         const idMedicamento = fila.cells[0].textContent.trim();
+                         const cantidad = fila.cells[2].textContent.trim();
+                         const unidadMedida = fila.cells[3].textContent.trim();
+                         const frecuencia = fila.cells[4].textContent.trim();
+                         const tiempoUso = fila.cells[5].textContent.trim();
+
+                         // Verificar si algún campo de detalle de receta está vacío
+                         if (idMedicamento === "" || cantidad === "" || unidadMedida === "" || frecuencia === "" || tiempoUso === "") {
+                             camposVacios.push(`Medicamento en fila ${i} (Información faltante detalle de receta)`);
+                         }
+                     }
+                 }
                 // Mostrar mensaje si hay campos vacíos
                 if (camposVacios.length > 0) {
                     const mensaje = "Por favor, complete o corrija la información en los siguientes campos:\n" + camposVacios.join("\n");
