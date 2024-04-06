@@ -202,7 +202,8 @@
       background: linear-gradient(to right, #e4e5dc, #45bac9db);
       padding: 1vw;
       box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-      margin-bottom: 10px;
+      margin-left: 7%;
+      margin-right: 7%;
     }
 
     .divisor {
@@ -254,7 +255,7 @@
         <a href="consultas/consulta_paciente_p.php"><button onmouseover="mostrarInformacion('info1')" onmouseout="ocultarInformacion('info1')"><i class="fa-solid fa-hospital-user"></i> Consulta Paciente General</button></a>
         <button onmouseover="mostrarInformacion('info2')" onmouseout="ocultarInformacion('info2')"><i class="fa-solid fa-syringe"></i> Consulta Vacunas Paciente</button>
         <button onmouseover="mostrarInformacion('info3')" onmouseout="ocultarInformacion('info3')"><span class="material-symbols-outlined">diagnosis</span> Historia clínica paciente</button>
-        <button onmouseover="mostrarInformacion('info4')" onmouseout="ocultarInformacion('info4')"><i class="fa-solid fa-people-roof"></i> Consulta Padres Pacientes</button>
+        <a href="consultas/consulta_padrespacientesP.php"><button onmouseover="mostrarInformacion('info4')" onmouseout="ocultarInformacion('info4')"><i class="fa-solid fa-people-roof"></i> Consulta Padres Pacientes</button></a>
       </div>
       <div class="contenido">
         <fieldset>
@@ -292,7 +293,7 @@
       <div class="botones">
        <a href="consultas/consulta_medicoP.php"> <button onmouseover="mostrarInformacionMedico('infoMedico1')" onmouseout="ocultarInformacionMedico('infoMedico1')"><i class="fa-solid fa-user-doctor"></i> Médico General</button></a>
        <a href="consultas/consulta_trabajomedicoP.php"><button onmouseover="mostrarInformacionMedico('infoMedico2')" onmouseout="ocultarInformacionMedico('infoMedico2')"><i class="fa-solid fa-book-medical"></i> Trabajo/actividad Médico/a</button></a>
-        <button onmouseover="mostrarInformacionMedico('infoMedico3')" onmouseout="ocultarInformacionMedico('infoMedico3')"><i class="fa-solid fa-staff-snake"></i> Especialidad Médico</button>
+       <a href="consultas/consulta_especialidadP.php"><button onmouseover="mostrarInformacionMedico('infoMedico3')" onmouseout="ocultarInformacionMedico('infoMedico3')"><i class="fa-solid fa-staff-snake"></i> Especialidad Médico</button></a>
         <button onmouseover="mostrarInformacionMedico('infoMedico4')" onmouseout="ocultarInformacionMedico('infoMedico4')"><i class="fa-solid fa-calendar-days"></i> Horario Médico</button>
         <button onmouseover="mostrarInformacionMedico('infoMedico5')" onmouseout="ocultarInformacionMedico('infoMedico5')"><i class="fa-solid fa-address-book"></i> Directorio Médico</button>
       </div>
