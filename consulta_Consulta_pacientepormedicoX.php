@@ -119,7 +119,7 @@ $conn->close(); */
   <table id="tabla_consultas" class="display">
     <thead>
     <tr>
-        <th>ID Consulta</th>
+        <th>ID Consult</th>
         <th>ID</th>
         <th>Nom. Pcte.</th>
         <th>Apll. Pcte.</th>
