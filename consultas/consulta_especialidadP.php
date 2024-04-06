@@ -287,7 +287,7 @@ function in_iframe()
       <tr>
         <th>Id Especialidad</th>
         <th>Especialidad</th>
-        <th> </th>
+       
       </tr>
     </thead>
     <tbody>
@@ -299,7 +299,7 @@ function in_iframe()
           echo "<td>" . $row["id_especialidad"] . "</td>";
           echo "<td>" . $row["especialidad"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/especialidad/editar.php?id_especialidad=$row[id_especialidad]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          
           echo "</tr>";
         }
       } else {
