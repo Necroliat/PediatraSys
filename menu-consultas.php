@@ -291,7 +291,7 @@
     <div class="divisor">
       <div class="botones">
        <a href="consultas/consulta_medicoP.php"> <button onmouseover="mostrarInformacionMedico('infoMedico1')" onmouseout="ocultarInformacionMedico('infoMedico1')"><i class="fa-solid fa-user-doctor"></i> Médico General</button></a>
-        <button onmouseover="mostrarInformacionMedico('infoMedico2')" onmouseout="ocultarInformacionMedico('infoMedico2')"><i class="fa-solid fa-book-medical"></i> Trabajo/actividad Médico</button>
+       <a href="consultas/consulta_trabajomedicoP.php"><button onmouseover="mostrarInformacionMedico('infoMedico2')" onmouseout="ocultarInformacionMedico('infoMedico2')"><i class="fa-solid fa-book-medical"></i> Trabajo/actividad Médico/a</button></a>
         <button onmouseover="mostrarInformacionMedico('infoMedico3')" onmouseout="ocultarInformacionMedico('infoMedico3')"><i class="fa-solid fa-staff-snake"></i> Especialidad Médico</button>
         <button onmouseover="mostrarInformacionMedico('infoMedico4')" onmouseout="ocultarInformacionMedico('infoMedico4')"><i class="fa-solid fa-calendar-days"></i> Horario Médico</button>
         <button onmouseover="mostrarInformacionMedico('infoMedico5')" onmouseout="ocultarInformacionMedico('infoMedico5')"><i class="fa-solid fa-address-book"></i> Directorio Médico</button>
