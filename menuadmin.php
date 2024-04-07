@@ -123,27 +123,27 @@
           <a class="nav-link" data-widget="navbar-search" href="#" role="button">
             <i class="fas fa-search"></i>
           </a>
-          
-            
-            <div class="navbar-search-block">
-              <form class="form-inline">
-                <div class="input-group input-group-sm">
-                  <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search">
-                  <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                      <i class="fas fa-search"></i>
-                    </button>
-                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
+
+
+          <div class="navbar-search-block">
+            <form class="form-inline">
+              <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-navbar" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                    <i class="fas fa-times"></i>
+                  </button>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
+          </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link"  href="#" onclick="cambiarIframe('menu.php')" role="button">
-          <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
+          <a class="nav-link" href="#" onclick="cambiarIframe('menu.php')" role="button">
+            <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
           </a>
         </li>
 
@@ -425,6 +425,12 @@
             <li class="nav-header">
               <i class="fa-solid fa-gears"></i>
               <span style="font-weight: bolder;">═ Consultas y Reportes ═══</span>
+            </li>
+            <li class="nav-item">
+              <a href="#" onclick="cambiarIframe('menu-consultas.php')" class="nav-link">
+                <span class="material-symbols-outlined">screen_search_desktop</span>
+                <p>Menu de consultas</p>
+              </a>
             </li>
 
 
