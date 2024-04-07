@@ -174,11 +174,11 @@ if (isset($_POST['btnregistrar'])) {
 
 		.container {
 			display: grid;
-			grid-template-columns: 100%;
+			grid-template-columns: 90%;
 			grid-template-rows: repeat(2, 1fr);
 			grid-gap: 6px 10px;
-			margin-left: 00%;
-			margin-right: 00%;
+			margin-left: 8%;
+			margin-right: 10%;
 		}
 
 		/* .container {
@@ -541,7 +541,7 @@ if (isset($_POST['btnregistrar'])) {
 					</fieldset>
 					
 					<fieldset  class="caja" width="100%">
-						<label for="id_medico">ID medico:</label>
+						<label for="id_medico">Id Médico:</label>
 						<input type="text" id="id_medico" name="id_medico" required>
 						<button id="buscarmedico" class="btn btn-primary " title="Buscar medicos registrados">
 							<i class="fa-solid fa-magnifying-glass"></i>
@@ -581,14 +581,14 @@ if (isset($_POST['btnregistrar'])) {
 					</div>
 					
 					<div>
-						<label for="Apellido_medico">Apellido del medico:</label>
+						<label for="Apellido_medico" style="margin-left:5px;"> Apellido del medico:</label>
 						<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 					</div>
 					</fieldset>
 					
 					<fieldset  class="caja" width="100%">
 					<div>
-						<label for="id_paciente">ID PACIENTE:</label>
+						<label for="id_paciente">Id Paciente:</label>
 						<input type="text" id="id_paciente" name="id_paciente" required>
 						<button id="buscarpaciente" class="btn btn-primary " title="Buscar pacientes registrados">
 							<i class="fa-solid fa-magnifying-glass"></i>
@@ -626,7 +626,7 @@ if (isset($_POST['btnregistrar'])) {
 						<label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 					</div>
 					<div>
-						<label for="Apellido_paciente">Apellido del paciente:</label>
+						<label for="Apellido_paciente" style="margin-left:5px;">Apellido del paciente:</label>
 						<label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 					</div>
 					</fieldset>
