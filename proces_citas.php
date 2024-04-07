@@ -533,9 +533,9 @@ if (isset($_POST['btnregistrar'])) {
 
 		<fieldset style=" height:600px;">
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
-				<legend>==Citas==</legend>
+				<legend></legend>
 				<fieldset class="caja">
-					<legend class="cajalegend">══ Nueva Cita 📖 ══</legend>
+					<legend class="cajalegend" style="padding:0; text-align: center; text-transform: uppercase;">════════════ Agendar Nueva Cita 📅📆 ════════════</legend>
 					<fieldset class="caja" width="100%">
 						<div>
 							<label for="txtid">ID cita</label>
@@ -547,14 +547,14 @@ if (isset($_POST['btnregistrar'])) {
 						<label for="id_medico">Id Médico:</label>
 						<input type="text" id="id_medico" name="id_medico" required>
 						<button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <div id="Modalmedico" class="custom-modal">
-                        <div class="custom-modal-content">
-                            <span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">
-                                    cancel
-                                </span></span>
-                            <iframe id="modal-iframe" src="consulta_medico.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
-                        </div>
-                    </div>
+						<div id="Modalmedico" class="custom-modal">
+							<div class="custom-modal-content">
+								<span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">
+										cancel
+									</span></span>
+								<iframe id="modal-iframe" src="consulta_medico.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+							</div>
+						</div>
 						<!-- <button id="buscarmedico" class="btn btn-primary " title="Buscar medicos registrados">
 							<i class="fa-solid fa-magnifying-glass"></i>
 						</button>
@@ -715,26 +715,26 @@ if (isset($_POST['btnregistrar'])) {
 				</fieldset>
 				<div class="botones-container">
 					<button type="submit" name="btnregistrar" value="Registrar">
-						<i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
-						Registrar
+					<i class="fa-solid fa-calendar-day"></i>
+						Agendar
 					</button>
-
-				</div>
-				<div>
-
-					<iframe id="modal-iframe" src="consulta_cita.php" frameborder="0" style="width: 100%; height: 100%;max-height:440px;"></iframe>
-
-				</div>
-				<div style=" margin-top:-20;padding:0; height:0cm;">
-					<a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
+					<!-- <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
 						<i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
 					</a>
 					<a href="index.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
 						<i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
-					</a>
+					</a> -->
 					<a href="menu-proces.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
 						<i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
 					</a>
+				</div>
+				<!-- <div>
+
+					<iframe id="modal-iframe" src="consulta_cita.php" frameborder="0" style="width: 100%; height: 100%;max-height:440px;"></iframe>
+
+				</div> -->
+				<div style=" margin-top:-20;padding:0; height:0cm;">
+					
 				</div>
 		</fieldset>
 
