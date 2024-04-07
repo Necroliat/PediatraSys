@@ -226,8 +226,8 @@ if (isset($_POST['btnregistrar'])) {
 		input[type="date"],
 		select {
 
-			
-			
+
+
 			color: #444;
 			margin-bottom: 0;
 			border: none;
@@ -478,7 +478,10 @@ if (isset($_POST['btnregistrar'])) {
 			border: solid 1px #45bac9db;
 			border-radius: 10px;
 		}
-		*{font-size: medium;}
+
+		* {
+			font-size: medium;
+		}
 	</style>
 	<script type="text/javascript">
 		// Obtener el campo de entrada y el nuevo ID
@@ -533,136 +536,180 @@ if (isset($_POST['btnregistrar'])) {
 				<legend>==Citas==</legend>
 				<fieldset class="caja">
 					<legend class="cajalegend">══ Nueva Cita 📖 ══</legend>
-					<fieldset  class="caja" width="100%">
-					<div>
-						<label for="txtid">ID cita</label>
-						<input type="text" name="txtid" id="txtid" value="<?php echo $idcita; ?>" required readonly>
-					</div>
+					<fieldset class="caja" width="100%">
+						<div>
+							<label for="txtid">ID cita</label>
+							<input type="text" name="txtid" id="txtid" value="<?php echo $idcita; ?>" required readonly>
+						</div>
 					</fieldset>
-					
-					<fieldset  class="caja" width="100%">
+
+					<fieldset class="caja" width="100%">
 						<label for="id_medico">Id Médico:</label>
 						<input type="text" id="id_medico" name="id_medico" required>
-						<button id="buscarmedico" class="btn btn-primary " title="Buscar medicos registrados">
+						<button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div id="Modalmedico" class="custom-modal">
+                        <div class="custom-modal-content">
+                            <span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">
+                                    cancel
+                                </span></span>
+                            <iframe id="modal-iframe" src="consulta_medico.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+                        </div>
+                    </div>
+						<!-- <button id="buscarmedico" class="btn btn-primary " title="Buscar medicos registrados">
 							<i class="fa-solid fa-magnifying-glass"></i>
 						</button>
-					
-					
-					<div id="Modalmedico" class="custom-modal">
-						<div class="custom-modal-content">
-							<span class="close">&times;</span>
-							<iframe id="modal-iframe" src="consulta_medico2.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
-						</div>
-					</div>
-					<script>
-						$("#id_medico").on("input", function() {
-							var idmedico = $(this).val();
-							// Realizar la solicitud AJAX para obtener los datos del paciente
-							$.ajax({
-								url: 'consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
-								type: 'POST',
-								data: {
-									id_medico: idmedico
-								},
-								dataType: 'json',
-								success: function(data) {
-									$("#nombre_medico").text(data.nombre || '');
-									$("#apellido_medico").text(data.apellido || '');
-								},
-								error: function() {
-									alert('Hubo un error al obtener los datos del medico.');
-								}
+
+
+						<div id="Modalmedico" class="custom-modal">
+							<div class="custom-modal-content">
+								<span class="close">&times;</span>
+								<iframe id="modal-iframe" src="consulta_medico2.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+							</div>
+						</div> -->
+						<script>
+							$("#id_medico").on("input", function() {
+								var idmedico = $(this).val();
+								// Realizar la solicitud AJAX para obtener los datos del paciente
+								$.ajax({
+									url: 'consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
+									type: 'POST',
+									data: {
+										id_medico: idmedico
+									},
+									dataType: 'json',
+									success: function(data) {
+										$("#nombre_medico").text(data.nombre || '');
+										$("#apellido_medico").text(data.apellido || '');
+									},
+									error: function() {
+										alert('Hubo un error al obtener los datos del medico.');
+									}
+								});
 							});
-						});
-					</script>
-					<div>
-						<label for="Nombre_medico">Nombre del medico:</label>
-						<label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-					</div>
-					
-					<div>
-						<label for="Apellido_medico" style="margin-left:5px;"> Apellido del medico:</label>
-						<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-					</div>
+						</script>
+						<div>
+							<label for="Nombre_medico">Nombre del medico:</label>
+							<label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+						</div>
+
+						<div>
+							<label for="Apellido_medico" style="margin-left:5px;"> Apellido del medico:</label>
+							<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+						</div>
 					</fieldset>
-					
-					<fieldset  class="caja" width="100%">
-					<div>
-						<label for="id_paciente">Id Paciente:</label>
-						<input type="text" id="id_paciente" name="id_paciente" required>
-						<button id="buscarpaciente" class="btn btn-primary " title="Buscar pacientes registrados">
+
+					<fieldset class="caja" width="100%">
+						<div>
+							<label for="id_paciente">Id Paciente:</label>
+							<input type="text" id="id_paciente" name="id_paciente" required>
+							<!-- <button id="buscarpaciente" class="btn btn-primary " title="Buscar pacientes registrados">
 							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</div>
-					<div id="Modalpaciente" class="custom-modal">
+						</button> -->
+							<button class="btn btn-primary " type="button" id="buscar_paciente" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button>
+							<div id="Modalpaciente" class="custom-modal">
+								<div class="custom-modal-content">
+									<span class="close" onclick="cerrarModalpaciente()"><span class="material-symbols-outlined">
+											cancel
+										</span></span>
+									<iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 70%;"></iframe>
+								</div>
+							</div>
+
+							<script>
+								// Función para mostrar el modal
+								function mostrarModalpaciente() {
+									var modal = document.getElementById('Modalpaciente');
+									modal.style.display = 'block';
+								}
+
+								// Función para cerrar el modal
+								function cerrarModalpaciente() {
+									var modal = document.getElementById('Modalpaciente');
+									modal.style.display = 'none';
+								}
+
+								// Función para mostrar el modal
+								function mostrarModalmedico() {
+									var modal = document.getElementById('Modalmedico');
+									modal.style.display = 'block';
+								}
+
+								// Función para cerrar el modal
+								function cerrarModalmedico() {
+									var modal = document.getElementById('Modalmedico');
+									modal.style.display = 'none';
+								}
+							</script>
+						</div>
+						<!-- <div id="Modalpaciente" class="custom-modal">
 						<div class="custom-modal-content">
 							<span class="close">&times;</span>
 							<iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
 						</div>
-					</div>
-					<script>
-						$("#id_paciente").on("input", function() {
-							var idPaciente = $(this).val();
-							// Realizar la solicitud AJAX para obtener los datos del paciente
-							$.ajax({
-								url: 'consulta_apellido_nombre_paciente.php', // Ruta al archivo PHP que creamos
-								type: 'POST',
-								data: {
-									id_paciente: idPaciente
-								},
-								dataType: 'json',
-								success: function(data) {
-									$("#nombre_paciente").text(data.nombre || '');
-									$("#apellido_paciente").text(data.apellido || '');
-								},
-								error: function() {
-									alert('Hubo un error al obtener los datos del paciente.');
-								}
+					</div> -->
+						<script>
+							$("#id_paciente").on("input", function() {
+								var idPaciente = $(this).val();
+								// Realizar la solicitud AJAX para obtener los datos del paciente
+								$.ajax({
+									url: 'consulta_apellido_nombre_paciente.php', // Ruta al archivo PHP que creamos
+									type: 'POST',
+									data: {
+										id_paciente: idPaciente
+									},
+									dataType: 'json',
+									success: function(data) {
+										$("#nombre_paciente").text(data.nombre || '');
+										$("#apellido_paciente").text(data.apellido || '');
+									},
+									error: function() {
+										alert('Hubo un error al obtener los datos del paciente.');
+									}
+								});
 							});
-						});
-					</script>
-					<div>
-						<label for="Nombre_paciente">Nombre del paciente:</label>
-						<label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-					</div>
-					<div>
-						<label for="Apellido_paciente" style="margin-left:5px;">Apellido del paciente:</label>
-						<label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-					</div>
+						</script>
+						<div>
+							<label for="Nombre_paciente">Nombre del paciente:</label>
+							<label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+						</div>
+						<div>
+							<label for="Apellido_paciente" style="margin-left:5px;">Apellido del paciente:</label>
+							<label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+						</div>
 					</fieldset>
-					
-                    <fieldset  class="caja" width="100%">
-					<p>
-						<label for="txtfecha">Fecha</label>
-						<input type="date" autofocus name="txtfecha" id="txtfecha" value="<?php echo $fechacreacion; ?>" required>
-						<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
-																									?>" required> -->
-					</p>
 
-					<p>
-						<label for="txthora">Hora</label>
-						<input type="time" autofocus name="txthora" id="txthora" value="<?php echo $fechacreacion; ?>" required>
-						<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
-																									?>" required> -->
-					</p>
+					<fieldset class="caja" width="100%">
+						<p>
+							<label for="txtfecha">Fecha</label>
+							<input type="date" autofocus name="txtfecha" id="txtfecha" value="<?php echo $fechacreacion; ?>" required>
+							<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
+																										?>" required> -->
+						</p>
 
-					<p>
-						<label for="txtestado">Estado</label>
-						<select name="estado" id="estado" value="<?php echo $estado; ?>" required>
-							<option value="Vigente">Vigente</option>
-							<option value="Cancelada">Cancelada</option>
+						<p>
+							<label for="txthora">Hora</label>
+							<input type="time" autofocus name="txthora" id="txthora" value="<?php echo $fechacreacion; ?>" required>
+							<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
+																										?>" required> -->
+						</p>
 
-						</select><?php echo $descripcion; ?>
-						<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
-																									?>" required> -->
-					</p>
+						<p>
+							<label for="txtestado">Estado</label>
+							<select name="estado" id="estado" value="<?php echo $estado; ?>" required>
+								<option value="Vigente">Vigente</option>
+								<option value="Cancelada">Cancelada</option>
 
-					<p>
-						<label for="txtdescripcion">Descripción</label>
-						<textarea name="txtdescripcion" id="txtdescripcion" required><?php echo $descripcion; ?></textarea>
-						<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
-																									?>" required> -->
-					</p>
+							</select><?php echo $descripcion; ?>
+							<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
+																										?>" required> -->
+						</p>
+
+						<p>
+							<label for="txtdescripcion">Descripción</label>
+							<textarea name="txtdescripcion" id="txtdescripcion" required><?php echo $descripcion; ?></textarea>
+							<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
+																										?>" required> -->
+						</p>
 					</fieldset>
 
 				</fieldset>
@@ -671,7 +718,7 @@ if (isset($_POST['btnregistrar'])) {
 						<i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
 						Registrar
 					</button>
-					
+
 				</div>
 				<div>
 
