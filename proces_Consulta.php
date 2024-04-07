@@ -729,9 +729,9 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                     <legend>Paciente</legend>
                     <p style=" text-align:left"><input type="text" id="id_paciente" name="id_paciente" placeholder="ID Paciente">
                         <button type="button" onclick="mostrarModal()" class="boton_bus" title="Buscar pacientes registrados"><i class="material-icons" style="font-size:22px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button>
-                        <label for="nombre_paciente1">Nombre:</label>
+                        <label for="nombre_paciente">Nombre:</label>
                         <label id="nombre_paciente" style="background-color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                        <label for="apellido_paciente1">Apellido:</label>
+                        <label for="apellido_paciente">Apellido:</label>
                         <label id="apellido_paciente" style="background-color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
                     </p>
                 </fieldset>
@@ -830,10 +830,10 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             });
                         </script>
                         <button id="buscarmedico" type="button" onclick="buscarMedico()" class="boton_bus" title="Buscar medicos registrados"><i class="material-icons" style="font-size:22px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i></button>
-                        <label for="nombre_medico1">Nombre:</label>
+                        <label for="nombre_medico">Nombre:</label>
                         <label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 
-                        <label for="apellido_medico1">Apellido:</label>
+                        <label for="apellido_medico">Apellido:</label>
                         <label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
                     </p>
 
@@ -960,7 +960,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         });
 
 
-                      
+
                         function agregarFila() {
                             var idTrabajoMedico = document.getElementById('id_trabajo_medico').value;
                             var descripcionTrabajoMedico = document.getElementById('descripcion_trabajo_medico').textContent;
@@ -1051,7 +1051,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                     <div id="mensaje" style="display: none; padding: 10px; background-color: #ffcccc; color: red;"></div>
 
                     <!-- Botón de guardar -->
-                    <button id="btnguardar" class="btn btn-primary boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                    <button class="btn btn-primary boton" type="button" onclick="verificarYGuardarReceta()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
 
                 </fieldset>
 
@@ -1197,43 +1197,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             }
 
 
-            /*  function guardarConsulta() {
-                 const idPaciente = document.getElementById("id_paciente").value.trim();
-                 const fecha = document.getElementById("fecha").value.trim();
-                 const hora = document.getElementById("hora").value.trim();
-                 const diagnostico = document.getElementById("diagnostico").value.trim();
-                 const tratamiento = document.getElementById("tratamiento").value.trim();
 
-                 // Hacer una petición AJAX a PHP para guardar los datos en la base de datos
-                 const xhr = new XMLHttpRequest();
-                 xhr.open("POST", "guardar_consulta.php", true);
-                 xhr.setRequestHeader("Content-Type", "application/json");
-                 xhr.onreadystatechange = function() {
-                     if (xhr.readyState === 4) {
-                         if (xhr.status === 200) {
-                             const response = JSON.parse(xhr.responseText);
-                             if (response.success) {
-                                 mostrarMensaje("Consulta guardada correctamente.", "green");
-                                 limpiarFormulario();
-                             } else {
-                                 mostrarMensaje("Error al guardar la consulta: " + response.message, "red");
-                             }
-                         } else {
-                             mostrarMensaje("Error al realizar la petición. Por favor, inténtelo nuevamente.", "red");
-                         }
-                     }
-                 };
-
-                 const datosJSON = JSON.stringify({
-                     id_paciente: idPaciente,
-                     fecha: fecha,
-                     hora: hora,
-                     diagnostico: diagnostico,
-                     tratamiento: tratamiento
-                 });
-
-                 xhr.send(datosJSON);
-             } */
 
 
             function guardarConsulta() {
@@ -1293,25 +1257,96 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 xhr.send(JSON.stringify(datos)); // Enviar datos al servidor en formato JSON
             }
 
-
             function verificarCamposCompletos() {
+                const camposVacios = [];
+
                 const idPaciente = document.getElementById("id_paciente").value.trim();
+                const idmedico = document.getElementById("id_medico").value.trim();
                 const fecha = document.getElementById("fecha").value.trim();
                 const hora = document.getElementById("hora").value.trim();
+                const nombre_paciente = document.getElementById("nombre_paciente").textContent.trim();
+                const apellido_paciente = document.getElementById("apellido_paciente").textContent.trim();
+                const nombre_medico = document.getElementById("nombre_medico").textContent.trim();
+                const apellido_medico = document.getElementById("apellido_medico").textContent.trim();
 
-                if (idPaciente === "" || fecha === "" || hora === "") {
-                    mostrarMensaje("Por favor, complete todos los campos obligatorios.", "red");
+                if (nombre_paciente === "") {
+                    camposVacios.push("Nombre del Paciente");
+                }
+                if (apellido_paciente === "") {
+                    camposVacios.push("Apellido del Paciente");
+                }
+                if (nombre_medico === "") {
+                    camposVacios.push("Nombre del Médico");
+                }
+                if (apellido_medico === "") {
+                    camposVacios.push("Apellido del Médico");
+                }
+                if (idPaciente === "") {
+                    camposVacios.push("ID Paciente");
+                }
+                if (idmedico === "") {
+                    camposVacios.push("ID Médico");
+                }
+                if (fecha === "") {
+                    camposVacios.push("Fecha");
+                }
+                if (hora === "") {
+                    camposVacios.push("Hora");
+                }
+
+                if (camposVacios.length > 0) {
+                    const mensaje = "Por favor, complete o corrija la información en los siguientes campos:\n" + camposVacios.join("\n");
+                    mostrarMensaje(mensaje, "red");
                     return false;
                 }
 
                 return true;
             }
-
             function mostrarMensaje(mensaje, color) {
+                alert(mensaje); // Mostrar el mensaje con una alerta
+            }
+            /* function mostrarMensaje(mensaje, color) {
                 const mensajeDiv = document.getElementById("mensaje");
                 mensajeDiv.textContent = mensaje;
                 mensajeDiv.style.color = color;
-            }
+            } */
+            /*  function verificarCamposCompletos() {
+                 const idPaciente = document.getElementById("id_paciente").value.trim();
+                 const fecha = document.getElementById("fecha").value.trim();
+                 const hora = document.getElementById("hora").value.trim();
+                 const nombre_paciente = document.getElementById("nombre_paciente").textContent.trim();
+                 const apellido_paciente = document.getElementById("apellido_paciente").textContent.trim();
+                 const nombre_medico = document.getElementById("nombre_medico").textContent.trim();
+                 const apellido_medico = document.getElementById("apellido_medico").textContent.trim();
+                 if (nombre_paciente === "") {
+                     mostrarMensaje("Por favor, complete id paciente con un dato válido.", "red");
+                     return false;
+                 }
+                 if (apellido_paciente === "") {
+                     mostrarMensaje("Por favor, complete id paciente con un dato válido.", "red");
+                     return false;
+                 }
+                 if (apellido_medico === "") {
+                     mostrarMensaje("Por favor, complete id médico con un dato válido.", "red");
+                     return false;
+                 }
+                 if (nombre_medico === "") {
+                     mostrarMensaje("Por favor, complete id médico con un dato válido.", "red");
+                     return false;
+                 }
+                 if (idPaciente === "" || fecha === "" || hora === "") {
+                     mostrarMensaje("Por favor, complete todos los campos obligatorios.", "red");
+                     return false;
+                 }
+
+                 return true;
+             }
+
+             function mostrarMensaje(mensaje, color) {
+                 const mensajeDiv = document.getElementById("mensaje");
+                 mensajeDiv.textContent = mensaje;
+                 mensajeDiv.style.color = color;
+             } */
 
             function limpiarFormulario() {
                 document.getElementById("fecha").value = "";
@@ -1320,12 +1355,18 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 document.getElementById("tratamiento").value = "";
             }
 
-            document.getElementById("btnguardar").addEventListener("click", function(event) {
+            function verificarYGuardarReceta() {
+                if (verificarCamposCompletos()) {
+                    guardarConsulta();
+                }
+            }
+
+           /*  document.getElementById("btnguardar").addEventListener("click", function(event) {
                 event.preventDefault();
                 if (verificarCamposCompletos()) {
                     guardarConsulta();
                 }
-            });
+            }); */
         </script>
 
 
