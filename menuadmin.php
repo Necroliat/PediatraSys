@@ -391,7 +391,7 @@
               <a href="#" onclick="cambiarIframe('proces_consulta.php')" class="nav-link">
                 <i class="fa-solid fa-book-medical"></i>
                 <p>
-                  Consultas
+                  Consultas Médicas
                   <i class="fas fa-angle-left right"></i>
                   <!-- <span class="badge badge-info right">6</span> -->
                 </p>
