@@ -340,7 +340,7 @@ if (isset($_POST['btnregistrar'])) {
 			background: linear-gradient(to right, #e4e5dc, #45bac9db);
 			border: solid 1px #45bac9db;
 			border-radius: 10px;
-			font-weight: ;
+			
 		}
 
 		/* Estilos específicos para el modal personalizado */
@@ -460,7 +460,7 @@ if (isset($_POST['btnregistrar'])) {
 
 <body>
 	<div class="container">
-		<fieldset style=" height:1100px;">
+		<fieldset style=" height:650px;">
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
 				<legend>REGISTRAR HORARIO DE TRABAJO</legend>
 				<fieldset class="caja">
@@ -569,14 +569,14 @@ if (isset($_POST['btnregistrar'])) {
 				</fieldset>
 				<div class="botones-container">
 					<button type="submit" name="btnregistrar" value="Registrar">
-						<i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
+					<i class="fa-solid fa-plus"></i>
 						Registrar
 					</button>
 					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
-						<i class="material-icons" style='font-size:21px;text-shadow:2px 2px 4px #000000;vertical-align: text-bottom;'>close</i> Cancelar
+					<i class="fa-solid fa-xmark"></i> Cancelar
 					</a>
 				</div>
-				<iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe>
+				<!-- <iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe> -->
 		</fieldset>
 		</form>
 	</div>
