@@ -274,7 +274,7 @@ $result = $conn->query($query);
     <div>
         <div class="container">
             <form method="POST">
-                <fieldset style=" height:1000px;">
+                <fieldset style=" height:900px;">
                     <legend>Registrar Horarios de los Medicos </legend>
                     <a href="modulo/horario/agregar.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>Agregar

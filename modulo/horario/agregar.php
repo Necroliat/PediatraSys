@@ -142,9 +142,9 @@ if (isset($_POST['btnregistrar'])) {
 	<style>
 		.caja {
 			border: 3px solid #ddd;
-			padding: 10px;
+			padding: 5px;
 			box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-			margin: 10px;
+			margin: 2px;
 			border-radius: 5px;
 
 
@@ -173,7 +173,7 @@ if (isset($_POST['btnregistrar'])) {
 			grid-template-columns: 80% 20%;
 			/* Cambiado a una relación de 60/40 */
 			grid-template-rows: repeat(3, 1fr);
-			grid-gap: 6px 10px;
+			grid-gap: 3px 5px;
 		}
 
 		label {
@@ -460,11 +460,11 @@ if (isset($_POST['btnregistrar'])) {
 
 <body>
 	<div class="container">
-		<fieldset style=" height:1500px;">
+		<fieldset style=" height:1100px;">
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
-				<legend>Registrar nuevo horario</legend>
+				<legend>REGISTRAR HORARIO DE TRABAJO</legend>
 				<fieldset class="caja">
-					<legend class="cajalegend">══ Nuevo Horario ══</legend>
+					<legend class="cajalegend" style="text-align: center;">══ CREAR NUEVO HORARIO PARA EL MÉDICO 📅👩‍⚕️👨‍⚕️ ══</legend>
 					<p style="margin:0;">
 						<label for="txtid">ID horario</label>
 						<input type="text" name="txtid" id="txtid" value="<?php echo $idhorario; ?>" required readonly>
@@ -521,15 +521,15 @@ if (isset($_POST['btnregistrar'])) {
 					</div>
 
 					<fieldset>
-						<legend style="padding: 0%; margin: 0%;">DIAS</legend>
+						<legend style="padding: 0%; margin: 0%;">DIAS QUE TRABAJARÁ:</legend>
 						<div id="checklist" style="display: flex; flex-wrap: wrap;">
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes"> Lunes</label>
+						<p style="text-align:center; font-weight:bold;">Dias Laborables:</p><label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes"> Lunes</label>
 							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes"> Martes</label>
 							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles"> Miércoles</label>
 							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves"> Jueves</label>
 							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Viernes"> Viernes</label>
 							<hr style="width: 100%; margin: 10px 0;">
-							<p style="text-align:center; font-weight:bold;">FIN DE SEMANA</p>
+							<p style="text-align:center; font-weight:bold;">Fin de semana:</p>
 							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Sábado"> Sábado</label>
 						</div>
 					</fieldset>
@@ -548,18 +548,18 @@ if (isset($_POST['btnregistrar'])) {
 
 					<div>
 						<label for="hora_inicio">Hora de inicio:</label>
-						<input type="time" id="hora_inicio" name="hora_inicio">
+						<input type="time" id="hora_inicio" name="hora_inicio" value="09:00">
 					</div><br>
 
 					<div>
 						<label for="hora_fin">Hora de fin:</label>
-						<input type="time" id="hora_fin" name="hora_fin">
+						<input type="time" id="hora_fin" name="hora_fin" value="18:00">
 					</div><br>
 
 					<div><label>Estado</label>
 						<select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off" value="<?php echo $estado; ?>" require>
-							<option selected value="Estado">Estado</option>
-							<option value="Activo">Activo</option>
+							
+							<option  selected value="Activo">Activo</option>
 							<option value="Inactivo">Inactivo</option>
 						</select>
 						<!-- <input type="text" name="txtest" autocomplete="off" require> -->
