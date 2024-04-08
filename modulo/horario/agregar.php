@@ -19,19 +19,19 @@ $idhorario = $newId;
 // Función de validación de campos
 function validarCampos($campos)
 {
-    foreach ($campos as $campo) {
-        if (empty($_POST[$campo])) {
-            return false;
-        }
-    }
-    return true;
+	foreach ($campos as $campo) {
+		if (empty($_POST[$campo])) {
+			return false;
+		}
+	}
+	return true;
 }
 // Validar campos antes de procesar el formulario
 if (isset($_POST['btnregistrar'])) {
-    $camposRequeridos = ['txtid', 'id_medico', 'dia', 'txtetiqueta', 'hora_inicio', 'hora_fin', 'txtestado'];
-    if (validarCampos($camposRequeridos)) {
-        $idhorario = $_POST['txtid'];
-        $idmedico = $_POST['id_medico'];
+	$camposRequeridos = ['txtid', 'id_medico', 'dia', 'txtetiqueta', 'hora_inicio', 'hora_fin', 'txtestado'];
+	if (validarCampos($camposRequeridos)) {
+		$idhorario = $_POST['txtid'];
+		$idmedico = $_POST['id_medico'];
 		$diasSeleccionados = $_POST['dia'];
 		//$dias = $_POST['dias'];
 		$etiqueta = $_POST['txtetiqueta'];
@@ -39,52 +39,62 @@ if (isset($_POST['btnregistrar'])) {
 		$horafinal = $_POST['hora_fin'];
 		$estado = $_POST['txtestado'];
 		$dias = implode(", ", $diasSeleccionados);
-        // Insertar datos en la tabla laboratorio
-        $queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
+		// Insertar datos en la tabla laboratorio
+		$queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
 
-        if (!$queryAdd) {
-            echo "Error con el registro: " . mysqli_error($conn);
-        } else {
-            echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-        }
-    } else {
-        echo "<script>alert('Por favor, complete tolos campos');</script>";
-    }
+		if (!$queryAdd) {
+			echo "Error con el registro: " . mysqli_error($conn);
+		} else {
+			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
+		}
+	} else {
+		echo "<script>alert('Por favor, complete tolos campos');</script>";
+	}
 }
 ?>
 
 <html>
 
 <head>
-    <title>Sis_Pediátrico</title>
-    <link rel="icon" type="image/x-icon" href="../../IMAGENES/hospital2.ico">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<title>Sis_Pediátrico</title>
+	<link rel="icon" type="image/x-icon" href="../../IMAGENES/hospital2.ico">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/estilo-paciente.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Estilos personalizados aquí */
-    </style>
- <script>
-        // Función para validar campos antes de enviar el formulario
-        function validarFormulario() {
-            var idhorario = document.getElementById("txtid").value;
-            var idmedico = document.getElementById("id_medico").value;
+	<meta charset="UTF-8">
+	<!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<style>
+		/* Estilos personalizados aquí */
+	</style>
+	<script>
+		// Función para validar campos antes de enviar el formulario
+		function validarFormulario() {
+			var idhorario = document.getElementById("txtid").value;
+			var idmedico = document.getElementById("id_medico").value;
 			var dia = document.getElementById("checklist").value;
 			var etiqueta = document.getElementById("txtetiqueta").value;
 			var horainicio = document.getElementById("hora_inicio").value;
 			var horafin = document.getElementById("hora_fin").value;
 			var estado = document.getElementById("txtestado").value;
 
-            if (idhorario.trim() === '' || idmedico.trim() === '' || dia.trim() === '' || etiqueta.trim() === '' || horainicio.trim() === '' || horafin.trim() === '' || estado.trim() === '' ) {
-                alert("Por favor, complete toos los campos");
-                return false;
-            }
+			if (idhorario.trim() === '' || idmedico.trim() === '' || dia.trim() === '' || etiqueta.trim() === '' || horainicio.trim() === '' || horafin.trim() === '' || estado.trim() === '') {
+				alert("Por favor, complete toos los campos");
+				return false;
+			}
 
-            return true;
-        }
-    </script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+			return true;
+		}
+	</script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<style>
 		.botones-container {
 			display: flex;
@@ -307,6 +317,7 @@ if (isset($_POST['btnregistrar'])) {
 			height: 100%;
 			border: none;
 		}
+
 		body {
 			background: linear-gradient(to right, #E8A9F7, #e4e5dc);
 		}
@@ -315,11 +326,12 @@ if (isset($_POST['btnregistrar'])) {
 			background: linear-gradient(to right, #e4e5dc, #62c4f9);
 			border: 1px solid #ddd;
 			border-radius: 2vw;
-			
+
 			padding: 1vw;
 			box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
 			margin-bottom: 2vw;
 		}
+
 		legend {
 			font-weight: bold;
 			font-size: 16px;
@@ -328,6 +340,78 @@ if (isset($_POST['btnregistrar'])) {
 			background: linear-gradient(to right, #e4e5dc, #45bac9db);
 			border: solid 1px #45bac9db;
 			border-radius: 10px;
+			font-weight: ;
+		}
+
+		/* Estilos específicos para el modal personalizado */
+		.custom-modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+
+		.custom-modal-content {
+			opacity: 95%;
+			background-color: #fefefe;
+			margin: 5% auto 0;
+			/* Margen superior ajustado */
+			padding: 20px;
+			border: 1px solid #888;
+			border-radius: 20px;
+			width: 80%;
+			max-width: 1100px;
+			background: linear-gradient(to right, #e4e5dc, #62c4f9);
+			/* Ancho máximo para el contenido */
+		}
+
+		/* Centrar horizontalmente en pantallas pequeñas */
+		@media screen and (max-width: 600px) {
+			.custom-modal-content {
+				width: 90%;
+			}
+		}
+
+
+
+
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 20px;
+			/* Ajustar el tamaño de la fuente */
+			font-weight: bold;
+			color: #d06c6c;
+			padding: 6px 8px;
+			/* Ajustar el padding */
+			border-radius: 50%;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+			color: #cf2626;
+		}
+
+		#id_paciente,
+		#id_medico,
+		#id_trabajo_medico {
+			width: 55px;
+			/* Ancho automático */
+
+			/* Espaciado interior */
+		}
+
+		input,
+		label {
+			font-size: 14;
 		}
 	</style>
 	<script type="text/javascript">
@@ -338,6 +422,7 @@ if (isset($_POST['btnregistrar'])) {
 		txtId.value = newId;
 		// Cambiar el fondo a gris claro
 		txtId.style.backgroundColor = "#f0f0f0";
+
 		function placeCursorAtEnd() {
 			if (this.setSelectionRange) {
 				// Double the length because Opera is inconsistent about 
@@ -363,146 +448,144 @@ if (isset($_POST['btnregistrar'])) {
 			}
 
 			input.focus();
-		}	
+		}
 	</script>
-<?php
-//include("../../menu_lateral_header.php");
-?>
+	<?php
+	//include("../../menu_lateral_header.php");
+	?>
 </head>
 <?php
 //include("../../menu_lateral.php");
 ?>
+
 <body>
-    <div class="container">
-	<fieldset style=" height:1500px;">
-        <form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
-                <legend>Registrar nuevo horario</legend>
-                <fieldset class="caja">
-                    <legend class="cajalegend">══ Nuevo horario ══</legend>
-                    <p style="margin:0;">
-                        <label for="txtid">ID horario</label>
-                        <input type="text" name="txtid" id="txtid" value="<?php echo $idhorario; ?>" required readonly>
-                    </p>
+	<div class="container">
+		<fieldset style=" height:1500px;">
+			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
+				<legend>Registrar nuevo horario</legend>
+				<fieldset class="caja">
+					<legend class="cajalegend">══ Nuevo Horario ══</legend>
+					<p style="margin:0;">
+						<label for="txtid">ID horario</label>
+						<input type="text" name="txtid" id="txtid" value="<?php echo $idhorario; ?>" required readonly>
+					</p>
 
-                    <p>
-					<div>
+
+					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
 						<label for="id_medico">ID medico:</label>
-						<input type="text" id="id_medico" name="id_medico" style="width: 115px;"  required>
-						<button id="buscarmedico" class="boton_bus" title="Buscar medicos registrados">
-							<i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i>
-						</button>
-					</div>
-					<div id="Modalmedico" class="custom-modal">
-						<div class="custom-modal-content">
-							<span class="close">&times;</span>
-							<iframe id="modal-iframe" src="../../consulta_medico2.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+						<input type="text" id="id_medico" name="id_medico" required>
+						<button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
+						<div id="Modalmedico" class="custom-modal">
+							<div class="custom-modal-content">
+								<span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">cancel</span></span>
+								<iframe id="modal-iframe" src="../../consulta_medico.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+							</div>
 						</div>
-					</div>
-					<script>
-						$("#id_medico").on("input", function() {
-							var idmedico = $(this).val();
-							// Realizar la solicitud AJAX para obtener los datos del paciente
-							$.ajax({
-								url: 'consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
-								type: 'POST',
-								data: {
-									id_medico: idmedico
-								},
-								dataType: 'json',
-								success: function(data) {
-									$("#nombre_medico").text(data.nombre || '');
-									$("#apellido_medico").text(data.apellido || '');
-								},
-								error: function() {
-									alert('Hubo un error al obtener los datos del medico.');
+						<script>
+							// Función para mostrar el modal
+							function mostrarModalmedico() {
+									var modal = document.getElementById('Modalmedico');
+									modal.style.display = 'block';
 								}
+
+								// Función para cerrar el modal
+								function cerrarModalmedico() {
+									var modal = document.getElementById('Modalmedico');
+									modal.style.display = 'none';
+								}
+							$("#id_medico").on("input", function() {
+								var idmedico = $(this).val();
+								// Realizar la solicitud AJAX para obtener los datos del paciente
+								$.ajax({
+									url: '../../consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
+									type: 'POST',
+									data: {
+										id_medico: idmedico
+									},
+									dataType: 'json',
+									success: function(data) {
+										$("#nombre_medico").text(data.nombre || '');
+										$("#apellido_medico").text(data.apellido || '');
+									},
+									error: function() {
+										alert('Hubo un error al obtener los datos del medico.');
+									}
+								});
 							});
-						});
-					</script>
-                  <div>
-						<label for="Nombre_medico">Nombre del medico:</label>
+						</script>
+
+						<label for="Nombre_medico">Nombre:</label>
 						<label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-					</div>
-					<div>
-						<label for="Apellido_medico">Apellido del medico:</label>
-						<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+						<label for="Apellido_medico" style="margin-left:5px;">Apellido:</label>
+						<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;margin-left:5px;"></label>
 					</div>
 
+					<fieldset>
+						<legend style="padding: 0%; margin: 0%;">DIAS</legend>
+						<div id="checklist" style="display: flex; flex-wrap: wrap;">
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes"> Lunes</label>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes"> Martes</label>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles"> Miércoles</label>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves"> Jueves</label>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Viernes"> Viernes</label>
+							<hr style="width: 100%; margin: 10px 0;">
+							<p style="text-align:center; font-weight:bold;">FIN DE SEMANA</p>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Sábado"> Sábado</label>
+						</div>
+					</fieldset>
 
-                        <!--<label for="txtnombre">Id medico</label>
-                        <input type="text" autofocus name="txtmedico" id="txtmedico" value="<?php //echo $fechacreacion; ?>" required>--> 
+                    <fieldset>
+					<div  style="display: flex; flex-wrap: wrap;">
+					<div><label for="txtetiqueta">Identificador del horario</label>
+						<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php echo $etiqueta; ?>" require>
 
-
-
-                    </p>
-
-					<div id="checklist"> <label>Dias</label><br>
-                    <label><input type="checkbox" name="dia[]" value="Lunes"> Lunes</label><br>
-                    <label><input type="checkbox" name="dia[]" value="Martes"> Martes</label><br>
-                    <label><input type="checkbox" name="dia[]" value="Miércoles"> Miércoles</label><br>
-                    <label><input type="checkbox" name="dia[]" value="Jueves"> Jueves</label><br>
-                    <label><input type="checkbox" name="dia[]" value="Viernes"> Viernes</label><br>
-                    <label><input type="checkbox" name="dia[]" value="Sábado"> Sábado</label><br>
-                    <label><input type="checkbox" name="dia[]" value="Domingo"> Domingo</label><br><br>
-                    </div>
-                    
-                    <!--<div><label>Dias</label>
-                        <select id="txtdias" name="txtdias" style=" width: 110px; " autocomplete="off" value="<?php echo $dias; ?>"require>
-                            <option selected value="Dias">dias</option>
-                            <option value="Lunes">Lunes</option>
-							<option value="Martes">Martes</option>
-                        </select>-->
-                        <!-- <input type="text" name="txtest" autocomplete="off" require> 
-                    </div><br>-->
-
-					<div><label>Etiqueta</label>
-                        <select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php echo $etiqueta; ?>"require>
-                            <option selected value="Telefono">Telefono</option>
-                            <option value="Email">Email</option>
-							<option value="Movil">Movil</option>
-                        </select>
-                        <!-- <input type="text" name="txtest" autocomplete="off" require> -->
-                    </div><br>
+							<option selected value="Regular">Regular</option>
+							<option value="Fin de Semana">Fin de Semana</option>
+							<option value="Alterno">Alterno</option>
+						</select>
+						<!-- <input type="text" name="txtest" autocomplete="off" require> -->
+					</div><br>
 
 					<div>
-                       <label for="hora_inicio">Hora de inicio:</label>
-                       <input type="time" id="hora_inicio" name="hora_inicio">
-                    </div><br>
+						<label for="hora_inicio">Hora de inicio:</label>
+						<input type="time" id="hora_inicio" name="hora_inicio">
+					</div><br>
 
-                    <div>
-                       <label for="hora_fin">Hora de fin:</label>
-                        <input type="time" id="hora_fin" name="hora_fin">
-                    </div><br>
+					<div>
+						<label for="hora_fin">Hora de fin:</label>
+						<input type="time" id="hora_fin" name="hora_fin">
+					</div><br>
 
 					<div><label>Estado</label>
-                        <select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off" value="<?php echo $estado; ?>"require>
-                            <option selected value="Estado">Estado</option>
-                            <option value="Disponible">Disponible</option>
-							<option value="No disponible">No Disponible</option>
-                        </select>
-                        <!-- <input type="text" name="txtest" autocomplete="off" require> -->
-                    </div>
-                </fieldset>
-                <div class="botones-container">
-                    <button type="submit" name="btnregistrar" value="Registrar">
-                        <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
-                        Registrar
-                    </button>
-                    <a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
-                        <i class="material-icons" style='font-size:21px;text-shadow:2px 2px 4px #000000;vertical-align: text-bottom;'>close</i> Cancelar
-                    </a>
-                </div>
-                <iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe>
-            </fieldset>
-        </form>
-    </div>
+						<select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off" value="<?php echo $estado; ?>" require>
+							<option selected value="Estado">Estado</option>
+							<option value="Activo">Activo</option>
+							<option value="Inactivo">Inactivo</option>
+						</select>
+						<!-- <input type="text" name="txtest" autocomplete="off" require> -->
+					</div>
+					</div>
+					</fieldset>
+				</fieldset>
+				<div class="botones-container">
+					<button type="submit" name="btnregistrar" value="Registrar">
+						<i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
+						Registrar
+					</button>
+					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
+						<i class="material-icons" style='font-size:21px;text-shadow:2px 2px 4px #000000;vertical-align: text-bottom;'>close</i> Cancelar
+					</a>
+				</div>
+				<iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe>
+		</fieldset>
+		</form>
+	</div>
 </body>
-  
-<script>
 
-var idmedicoActual = "";
-// Obtener referencia al botón y al modal del paciente
-const btnbusquedamedico = document.getElementById("buscarmedico");
+<script>
+	var idmedicoActual = "";
+	// Obtener referencia al botón y al modal del paciente
+	const btnbusquedamedico = document.getElementById("buscarmedico");
 	const modalmedico = document.getElementById("Modalmedico");
 	// Función para mostrar el modal de vacuna
 	function mostrarModalm() {
@@ -521,6 +604,6 @@ const btnbusquedamedico = document.getElementById("buscarmedico");
 			ocultarModalm();
 		}
 	});
-	</script>
+</script>
 
 </html>
