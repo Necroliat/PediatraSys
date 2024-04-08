@@ -64,12 +64,12 @@ $result = $conn->query($query);
 
         .container {
             display: grid;
-            grid-template-columns: 80%;
+            grid-template-columns: 95%;
             grid-template-rows: auto auto auto;
             /* Cambié repeat(3, 1fr) por auto para ajustar la altura automáticamente */
             grid-gap: 6px 10px;
-            margin-left: 10%;
-            margin-right: 10%;
+            margin-left: 2%;
+            margin-right: 2%;
             padding: 0;
           
         }
