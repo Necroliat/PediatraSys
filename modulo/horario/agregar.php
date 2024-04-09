@@ -1,5 +1,94 @@
 <?php
+
 session_start();
+error_reporting(E_ALL & ~E_WARNING);
+require_once "../../include/conec.php";
+$pagina = $_GET['pag'];
+
+// Función para verificar choques de horarios
+function verificarChoques($idMedico, $diasSeleccionados, $horaInicio, $horaFin)
+{
+    global $conn;
+
+    // Convertir los días seleccionados en una cadena separada por comas
+    $dias = implode("', '", $diasSeleccionados);
+
+    // Consulta para verificar choques de horarios
+    $query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias IN ('$dias') AND ((hora_inicio BETWEEN '$horaInicio' AND '$horaFin') OR (hora_fin BETWEEN '$horaInicio' AND '$horaFin'))";
+    $result = $conn->query($query);
+
+    // Si se encontraron choques de horarios, devolver true
+    if ($result->num_rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Consultar el último ID de la tabla especialidad
+$query = "SELECT MAX(id_horario) AS max_id FROM horario";
+$result = $conn->query($query);
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $lastId = $row["max_id"];
+    $newId = $lastId + 1;
+} else {
+    // Si no hay registros en la tabla, asignar el ID inicial
+    $newId = 1;
+}
+
+// Guardar el nuevo ID en una variable PHP
+$idhorario = $newId;
+
+// Función de validación de campos
+function validarCampos($campos)
+{
+    foreach ($campos as $campo) {
+        if (empty($_POST[$campo])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Validar campos antes de procesar el formulario
+if (isset($_POST['btnregistrar'])) {
+    $camposRequeridos = ['txtid', 'id_medico', 'dia', 'txtetiqueta', 'hora_inicio', 'hora_fin', 'txtestado'];
+    if (validarCampos($camposRequeridos)) {
+        $idhorario = $_POST['txtid'];
+        $idmedico = $_POST['id_medico'];
+        $diasSeleccionados = $_POST['dia'];
+        //$dias = $_POST['dias'];
+        $etiqueta = $_POST['txtetiqueta'];
+        $horainicial = $_POST['hora_inicio'];
+        $horafinal = $_POST['hora_fin'];
+        $estado = $_POST['txtestado'];
+        $dias = implode(", ", $diasSeleccionados);
+
+        // Verificar choques de horarios antes de guardar
+        if (verificarChoques($idmedico, $diasSeleccionados, $horainicial, $horafinal)) {
+            echo "<script>alert('El médico ya tiene un horario que coincide con los días y horas seleccionados. Por favor, elija otro horario.');</script>";
+        } else {
+            // Insertar datos en la tabla horario
+            $queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
+
+            if (!$queryAdd) {
+                echo "Error con el registro: " . mysqli_error($conn);
+            } else {
+                echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
+            }
+        }
+    } else {
+        echo "<script>alert('Por favor, complete todos los campos');</script>";
+    }
+}
+
+
+
+
+
+
+/*session_start();
 error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
 $pagina = $_GET['pag'];
@@ -50,7 +139,7 @@ if (isset($_POST['btnregistrar'])) {
 	} else {
 		echo "<script>alert('Por favor, complete tolos campos');</script>";
 	}
-}
+}*/
 ?>
 
 <html>
@@ -87,7 +176,7 @@ if (isset($_POST['btnregistrar'])) {
 			var estado = document.getElementById("txtestado").value;
 
 			if (idhorario.trim() === '' || idmedico.trim() === '' || dia.trim() === '' || etiqueta.trim() === '' || horainicio.trim() === '' || horafin.trim() === '' || estado.trim() === '') {
-				alert("Por favor, complete toos los campos");
+				alert("Por favor, complete todos los campos");
 				return false;
 			}
 
@@ -340,7 +429,7 @@ if (isset($_POST['btnregistrar'])) {
 			background: linear-gradient(to right, #e4e5dc, #45bac9db);
 			border: solid 1px #45bac9db;
 			border-radius: 10px;
-			
+
 		}
 
 		/* Estilos específicos para el modal personalizado */
@@ -484,15 +573,15 @@ if (isset($_POST['btnregistrar'])) {
 						<script>
 							// Función para mostrar el modal
 							function mostrarModalmedico() {
-									var modal = document.getElementById('Modalmedico');
-									modal.style.display = 'block';
-								}
+								var modal = document.getElementById('Modalmedico');
+								modal.style.display = 'block';
+							}
 
-								// Función para cerrar el modal
-								function cerrarModalmedico() {
-									var modal = document.getElementById('Modalmedico');
-									modal.style.display = 'none';
-								}
+							// Función para cerrar el modal
+							function cerrarModalmedico() {
+								var modal = document.getElementById('Modalmedico');
+								modal.style.display = 'none';
+							}
 							$("#id_medico").on("input", function() {
 								var idmedico = $(this).val();
 								// Realizar la solicitud AJAX para obtener los datos del paciente
@@ -523,7 +612,7 @@ if (isset($_POST['btnregistrar'])) {
 					<fieldset>
 						<legend style="padding: 0%; margin: 0%;">DIAS QUE TRABAJARÁ:</legend>
 						<div id="checklist" style="display: flex; flex-wrap: wrap;">
-						<p style="text-align:center; font-weight:bold;">Dias Laborables:</p><label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes"> Lunes</label>
+							<p style="text-align:center; font-weight:bold;">Dias Laborables:</p><label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes"> Lunes</label>
 							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes"> Martes</label>
 							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles"> Miércoles</label>
 							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves"> Jueves</label>
@@ -534,46 +623,45 @@ if (isset($_POST['btnregistrar'])) {
 						</div>
 					</fieldset>
 
-                    <fieldset>
-					<div  style="display: flex; flex-wrap: wrap;">
-					<div><label for="txtetiqueta">Identificador del horario</label>
-						<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php echo $etiqueta; ?>" require>
+					<fieldset>
+						<div style="display: flex; flex-wrap: wrap;">
+							<div><label for="txtetiqueta">Identificador del horario</label>
+								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php echo $etiqueta; ?>" require>
 
-							<option selected value="Regular">Regular</option>
-							<option value="Fin de Semana">Fin de Semana</option>
-							<option value="Alterno">Alterno</option>
-						</select>
-						<!-- <input type="text" name="txtest" autocomplete="off" require> -->
-					</div><br>
+									<option selected value="Regular">Regular</option>
+									<option value="Alterno">Alterno</option>
+								</select>
+								<!-- <input type="text" name="txtest" autocomplete="off" require> -->
+							</div><br>
 
-					<div>
-						<label for="hora_inicio">Hora de inicio:</label>
-						<input type="time" id="hora_inicio" name="hora_inicio" value="09:00">
-					</div><br>
+							<div>
+								<label for="hora_inicio">Hora de inicio:</label>
+								<input type="time" id="hora_inicio" name="hora_inicio" value="09:00">
+							</div><br>
 
-					<div>
-						<label for="hora_fin">Hora de fin:</label>
-						<input type="time" id="hora_fin" name="hora_fin" value="18:00">
-					</div><br>
+							<div>
+								<label for="hora_fin">Hora de fin:</label>
+								<input type="time" id="hora_fin" name="hora_fin" value="18:00">
+							</div><br>
 
-					<div><label>Estado</label>
-						<select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off" value="<?php echo $estado; ?>" require>
-							
-							<option  selected value="Activo">Activo</option>
-							<option value="Inactivo">Inactivo</option>
-						</select>
-						<!-- <input type="text" name="txtest" autocomplete="off" require> -->
-					</div>
-					</div>
+							<div><label>Estado</label>
+								<select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off" value="<?php echo $estado; ?>" require>
+
+									<option selected value="Activo">Activo</option>
+									<option value="Inactivo">Inactivo</option>
+								</select>
+								<!-- <input type="text" name="txtest" autocomplete="off" require> -->
+							</div>
+						</div>
 					</fieldset>
 				</fieldset>
 				<div class="botones-container">
 					<button type="submit" name="btnregistrar" value="Registrar">
-					<i class="fa-solid fa-plus"></i>
+						<i class="fa-solid fa-plus"></i>
 						Registrar
 					</button>
 					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
-					<i class="fa-solid fa-xmark"></i> Cancelar
+						<i class="fa-solid fa-xmark"></i> Cancelar
 					</a>
 				</div>
 				<!-- <iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe> -->
