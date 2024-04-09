@@ -6,7 +6,7 @@ error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
 $pagina = $_GET['pag'];
 //$coddni = $_GET['id_horario'];
-$coddni =3;
+$coddni =5;
 
 $querybuscar = mysqli_query($conn, "SELECT * FROM horario WHERE id_horario =$coddni");
 
@@ -496,9 +496,36 @@ function obtenerHorariosMedico($idMedico)
 			font-size: 14;
 		}
 	</style>
+    <script>
+        // Función para ejecutar código JavaScript
+    function ejecutarCodigoJavaScript() {
+        $("#id_medico").on("input", function() {
+            var idmedico = $(this).val();
+            // Realizar la solicitud AJAX para obtener los datos del paciente
+            $.ajax({
+                url: '../../consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
+                type: 'POST',
+                data: {
+                    id_medico: idmedico
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $("#nombre_medico").text(data.nombre || '');
+                    $("#apellido_medico").text(data.apellido || '');
+                },
+                error: function() {
+                    alert('Hubo un error al obtener los datos del medico.');
+                }
+            });
+        });
+    }
+
+    // Ejecutar la función al cargar la página
+    window.onload = ejecutarCodigoJavaScript;
+    </script>
 	<script type="text/javascript">
 		// Obtener el campo de entrada y el nuevo ID
-		var txtId = document.getElementById("txtid");
+		/*var txtId = document.getElementById("txtid");
 		var newId = <?php echo $idLaboratorio; ?>;
 		// Asignar el nuevo ID al campo de entrada
 		txtId.value = newId;
@@ -530,7 +557,7 @@ function obtenerHorariosMedico($idMedico)
 			}
 
 			input.focus();
-		}
+		}*/
 	</script>
 	<?php
 	//include("../../menu_lateral_header.php");
@@ -540,7 +567,8 @@ function obtenerHorariosMedico($idMedico)
 //include("../../menu_lateral.php");
 ?>
 
-<body>
+<body onload="cargarHorariosMedico()">
+    
 	<div class="container">
 		<fieldset style=" height:650px;">
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
@@ -564,6 +592,8 @@ function obtenerHorariosMedico($idMedico)
 							</div>
 						</div>
 						<script>
+                            
+  
 							// Función para mostrar el modal
 							function mostrarModalmedico() {
 								var modal = document.getElementById('Modalmedico');
