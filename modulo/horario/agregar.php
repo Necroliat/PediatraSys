@@ -523,7 +523,7 @@ function obtenerHorariosMedico($idMedico)
 			}
 		};
 		window.onload = function() {
-			var input = document.getElementById("id_medico");
+			var input = document.getElementById("txtseg");
 
 			if (obj.addEventListener) {
 				obj.addEventListener("focus", placeCursorAtEnd, false);
@@ -542,7 +542,7 @@ function obtenerHorariosMedico($idMedico)
 //include("../../menu_lateral.php");
 ?>
 
-<body >
+<body onload="cargarHorariosMedico()">
 	<div class="container">
 		<fieldset style=" height:650px;">
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
@@ -673,7 +673,6 @@ function obtenerHorariosMedico($idMedico)
 		<script>
 			// Función para cargar la tabla de horarios del médico
 			function cargarHorariosMedico() {
-				alert("hola");
 				var idMedico = document.getElementById('id_medico').value;
 				var tablaHorarios = document.getElementById('tabla_horarios');
 
@@ -696,8 +695,6 @@ function obtenerHorariosMedico($idMedico)
 
 			// Escuchar cambios en el input del ID del médico
 			document.getElementById('id_medico').addEventListener('input', cargarHorariosMedico);
-
-			window.onload = cargarHorariosMedico;
 		</script>
 
 		</form>

@@ -526,7 +526,7 @@ function obtenerHorariosMedico($idMedico)
 	<script type="text/javascript">
 		// Obtener el campo de entrada y el nuevo ID
 		/*var txtId = document.getElementById("txtid");
-		var newId = <?php echo $idLaboratorio; ?>;
+		var newId = <?php //echo $idLaboratorio; ?>;
 		// Asignar el nuevo ID al campo de entrada
 		txtId.value = newId;
 		// Cambiar el fondo a gris claro
