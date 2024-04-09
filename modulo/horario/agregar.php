@@ -5,94 +5,49 @@ error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
 $pagina = $_GET['pag'];
 
+// Variable de bandera para indicar si se encontró un choque de horarios
+$choqueEncontrado = false;
+
 // Función para verificar choques de horarios
-function verificarChoques($idMedico, $diasSeleccionados, $horaInicio, $horaFin)
+function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta)
 {
-    global $conn;
+	global $conn, $choqueEncontrado;
 
-    // Convertir los días seleccionados en una cadena separada por comas
-    $dias = implode("', '", $diasSeleccionados);
+	// Consulta para verificar choques de horarios para el día específico
+	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias LIKE '%$dia%' AND Estado = 'Activo'";
+	$result = $conn->query($query);
 
-    // Consulta para verificar choques de horarios
-    $query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias IN ('$dias') AND ((hora_inicio BETWEEN '$horaInicio' AND '$horaFin') OR (hora_fin BETWEEN '$horaInicio' AND '$horaFin'))";
-    $result = $conn->query($query);
+	if ($result->num_rows > 0) {
+		while ($row = $result->fetch_assoc()) {
+			$horaInicioDB = $row['hora_inicio'];
+			$horaFinDB = $row['hora_fin'];
 
-    // Si se encontraron choques de horarios, devolver true
-    if ($result->num_rows > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-// Consultar el último ID de la tabla especialidad
-$query = "SELECT MAX(id_horario) AS max_id FROM horario";
-$result = $conn->query($query);
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $lastId = $row["max_id"];
-    $newId = $lastId + 1;
-} else {
-    // Si no hay registros en la tabla, asignar el ID inicial
-    $newId = 1;
-}
-
-// Guardar el nuevo ID en una variable PHP
-$idhorario = $newId;
-
-// Función de validación de campos
-function validarCampos($campos)
-{
-    foreach ($campos as $campo) {
-        if (empty($_POST[$campo])) {
-            return false;
-        }
-    }
-    return true;
-}
-
-// Validar campos antes de procesar el formulario
-if (isset($_POST['btnregistrar'])) {
-    $camposRequeridos = ['txtid', 'id_medico', 'dia', 'txtetiqueta', 'hora_inicio', 'hora_fin', 'txtestado'];
-    if (validarCampos($camposRequeridos)) {
-        $idhorario = $_POST['txtid'];
-        $idmedico = $_POST['id_medico'];
-        $diasSeleccionados = $_POST['dia'];
-        //$dias = $_POST['dias'];
-        $etiqueta = $_POST['txtetiqueta'];
-        $horainicial = $_POST['hora_inicio'];
-        $horafinal = $_POST['hora_fin'];
-        $estado = $_POST['txtestado'];
-        $dias = implode(", ", $diasSeleccionados);
-
-        // Verificar choques de horarios antes de guardar
-        if (verificarChoques($idmedico, $diasSeleccionados, $horainicial, $horafinal)) {
-            echo "<script>alert('El médico ya tiene un horario que coincide con los días y horas seleccionados. Por favor, elija otro horario.');</script>";
-        } else {
-            // Insertar datos en la tabla horario
-            $queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
-
-            if (!$queryAdd) {
-                echo "Error con el registro: " . mysqli_error($conn);
-            } else {
-                echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-            }
-        }
-    } else {
-        echo "<script>alert('Por favor, complete todos los campos');</script>";
-    }
+			// Verificar choque de horarios
+			if (($horaInicio >= $horaInicioDB && $horaInicio < $horaFinDB) || ($horaFin > $horaInicioDB && $horaFin <= $horaFinDB)) {
+				// Verificar si el día de la base de datos coincide con el día insertado
+				if (strpos($row['dias'], $dia) !== false) {
+					// Imprimir mensaje de choque de horarios
+					echo "<script>alert('Hay un choque en el día $dia con el horario de $horaInicioDB a $horaFinDB');</script>";
+					// Establecer la variable de bandera en true
+					$choqueEncontrado = true;
+					// Detener la función de verificación
+					return;
+				}
+			}
+			/*  if (($horaInicio >= $horaInicioDB && $horaInicio < $horaFinDB) || ($horaFin > $horaInicioDB && $horaFin <= $horaFinDB)) {
+                // Imprimir mensaje de choque de horarios
+                echo "<script>alert('Hay un choque en el día $dia con el horario de $horaInicioDB a $horaFinDB');</script>";
+                // Establecer la variable de bandera en true
+                $choqueEncontrado = true;
+                // Detener la función de verificación
+                return;
+            } */
+		}
+	}
 }
 
 
-
-
-
-
-/*session_start();
-error_reporting(E_ALL & ~E_WARNING);
-require_once "../../include/conec.php";
-$pagina = $_GET['pag'];
-// Consultar el último ID de la tabla especialidad
+// Consultar el último ID de la tabla HORARIOS
 $query = "SELECT MAX(id_horario) AS max_id FROM horario";
 $result = $conn->query($query);
 if ($result->num_rows > 0) {
@@ -103,8 +58,10 @@ if ($result->num_rows > 0) {
 	// Si no hay registros en la tabla, asignar el ID inicial
 	$newId = 1;
 }
+
 // Guardar el nuevo ID en una variable PHP
 $idhorario = $newId;
+
 // Función de validación de campos
 function validarCampos($campos)
 {
@@ -115,20 +72,32 @@ function validarCampos($campos)
 	}
 	return true;
 }
+
 // Validar campos antes de procesar el formulario
 if (isset($_POST['btnregistrar'])) {
-	$camposRequeridos = ['txtid', 'id_medico', 'dia', 'txtetiqueta', 'hora_inicio', 'hora_fin', 'txtestado'];
-	if (validarCampos($camposRequeridos)) {
-		$idhorario = $_POST['txtid'];
-		$idmedico = $_POST['id_medico'];
-		$diasSeleccionados = $_POST['dia'];
-		//$dias = $_POST['dias'];
-		$etiqueta = $_POST['txtetiqueta'];
-		$horainicial = $_POST['hora_inicio'];
-		$horafinal = $_POST['hora_fin'];
-		$estado = $_POST['txtestado'];
+	// Obtener datos del formulario
+	$idhorario = $_POST['txtid'];
+	$idmedico = $_POST['id_medico'];
+	$diasSeleccionados = $_POST['dia'];
+	$etiqueta = "Regular";
+	/* $etiqueta = $_POST['txtetiqueta']; */
+	$horainicial = $_POST['hora_inicio'];
+	$horafinal = $_POST['hora_fin'];
+	$estado = $_POST['txtestado'];
+
+	// Verificar choques de horarios para cada día seleccionado
+	foreach ($diasSeleccionados as $dia) {
+		verificarChoques($idmedico, $dia, $horainicial, $horafinal, $etiqueta);
+		// Si se encontró un choque, detener la ejecución
+		if ($choqueEncontrado) {
+			break;
+		}
+	}
+
+	// Si no se encontraron choques, proceder con el registro en la base de datos
+	if (!$choqueEncontrado) {
+		// Insertar datos en la tabla horario
 		$dias = implode(", ", $diasSeleccionados);
-		// Insertar datos en la tabla laboratorio
 		$queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
 
 		if (!$queryAdd) {
@@ -136,10 +105,36 @@ if (isset($_POST['btnregistrar'])) {
 		} else {
 			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
 		}
-	} else {
-		echo "<script>alert('Por favor, complete tolos campos');</script>";
 	}
-}*/
+}
+
+// Función para obtener los horarios del médico
+function obtenerHorariosMedico($idMedico)
+{
+	global $conn;
+	$horarios = array();
+
+	// Consultar los horarios del médico con el ID correspondiente
+	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' ORDER BY FIELD(dias, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado')";
+	$result = $conn->query($query);
+
+	// Iterar sobre los resultados y guardar en un array asociativo
+	while ($row = $result->fetch_assoc()) {
+		$dia = $row['dias'];
+		$horario = $row['hora_inicio'] . ' - ' . $row['hora_fin'];
+
+		// Verificar si ya existe un horario para este día en el array
+		if (array_key_exists($dia, $horarios)) {
+			// Si existe, agregar el horario a la lista existente
+			$horarios[$dia][] = $horario;
+		} else {
+			// Si no existe, crear una nueva lista para ese día
+			$horarios[$dia] = array($horario);
+		}
+	}
+
+	return $horarios;
+}
 ?>
 
 <html>
@@ -625,14 +620,14 @@ if (isset($_POST['btnregistrar'])) {
 
 					<fieldset>
 						<div style="display: flex; flex-wrap: wrap;">
-							<div><label for="txtetiqueta">Identificador del horario</label>
+							<!-- <div><label for="txtetiqueta">Identificador del horario</label>
 								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php echo $etiqueta; ?>" require>
 
 									<option selected value="Regular">Regular</option>
 									<option value="Alterno">Alterno</option>
 								</select>
-								<!-- <input type="text" name="txtest" autocomplete="off" require> -->
-							</div><br>
+								
+							</div><br> -->
 
 							<div>
 								<label for="hora_inicio">Hora de inicio:</label>
@@ -654,6 +649,9 @@ if (isset($_POST['btnregistrar'])) {
 							</div>
 						</div>
 					</fieldset>
+					<div id="tabla_horarios">
+						<!-- Aquí se mostrará la tabla de horarios -->
+					</div>
 				</fieldset>
 				<div class="botones-container">
 					<button type="submit" name="btnregistrar" value="Registrar">
@@ -663,9 +661,42 @@ if (isset($_POST['btnregistrar'])) {
 					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
 						<i class="fa-solid fa-xmark"></i> Cancelar
 					</a>
+
+
+					
 				</div>
 				<!-- <iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe> -->
 		</fieldset>
+
+
+
+		<script>
+			// Función para cargar la tabla de horarios del médico
+			function cargarHorariosMedico() {
+				var idMedico = document.getElementById('id_medico').value;
+				var tablaHorarios = document.getElementById('tabla_horarios');
+
+				// Realizar una petición AJAX para obtener los horarios del médico
+				$.ajax({
+					type: 'POST',
+					url: '../../obtener_horarios_medico.php',
+					data: {
+						id_medico: idMedico
+					},
+					success: function(data) {
+						// Actualizar la tabla de horarios con los datos recibidos
+						tablaHorarios.innerHTML = data;
+					},
+					error: function() {
+						alert('Error al cargar los horarios del médico.');
+					}
+				});
+			}
+
+			// Escuchar cambios en el input del ID del médico
+			document.getElementById('id_medico').addEventListener('input', cargarHorariosMedico);
+		</script>
+
 		</form>
 	</div>
 </body>
