@@ -1,12 +1,11 @@
 <?php
 session_start();
-
-
 error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
 $pagina = $_GET['pag'];
-//$coddni = $_GET['id_horario'];
-$coddni =5;
+$coddni = $_GET['id_horario'];
+$medico = $_GET['nombre_medico'];
+//$coddni =5;
 
 $querybuscar = mysqli_query($conn, "SELECT * FROM horario WHERE id_horario =$coddni");
 
@@ -409,16 +408,16 @@ function obtenerHorariosMedico($idMedico)
 			border: 1px solid #ddd;
 			border-radius: 2vw;
 
-			padding: 1vw;
+			padding: 10px;
 			box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-			margin-bottom: 2vw;
+			margin-bottom: 4px;
 		}
 
 		legend {
 			font-weight: bold;
 			font-size: 16px;
 			font-weight: bold;
-			margin-bottom: 1vw;
+			margin-bottom: 15px;
 			background: linear-gradient(to right, #e4e5dc, #45bac9db);
 			border: solid 1px #45bac9db;
 			border-radius: 10px;
@@ -523,42 +522,7 @@ function obtenerHorariosMedico($idMedico)
     // Ejecutar la función al cargar la página
     window.onload = ejecutarCodigoJavaScript;
     </script>
-	<script type="text/javascript">
-		// Obtener el campo de entrada y el nuevo ID
-		/*var txtId = document.getElementById("txtid");
-		var newId = <?php //echo $idLaboratorio; ?>;
-		// Asignar el nuevo ID al campo de entrada
-		txtId.value = newId;
-		// Cambiar el fondo a gris claro
-		txtId.style.backgroundColor = "#f0f0f0";
-
-		function placeCursorAtEnd() {
-			if (this.setSelectionRange) {
-				// Double the length because Opera is inconsistent about 
-				// whether a carriage return is one character or two.
-				var len = this.value.length * 2;
-				this.setSelectionRange(len, len);
-			} else {
-				// This might work for browsers without setSelectionRange support.
-				this.value = this.value;
-			}
-			if (this.nodeName === "TEXTAREA") {
-				// This will scroll a textarea to the bottom if needed
-				this.scrollTop = 999999;
-			}
-		};
-		window.onload = function() {
-			var input = document.getElementById("txtseg");
-
-			if (obj.addEventListener) {
-				obj.addEventListener("focus", placeCursorAtEnd, false);
-			} else if (obj.attachEvent) {
-				obj.attachEvent('onfocus', placeCursorAtEnd);
-			}
-
-			input.focus();
-		}*/
-	</script>
+	
 	<?php
 	//include("../../menu_lateral_header.php");
 	?>
@@ -572,7 +536,7 @@ function obtenerHorariosMedico($idMedico)
 	<div class="container">
 		<fieldset style=" height:650px;">
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
-				<legend>REGISTRAR HORARIO DE TRABAJO</legend>
+				<legend>MODIFICANDO HORARIO DE TRABAJO DEL MÉDICO ✏✏📝</legend>
 				<fieldset class="caja">
 					<legend class="cajalegend" style="text-align: center;">══ EDITANDO HORARIO PARA EL MÉDICO 📅👩‍⚕️👨‍⚕️ ══</legend>
 					<p style="margin:0;">
@@ -583,8 +547,8 @@ function obtenerHorariosMedico($idMedico)
 
 					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
 						<label for="id_medico">ID medico:</label>
-						<input type="text" id="id_medico" name="id_medico" value="<?php echo $idmedico; ?>" required>
-						<button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
+						<input type="text" id="id_medico" name="id_medico" value="<?php echo $idmedico; ?>" readonly>
+						<!-- <button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button> -->
 						<div id="Modalmedico" class="custom-modal">
 							<div class="custom-modal-content">
 								<span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">cancel</span></span>
@@ -626,25 +590,27 @@ function obtenerHorariosMedico($idMedico)
 							});
 						</script>
 
-						<label for="Nombre_medico">Nombre:</label>
-						<label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-						<label for="Apellido_medico" style="margin-left:5px;">Apellido:</label>
-						<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;margin-left:5px;"></label>
+						<label for="Nombre_medico">Nombre del Médico:</label>
+						<label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;margin-left:5px;"><?php echo $medico; ?></label>
+						<!-- <label for="Apellido_medico" style="margin-left:5px;">Apellido:</label>
+						<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;margin-left:5px;"></label> -->
 					</div>
 
 					<fieldset>
-						<legend style="padding: 0%; margin: 0%;">DIAS QUE TRABAJARÁ:</legend>
-						<div id="checklist" style="display: flex; flex-wrap: wrap;">
-							<p style="text-align:center; font-weight:bold;">Dias Laborables:</p><label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes"> Lunes</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes"> Martes</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles"> Miércoles</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves"> Jueves</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Viernes"> Viernes</label>
-							<hr style="width: 100%; margin: 10px 0;">
-							<p style="text-align:center; font-weight:bold;">Fin de semana:</p>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Sábado"> Sábado</label>
-						</div>
-					</fieldset>
+    <legend style="padding: 0%; margin: 0%;">DIAS QUE TRABAJARÁ:</legend>
+    <div id="checklist" style="display: flex; flex-wrap: wrap;">
+        <p style="text-align:center; font-weight:bold;">Dias Laborables:</p>
+        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes" <?php echo strpos($dias, 'Lunes') !== false ? 'checked' : ''; ?>> Lunes</label>
+        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes" <?php echo strpos($dias, 'Martes') !== false ? 'checked' : ''; ?>> Martes</label>
+        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles" <?php echo strpos($dias, 'Miércoles') !== false ? 'checked' : ''; ?>> Miércoles</label>
+        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves" <?php echo strpos($dias, 'Jueves') !== false ? 'checked' : ''; ?>> Jueves</label>
+        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Viernes" <?php echo strpos($dias, 'Viernes') !== false ? 'checked' : ''; ?>> Viernes</label>
+        <hr style="width: 100%; margin: 10px 0;">
+        <p style="text-align:center; font-weight:bold;">Fin de semana:</p>
+        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Sábado" <?php echo strpos($dias, 'Sábado') !== false ? 'checked' : ''; ?>> Sábado</label>
+    </div>
+</fieldset>
+
 
 					<fieldset>
 						<div style="display: flex; flex-wrap: wrap;">
@@ -683,11 +649,11 @@ function obtenerHorariosMedico($idMedico)
 				</fieldset>
 				<div class="botones-container">
 					<button type="submit" name="btnregistrar" value="Registrar">
-						<i class="fa-solid fa-plus"></i>
-						Registrar
+					<i class="fa-solid fa-file-pen"></i>
+						MODIFICAR
 					</button>
 					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
-						<i class="fa-solid fa-xmark"></i> Cancelar
+					<i class="fa-solid fa-circle-xmark"></i> Cancelar
 					</a>
 
 

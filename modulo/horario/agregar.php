@@ -411,16 +411,16 @@ function obtenerHorariosMedico($idMedico)
 			border: 1px solid #ddd;
 			border-radius: 2vw;
 
-			padding: 1vw;
+			padding: 10px;
 			box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-			margin-bottom: 2vw;
+			margin-bottom: 4px;
 		}
 
 		legend {
 			font-weight: bold;
 			font-size: 16px;
 			font-weight: bold;
-			margin-bottom: 1vw;
+			margin-bottom: 2px;
 			background: linear-gradient(to right, #e4e5dc, #45bac9db);
 			border: solid 1px #45bac9db;
 			border-radius: 10px;

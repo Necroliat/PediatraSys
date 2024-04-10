@@ -386,7 +386,7 @@ function in_iframe()
       // Iterar a través de los resultados de la consulta y generar filas en la tabla
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-          echo "<tr onclick=\"seleccionarhorario('" . $row["id_horario"] . "', '" . $row["id_medico"] . "')\">";
+          echo "<tr onclick=\"seleccionarhorario('" . $row["id_horario"] . "', '" . $row["id_medico"] . "', '" . $row["nombre_medico"] . "')\">";
           echo "<td>" . $row["id_horario"] . "</td>";//nombre_medico
           echo "<td>" . $row["id_medico"] . "</td>";
           echo "<td>" . $row["nombre_medico"] . "</td>";
@@ -396,7 +396,10 @@ function in_iframe()
           echo "<td>" . $row["hora_fin"] . "</td>";
           echo "<td>" . $row["Estado"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/laboratorio/editar.php?id_laboratorio=$row[id_laboratorio]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:12px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td> <a class='clasebotonVER' href=\"modulo/horario/editar.php?id_horario=$row[id_horario]&pag=$pagina&nombre_medico=" . urlencode($row["nombre_medico"]) . "\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:12px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+
+          /* echo "<td> <a class='clasebotonVER' href=\"modulo/horario/editar.php?id_horario=$row[id_horario]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:12px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>"; */
+          
           echo "</tr>";
         }
       } else {
