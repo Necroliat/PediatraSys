@@ -420,7 +420,7 @@ function obtenerHorariosMedico($idMedico)
 			font-weight: bold;
 			font-size: 16px;
 			font-weight: bold;
-			margin-bottom: 2px;
+			margin-bottom: 15px;
 			background: linear-gradient(to right, #e4e5dc, #45bac9db);
 			border: solid 1px #45bac9db;
 			border-radius: 10px;
