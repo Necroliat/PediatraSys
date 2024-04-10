@@ -12,7 +12,6 @@ $choqueEncontrado = false;
 function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta)
 {
 	global $conn, $choqueEncontrado;
-
 	// Consulta para verificar choques de horarios para el día específico
 	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias LIKE '%$dia%' AND Estado = 'Activo'";
 	$result = $conn->query($query);
@@ -34,14 +33,7 @@ function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta)
 					return;
 				}
 			}
-			/*  if (($horaInicio >= $horaInicioDB && $horaInicio < $horaFinDB) || ($horaFin > $horaInicioDB && $horaFin <= $horaFinDB)) {
-                // Imprimir mensaje de choque de horarios
-                echo "<script>alert('Hay un choque en el día $dia con el horario de $horaInicioDB a $horaFinDB');</script>";
-                // Establecer la variable de bandera en true
-                $choqueEncontrado = true;
-                // Detener la función de verificación
-                return;
-            } */
+			
 		}
 	}
 }
@@ -107,22 +99,18 @@ if (isset($_POST['btnregistrar'])) {
 		}
 	}
 }
-
 // Función para obtener los horarios del médico
 function obtenerHorariosMedico($idMedico)
 {
 	global $conn;
 	$horarios = array();
-
 	// Consultar los horarios del médico con el ID correspondiente
 	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' ORDER BY FIELD(dias, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado')";
 	$result = $conn->query($query);
-
 	// Iterar sobre los resultados y guardar en un array asociativo
 	while ($row = $result->fetch_assoc()) {
 		$dia = $row['dias'];
 		$horario = $row['hora_inicio'] . ' - ' . $row['hora_fin'];
-
 		// Verificar si ya existe un horario para este día en el array
 		if (array_key_exists($dia, $horarios)) {
 			// Si existe, agregar el horario a la lista existente
@@ -132,7 +120,6 @@ function obtenerHorariosMedico($idMedico)
 			$horarios[$dia] = array($horario);
 		}
 	}
-
 	return $horarios;
 }
 ?>

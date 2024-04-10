@@ -10,39 +10,29 @@ $medico = $_GET['nombre_medico'];
 $querybuscar = mysqli_query($conn, "SELECT * FROM horario WHERE id_horario =$coddni");
 
 while ($mostrar = mysqli_fetch_array($querybuscar)) {
-    $idhorario2 = $mostrar['id_horario'];
-    $idmedico = $mostrar['id_medico'];
-    $dias = $mostrar['dias'];
-    $etiqueta = $mostrar['Etiqueta'];
-    $horainicio = $mostrar['hora_inicio'];
-    $horafin = $mostrar['hora_fin'];
+	$idhorario2 = $mostrar['id_horario'];
+	$idmedico = $mostrar['id_medico'];
+	$dias = $mostrar['dias'];
+	$etiqueta = $mostrar['Etiqueta'];
+	$horainicio = $mostrar['hora_inicio'];
+	$horafin = $mostrar['hora_fin'];
 }
 ?>
-
-
-
 <?php
-
-
-
 
 // Variable de bandera para indicar si se encontró un choque de horarios
 $choqueEncontrado = false;
-
 // Función para verificar choques de horarios
-function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta)
+function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta,$idhorario2)
 {
 	global $conn, $choqueEncontrado;
-
 	// Consulta para verificar choques de horarios para el día específico
-	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias LIKE '%$dia%' AND Estado = 'Activo'";
+	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias LIKE '%$dia%' AND Estado = 'Activo' AND id_horario <>'$idhorario2'";
 	$result = $conn->query($query);
-
 	if ($result->num_rows > 0) {
 		while ($row = $result->fetch_assoc()) {
 			$horaInicioDB = $row['hora_inicio'];
 			$horaFinDB = $row['hora_fin'];
-
 			// Verificar choque de horarios
 			if (($horaInicio >= $horaInicioDB && $horaInicio < $horaFinDB) || ($horaFin > $horaInicioDB && $horaFin <= $horaFinDB)) {
 				// Verificar si el día de la base de datos coincide con el día insertado
@@ -55,21 +45,9 @@ function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta)
 					return;
 				}
 			}
-			/*  if (($horaInicio >= $horaInicioDB && $horaInicio < $horaFinDB) || ($horaFin > $horaInicioDB && $horaFin <= $horaFinDB)) {
-                // Imprimir mensaje de choque de horarios
-                echo "<script>alert('Hay un choque en el día $dia con el horario de $horaInicioDB a $horaFinDB');</script>";
-                // Establecer la variable de bandera en true
-                $choqueEncontrado = true;
-                // Detener la función de verificación
-                return;
-            } */
 		}
 	}
 }
-
-
-
-
 // Validar campos antes de procesar el formulario
 if (isset($_POST['btnregistrar'])) {
 	// Obtener datos del formulario
@@ -81,36 +59,38 @@ if (isset($_POST['btnregistrar'])) {
 	$horainicial = $_POST['hora_inicio'];
 	$horafinal = $_POST['hora_fin'];
 	$estado = $_POST['txtestado'];
-
 	// Verificar choques de horarios para cada día seleccionado
 	foreach ($diasSeleccionados as $dia) {
-		verificarChoques($idmedico, $dia, $horainicial, $horafinal, $etiqueta);
+		verificarChoques($idmedico, $dia, $horainicial, $horafinal, $etiqueta,$idhorario2);
 		// Si se encontró un choque, detener la ejecución
 		if ($choqueEncontrado) {
 			break;
 		}
 	}
-
 	// Si no se encontraron choques, proceder con el registro en la base de datos
 	if (!$choqueEncontrado) {
 		// Insertar datos en la tabla horario
 		$dias = implode(", ", $diasSeleccionados);
-		$queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
-
+		// Actualizar datos en la tabla horario
+		$queryUpdate = mysqli_query($conn, "UPDATE horario SET id_medico = '$idmedico', dias = '$dias', etiqueta = '$etiqueta', hora_inicio = '$horainicial', hora_fin = '$horafinal', Estado = '$estado' WHERE id_horario = '$idhorario2'");
+		if (!$queryUpdate) {
+			echo "Error al actualizar el registro: " . mysqli_error($conn);
+		} else {
+			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
+		}
+		/* $queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
 		if (!$queryAdd) {
 			echo "Error con el registro: " . mysqli_error($conn);
 		} else {
 			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-		}
+		} */
 	}
 }
-
 // Función para obtener los horarios del médico
 function obtenerHorariosMedico($idMedico)
 {
 	global $conn;
 	$horarios = array();
-
 	// Consultar los horarios del médico con el ID correspondiente
 	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' ORDER BY FIELD(dias, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado')";
 	$result = $conn->query($query);
@@ -129,7 +109,6 @@ function obtenerHorariosMedico($idMedico)
 			$horarios[$dia] = array($horario);
 		}
 	}
-
 	return $horarios;
 }
 ?>
@@ -495,34 +474,34 @@ function obtenerHorariosMedico($idMedico)
 			font-size: 14;
 		}
 	</style>
-    <script>
-        // Función para ejecutar código JavaScript
-    function ejecutarCodigoJavaScript() {
-        $("#id_medico").on("input", function() {
-            var idmedico = $(this).val();
-            // Realizar la solicitud AJAX para obtener los datos del paciente
-            $.ajax({
-                url: '../../consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
-                type: 'POST',
-                data: {
-                    id_medico: idmedico
-                },
-                dataType: 'json',
-                success: function(data) {
-                    $("#nombre_medico").text(data.nombre || '');
-                    $("#apellido_medico").text(data.apellido || '');
-                },
-                error: function() {
-                    alert('Hubo un error al obtener los datos del medico.');
-                }
-            });
-        });
-    }
+	<script>
+		// Función para ejecutar código JavaScript
+		function ejecutarCodigoJavaScript() {
+			$("#id_medico").on("input", function() {
+				var idmedico = $(this).val();
+				// Realizar la solicitud AJAX para obtener los datos del paciente
+				$.ajax({
+					url: '../../consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
+					type: 'POST',
+					data: {
+						id_medico: idmedico
+					},
+					dataType: 'json',
+					success: function(data) {
+						$("#nombre_medico").text(data.nombre || '');
+						$("#apellido_medico").text(data.apellido || '');
+					},
+					error: function() {
+						alert('Hubo un error al obtener los datos del medico.');
+					}
+				});
+			});
+		}
 
-    // Ejecutar la función al cargar la página
-    window.onload = ejecutarCodigoJavaScript;
-    </script>
-	
+		// Ejecutar la función al cargar la página
+		window.onload = ejecutarCodigoJavaScript;
+	</script>
+
 	<?php
 	//include("../../menu_lateral_header.php");
 	?>
@@ -532,7 +511,7 @@ function obtenerHorariosMedico($idMedico)
 ?>
 
 <body onload="cargarHorariosMedico()">
-    
+
 	<div class="container">
 		<fieldset style=" height:650px;">
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
@@ -556,8 +535,6 @@ function obtenerHorariosMedico($idMedico)
 							</div>
 						</div>
 						<script>
-                            
-  
 							// Función para mostrar el modal
 							function mostrarModalmedico() {
 								var modal = document.getElementById('Modalmedico');
@@ -597,25 +574,26 @@ function obtenerHorariosMedico($idMedico)
 					</div>
 
 					<fieldset>
-    <legend style="padding: 0%; margin: 0%;">DIAS QUE TRABAJARÁ:</legend>
-    <div id="checklist" style="display: flex; flex-wrap: wrap;">
-        <p style="text-align:center; font-weight:bold;">Dias Laborables:</p>
-        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes" <?php echo strpos($dias, 'Lunes') !== false ? 'checked' : ''; ?>> Lunes</label>
-        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes" <?php echo strpos($dias, 'Martes') !== false ? 'checked' : ''; ?>> Martes</label>
-        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles" <?php echo strpos($dias, 'Miércoles') !== false ? 'checked' : ''; ?>> Miércoles</label>
-        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves" <?php echo strpos($dias, 'Jueves') !== false ? 'checked' : ''; ?>> Jueves</label>
-        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Viernes" <?php echo strpos($dias, 'Viernes') !== false ? 'checked' : ''; ?>> Viernes</label>
-        <hr style="width: 100%; margin: 10px 0;">
-        <p style="text-align:center; font-weight:bold;">Fin de semana:</p>
-        <label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Sábado" <?php echo strpos($dias, 'Sábado') !== false ? 'checked' : ''; ?>> Sábado</label>
-    </div>
-</fieldset>
+						<legend style="padding: 0%; margin: 0%;">DIAS QUE TRABAJARÁ:</legend>
+						<div id="checklist" style="display: flex; flex-wrap: wrap;">
+							<p style="text-align:center; font-weight:bold;">Dias Laborables:</p>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes" <?php echo strpos($dias, 'Lunes') !== false ? 'checked' : ''; ?>> Lunes</label>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes" <?php echo strpos($dias, 'Martes') !== false ? 'checked' : ''; ?>> Martes</label>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles" <?php echo strpos($dias, 'Miércoles') !== false ? 'checked' : ''; ?>> Miércoles</label>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves" <?php echo strpos($dias, 'Jueves') !== false ? 'checked' : ''; ?>> Jueves</label>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Viernes" <?php echo strpos($dias, 'Viernes') !== false ? 'checked' : ''; ?>> Viernes</label>
+							<hr style="width: 100%; margin: 10px 0;">
+							<p style="text-align:center; font-weight:bold;">Fin de semana:</p>
+							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Sábado" <?php echo strpos($dias, 'Sábado') !== false ? 'checked' : ''; ?>> Sábado</label>
+						</div>
+					</fieldset>
 
 
 					<fieldset>
 						<div style="display: flex; flex-wrap: wrap;">
 							<!-- <div><label for="txtetiqueta">Identificador del horario</label>
-								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php //echo $etiqueta; ?>" require>
+								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php //echo $etiqueta; 
+																																?>" require>
 
 									<option selected value="Regular">Regular</option>
 									<option value="Alterno">Alterno</option>
@@ -634,7 +612,7 @@ function obtenerHorariosMedico($idMedico)
 							</div><br>
 
 							<div><label>Estado</label>
-								<select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off"  required>
+								<select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off" required>
 
 									<option selected value="Activo">Activo</option>
 									<option value="Inactivo">Inactivo</option>
@@ -649,18 +627,18 @@ function obtenerHorariosMedico($idMedico)
 				</fieldset>
 				<div class="botones-container">
 					<button type="submit" name="btnregistrar" value="Registrar">
-					<i class="fa-solid fa-file-pen"></i>
+						<i class="fa-solid fa-file-pen"></i>
 						MODIFICAR
 					</button>
 					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
-					<i class="fa-solid fa-circle-xmark"></i> Cancelar
+						<i class="fa-solid fa-circle-xmark"></i> Cancelar
 					</a>
 
 
-					
+
 				</div>
 				<!-- <iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe> -->
-            </form>
+			</form>
 		</fieldset>
 
 
@@ -692,7 +670,7 @@ function obtenerHorariosMedico($idMedico)
 			document.getElementById('id_medico').addEventListener('input', cargarHorariosMedico);
 		</script>
 
-	
+
 	</div>
 </body>
 
