@@ -1,4 +1,3 @@
-
 <?php
 error_reporting(E_ERROR | E_PARSE);
 $servername = "localhost";
@@ -41,85 +40,101 @@ $conn->close();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Sistema PediatraSys</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
-    <style>body {
-			background: linear-gradient(to right, #E8A9F7, #e4e5dc);
-		}
+    <style>
+        body {
+            background: linear-gradient(to right, #E8A9F7, #e4e5dc);
+        }
 
-		fieldset {
-			background: linear-gradient(to right, #e4e5dc, #62c4f9);
-		}
+        fieldset {
+            background: linear-gradient(to right, #e4e5dc, #62c4f9);
+        }
 
         /* Estilos para las tarjetas (card) */
-.card {
-	float: left;
-    width: 200px;
-    height: 200px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
-	background: linear-gradient(to right, #e4e5dc, #62c4f9);
-	text-align: center;
-    margin-bottom: 30px;
-    color: #444;
-    margin: 10px;
-    transition: transform 0.3s;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        .card {
+            float: left;
+            width: 200px;
+            height: 200px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, #e4e5dc, #62c4f9);
+            text-align: center;
+            margin-bottom: 30px;
+            color: #444;
+            margin: 10px;
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.card img {
-      width: 50px;
-      /* Ajusta el tamaño del icono según sea necesario */
-      height: 50px;
-      margin-top: 10px;
-      /* Espaciado entre el icono y el texto */
-    }
+        .card img {
+            width: 50px;
+            /* Ajusta el tamaño del icono según sea necesario */
+            height: 50px;
+            margin-top: 10px;
+            /* Espaciado entre el icono y el texto */
+        }
 
-    /*.card:hover {
+        /*.card:hover {
     transform: scale(1.1);
 }*/
 
-    .card-title {
-      font-size: 20px;
-      font-weight: bold;
-    }
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-    .card-description {
-      display: none;
-    }
+        .card-description {
+            display: none;
+        }
 
-    .card:hover .card-description {
-      display: block;
-    }
+        .card:hover .card-description {
+            display: block;
+        }
 
-    .card-container {
- 
- display: flex;
- justify-content: space-around; /* Ajusta según tus necesidades de espaciado */
- /*display: flex;
+        .card-container {
+
+            display: flex;
+            justify-content: space-around;
+            /* Ajusta según tus necesidades de espaciado */
+            /*display: flex;
  flex-direction: column;*/
- display: grid;
-   grid-template-columns: repeat(3, 30%);
-   grid-template-rows: repeat(3, 1fr);
-   /* "1fr" representa una fracción del espacio disponible */
-   grid-gap: 6px 10px;
- width: 60%;
- margin:2% 20% 0% 20%;
-}
-</style>
+            display: grid;
+            grid-template-columns: repeat(3, 30%);
+            grid-template-rows: repeat(3, 1fr);
+            /* "1fr" representa una fracción del espacio disponible */
+            grid-gap: 6px 10px;
+            width: 60%;
+            margin: 2% 20% 0% 20%;
+            width: 50;
+            height: 50;
+        }
+
+        .centrado {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 20vh;
+            /* Ajusta según tus necesidades */
+        }
+    </style>
 </head>
+
 <body>
-<div class="message <?php echo $messageColor; ?>"><?php echo $message; ?></div>
-    <div class="login-box" style="background: linear-gradient(to right, #e4e5dc, #62c4f9);" >
-    <img src="IMAGENES/hospital-3-30.png" class="card-icon" alt="Mantenimientos" style="margin-right:40%;margin-left:40%"> 
-    <h2>PediatraSys</h2>
+    <div class="message <?php echo $messageColor; ?>"><?php echo $message; ?></div>
+    <div class="login-box" style="background: linear-gradient(to right, #e4e5dc, #62c4f9);">
+        <div class="centrado">
+            <img src="IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
+        </div>
+        <h2>PediatraSys</h2>
         <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
             <div class="user-box">
                 <input type="text" name="username" required="">
@@ -133,4 +148,5 @@ $conn->close();
         </form>
     </div>
 </body>
+
 </html>

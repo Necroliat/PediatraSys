@@ -64,12 +64,12 @@ $result = $conn->query($query);
 
         .container {
             display: grid;
-            grid-template-columns: 80%;
+            grid-template-columns: 95%;
             grid-template-rows: auto auto auto;
             /* Cambié repeat(3, 1fr) por auto para ajustar la altura automáticamente */
             grid-gap: 6px 10px;
-            margin-left: 10%;
-            margin-right: 10%;
+            margin-left: 2%;
+            margin-right: 2%;
             padding: 0;
           
         }
@@ -274,7 +274,7 @@ $result = $conn->query($query);
     <div>
         <div class="container">
             <form method="POST">
-                <fieldset style=" height:1000px;">
+                <fieldset style=" height:900px;">
                     <legend>Registrar Horarios de los Medicos </legend>
                     <a href="modulo/horario/agregar.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>Agregar

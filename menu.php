@@ -81,7 +81,7 @@
     .card {
       float: left;
       width: 150px;
-      height: 150px;
+      height: 190px;
       padding: 10px;
       border-radius: 10px;
       box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
@@ -234,17 +234,20 @@
         </div>
       </div>
     </a>
+    <a href="menu-consultas.php">
     <div class="card-wrapper">
       <div class="card">
-        <div class="card-title">Consultas</div>
-        <img src="IMAGENES/consultas.png" class="card-icon" alt="Consultas">
+        <div class="card-title">Consultas y Reportes</div>
+        <div>
+        <img src="IMAGENES/consultas.png" class="card-icon" alt="Consultas"> <img src="IMAGENES/reportes.png" class="card-icon" alt="Reportes">
+        </div>
         <div class="card-description">
-          <p>Realizar consultas personalizadas sobre la base de datos.</p>
+          <p>Realizar consultas personalizadas sobre la base de datos y Generar reportes comunes.</p>
         </div>
       </div>
     </div>
-
-    <div class="card-wrapper">
+    </a>
+   <!--  <div class="card-wrapper">
       <div class="card">
         <div class="card-title">Reportes</div>
         <img src="IMAGENES/reportes.png" class="card-icon" alt="Reportes">
@@ -252,8 +255,8 @@
           <p>Generar reportes comunes</p>
         </div>
       </div>
-    </div>
-    <a href="backup/MainBackup.php">
+    </div> -->
+    <a href="backup/php/index.php">
     <div class="card-wrapper">
       <div class="card">
         <div class="card-title">backup</div>

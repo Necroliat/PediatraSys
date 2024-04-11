@@ -88,7 +88,7 @@ function in_iframe() {
       width: auto;
       text-decoration: none;
       height: 40px;
-      font-size: 16px;
+      font-size: 11px;
       padding: 7px;
       margin: 5px;
     }
@@ -96,6 +96,9 @@ function in_iframe() {
     .clasebotonVER:hover {
       background: linear-gradient(to right, #84e788, #05c20e);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    #tabla_medicos{
+      font-size:14px;
     }
   </style>
 </head>
@@ -127,7 +130,7 @@ function in_iframe() {
           echo "<td>" . $row["nombre"] . "</td>";
           echo "<td>" . $row["apellido"] . "</td>";
           echo "<td>" . $row["especialidad"] . "</td>";
-          echo "<td style='width:24%'> <a class='clasebotonVER' href=\"modulo/medicos/editar.php?id_medico=$row[id_medico]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td style='width:24%'> <a class='clasebotonVER' href=\"modulo/medicos/editar.php?id_medico=$row[id_medico]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:11px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
           echo "</tr>";
         }
       } else {
@@ -143,7 +146,7 @@ function in_iframe() {
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },pageLength: 10
       });
 
       // Asignar un evento de clic a las filas de la tabla

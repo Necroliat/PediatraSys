@@ -737,7 +737,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <!-- ID Consulta -->
                 <hr>
                 <label for="id_consulta">ID Consulta</label>
-                <input type="text" id="id_consulta" name="id_consulta">
+                <input type="text" id="id_consulta" name="id_consulta" required>
                 <script>
                     $("#id_consulta").on("input", function() {
                         var idconsulta = $(this).val();
@@ -750,9 +750,9 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             },
                             dataType: 'json',
                             success: function(data) {
-                                $("#nombre_paciente").text(data.nombre_pacientes || ''); // Actualiza el elemento HTML con el nombre y apellido del paciente
-                                $("#nombre_medico").text(data.nombre_medico || ''); // Actualiza el elemento HTML con el nombre y apellido del médico
-                                $("#apellido_paciente").text(data.apellido_paciente || ''); // Actualiza el elemento HTML con el nombre y apellido del paciente
+                                $("#nombre_paciente").text(data.nombre_pacientes || ''); // nombre paciente
+                                $("#nombre_medico").text(data.nombre_medico || ''); // nombre medico
+                                $("#apellido_paciente").text(data.apellido_paciente || ''); // apellido paciente
                                 $("#apellido_medico").text(data.apellido_medico || '');
                                 $("#fecha_consulta").text(data.fecha || ''); // Actualiza el elemento HTML con la fecha de la consulta
                                 $("#id_medico").val(data.id_medico || ''); // Actualiza el input ID del médico
@@ -802,13 +802,14 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         var idPacienteInput = document.getElementById("id_paciente");
                         var buscarMedicoBtn = document.getElementById("buscar_medico");
                         var buscarPacienteBtn = document.getElementById("buscar_paciente");
-
+                        var labelfecha = document.getElementById("fecha_consulta");
                         // Función para deshabilitar campos y botones
                         function disableCampos() {
                             idMedicoInput.readOnly = true;
                             idPacienteInput.readOnly = true;
                             buscarMedicoBtn.disabled = true;
                             buscarPacienteBtn.disabled = true;
+                            labelfecha.textContent = "";
                         }
 
                         // Deshabilitar campos y botones al cargar el documento
@@ -822,6 +823,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                                 idPacienteInput.readOnly = false;
                                 buscarMedicoBtn.disabled = false;
                                 buscarPacienteBtn.disabled = false;
+                                labelfecha.textContent = "00-00-00";
                             } else {
                                 // Deshabilitar campos y botones si se desmarca el checkbox
                                 disableCampos();
@@ -833,7 +835,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 <!-- ID Centro -->
                 <hr>
                 <label for="id_centro">ID Centro</label>
-                <input type="text" id="id_centro" name="id_centro">
+                <input type="text" id="id_centro" name="id_centro" required>
 
                 <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModal2()"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <div id="ModalCENTRO" class="custom-modal">
@@ -857,8 +859,8 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         modal.style.display = 'none';
                     }
                 </script>
-                <input type="checkbox" id="id_centro_na" name="id_centro_na">
-                <label for="id_centro_na">NA</label>
+                <!--  <input type="checkbox" id="id_centro_na" name="id_centro_na">
+                <label for="id_centro_na">NA</label> -->
                 <label id="nombre" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {
@@ -1092,10 +1094,29 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
 
                 <!-- Botón para guardar -->
-                <button class="btn btn-primary boton" type="button" onclick="guardarReceta()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                <button class="btn btn-primary boton" type="button" onclick="verificarYGuardarReceta()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+
 
                 <!-- Elemento para mostrar mensajes de error -->
                 <p id="error-message" style="color: red; display: none;"></p>
+                <button style="width: 211px;" class="btn btn-primary boton" id="btnGenerarReporte" onclick="generarReporte()"><i class="fa-solid fa-print"></i> Imprimir última Receta</button>
+                <script>
+                    function generarReporte() {
+                        // Realizar una solicitud AJAX para obtener el último registro de prescripción médica y detalle de prescripción médica
+                        $.ajax({
+                            url: 'obtener_ultimo_registro.php', // Ruta al archivo PHP que obtiene el último registro
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                // Redirigir a la página de reporte_receta.php y pasar los datos como parámetros en la URL
+                                window.location.href = 'reporte_receta.php?id_receta=' + data.id_receta;
+                            },
+                            error: function() {
+                                alert('Error al obtener el último registro de prescripción médica.');
+                            }
+                        });
+                    }
+                </script>
             </fieldset>
 
 
@@ -1196,10 +1217,13 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 const frecuencia = document.getElementById("frecuencia").value;
                 const tiempoUso = document.getElementById("tiempo_uso").value;
 
-                if (idMedicamento === "" || nombreMedicamento === "" || cantidad === "" || unidadMedida === "" || frecuencia === "" || tiempoUso === "") {
+                if (idMedicamento === "" || nombreMedicamento === "" || cantidad === "" || unidadMedida === "" || frecuencia === "" || tiempoUso === ""|| cantidad === "0"|| tiempoUso === "0") {
                     // Mostrar mensaje de error si algún campo está vacío
                     const errorMessageDiv = document.getElementById("error-message");
                     errorMessageDiv.textContent = "Error: Todos los campos del detalle de receta son obligatorios.";
+                    if (cantidad === "0"|| tiempoUso === "0"){
+                        errorMessageDiv.textContent =errorMessageDiv.textContent+" Cantidad y/o tiempo tiene que ser mayor que 0(cero)";
+                    }
                     errorMessageDiv.style.display = "block"; // Mostrar el mensaje de error
                     errorMessageDiv.style.color = "red";
                     return;
@@ -1228,6 +1252,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 // Limpiar los campos del fieldset de detalle de receta
                 document.getElementById("id_medicamento").value = "";
                 document.getElementById("nombre_medicamento").textContent = "";
+                document.getElementById("descripcion_medicamento").textContent = ""; //descripcion_medicamento
                 document.getElementById("cantidad").value = "";
                 document.getElementById("unidad_medida").value = "";
                 document.getElementById("frecuencia").value = "";
@@ -1306,25 +1331,107 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 xhr.send(JSON.stringify(datosReceta)); // Enviar datos al servidor en formato JSON
             }
 
-            function verificarCamposCompletos() {
-                const idConsulta = document.getElementById("id_consulta").value.trim();
-                const idCentro = document.getElementById("id_centro").value.trim();
-                const idPaciente = document.getElementById("id_paciente").value.trim();
-                const idMedico = document.getElementById("id_medico").value.trim();
 
-                if (idConsulta === "" || idCentro === "" || idPaciente === "" || idMedico === "") {
-                    mostrarMensaje("Por favor, complete todos los campos obligatorios.", "red");
-                    return false;
+ 
+
+            function verificarCamposCompletos() {
+                const camposVacios = []; // Array para almacenar los campos vacíos
+
+                // Obtener valores de los campos del formulario
+                const id_paciente = document.getElementById("id_paciente").value.trim();
+                const id_consulta = document.getElementById("id_consulta").value.trim();
+                const id_centro = document.getElementById("id_centro").value.trim();
+                const nombre_paciente = document.getElementById("nombre_paciente").textContent.trim();
+                const apellido_paciente = document.getElementById("apellido_paciente").textContent.trim();
+                const id_medico = document.getElementById("id_medico").value.trim();
+                const nombre_medico = document.getElementById("nombre_medico").textContent.trim();
+                const apellido_medico = document.getElementById("apellido_medico").textContent.trim();
+                const nombrecentro = document.getElementById("nombre").textContent.trim();
+                // Verificar si los campos están vacíos
+                if (id_consulta === "") {
+                    camposVacios.push("ID consulta (Información faltante)");
+                }
+                if (id_centro === "") {
+                    camposVacios.push("ID Centro Salud (Información faltante)");
+                }
+                if (id_paciente === "") {
+                    camposVacios.push("ID Paciente (Información faltante)");
+                }
+                if (nombre_paciente === "") {
+                    camposVacios.push("Nombre del Paciente (Información faltante)");
+                }
+                if (apellido_paciente === "") {
+                    camposVacios.push("Apellido del Paciente (Información faltante)");
+                }
+                if (id_medico === "") {
+                    camposVacios.push("ID Médico (Información faltante)");
+                }
+                if (nombre_medico === "") {
+                    camposVacios.push("Nombre del Médico (Información faltante)");
+                }
+                if (apellido_medico === "") {
+                    camposVacios.push("apellido del Médico (Información faltante)");
+                }
+                if (nombrecentro === "") {
+                    camposVacios.push("Nombre del Centro de Salud (Información faltante)");
+                }
+                // Validar si hay detalles de receta
+                const tablaDetalle = document.getElementById("tabla_detalle");
+                 const filasDetalle = tablaDetalle.getElementsByTagName("tr");
+
+                 if (filasDetalle.length <= 1) {
+                     camposVacios.push("No hay ni 1 solo Medicamento (Detalle de receta vacío)");
+                 } else {
+                     // Iterar sobre las filas de detalles de receta para verificar campos vacíos
+                     for (let i = 1; i < filasDetalle.length; i++) {
+                         const fila = filasDetalle[i];
+                         const idMedicamento = fila.cells[0].textContent.trim();
+                         const cantidad = fila.cells[2].textContent.trim();
+                         const unidadMedida = fila.cells[3].textContent.trim();
+                         const frecuencia = fila.cells[4].textContent.trim();
+                         const tiempoUso = fila.cells[5].textContent.trim();
+
+                         // Verificar si algún campo de detalle de receta está vacío
+                         if (idMedicamento === "" || cantidad === "" || unidadMedida === "" || frecuencia === "" || tiempoUso === "") {
+                             camposVacios.push(`Medicamento en fila ${i} (Información faltante detalle de receta)`);
+                         }
+                     }
+                 }
+                // Mostrar mensaje si hay campos vacíos
+                if (camposVacios.length > 0) {
+                    const mensaje = "Por favor, complete o corrija la información en los siguientes campos:\n" + camposVacios.join("\n");
+                    mostrarMensaje(mensaje, "red");
+                    return false; // Devolver falso si hay campos vacíos
                 }
 
-                return true;
+                return true; // Devolver verdadero si todos los campos están completos
             }
 
-            document.getElementById("btnguardar").addEventListener("click", function(event) {
-                event.preventDefault();
+            function mostrarMensaje(mensaje, color) {
+                alert(mensaje); // Mostrar el mensaje con una alerta
+            }
+
+            /*  function mostrarMensaje(mensaje, color) {
+                  alert(mensaje); // Mostrar el mensaje con una alerta
+              }*/
+
+
+
+
+
+
+
+            // Define la función verificarYGuardarReceta fuera del evento click
+            function verificarYGuardarReceta() {
                 if (verificarCamposCompletos()) {
                     guardarReceta();
                 }
+            }
+
+            // Agrega el evento click al botón
+            document.getElementById("btnguardar").addEventListener("click", function(event) {
+                event.preventDefault(); // Previene el comportamiento predeterminado del botón
+                verificarYGuardarReceta(); // Llama a la función para verificar y guardar la receta
             });
         </script>
 

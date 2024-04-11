@@ -14,8 +14,8 @@ if ($conn->connect_error) {
 }
 
 // Consulta combinada para obtener los datos de las consultas junto con el nombre del paciente y del médico
-$query = "SELECT c.id_consulta,CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente,  
-          CONCAT(m.nombre, ' ', m.apellido) AS nombre_medico, c.fecha, c.hora
+$query = "SELECT c.id_consulta,p.id_paciente,p.nombre as nombre_paciente,  p.apellido AS apellido_paciente, m.id_medico, 
+          m.nombre as nombre_medico,  m.apellido AS apellido_medico, c.fecha, c.hora
           FROM consultas c
           INNER JOIN paciente p ON c.id_paciente = p.id_paciente
           INNER JOIN medicos m ON c.id_medico = m.id_medico";
@@ -119,9 +119,13 @@ $conn->close(); */
   <table id="tabla_consultas" class="display">
     <thead>
     <tr>
-        <th>ID Consulta</th>
-        <th>Paciente</th>
-        <th>Médico</th>
+        <th>ID Consult</th>
+        <th>ID</th>
+        <th>Nom. Pcte.</th>
+        <th>Apll. Pcte.</th>
+        <th>ID</th>
+        <th>Nom. Médico</th>
+        <th>Apll.. Médico</th>
         <th>Fecha</th>
         <th>Hora</th>
     </tr>
@@ -132,11 +136,15 @@ $conn->close(); */
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $row["id_consulta"] . "</td>";
-            echo "<td>" . $row["nombre_paciente"] . "</td>";
-            echo "<td>" . $row["nombre_medico"] . "</td>";
-            echo "<td>" . $row["fecha"] . "</td>";
-            echo "<td>" . $row["hora"] . "</td>";
+            echo "<td>" . $row["id_consulta"] . "</td>";//0
+            echo "<td>" . $row["id_paciente"] . "</td>";//1
+            echo "<td>" . $row["nombre_paciente"] . "</td>";//2
+            echo "<td>" . $row["apellido_paciente"] . "</td>";//3
+            echo "<td>" . $row["id_medico"] . "</td>";//4
+            echo "<td>" . $row["nombre_medico"] . "</td>";//5
+            echo "<td>" . $row["apellido_medico"] . "</td>";//6
+            echo "<td>" . $row["fecha"] . "</td>";//7
+            echo "<td>" . $row["hora"] . "</td>";//8
             echo "</tr>";
         }
     } else {
@@ -166,19 +174,32 @@ $conn->close(); */
 
         // Obtener los datos de las celdas
         var idconsulta = celdas.eq(0).text();
-      var nombrepaciente = celdas.eq(1).text();
-      var direccioncentro = celdas.eq(2).text();
-      var fechaconsulta = celdas.eq(3).text();
+        var idpaciente = celdas.eq(1).text();
+      var nombrepaciente = celdas.eq(2).text();
+      var apellidopaciente = celdas.eq(3).text();
+      var iddoctor = celdas.eq(4).text();
+      var nombredoctor = celdas.eq(5).text();
+      var apellidodoctor = celdas.eq(6).text();
+      var direccioncentro = celdas.eq(7).text();
+      var fechaconsulta = celdas.eq(8).text();
         setTimeout(function() {
           window.parent.document.getElementById('Modalconsulta').style.display = 'none';
         }, 600);
 
         // Asignar los valores al campo de texto y al label en el otro documento
  window.parent.document.getElementById("id_consulta").value = idconsulta;
+ window.parent.document.getElementById("id_paciente").value = idpaciente ;
         window.parent.document.getElementById("nombre_paciente").textContent = nombrepaciente;
-        window.parent.document.getElementById("fecha_consulta").textContent = fechaconsulta;
+        window.parent.document.getElementById("apellido_paciente").textContent = apellidopaciente;
+
+        window.parent.document.getElementById("id_medico").value = iddoctor;
+ 
+        window.parent.document.getElementById("nombre_medico").textContent = nombredoctor;
+        window.parent.document.getElementById("apellido_medico").textContent = apellidodoctor;
+        window.parent.document.getElementById("fecha_consulta").textContent = direccioncentro;
         window.parent.document.getElementById("telefono").textContent = telefonocentro;
-        window.parent.document.getElementById("id_medico").focus();
+        
+        window.parent.document.getElementById("id_consulta").focus();
 
         var currentPath = window.parent.location.pathname;
         var currentPage = currentPath.substring(currentPath.lastIndexOf("/") + 1);

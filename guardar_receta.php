@@ -48,6 +48,8 @@ if (isset($dataArray['receta']) && isset($dataArray['detalles_receta'])) {
         }
 
         echo "Receta guardada exitosamente con ID: $last_id";
+       // $idReceta = $last_id; // Reemplazar con el ID de la receta recién guardada
+        //header("Location: reporte_receta.php?id_receta=$idReceta");
     } else {
         echo "Error al guardar la receta: " . $conn->error;
     }
@@ -57,5 +59,4 @@ if (isset($dataArray['receta']) && isset($dataArray['detalles_receta'])) {
 
 // Cerrar la conexión a la base de datos
 mysqli_close($conn);
-
 

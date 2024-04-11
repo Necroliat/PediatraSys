@@ -102,11 +102,12 @@ function obtenerDatosMedico($idMedico, $conn)
       background: linear-gradient(to right, #84e788, #05c20e);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     }
+    *{font-size: medium;}
   </style>
 </head>
 
 <body>
-  <h3 style="padding:0; margin:0;">Consulta de Médicos</h3>
+  <h3 style="padding:0; margin:0;text-align: center; text-transform: uppercase;">Consulta de Médicos</h3>
 
   <table id="tabla_medicos" class="display">
     <thead>
@@ -146,7 +147,7 @@ function obtenerDatosMedico($idMedico, $conn)
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },pageLength: 5
       });
 
       // Asignar un evento de clic a las filas de la tabla

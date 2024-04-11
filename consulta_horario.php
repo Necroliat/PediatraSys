@@ -13,7 +13,10 @@ if ($conn->connect_error) {
 }
 
 // Consulta para obtener los datos de la tabla "laboratorio"
-$query = "SELECT * FROM horario";
+$query = "SELECT horario.*, CONCAT(medicos.nombre, ' ', medicos.apellido) AS nombre_medico
+FROM horario
+INNER JOIN medicos ON horario.id_medico = medicos.id_medico;
+";
 $result = $conn->query($query);
 
 
@@ -66,7 +69,7 @@ function in_iframe()
       cursor: pointer;
     }
 
-    
+
     .clasebotonVER {
       color: #f0f0f0;
       text-shadow: 2px 2px 4px #000000;
@@ -82,248 +85,259 @@ function in_iframe()
       padding: 7px;
       margin: 5px;
     }
+
     .clasebotonVER:hover {
       background: linear-gradient(to right, #84e788, #05c20e);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     }
   </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <style>
     .dataTables_wrapper .dataTables_filter input {
-        border: 1px solid #aaa;
-        border-radius: 3px;
-        padding: 5px;
-        background-color: white;
-        color: inherit;
-        margin-left: 3px;
+      border: 1px solid #aaa;
+      border-radius: 3px;
+      padding: 5px;
+      background-color: white;
+      color: inherit;
+      margin-left: 3px;
     }
-    </style>
-    <style>
+  </style>
+  <style>
     .dataTables_wrapper .dataTables_filter input {
-        border: 1px solid #aaa;
-        border-radius: 3px;
-        padding: 5px;
-        background-color: white;
-        color: inherit;
-        margin-left: 3px;
+      border: 1px solid #aaa;
+      border-radius: 3px;
+      padding: 5px;
+      background-color: white;
+      color: inherit;
+      margin-left: 3px;
     }
 
     tr:hover {
-        background-color: #A8A4DE;
+      background-color: #A8A4DE;
     }
 
     .resaltado {
-        background-color: #A8A4DE;
+      background-color: #A8A4DE;
     }
 
     #tabla_tipos_vacunas tbody tr:hover {
-        background-color: #A8A4DE;
-        cursor: pointer;
+      background-color: #A8A4DE;
+      cursor: pointer;
     }
+  </style>
 
 
-    </style>
-
-
-    <style>
+  <style>
     .caja {
-        border: 3px solid #ddd;
-        padding: 10px;
-        box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-        margin: 10px;
-        border-radius: 5px;
+      border: 3px solid #ddd;
+      padding: 10px;
+      box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      border-radius: 5px;
     }
 
     .cajalegend {
-        border: 0px solid rgba(102, 153, 144, 0.0);
-        font-weight: bolder;
-        font-size: 16px;
-        color: white;
-        margin: 0;
-        padding: 0;
-        background-color: transparent;
-        border-radius: 2px;
-        margin-top: -20px;
-        text-shadow: 2px 1px 2px #000000;
+      border: 0px solid rgba(102, 153, 144, 0.0);
+      font-weight: bolder;
+      font-size: 16px;
+      color: white;
+      margin: 0;
+      padding: 0;
+      background-color: transparent;
+      border-radius: 2px;
+      margin-top: -20px;
+      text-shadow: 2px 1px 2px #000000;
 
 
     }
 
     .container {
-        display: grid;
-        grid-template-columns: 80%;
-        grid-template-rows: repeat(3, 1fr);
-        grid-gap: 6px 10px;
-        margin-left: 10%;
-        margin-right: 10%;
+      display: grid;
+      grid-template-columns: 80%;
+      grid-template-rows: repeat(3, 1fr);
+      grid-gap: 6px 10px;
+      margin-left: 10%;
+      margin-right: 10%;
     }
+
     label {
-        font-size: 14px;
-        color: #444;
-        margin: 8px;
-        font-weight: bold;
+      font-size: 14px;
+      color: #444;
+      margin: 8px;
+      font-weight: bold;
     }
+
     button,
     input,
     optgroup,
     select,
     textarea {
-        margin: 0;
-        font-size: 12px;
-        line-height: 14px;
-        margin: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
+      margin: 0;
+      font-size: 12px;
+      line-height: 14px;
+      margin: 10px;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
 
     input[type="text"],
     input[type="date"],
     select {
-        width: 150px;
-        height: 40px;
-        color: #444;
-        margin-bottom: 6%;
-        border: none;
-        border-bottom: 0.1vw solid #444;
-        outline: none;
-        border-radius: 10px;
+      width: 150px;
+      height: 40px;
+      color: #444;
+      margin-bottom: 6%;
+      border: none;
+      border-bottom: 0.1vw solid #444;
+      outline: none;
+      border-radius: 10px;
     }
 
     button {
-        border: none;
-        outline: none;
-        color: #fff;
-        font-size: 1.6vw;
-        background: linear-gradient(to right, #4a90e2, #63b8ff);
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 2vw;
-        margin: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: auto;
-        min-height: 40px;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 1.6vw;
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 2vw;
+      margin: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: auto;
+      min-height: 40px;
     }
 
 
     .boton_bus {
-        border: none;
-        outline: none;
-        height: 4vw;
-        color: #fff;
-        font-size: 1.6vw;
-        background: linear-gradient(to right, #4a90e2, #63b8ff);
-        cursor: pointer;
-        border-radius: 60px;
-        width: 60px;
-        margin-top: 2vw;
-        text-decoration: none;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: auto;
+      border: none;
+      outline: none;
+      height: 4vw;
+      color: #fff;
+      font-size: 1.6vw;
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+      cursor: pointer;
+      border-radius: 60px;
+      width: 60px;
+      margin-top: 2vw;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: auto;
 
 
     }
 
     .boton_bus:active {
-        background-color: #5bc0f7;
-        scale: 1.5;
-        cursor: pointer;
-        transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.8s ease, font-weight 0.8s ease;
-        box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
-        font-size: 25px;
-        color: white;
-        font-weight: bold;
-        font-family: "Copperplate", Fantasy;
+      background-color: #5bc0f7;
+      scale: 1.5;
+      cursor: pointer;
+      transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.8s ease, font-weight 0.8s ease;
+      box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
+      font-size: 25px;
+      color: white;
+      font-weight: bold;
+      font-family: "Copperplate", Fantasy;
     }
 
     /* Estilos específicos para el modal personalizado */
     .custom-modal {
-        display: none;
-        position: fixed;
-        z-index: 9999;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
     }
 
     .custom-modal-content {
-        width: 80%;
-        height: 80%;
-        margin: auto;
-        background: linear-gradient(to right, #e4e5dc, #45bac9db);
-        padding: 20px;
-        border-radius: 20PX;
+      width: 80%;
+      height: 80%;
+      margin: auto;
+      background: linear-gradient(to right, #e4e5dc, #45bac9db);
+      padding: 20px;
+      border-radius: 20PX;
     }
 
     .custom-close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
     }
 
     .custom-close:hover,
     .custom-close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
     }
 
     /* Estilos adicionales específicos para el iframe dentro del modal */
     .custom-iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-            font-size: 16px;
-            padding: 7px;
-            margin: 5px;
+      color: #f0f0f0;
+      text-shadow: 2px 2px 4px #000000;
+      font-weight: bold;
+      border: 1px solid #e4e5dc;
+      outline: none;
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+      border-radius: 7px;
+      width: auto;
+      text-decoration: none;
+      height: 40px;
+      font-size: 10px;
+      padding: 7px;
+      margin: 5px;
 
-        }
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
+    }
+
+    .clasebotonVER:hover {
+      background: linear-gradient(to right, #84e788, #05c20e);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    }
 
     .clasebotonazul:hover {
-        background: linear-gradient(to right, #4a90e2, #63b8ff);
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     }
-    .clasebotonazul {
-        color: #f0f0f0;
-        text-shadow: 2px 2px 4px #000000;
-        font-weight: bold;
-        border: none;
-        outline: none;
-        background: linear-gradient(to right, #63b8ff,#4a90e2);
-        border-radius: 7px;
-        width: auto;
-        text-decoration: none;
-        height: 40px;
 
-        font-size: 16px;
-        padding: 7px;
-        margin: 5px;
+    .clasebotonazul {
+      color: #f0f0f0;
+      text-shadow: 2px 2px 4px #000000;
+      font-weight: bold;
+      border: none;
+      outline: none;
+      background: linear-gradient(to right, #63b8ff, #4a90e2);
+      border-radius: 7px;
+      width: auto;
+      text-decoration: none;
+      height: 40px;
+
+      font-size: 16px;
+      padding: 7px;
+      margin: 5px;
     }
-    </style>
+
+    #tabla_horario th,
+    #tabla_horario td {
+      max-width: 100px;
+      /* Ancho máximo de las celdas */
+      word-wrap: break-word;
+      /* Permitir que el texto largo se divida en múltiples líneas */
+    }
+  </style>
 
   <script>
     $(document).ready(function() {
@@ -356,12 +370,13 @@ function in_iframe()
   <table id="tabla_horario" class="display" style="width:100%">
     <thead>
       <tr>
-        <th>Id horario</th>
-        <th>Nombre medico</th>
+        <th>Id</th>
+        <th>ID Med</th>
+        <th>Médico</th>
         <th>Dias</th>
         <th>Etiqueta</th>
-        <th>Hora de inicio</th>
-        <th>Hora de fin</th>
+        <th>Inicio</th>
+        <th>Fin</th>
         <th>Estado</th>
         <th>Accion</th>
       </tr>
@@ -371,16 +386,20 @@ function in_iframe()
       // Iterar a través de los resultados de la consulta y generar filas en la tabla
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-          echo "<tr onclick=\"seleccionarhorario('" . $row["id_horario"] . "', '" . $row["id_medico"] . "')\">";
-          echo "<td>" . $row["id_horario"] . "</td>";
+          echo "<tr onclick=\"seleccionarhorario('" . $row["id_horario"] . "', '" . $row["id_medico"] . "', '" . $row["nombre_medico"] . "')\">";
+          echo "<td>" . $row["id_horario"] . "</td>";//nombre_medico
           echo "<td>" . $row["id_medico"] . "</td>";
+          echo "<td>" . $row["nombre_medico"] . "</td>";
           echo "<td>" . $row["dias"] . "</td>";
           echo "<td>" . $row["etiqueta"] . "</td>";
           echo "<td>" . $row["hora_inicio"] . "</td>";
           echo "<td>" . $row["hora_fin"] . "</td>";
           echo "<td>" . $row["Estado"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/laboratorio/editar.php?id_laboratorio=$row[id_laboratorio]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td> <a class='clasebotonVER' href=\"modulo/horario/editar.php?id_horario=$row[id_horario]&pag=$pagina&nombre_medico=" . urlencode($row["nombre_medico"]) . "\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:12px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+
+          /* echo "<td> <a class='clasebotonVER' href=\"modulo/horario/editar.php?id_horario=$row[id_horario]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:12px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>"; */
+          
           echo "</tr>";
         }
       } else {

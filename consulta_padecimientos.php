@@ -45,7 +45,7 @@ $result = $conn->query($query);
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },pageLength: 5 
       });
     });
 
@@ -58,6 +58,7 @@ $result = $conn->query($query);
   </script>
 
 <style>
+  *{font-size: medium;}
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 16px;

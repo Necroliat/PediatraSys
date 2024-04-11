@@ -103,11 +103,27 @@ function obtenerDatosPaciente($idPaciente, $conn)
             background: linear-gradient(to right, #84e788, #05c20e);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
+        *{font-size:small;
+        padding:2px;}
+        .centrado {
+          margin:0;
+          padding:0;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+           /*  height: 20vh; */
+            /* Ajusta según tus necesidades */
+        }
   </style>
 </head>
 
 <body>
-  <h3 style="padding:0; margin:0;">Consulta de Pacientes</h3>
+<!-- <div class="centrado">
+            <img src="IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 48px; height: 48px;">
+        </div> -->
+        <h4 style="padding:0; text-align: center; text-transform: uppercase;">Consulta de Pacientes</h4>
+<!-- <h5 style="padding:0; margin:0;text-align: center;">PediatraSys</h5> -->
+  
 
   <table id="tabla_pacientes" class="display">
     <thead>
@@ -151,7 +167,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },pageLength: 4
       });
 
       // Asignar un evento de clic a las filas de la tabla

@@ -348,7 +348,7 @@ function in_iframe()
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },pageLength: 5
       });
       var table = $('#tabla_padrespacientes').DataTable();
       $('#tabla_padrespacientes').on('click', 'tr', function() {
@@ -375,14 +375,14 @@ function in_iframe()
     <thead>
       <tr>
         <th>Id</th>
-        <th>Identificador</th>
+        <th>Ident.</th>
         <th>Nombre/s</th>
         <th>Apellido/s</th>
-        <th>Parentesco</th>
-        <th>Nacionalidad</th>
+        <th>Ptsco.</th>
+        <th>Nación</th>
         <th>sexo</th>
         <th>Dirección</th>
-        <th>Acciones</th>
+        <th>Accion</th>
       </tr>
     </thead>
     <tbody>

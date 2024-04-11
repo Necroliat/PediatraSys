@@ -82,7 +82,7 @@ $result = $conn->query($query);
 
 
 
-    
+
 
     <script>
         /*  $(document).ready(function() {
@@ -334,17 +334,18 @@ $result = $conn->query($query);
             clear: both;
             height: 0;
         }
-body{
-background: linear-gradient(to right, #E8A9F7,#e4e5dc );
-}
 
-fieldset {	
-background: linear-gradient(to right,#e4e5dc ,#62c4f9 );	
-}
+        body {
+            background: linear-gradient(to right, #E8A9F7, #e4e5dc);
+        }
+
+        fieldset {
+            background: linear-gradient(to right, #e4e5dc, #62c4f9);
+        }
     </style>
     <?php
 
-   // include("menu_lateral_header.php");
+    // include("menu_lateral_header.php");
 
     ?>
 </head>
@@ -355,49 +356,39 @@ background: linear-gradient(to right,#e4e5dc ,#62c4f9 );
 ?>
 
 <body>
-    <div>
 
-        <div class="container">
 
-            <form method="POST">
+  <div class="container">
 
-                <fieldset style=" height:900px;">
 
-                    <legend>Registrar Médico | Doctor 🧑‍⚕️👩‍⚕️ </legend>
-                    
-                    <a href="modulo/medicos/agregar.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
-                        <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>Agregar
-                    </a>
-                    
-                    <input type="hidden" value="Buscar" name="btnbuscar">
 
-            </form>
+        <fieldset style=" height:700px;">
 
-            <div height="600px">
-                <iframe id="modal-iframe" src="consulta_medico2.php" frameborder="0" style="width: 100%; height: 100%; max-height:700px ;"></iframe>
-            </div>
-            <div style='text-align:right'>
-                <br>
-            </div>
-            <div style="text-align:center">
+            <legend>Registrar Médico | Doctor 🧑‍⚕️👩‍⚕️ </legend>
 
-            </div>
-            </fieldset>
-            <div style=" margin-top:-20;padding:0; height:0cm;">
-                <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
-                    <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
-                </a>
-                <a href="index.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
-                    <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
-                </a>
-                <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
-                    <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
-                </a>
-            </div>
-            </form>
-        </div>
+            <a href="modulo/medicos/agregar.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
+                <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>Agregar
+            </a>
+            <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
+                <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
+            </a>
+            <a href="index.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
+                <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
+            </a>
+            <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
+                <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
+            </a>
+            <iframe id="modal-iframe" src="consulta_medico2.php" frameborder="0" style="width: 100%; height: 100%; ">hola
+        </iframe>
+      
+        
+            
+        </fieldset>
+
+
     </div>
-    </div>
+
+
 </body>
 
 </html>
