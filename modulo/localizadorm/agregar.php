@@ -418,7 +418,7 @@ if (isset($_POST['btnregistrar'])) {
 
 <body>
 	<div class="container">
-		<fieldset style=" height:1000px;">
+		<fieldset style=" height:350px;">
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
 				<legend>Registrar nuevo localizador</legend>
 				<fieldset class="caja">
@@ -473,11 +473,11 @@ if (isset($_POST['btnregistrar'])) {
 								});
 							</script>
 							<div>
-								<label for="Nombre_medico">Nombre del medico:</label>
+								<label for="Nombre_medico">Nombre :</label>
 								<label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 							</div>
 							<div>
-								<label for="Apellido_medico">Apellido del medico:</label>
+								<label for="Apellido_medico">Apellido :</label>
 								<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 							</div>
 						</div>
@@ -503,20 +503,7 @@ if (isset($_POST['btnregistrar'])) {
 								<input type="text" name="txtvalor" id="txtvalor" required>
 							</p>
 						</div>
-						<!-- <div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
-							<div><label>Etiqueta</label>
-								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php echo $etiqueta; ?>" require>
-									<option selected value="Telefono">Telefono</option>
-									<option value="Email">Email</option>
-									<option value="Movil">Movil</option>
-								</select>
-								 <input type="text" name="txtest" autocomplete="off" require> -->
-						<!-- </div>
-							<p>
-								<label for="txtvalor">Valor</label>
-								<input type="text" name="txtvalor" id="txtvalor" value="<?php echo $valor; ?>" required>
-							</p> -->
-						<!-- </div> -->
+						
 
 
 				</fieldset>
@@ -529,7 +516,7 @@ if (isset($_POST['btnregistrar'])) {
 						<i class="material-icons" style='font-size:21px;text-shadow:2px 2px 4px #000000;vertical-align: text-bottom;'>close</i> Cancelar
 					</a>
 				</div>
-				<iframe id="modal-iframe" src="../../consulta_localizadorm.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe>
+				<!-- <iframe id="modal-iframe" src="../../consulta_localizadorm.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe> -->
 		</fieldset>
 		</form>
 	</div>

@@ -482,6 +482,7 @@ if (isset($_POST['btnregistrar'])) {
 		* {
 			font-size: medium;
 		}
+		
 	</style>
 	<script type="text/javascript">
 		// Obtener el campo de entrada y el nuevo ID
@@ -711,11 +712,17 @@ if (isset($_POST['btnregistrar'])) {
 																										?>" required> -->
 						</p>
 					</fieldset>
-
+					<div  style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;"><p style="text-align: center; text-transform: uppercase; "><b>HORARIO DE TRABAJO DEL MEDICO 📅👨‍⚕️⏲👩‍⚕️:</b></p></div>
+					<fieldset class="caja" width="100%">
+					<div id="tabla_horarios">
+						
+						<!-- Aquí se mostrará la tabla de horarios -->
+					</div>
+					</fieldset>
 				</fieldset>
 				<div class="botones-container">
 					<button type="submit" name="btnregistrar" value="Registrar">
-					<i class="fa-solid fa-calendar-day"></i>
+						<i class="fa-solid fa-calendar-day"></i>
 						Agendar
 					</button>
 					<!-- <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
@@ -734,13 +741,39 @@ if (isset($_POST['btnregistrar'])) {
 
 				</div> -->
 				<div style=" margin-top:-20;padding:0; height:0cm;">
-					
+
 				</div>
 		</fieldset>
 
 		</form>
 
 	</div>
+	<script>
+		// Función para cargar la tabla de horarios del médico
+		function cargarHorariosMedico() {
+			var idMedico = document.getElementById('id_medico').value;
+			var tablaHorarios = document.getElementById('tabla_horarios');
+
+			// Realizar una petición AJAX para obtener los horarios del médico
+			$.ajax({
+				type: 'POST',
+				url: 'obtener_horarios_medico.php',
+				data: {
+					id_medico: idMedico
+				},
+				success: function(data) {
+					// Actualizar la tabla de horarios con los datos recibidos
+					tablaHorarios.innerHTML = data;
+				},
+				error: function() {
+					alert('Error al cargar los horarios del médico.');
+				}
+			});
+		}
+
+		// Escuchar cambios en el input del ID del médico
+		document.getElementById('id_medico').addEventListener('input', cargarHorariosMedico);
+	</script>
 </body>
 <script>
 	var idmedicoActual = "";
