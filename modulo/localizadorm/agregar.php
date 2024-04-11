@@ -360,24 +360,51 @@ if (isset($_POST['btnregistrar'])) {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('#txtetiqueta').change(function() {
-				var etiqueta = $(this).val();
+			// Función para aplicar máscara y actualizar el ejemplo según la etiqueta seleccionada
+			function applyMaskAndExample() {
+				var etiqueta = $('#txtetiqueta').val();
+				var valorInput = $('#txtvalor');
 				switch (etiqueta) {
 					case "Telefono":
-						$('#txtvalor').mask('(000)-000-0000');
+					case "Telefono Principal":
+					case "Telefono Alterno":
+					case "Telefono Casa":
+					case "Movil Principal":
+					case "Movil Alterno":
+					case "Movil Corporativo":
+						// Aplicar máscara para teléfono
+						valorInput.mask('(000) 000-0000', {
+							autoclear: false
+						});
+						// Mostrar ejemplo de teléfono
+						valorInput.attr('placeholder', '(123) 456-7890');
 						break;
-					case "Email":
-						$('#txtvalor').unmask();
-						$('#txtvalor').attr('type', 'email');
-						break;
-					case "Movil":
-						$('#txtvalor').mask('(000)-000-0000');
+					case "Email Personal":
+					case "Email Trabajo":
+					case "Email Alternativo":
+						// Quitar máscara de teléfono
+						valorInput.unmask();
+						// Mostrar ejemplo de correo electrónico
+						valorInput.attr('placeholder', 'ejemplo@dominio.com');
+						// Validar formato de correo electrónico
+						valorInput.attr('type', 'email');
 						break;
 					default:
-						$('#txtvalor').unmask();
-						$('#txtvalor').attr('type', 'text');
+						// Quitar máscara de teléfono
+						valorInput.unmask();
+						// Quitar ejemplo
+						valorInput.attr('placeholder', '');
+						valorInput.attr('type', 'text');
 						break;
 				}
+			}
+
+			// Llamar a la función al cargar la página
+			applyMaskAndExample();
+
+			// Llamar a la función al cambiar la etiqueta seleccionada
+			$('#txtetiqueta').change(function() {
+				applyMaskAndExample();
 			});
 		});
 	</script>
@@ -395,7 +422,7 @@ if (isset($_POST['btnregistrar'])) {
 			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
 				<legend>Registrar nuevo localizador</legend>
 				<fieldset class="caja">
-					<legend class="cajalegend">══ Nuevo localizador ══</legend>
+					<legend class="cajalegend">══ Nuevo localizador <i class="fa-regular fa-address-book"></i> ══ 📠📮</legend>
 					<p style="margin:0;">
 						<label for="txtid">ID localizador</label>
 						<input type="text" name="txtid" id="txtid" value="<?php echo $idlocalizadorm; ?>" required readonly>
@@ -458,7 +485,7 @@ if (isset($_POST['btnregistrar'])) {
 						<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
 							<div>
 								<label>Etiqueta</label>
-								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php echo $etiqueta; ?>" required>
+								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" required>
 									<option selected value="Telefono">Telefono</option>
 									<option value="Telefono Principal">Telefono Principal</option>
 									<option value="Telefono Alterno">Telefono Alterno</option>
