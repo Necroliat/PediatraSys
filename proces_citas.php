@@ -28,7 +28,7 @@ function validarCampos($campos)
 }
 // Validar campos antes de procesar el formulario
 if (isset($_POST['btnregistrar'])) {
-	$camposRequeridos = ['txtid', 'id_medico', 'id_paciente', 'txtfecha', 'txthora', 'estado'];
+	$camposRequeridos = ['txtid', 'id_medico', 'id_paciente', 'txtfecha', 'txthora'];
 	if (validarCampos($camposRequeridos)) {
 		$idcita = $_POST['txtid'];
 		$medico = $_POST['id_medico'];
@@ -36,14 +36,16 @@ if (isset($_POST['btnregistrar'])) {
 		$fecha = $_POST['txtfecha'];
 		$hora = $_POST['txthora'];
 		$observacion = $_POST['txtdescripcion'];
-		$estado = $_POST['estado'];
+		$estado = 'Vigente';
 		// Insertar datos en la tabla laboratorio
 		$queryAdd = mysqli_query($conn, "INSERT INTO citas (id_cita, fecha, hora, id_paciente, id_medico, observaciones, Estado) VALUES('$idcita', '$fecha', '$hora', '$paciente', '$medico', '$observacion', '$estado')");
-
+        
 		if (!$queryAdd) {
 			echo "Error con el registro: " . mysqli_error($conn);
 		} else {
+			echo "<script> alert('Se ha agendado la cita, correctamente!!') </script>";
 			echo "<script>window.location= 'proces_citas.php?pag=1' </script>";
+			
 		}
 	} else {
 		echo "<script>alert('Por favor, complete todos los campos');</script>";
@@ -149,13 +151,7 @@ if (isset($_POST['btnregistrar'])) {
 			align-items: baseline;
 		}
 
-		/* .caja {
-            border: 3px solid #ddd;
-            padding: 10px;
-            box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-            margin: 10px;
-            border-radius: 5px;
-        } */
+
 
 		.cajalegend {
 			border: 0px solid rgba(102, 153, 144, 0.0);
@@ -482,7 +478,6 @@ if (isset($_POST['btnregistrar'])) {
 		* {
 			font-size: medium;
 		}
-		
 	</style>
 	<script type="text/javascript">
 		// Obtener el campo de entrada y el nuevo ID
@@ -679,45 +674,63 @@ if (isset($_POST['btnregistrar'])) {
 						</div>
 					</fieldset>
 
-					<fieldset class="caja" width="100%">
+					<fieldset class="caja" width="100%" style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
 						<p>
-							<label for="txtfecha">Fecha</label>
+							<label for="txtfecha">Para la fecha:</label>
 							<input type="date" autofocus name="txtfecha" id="txtfecha" value="<?php echo $fechacreacion; ?>" required>
-							<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
-																										?>" required> -->
+
 						</p>
 
 						<p>
 							<label for="txthora">Hora</label>
 							<input type="time" autofocus name="txthora" id="txthora" value="<?php echo $fechacreacion; ?>" required>
-							<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
-																										?>" required> -->
+
 						</p>
+						
+
+
+
+						<script>
+							// Función para verificar que la fecha no sea en el pasado y configurar la hora predeterminada
+							function configurarFechaHora() {
+								/* var fechaActual = new Date().toISOString().split('T')[0]; */
+								var fechaActual = new Date().toISOString().split('T')[0];
+								var inputFecha = document.getElementById('txtfecha');
+								inputFecha.min = fechaActual;
+								var inputHora = document.getElementById('txthora');
+								var horaActual = '08:00';
+								 inputHora.value = horaActual; 
+							}
+
+							window.onload = function() {
+								configurarFechaHora();
+							};
+						</script>
 
 						<p>
-							<label for="txtestado">Estado</label>
+							<!-- <label for="txtestado">Estado</label>
 							<select name="estado" id="estado" value="<?php echo $estado; ?>" required>
 								<option value="Vigente">Vigente</option>
 								<option value="Cancelada">Cancelada</option>
 
-							</select><?php echo $descripcion; ?>
-							<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
-																										?>" required> -->
+							</select><?php echo $descripcion; ?> -->
+
 						</p>
 
 						<p>
-							<label for="txtdescripcion">Descripción</label>
-							<textarea name="txtdescripcion" id="txtdescripcion" required><?php echo $descripcion; ?></textarea>
-							<!-- <input type="text" name="txtdescripcion" id="txtdescripcion" value="<?php //echo $vacunades; 
-																										?>" required> -->
+							<label for="txtdescripcion">Descripción/Notas: </label>
+							<textarea name="txtdescripcion" id="txtdescripcion"  style=" align-items:baseline;"><?php echo $descripcion; ?></textarea>
+
 						</p>
 					</fieldset>
-					<div  style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;"><p style="text-align: center; text-transform: uppercase; "><b>HORARIO DE TRABAJO DEL MEDICO 📅👨‍⚕️⏲👩‍⚕️:</b></p></div>
-					<fieldset class="caja" width="100%">
-					<div id="tabla_horarios">
-						
-						<!-- Aquí se mostrará la tabla de horarios -->
+					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
+						<p style="text-align: center; text-transform: uppercase; "><b>HORARIO DE TRABAJO DEL MEDICO 📅👨‍⚕️⏲👩‍⚕️:</b></p>
 					</div>
+					<fieldset class="caja" width="100%">
+						<div id="tabla_horarios">
+
+							<!-- Aquí se mostrará la tabla de horarios -->
+						</div>
 					</fieldset>
 				</fieldset>
 				<div class="botones-container">
