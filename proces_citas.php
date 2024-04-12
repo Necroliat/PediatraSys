@@ -26,8 +26,133 @@ function validarCampos($campos)
 	}
 	return true;
 }
+
+// Función para verificar si el médico está disponible en el día y hora seleccionados
+function medicoDisponible($idMedico, $fecha, $hora)
+{
+	global $conn;
+
+	// Obtener el día de la semana para la fecha seleccionada en español
+	$diasSemana = array('Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado');
+	$numeroDiaSemana = date('w', strtotime($fecha));
+	$diaSemana = $diasSemana[$numeroDiaSemana];
+
+	// Consultar si el médico tiene un horario de trabajo registrado
+	$queryHorario = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND Estado = 'Activo'";
+	$resultHorario = $conn->query($queryHorario);
+
+	if ($resultHorario->num_rows > 0) {
+		// El médico tiene un horario de trabajo registrado
+		while ($rowHorario = $resultHorario->fetch_assoc()) {
+			// Obtener los días de trabajo del médico
+			$diasTrabajo = explode(', ', $rowHorario['dias']);
+
+			// Verificar si el médico trabaja en el día seleccionado
+			if (in_array($diaSemana, $diasTrabajo)) {
+				// El médico trabaja en el día seleccionado, verificar el horario
+				$horaInicio = $rowHorario['hora_inicio'];
+				$horaFin = $rowHorario['hora_fin'];
+
+				// Verificar si la hora seleccionada está dentro del horario del médico
+				if ($hora >= $horaInicio && $hora <= $horaFin) {
+					// El médico está disponible en el día y hora seleccionados
+					return true;
+				} else {
+					// La hora seleccionada está fuera del horario del médico
+					return "El médico no está disponible en el horario seleccionado.";
+				}
+			}
+		}
+
+		// El médico no trabaja en el día seleccionado
+		return "El médico no trabaja en el día $diaSemana.";
+	} else {
+		// El médico no tiene un horario de trabajo registrado
+		return "El médico no tiene un horario de trabajo registrado.";
+	}
+}
+
 // Validar campos antes de procesar el formulario
 if (isset($_POST['btnregistrar'])) {
+	$camposRequeridos = ['txtid', 'id_medico', 'id_paciente', 'txtfecha', 'txthora'];
+	if (validarCampos($camposRequeridos)) {
+		$idcita = $_POST['txtid'];
+		$medico = $_POST['id_medico'];
+		$paciente = $_POST['id_paciente'];
+		$fecha = $_POST['txtfecha'];
+		$hora = $_POST['txthora'];
+		$observacion = $_POST['txtdescripcion'];
+		$estado = 'Vigente';
+
+		// Verificar si el médico está disponible en el día y hora seleccionados
+		$disponibilidadMedico = medicoDisponible($medico, $fecha, $hora);
+
+		if ($disponibilidadMedico === true) {
+			// El médico está disponible, proceder con el registro de la cita
+			$queryAdd = mysqli_query($conn, "INSERT INTO citas (id_cita, fecha, hora, id_paciente, id_medico, observaciones, Estado) VALUES('$idcita', '$fecha', '$hora', '$paciente', '$medico', '$observacion', '$estado')");
+			if (!$queryAdd) {
+				echo "Error con el registro: " . mysqli_error($conn);
+			} else {
+				echo "<script> alert('Se ha agendado la cita correctamente!!') </script>";
+				echo "<script>window.location= 'proces_citas.php?pag=1' </script>";
+			}
+		} else {
+			// El médico no está disponible en el día y hora seleccionados
+			echo "<script>alert('$disponibilidadMedico');</script>";
+		}
+	} else {
+		echo "<script>alert('Por favor, complete todos los campos');</script>";
+	}
+}
+// Validar campos antes de procesar el formulario
+// Validar campos antes de procesar el formulario
+/* if (isset($_POST['btnregistrar'])) {
+    $camposRequeridos = ['txtid', 'id_medico', 'id_paciente', 'txtfecha', 'txthora'];
+    if (validarCampos($camposRequeridos)) {
+        $idcita = $_POST['txtid'];
+        $medico = $_POST['id_medico'];
+        $paciente = $_POST['id_paciente'];
+        $fecha = $_POST['txtfecha'];
+        $hora = $_POST['txthora'];
+        $observacion = $_POST['txtdescripcion'];
+        $estado = 'Vigente';
+
+        // Obtener el día de la semana para la fecha seleccionada
+        $diaSemanaFecha = date('l', strtotime($fecha));
+
+        // Consultar la tabla de horarios para el médico
+        $queryHorarios = "SELECT * FROM horario WHERE id_medico = '$medico' AND Estado = 'Activo'";
+        $resultHorarios = $conn->query($queryHorarios);
+
+        $diasTrabajo = [];
+        $horasTrabajo = [];
+
+        if ($resultHorarios->num_rows > 0) {
+            while ($rowHorarios = $resultHorarios->fetch_assoc()) {
+                // Obtener los días de trabajo del médico
+                $diasTrabajo[] = $rowHorarios['dias'];
+
+                // Obtener las horas de trabajo del médico
+                $horasTrabajo[] = $rowHorarios['hora_inicio'] . ' - ' . $rowHorarios['hora_fin'];
+            }
+        }
+
+        // Mostrar mensajes de alerta para depuración
+        echo "<script>";
+        echo "alert('Día de la fecha extraída: $diaSemanaFecha');";
+        echo "alert('Días que trabaja el médico según la base de datos: " . implode(', ', $diasTrabajo) . "');";
+        echo "alert('Horas de trabajo del médico según la base de datos: " . implode(', ', $horasTrabajo) . "');";
+        echo "</script>";
+
+        // Continuar con el proceso de registro de la cita...
+        // ...
+    } else {
+        echo "<script>alert('Por favor, complete todos los campos');</script>";
+    }
+} */
+
+// Validar campos antes de procesar el formulario
+/* if (isset($_POST['btnregistrar'])) {
 	$camposRequeridos = ['txtid', 'id_medico', 'id_paciente', 'txtfecha', 'txthora'];
 	if (validarCampos($camposRequeridos)) {
 		$idcita = $_POST['txtid'];
@@ -50,7 +175,7 @@ if (isset($_POST['btnregistrar'])) {
 	} else {
 		echo "<script>alert('Por favor, complete todos los campos');</script>";
 	}
-}
+} */
 ?>
 
 <html>
@@ -686,7 +811,7 @@ if (isset($_POST['btnregistrar'])) {
 							<input type="time" autofocus name="txthora" id="txthora" value="<?php echo $fechacreacion; ?>" required>
 
 						</p>
-						
+
 
 
 
@@ -699,7 +824,7 @@ if (isset($_POST['btnregistrar'])) {
 								inputFecha.min = fechaActual;
 								var inputHora = document.getElementById('txthora');
 								var horaActual = '08:00';
-								 inputHora.value = horaActual; 
+								inputHora.value = horaActual;
 							}
 
 							window.onload = function() {
@@ -719,7 +844,7 @@ if (isset($_POST['btnregistrar'])) {
 
 						<p>
 							<label for="txtdescripcion">Descripción/Notas: </label>
-							<textarea name="txtdescripcion" id="txtdescripcion"  style=" align-items:baseline;"><?php echo $descripcion; ?></textarea>
+							<textarea name="txtdescripcion" id="txtdescripcion" style=" align-items:baseline;"><?php echo $descripcion; ?></textarea>
 
 						</p>
 					</fieldset>
