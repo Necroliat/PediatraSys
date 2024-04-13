@@ -797,7 +797,7 @@ while ($mostrar = mysqli_fetch_array($querybuscar)) {
 // Verificar si se recibió el ID del médico
 if (isset($idmedico2) && !empty($idmedico2)) {
     // Consultar los horarios del médico
-    $query = "SELECT * FROM horario WHERE id_medico = '$idmedico2'";
+    $query = "SELECT * FROM horario WHERE id_medico = '$idmedico2' AND estado='Activo'";
     $result = $conn->query($query);
 
     // Verificar si se encontraron resultados

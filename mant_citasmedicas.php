@@ -275,6 +275,11 @@ function in_iframe()
             /* Ajusta según tus necesidades */
         }
   </style>
+    <script type="text/javascript">
+    function openInParentWindow(url) {
+    window.parent.location.href = url;
+}
+</script>
 </head>
 
 <body>
@@ -283,7 +288,7 @@ function in_iframe()
     <div class="centrado">
             <img src="IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
         </div>
-  <h2 style="padding:0; text-align: center; text-transform: uppercase;">Consulta CITAS de los Médico</h2>
+  <h2 style="padding:0; text-align: center; text-transform: uppercase;">CITAS de los Médico</h2>
       <h3 style="padding:0; margin:0;text-align: center;">PediatraSys</h3>
       <a href="proces_citas.php" id="btnagendar" class="btn btn-primary" style="width: 260px; font-size:medium;vertical-align: baseline; font-weight:bold;">
       <i class="fa-solid fa-calendar-plus"></i> Agendar Nueva Citas
@@ -317,8 +322,21 @@ function in_iframe()
         echo "<td>" . $row["nombre_paciente"] . "</td>";
         echo "<td>" . $row["id_medico"] . "</td>";
         echo "<td>" . $row["nombre_medico"] . "</td>";
-        echo "<td style='width:24%'> <a class='clasebotonVER' href=\"modulo/citas/editar.php?id_cita={$row['id_cita']}&nombre_paciente={$row['nombre_paciente']}&nombre_medico={$row['nombre_medico']}&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
-        echo "</tr>";
+        
+echo "<td style='width:24%'> 
+        <button class='clasebotonVER' onclick=\"window.location.href = 'modulo/citas/editar.php?id_cita={$row['id_cita']}&nombre_paciente=" . urlencode($row['nombre_paciente']) . "&nombre_medico=" . urlencode($row['nombre_medico']) . "&pag=$pagina';\">
+            <i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar
+        </button> 
+      </td>";
+
+
+
+echo "</tr>";
+
+
+
+       /* echo "<td style='width:24%'> <a class='clasebotonVER' href=\"modulo/citas/editar.php?id_cita={$row['id_cita']}&nombre_paciente={$row['nombre_paciente']}&nombre_medico={$row['nombre_medico']}&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+        echo "</tr>";*/
     }
 } else {
     echo "<tr><td colspan='8'>No se encontraron resultados.</td></tr>";
@@ -586,9 +604,8 @@ function in_iframe()
   });
 }
 
-configurarTabla();
-        
-       
+configurarTabla(); 
+ 
   </script>
 </body>
 

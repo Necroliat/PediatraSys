@@ -7,7 +7,7 @@ function obtenerHorariosMedico($idMedico) {
     global $conn;
 
     // Consulta para obtener los horarios del médico
-    $query = "SELECT * FROM horario WHERE id_medico = '$idMedico'";
+    $query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND estado='Activo'";
     $result = $conn->query($query);
 
     // Verificar si se encontraron resultados
@@ -87,23 +87,5 @@ if (isset($_POST['id_medico'])) {
 } else {
     echo "ID de médico no proporcionado.";
 }
-/*
-// Obtener el ID del médico desde la petición AJAX
-$idMedico = $_POST['id_medico'];
 
-// Obtener los horarios del médico
-$horarios = obtenerHorariosMedico($idMedico);
-
-// Generar la tabla HTML con los horarios del médico
-echo '<table border="1">';
-echo '<thead><tr><th>Día</th><th>Horarios</th></tr></thead>';
-echo '<tbody>';
-foreach ($horarios as $dia => $horario) {
-    echo '<tr>';
-    echo '<td>' . $dia . '</td>';
-    echo '<td>' . implode(', ', $horario) . '</td>';
-    echo '</tr>';
-}
-echo '</tbody>';
-echo '</table>';*/
 ?>
