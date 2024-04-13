@@ -108,7 +108,7 @@ if (isset($_POST['btnregistrar'])) {
 				echo "Error con el registro: " . mysqli_error($conn);
 			} else {
 				echo "<script> alert('Se ha actualizado la cita correctamente!!') </script>";
-				echo "<script>window.location= 'proces_citas.php?pag=1' </script>";
+				echo "<script>window.location= '../../mant_citasmedicas.php?pag=1' </script>";
 			}
 		} else {
 			// El médico no está disponible en el día y hora seleccionados
