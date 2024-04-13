@@ -368,7 +368,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" onclick="cambiarIframe('')" class="nav-link">
+                  <a href="#" onclick="cambiarIframe('consultamedicospacientescitas.php')" class="nav-link">
                     <i class="fa-solid fa-calendar-day"></i><i class="fa-solid fa-user-doctor"></i>
                     <p>Citas del Médico</p>
                   </a>

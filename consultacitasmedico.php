@@ -10,16 +10,34 @@
   <style>
     /* Estilos personalizados */
     .zebra-table tbody tr:nth-of-type(odd) {
-      background-color: #f1f1f1;
+      background-color: rgba(255,255,255,0.6);
     }
     .rounded-corners {
       border-radius: 10px;
         
     }
+      fieldset {
+      border: 1px solid #ddd;
+      border-radius: 2vw;
+      background: linear-gradient(to right, #e4e5dc, #45bac9db);
+      padding: 1vw;
+      box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
+      margin: 120px;
+
+
+    }
+      body {
+      background: linear-gradient(to right, #E8A9F7, #e4e5dc);
+    }
+
+    fieldset {
+      background: linear-gradient(to right, #e4e5dc, #62c4f9);
+    }
   </style>
     <title>Citas del Día</title>
 </head>
 <body>
+    <fieldset>
     <div class="table-responsive">
 <!--    <h2>Citas del Día</h2>-->
 
@@ -45,7 +63,7 @@
         $estado = "Cancelada";
         $sql = "UPDATE citas SET Estado='$estado' WHERE id_cita='$idCita'";
         if ($conn->query($sql) === TRUE) {
-          echo "Cita cancelada con éxito.";
+          //echo "Cita cancelada con éxito.";
             //header("Location: proces_citasXmedico.php");
         } else {
           echo "Error al cancelar la cita: " . $conn->error;
@@ -57,7 +75,7 @@
         $estado = "En consulta";
         $sql = "UPDATE citas SET Estado='$estado' WHERE id_cita='$idCita'";
         if ($conn->query($sql) === TRUE) {
-          echo "Cita cambiada a 'En consulta' con éxito.";
+          //echo "Cita cambiada a 'En consulta' con éxito.";
           // header("Location: proces_citasXmedico.php");
         } else {
           echo "Error al cambiar el estado de la cita a 'En consulta': " . $conn->error;
@@ -69,7 +87,7 @@
         $estado = "Atendida";
         $sql = "UPDATE citas SET Estado='$estado' WHERE id_cita='$idCita'";
         if ($conn->query($sql) === TRUE) {
-          echo "Cita marcada como 'Atendida' con éxito.";
+         // echo "Cita marcada como 'Atendida' con éxito.";
            // header("Location: proces_citasXmedico.php");
         } else {
           echo "Error al cambiar el estado de la cita a 'Atendida': " . $conn->error;
@@ -98,14 +116,14 @@ if ($result_medico->num_rows > 0) {
 $fecha_actual = date("d/m/Y");
 
 // Imprimir la etiqueta <h2> con el nombre del médico y la fecha actual
-echo "<h5 style='text-transform: uppercase;'>Citas del Día - Dr. $nombre_medico $apellido_medico - $fecha_actual</h5>";
+echo "<h5 style='text-transform: uppercase;'>Citas del Día - Dr./Dra $nombre_medico $apellido_medico - $fecha_actual</h5>";
         
         
         
     $sql = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
                 FROM citas c
                 INNER JOIN paciente p ON c.id_paciente = p.id_paciente
-                WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='2024-04-13'  AND ESTADO='Vigente' OR ESTADO='En consulta'";
+                WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='CURDATE()'  AND ESTADO='Vigente' OR ESTADO='En consulta'";
 
     $result = $conn->query($sql);
 
@@ -177,7 +195,7 @@ while ($row = $result->fetch_assoc()) {
 $sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
                       FROM citas c
                       INNER JOIN paciente p ON c.id_paciente = p.id_paciente
-                      WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='2024-04-13'  AND (ESTADO = 'Cancelada' OR ESTADO = 'Atendida')";
+                      WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='CURDATE()'  AND (ESTADO = 'Cancelada' OR ESTADO = 'Atendida')";
 /*// Consulta para obtener las citas canceladas o atendidas
 $sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
                 FROM citas c
@@ -186,7 +204,7 @@ $sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado
 $result_segunda_tabla = $conn->query($sql_segunda_tabla);
 
 if ($result_segunda_tabla->num_rows > 0) {
-  echo "<h5 style='text-transform: uppercase;'>Historial de Citas - Dr. $nombre_medico $apellido_medico</h5>";
+  echo "<h5 style='text-transform: uppercase;'>Historial de Citas - Dr./Dra. $nombre_medico $apellido_medico</h5>";
   echo "<table class='table table-striped zebra-table rounded-corners'>";
   echo "<tr>
           <th>ID Cita</th>
@@ -215,8 +233,11 @@ if ($result_segunda_tabla->num_rows > 0) {
 $conn->close();
  
         ?>
-        
+       <a href="consultamedicospacientescitas.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
+      <i class="fa-solid fa-left-long"></i> Regresar
+    </a> 
     </div>
+        </fieldset>
 </body>
 </html>
 
