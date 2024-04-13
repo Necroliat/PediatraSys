@@ -351,7 +351,7 @@
 
 
             <li class="nav-item">
-              <a href="#" onclick="cambiarIframe('proces_citas.php')" class="nav-link">
+              <a href="#" onclick="cambiarIframe('mant_citasmedicas.php')" class="nav-link">
                 <i class="fa-solid fa-calendar-days"></i>
                 <p>
                   Citas
@@ -362,7 +362,7 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
 
-                  <a href="#" onclick="" class="nav-link">
+                  <a href="#" onclick="cambiarIframe('proces_citas.php')" class="nav-link">
                     <i class="fa-solid fa-calendar-plus"></i>
                     <p>Agendar Cita</p>
                   </a>
