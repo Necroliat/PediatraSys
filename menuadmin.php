@@ -368,9 +368,9 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                    <i class="fa-solid fa-calendar-day"></i>
-                    <p>Cambiar Cita</p>
+                  <a href="#" onclick="cambiarIframe('')" class="nav-link">
+                    <i class="fa-solid fa-calendar-day"></i><i class="fa-solid fa-user-doctor"></i>
+                    <p>Citas del Médico</p>
                   </a>
                 </li>
                 <li class="nav-item">
