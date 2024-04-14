@@ -104,78 +104,7 @@ if (isset($_POST['btnregistrar'])) {
 		echo "<script>alert('Por favor, complete todos los campos');</script>";
 	}
 }
-// Validar campos antes de procesar el formulario
-// Validar campos antes de procesar el formulario
-/* if (isset($_POST['btnregistrar'])) {
-    $camposRequeridos = ['txtid', 'id_medico', 'id_paciente', 'txtfecha', 'txthora'];
-    if (validarCampos($camposRequeridos)) {
-        $idcita = $_POST['txtid'];
-        $medico = $_POST['id_medico'];
-        $paciente = $_POST['id_paciente'];
-        $fecha = $_POST['txtfecha'];
-        $hora = $_POST['txthora'];
-        $observacion = $_POST['txtdescripcion'];
-        $estado = 'Vigente';
 
-        // Obtener el día de la semana para la fecha seleccionada
-        $diaSemanaFecha = date('l', strtotime($fecha));
-
-        // Consultar la tabla de horarios para el médico
-        $queryHorarios = "SELECT * FROM horario WHERE id_medico = '$medico' AND Estado = 'Activo'";
-        $resultHorarios = $conn->query($queryHorarios);
-
-        $diasTrabajo = [];
-        $horasTrabajo = [];
-
-        if ($resultHorarios->num_rows > 0) {
-            while ($rowHorarios = $resultHorarios->fetch_assoc()) {
-                // Obtener los días de trabajo del médico
-                $diasTrabajo[] = $rowHorarios['dias'];
-
-                // Obtener las horas de trabajo del médico
-                $horasTrabajo[] = $rowHorarios['hora_inicio'] . ' - ' . $rowHorarios['hora_fin'];
-            }
-        }
-
-        // Mostrar mensajes de alerta para depuración
-        echo "<script>";
-        echo "alert('Día de la fecha extraída: $diaSemanaFecha');";
-        echo "alert('Días que trabaja el médico según la base de datos: " . implode(', ', $diasTrabajo) . "');";
-        echo "alert('Horas de trabajo del médico según la base de datos: " . implode(', ', $horasTrabajo) . "');";
-        echo "</script>";
-
-        // Continuar con el proceso de registro de la cita...
-        // ...
-    } else {
-        echo "<script>alert('Por favor, complete todos los campos');</script>";
-    }
-} */
-
-// Validar campos antes de procesar el formulario
-/* if (isset($_POST['btnregistrar'])) {
-	$camposRequeridos = ['txtid', 'id_medico', 'id_paciente', 'txtfecha', 'txthora'];
-	if (validarCampos($camposRequeridos)) {
-		$idcita = $_POST['txtid'];
-		$medico = $_POST['id_medico'];
-		$paciente = $_POST['id_paciente'];
-		$fecha = $_POST['txtfecha'];
-		$hora = $_POST['txthora'];
-		$observacion = $_POST['txtdescripcion'];
-		$estado = 'Vigente';
-		// Insertar datos en la tabla laboratorio
-		$queryAdd = mysqli_query($conn, "INSERT INTO citas (id_cita, fecha, hora, id_paciente, id_medico, observaciones, Estado) VALUES('$idcita', '$fecha', '$hora', '$paciente', '$medico', '$observacion', '$estado')");
-        
-		if (!$queryAdd) {
-			echo "Error con el registro: " . mysqli_error($conn);
-		} else {
-			echo "<script> alert('Se ha agendado la cita, correctamente!!') </script>";
-			echo "<script>window.location= 'proces_citas.php?pag=1' </script>";
-			
-		}
-	} else {
-		echo "<script>alert('Por favor, complete todos los campos');</script>";
-	}
-} */
 ?>
 
 <html>
