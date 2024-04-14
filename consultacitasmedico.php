@@ -77,9 +77,9 @@
       }
     }
 
-    $idMedico = 18; // Supongamos que tienes el ID del médico que deseas consultar
+    //$idMedico = 18; // Supongamos que tienes el ID del médico que deseas consultar
     //fecha actual sql-- CURDATE()
-    //$idMedico =  $_SESSION['id_medico'];
+    $idMedico =  $_SESSION['id_medico'];
     //$idMedico = $_GET["id_medico"];
         
  // Obtener el nombre y apellido del médico
