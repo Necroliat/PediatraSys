@@ -14,6 +14,7 @@
     }
     .rounded-corners {
       border-radius: 10px;
+        
     }
   </style>
     <title>Citas del Día</title>
@@ -76,7 +77,7 @@
       }
     }
 
-    $idMedico = 16; // Supongamos que tienes el ID del médico que deseas consultar
+    $idMedico = 18; // Supongamos que tienes el ID del médico que deseas consultar
     //fecha actual sql-- CURDATE()
     //$idMedico =  $_SESSION['id_medico'];
     //$idMedico = $_GET["id_medico"];
@@ -97,7 +98,7 @@ if ($result_medico->num_rows > 0) {
 $fecha_actual = date("d/m/Y");
 
 // Imprimir la etiqueta <h2> con el nombre del médico y la fecha actual
-echo "<h4>Citas del Día - Dr. $nombre_medico $apellido_medico - $fecha_actual</h4>";
+echo "<h5 style='text-transform: uppercase;'>Citas del Día - Dr. $nombre_medico $apellido_medico - $fecha_actual</h5>";
         
         
         
@@ -165,10 +166,56 @@ while ($row = $result->fetch_assoc()) {
 }
       echo "</table>";
     } else {
-      echo "0 resultados";
+      echo "0 resultados/No hay citas por ahora!!";
     }
-    $conn->close();
+
     ?>
+        <?php 
+        
+
+// Consulta para obtener las citas canceladas o atendidas
+$sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
+                      FROM citas c
+                      INNER JOIN paciente p ON c.id_paciente = p.id_paciente
+                      WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='2024-04-13'  AND (ESTADO = 'Cancelada' OR ESTADO = 'Atendida')";
+/*// Consulta para obtener las citas canceladas o atendidas
+$sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
+                FROM citas c
+                INNER JOIN paciente p ON c.id_paciente = p.id_paciente
+                WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='2024-04-13'  AND ESTADO='Atendida' OR ESTADO='Cancelada'";*/
+$result_segunda_tabla = $conn->query($sql_segunda_tabla);
+
+if ($result_segunda_tabla->num_rows > 0) {
+  echo "<h5 style='text-transform: uppercase;'>Historial de Citas - Dr. $nombre_medico $apellido_medico</h5>";
+  echo "<table class='table table-striped zebra-table rounded-corners'>";
+  echo "<tr>
+          <th>ID Cita</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>ID</th>
+          <th>Estado</th>
+          <th>Paciente</th>
+        </tr>";
+
+  while ($row = $result_segunda_tabla->fetch_assoc()) {
+    echo "<tr>
+            <td>" . $row["id_cita"] . "</td>
+            <td>" . $row["fecha"] . "</td>
+            <td>" . $row["hora"] . "</td>
+            <td>" . $row["id_paciente"] . "</td>
+            <td style='background-color: " . ($row["Estado"] == 'Cancelada' ? 'red' : 'green') . "; color: white; text-align: center;'><i class='" . ($row["Estado"] == 'Cancelada' ? 'fas fa-times-circle' : 'fas fa-check-circle') . "'></i> " . $row["Estado"] . "</td>
+            <td>" . $row["nombre_paciente"] . "</td>
+          </tr>";
+  }
+  echo "</table>";
+} else {
+  echo "<p>No hay citas canceladas o atendidas para mostrar.</p>";
+}
+
+$conn->close();
+ 
+        ?>
+        
     </div>
 </body>
 </html>
