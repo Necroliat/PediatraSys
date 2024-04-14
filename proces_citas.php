@@ -595,7 +595,7 @@ if (isset($_POST['btnregistrar'])) {
 
 					<fieldset class="caja" width="100%">
 						<label for="id_medico">Id Médico:</label>
-						<input type="text" id="id_medico" name="id_medico" required>
+						<input type="text" id="id_medico" name="id_medico" value="<?php echo $idmedico; ?>" required>
 						<button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
 						<div id="Modalmedico" class="custom-modal">
 							<div class="custom-modal-content">
