@@ -22,7 +22,7 @@
       background: linear-gradient(to right, #e4e5dc, #45bac9db);
       padding: 1vw;
       box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-      margin: 120px;
+      margin: 80px;
 
 
     }

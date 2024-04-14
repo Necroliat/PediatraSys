@@ -151,21 +151,18 @@ if (isset($_GET['id_medico'])) {
       margin-left: 10px;
     }
 
-    fieldset {
-      font-size: medium;
-    }
+    
 
-    * {
-      font-size: medium;
-    }
+    
 
     fieldset {
+     font-size: 12px;
       border: 1px solid #ddd;
       border-radius: 2vw;
       background: linear-gradient(to right, #e4e5dc, #45bac9db);
       padding: 1vw;
       box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-      margin: 120px;
+      margin: 20px;
 
 
     }
@@ -182,7 +179,7 @@ if (isset($_GET['id_medico'])) {
     }
 
     fieldset fieldset legend {
-      font-size: 14px;
+      font-size: 12px;
       text-transform: uppercase;
       padding-left: 10%;
       padding-right: 10%;
