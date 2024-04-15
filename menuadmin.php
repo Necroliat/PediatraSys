@@ -374,9 +374,9 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
+                  <a  href="#" onclick="cambiarIframe('consultamedicospacientescitas2.php')" class="nav-link">
                     <i class="fa-regular fa-calendar-xmark"></i>
-                    <p>Cancelar Cita</p>
+                    <p>Turnos en Pantalla</p>
                   </a>
                 </li>
 

@@ -114,16 +114,17 @@ if ($result_medico->num_rows > 0) {
 
 // Obtener la fecha actual en formato corto
 $fecha_actual = date("d/m/Y");
+        $fecha_actual2 = date("Y-m-d");
 
 // Imprimir la etiqueta <h2> con el nombre del médico y la fecha actual
 echo "<h5 style='text-transform: uppercase;'>Citas del Día - Dr./Dra $nombre_medico $apellido_medico - $fecha_actual</h5>";
         
-        
+        //DATE(c.fecha) ='CURDATE()'
         
     $sql = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
                 FROM citas c
                 INNER JOIN paciente p ON c.id_paciente = p.id_paciente
-                WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='CURDATE()'  AND ESTADO='Vigente' OR ESTADO='En consulta'";
+                WHERE c.id_medico = $idMedico AND c.fecha='$fecha_actual2'  AND ESTADO='Vigente' OR ESTADO='En consulta'";
 
     $result = $conn->query($sql);
 
@@ -195,7 +196,7 @@ while ($row = $result->fetch_assoc()) {
 $sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
                       FROM citas c
                       INNER JOIN paciente p ON c.id_paciente = p.id_paciente
-                      WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='CURDATE()'  AND (ESTADO = 'Cancelada' OR ESTADO = 'Atendida')";
+                      WHERE c.id_medico = $idMedico AND c.fecha='$fecha_actual2'  AND (ESTADO = 'Cancelada' OR ESTADO = 'Atendida')";
 /*// Consulta para obtener las citas canceladas o atendidas
 $sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
                 FROM citas c
