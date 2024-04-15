@@ -273,7 +273,7 @@ if (isset($_GET['id_medico'])) {
     <fieldset>
     <div class="centrado">
         <img src='IMAGENES/turnos-100.png'  alt='Mantenimientos'style='width: 100px; height: 100px;'>
-            <img src="IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 92px; height: 92px;"><img src="IMAGENES/citamedica-64.png" class="" alt="Mantenimientos" style="width: 64px; height: 64px;">
+            <img src="IMAGENES/citamedica-64.png" class="" alt="Mantenimientos" style="width: 64px; height: 64px;">
         </div>
   <h5 style="padding:0; text-align: center; text-transform: uppercase;">Seleccionar Doctor para ver orden de los Turnos de las citas</h5>
     
