@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Agrega los estilos de Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- Agrega estilos personalizados -->
   <style>
     /* Estilos personalizados */
@@ -47,17 +48,7 @@
 }
   </style>
     <title>Citas del Día</title>
-    <script>
-  // Función para realizar el refresh de la página cada 2 segundos
-  function refreshPage() {
-    setTimeout(function() {
-      location.reload();
-    }, 2000); // 2000 milisegundos = 2 segundos
-  }
-
-  // Llamamos a la función para que comience el proceso de refresco
-  refreshPage();
-</script>
+  
 </head>
 <body>
     <fieldset>
@@ -79,44 +70,7 @@
       die("Conexión fallida: " . $conn->connect_error);
     }
 
-    // Procesamiento de los formularios
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      if (isset($_POST['cancelada'])) {
-        $idCita = $_POST['id_cita'];
-        $estado = "Cancelada";
-        $sql = "UPDATE citas SET Estado='$estado' WHERE id_cita='$idCita'";
-        if ($conn->query($sql) === TRUE) {
-          //echo "Cita cancelada con éxito.";
-            //header("Location: proces_citasXmedico.php");
-        } else {
-          echo "Error al cancelar la cita: " . $conn->error;
-        }
-      }
-
-      if (isset($_POST['consultando'])) {
-        $idCita = $_POST['id_cita'];
-        $estado = "En consulta";
-        $sql = "UPDATE citas SET Estado='$estado' WHERE id_cita='$idCita'";
-        if ($conn->query($sql) === TRUE) {
-          //echo "Cita cambiada a 'En consulta' con éxito.";
-          // header("Location: proces_citasXmedico.php");
-        } else {
-          echo "Error al cambiar el estado de la cita a 'En consulta': " . $conn->error;
-        }
-      }
-
-      if (isset($_POST['atendida'])) {
-        $idCita = $_POST['id_cita'];
-        $estado = "Atendida";
-        $sql = "UPDATE citas SET Estado='$estado' WHERE id_cita='$idCita'";
-        if ($conn->query($sql) === TRUE) {
-         // echo "Cita marcada como 'Atendida' con éxito.";
-           // header("Location: proces_citasXmedico.php");
-        } else {
-          echo "Error al cambiar el estado de la cita a 'Atendida': " . $conn->error;
-        }
-      }
-    }
+ 
 
     //$idMedico = 18; // Supongamos que tienes el ID del médico que deseas consultar
     //fecha actual sql-- CURDATE()
@@ -141,9 +95,32 @@ $fecha_actual = date("d/m/Y");
 
 
     ?>
-        <?php 
         
 
+
+        <div id="tablaCitas">   <script>
+$(document).ready(function(){
+    function fetchCitas() {
+        $.ajax({
+            url: 'fetch_citas.php',
+            type: 'GET',
+            data: {
+                idMedico: '<?php echo $idMedico; ?>', // Asegúrate de que esta variable tiene valor
+                fechaActual: '<?php echo $fecha_actual2; ?>' // Asegúrate de que esta variable tiene valor
+            },
+            success: function(data) {
+                $('#tablaCitas').html(data); // Actualiza el contenido de la tabla
+            }
+        });
+    }
+
+    setInterval(fetchCitas, 200); // Actualiza cada 2 segundos
+});
+</script></div>
+        
+        <!--<?php 
+        
+/*
 // Consulta para obtener las citas canceladas o atendidas
     // Consulta SQL
 $sql_segunda_tabla = "
@@ -167,11 +144,7 @@ $sql_segunda_tabla = "
         c.id_cita;
 ";
 
-        /*$sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
-                      FROM citas c
-                      INNER JOIN paciente p ON c.id_paciente = p.id_paciente
-                      WHERE c.id_medico = $idMedico AND c.fecha='$fecha_actual2' AND (ESTADO='Vigente' OR ESTADO='En consulta')";
-*/
+        
         
 $result_segunda_tabla = $conn->query($sql_segunda_tabla);
 
@@ -207,9 +180,9 @@ if ($result_segunda_tabla->num_rows > 0) {
   echo "<p>No hay citas canceladas o atendidas para mostrar.</p>";
 }
 
-$conn->close();
+$conn->close();*/
  
-        ?>
+        ?>-->
        <a href="consultamedicospacientescitas2.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
       <i class="fa-solid fa-left-long"></i> Regresar
     </a> 

@@ -374,9 +374,9 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a  href="#" onclick="cambiarIframe('consultamedicospacientescitas2.php')" class="nav-link">
+                  <a href="#" onclick="cambiarIframe('consultamedicospacientescitas2.php')" class="nav-link">
                     <i class="fa-regular fa-calendar-xmark"></i>
-                    <p>Turnos en Pantalla</p>
+                    <p>Turnos en pantalla</p>
                   </a>
                 </li>
 
