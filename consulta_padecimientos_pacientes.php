@@ -88,6 +88,7 @@ $result = $conn->query($query);
                     <th>ID Padecimiento</th>
                     <th>Nombre Padecimiento</th>
                     <th>Desde Cuando</th>
+                    <th>ACCION</th>
                 </tr>
             </thead>
             <tbody>
@@ -97,6 +98,7 @@ $result = $conn->query($query);
                     echo "<td>" . $row["id_padecimiento"] . "</td>";
                     echo "<td>" . $row["nombre_padecimiento"] . "</td>";
                     echo "<td>" . $row["desde_cuando"] . "</td>";
+                    echo "<td><button class='padecimientocam' data-id='" . $row["id_padecimiento"] . "' data-nombre='" . $row["nombre_padecimiento"] . "' data-desde='" . $row["desde_cuando"] . "'>Modificar</button></td>";
                     echo "</tr>";
                 }
                 ?>
@@ -108,6 +110,22 @@ $result = $conn->query($query);
     }
     ?>
 
+    <!-- Modal para editar los padecimientos -->
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Modificar Padecimiento</h2>
+            <form id="formularioModificar">
+                <input type="hidden" id="idPadecimiento" name="idPadecimiento">
+                <label for="nombrePadecimiento">Nombre Padecimiento:</label>
+                <input type="text" id="nombrePadecimiento" name="nombrePadecimiento">
+                <label for="desdeCuando">Desde Cuando:</label>
+                <input type="text" id="desdeCuando" name="desdeCuando">
+                <button type="submit">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function () {
             $('#tabla_padecimientos').DataTable({
@@ -115,6 +133,57 @@ $result = $conn->query($query);
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
                 }
+            });
+
+            // Asociar un evento de clic al botón "Modificar" de cada fila de la tabla
+            $(".padecimientocam").click(function () {
+                // Obtener los datos del padecimiento desde los atributos data del botón
+                var idPadecimiento = $(this).data("id");
+                var nombrePadecimiento = $(this).data("nombre");
+                var desdeCuando = $(this).data("desde");
+
+                // Establecer los valores de los campos del formulario con los datos del padecimiento
+                $("#idPadecimiento").val(idPadecimiento);
+                $("#nombrePadecimiento").val(nombrePadecimiento);
+                $("#desdeCuando").val(desdeCuando);
+
+                // Mostrar el modal
+                $("#modalEditar").show();
+            });
+
+            // Ocultar el modal cuando se hace clic en el botón "Cerrar"
+            $(".close").click(function () {
+                $("#modalEditar").hide();
+            });
+
+            // Enviar los datos actualizados al servidor utilizando AJAX
+            $("#formularioModificar").submit(function (event) {
+                event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
+
+                var formData = new FormData(this); // Obtener los datos del formulario
+
+                // Enviar los datos al servidor utilizando AJAX
+                $.ajax({
+                    url: "actualizar_padecimiento.php",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.success) {
+                            alert("Padecimiento actualizado exitosamente.");
+                            // Cerrar el modal de edición
+                            $("#modalEditar").hide();
+                            // Actualizar la tabla si es necesario
+                            // ...
+                        } else {
+                            alert("Error al actualizar el padecimiento.");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error:', errorThrown);
+                    }
+                });
             });
         });
     </script>
