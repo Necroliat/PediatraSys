@@ -541,7 +541,7 @@ include("../../menu_lateral.php");
                     <button type="submit" name="btnregistrar" value="Registrar">
                         <i class="material-icons"
                             style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
-                        Registrar
+                        Registrar uu
                     </button>
                     <a class="boton" href="menu-proces.php">
                         <i class="material-icons"
