@@ -64,7 +64,7 @@ $pdf->AddPage();
 $html = <<<EOD
 <div id="logo" style="text-align:center;"><img src="imagenes/logo/logo.png" width="50" height="50">
 <h5 style="padding:0; margin:0;text-align: center;">PediatraSys</h5>
-</div>;
+</div>
 
 <h2 style="text-align:center;">CERTIFICADO MÉDICO</h2>
 <h3 style="text-align:center;">{$certificado['centro_nombre']}</h3>
@@ -74,10 +74,10 @@ $html = <<<EOD
 <p><b>Paciente:</b> {$certificado['paciente_nombre']} {$certificado['paciente_apellido']}</p>
 <p><b>Edad:</b> {$age} años</p>
 
-<h4 style="padding:0; text-align: left; text-transform: uppercase;">Por medio del presente Yo {$certificado['medico_nombre']} {$certificado['medico_apellido']}, con la cédula: {$certificado['cedula']} , el suscrito/a doctor/doctora certifica lo siguiente:</h4>
-<h4>Diagnóstico:</h4>
+<h4 style="padding:0; text-align: left; text-transform: uppercase;">Por medio del presente Yo {$certificado['medico_nombre']} {$certificado['medico_apellido']}, con la cédula: {$certificado['cedula']} , el/la suscrito/a doctor/doctora certifica lo siguiente:</h4>
+
 <p>Que el/la paciente {$certificado['paciente_nombre']} {$certificado['paciente_apellido']} {$certificado['diagnostico']}</p>
-<h4>Tratamiento/Recomendación:</h4>
+
 <p>{$certificado['Recomendacion']}</p>
 <p>{$certificado['medico_nombre']} {$certificado['medico_apellido']}<br>
 {$certificado['especialidad']}<br>

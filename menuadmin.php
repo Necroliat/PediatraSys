@@ -405,13 +405,14 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                  <a href="#" class="nav-link">
                     <i class="fa-solid fa-file-medical"></i>
                     <p>Referimientos</p>
                   </a>
                 </li>
+                
                 <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
+                  <a href="#" onclick="cambiarIframe('proces_CERTIFICADOMEDICO.php')" class="nav-link">
                     <i class="fa-solid fa-receipt"></i>
                     <p>Certificados</p>
                   </a>

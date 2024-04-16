@@ -186,7 +186,7 @@
       </div>
     </a>
 
-    <a href="report_certificadomed.php">
+    <a href="proces_CERTIFICADOMEDICO.php">
       <div class="card-wrapper">
         <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
           <div class="card-title" style="font-family: Arial Black; color:black;">Cert. Médico</b></div>
