@@ -8,7 +8,7 @@ require_once "include/conec.php";
 function generarNuevoNumeroReceta($conn)
 {
     // Consultar el último ID de la tabla receta
-    $query = "SELECT MAX(id_receta) AS max_id FROM prescripcion_medica";
+    $query = "SELECT MAX(id_certificado_M) AS max_id FROM certificado_medico";
     $result = $conn->query($query);
 
     if ($result->num_rows > 0) {
@@ -25,59 +25,32 @@ function generarNuevoNumeroReceta($conn)
 }
 
 // Llamada a la función para obtener el nuevo número de receta
-$nuevoNumeroReceta = generarNuevoNumeroReceta($conn);
+$nuevoNumerocertificado = generarNuevoNumeroReceta($conn);
 
-// Llamada a la función para obtener el nuevo número de receta
-/* $nuevoNumeroReceta = generarNuevoNumeroReceta($conn);
-echo "Nuevo número de receta: " . $nuevoNumeroReceta; */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id_medico = $_POST['id_medico'];
+    $id_paciente = $_POST['id_paciente'];
+    $id_centro = $_POST['id_centro'];
+    $diagnostico = $_POST['diagnostico'];
+    $recomendacion = $_POST['tratamiento'];
 
+    // Prepara la sentencia SQL para insertar
+    $stmt = $conn->prepare("INSERT INTO certificado_medico (id_medico, id_paciente, id_centro, diagnostico, Recomendacion) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("iiiss", $id_medico, $id_paciente, $id_centro, $diagnostico, $recomendacion);
 
-
-
-function obtenerDatosPaciente($idPaciente, $conn)
-{
-    $query = "SELECT nombre, apellido FROM paciente WHERE id_paciente = '$idPaciente'";
-    $result = $conn->query($query);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $datosPaciente = array('nombre' => $row['nombre'], 'apellido' => $row['apellido']);
-        return $datosPaciente;
+    // Ejecutar la sentencia
+    if ($stmt->execute()) {
+        $last_id = $stmt->insert_id;
+        $stmt->close();
+        $conn->close();
+        // Redireccionar a la página de reporte con TCPDF
+        header("Location: reporteCertificado.php?id_certificado_M=$last_id");
+        exit();
     } else {
-        // Si no se encuentra el paciente, devolver un array vacío
-        return array();
+        echo "Error al guardar los datos: " . $stmt->error;
     }
 }
 
-
-// Función para obtener el historial de consultas del paciente
-function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
-{
-    // Consulta para obtener el historial de consultas del paciente con el médico específicos
-    $query = "SELECT fecha, diagnostico, tratamiento 
-              FROM consultas 
-              WHERE id_paciente = '$idPaciente' AND id_medico = '$idMedico'";
-    $result = $conn->query($query);
-
-    // Inicializar un arreglo para almacenar el historial de consultas
-    $historialConsultas = array();
-
-    if ($result->num_rows > 0) {
-        // Iterar sobre los resultados y agregarlos al arreglo de historialConsultas
-        while ($row = $result->fetch_assoc()) {
-            $historialConsultas[] = array(
-                'fecha' => $row['fecha'],
-                'diagnostico' => $row['diagnostico'],
-                'tratamiento' => $row['tratamiento']
-            );
-        }
-    } else {
-        echo "ningún historial que presentar";
-    }
-
-    // Retornar el historial de consultas
-    return $historialConsultas;
-}
 ?>
 <html>
 
@@ -483,29 +456,8 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         }
 
 
-        /* .custom-modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .custom-modal-content {
-            opacity: 95% ;
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            border-radius: 20PX;
-            width: 80%;
-            background: linear-gradient(to right, #e4e5dc, #62c4f9);
-        } */
+       
+     
 
         .close {
             color: #aaa;
@@ -659,184 +611,34 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
             padding: 8px;
             /* Espaciado interno */
             text-align: left;
+           
             /* Alineación del texto */
         }
 
         #tabla_detalle tr:hover {
             background-color: rgb(181, 144, 208, 0.6);
         }
+
     </style>
 
-    <script type="text/javascript">
-        // Obtener el campo de entrada y el nuevo ID
-        var txtId = document.getElementById("txtid");
-        var newId = <?php echo $userid; ?>;
-
-        // Asignar el nuevo ID al campo de entrada
-        txtId.value = newId;
-
-        // Cambiar el fondo a gris claro
-        txtId.style.backgroundColor = "#f0f0f0";
-
-
-
-
-        function placeCursorAtEnd() {
-            if (this.setSelectionRange) {
-                // Double the length because Opera is inconsistent about 
-                // whether a carriage return is one character or two.
-                var len = this.value.length * 2;
-                this.setSelectionRange(len, len);
-            } else {
-                // This might work for browsers without setSelectionRange support.
-                this.value = this.value;
-            }
-
-            if (this.nodeName === "TEXTAREA") {
-                // This will scroll a textarea to the bottom if needed
-                this.scrollTop = 999999;
-            }
-        };
-
-        window.onload = function() {
-            var input = document.getElementById("txtnom");
-
-            if (obj.addEventListener) {
-                obj.addEventListener("focus", placeCursorAtEnd, false);
-            } else if (obj.attachEvent) {
-                obj.attachEvent('onfocus', placeCursorAtEnd);
-            }
-
-            input.focus();
-        }
-    </script>
-    <?php
-
-
-
-    ?>
+   
+    
 </head>
-<?php
 
-
-
-?>
 
 <body style="font-size:14;">
     <div class="container">
-        <form>
-            <!-- Encabezado de la receta -->
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <!-- Encabezado de la Certificado Médico -->
             <fieldset>
-                <legend>Realizar Receta</legend>
-                <!-- ID Receta -->
-
-                <label for="id_receta">ID Receta</label>
-                <input type="text" id="id_receta" name="id_receta" value="<?php echo $nuevoNumeroReceta; ?>" readonly>
-
-
-                <!-- ID Consulta -->
-                <hr>
-                <label for="id_consulta">ID Consulta</label>
-                <input type="text" id="id_consulta" name="id_consulta" required>
-                <script>
-                    $("#id_consulta").on("input", function() {
-                        var idconsulta = $(this).val();
-                        // Realizar la solicitud AJAX para obtener los datos de la consulta
-                        $.ajax({
-                            url: 'consulta_simple_histo_consultaspacientes.php', // Ruta al archivo PHP adaptado para la consulta
-                            type: 'POST',
-                            data: {
-                                id_consulta: idconsulta
-                            },
-                            dataType: 'json',
-                            success: function(data) {
-                                $("#nombre_paciente").text(data.nombre_pacientes || ''); // nombre paciente
-                                $("#nombre_medico").text(data.nombre_medico || ''); // nombre medico
-                                $("#apellido_paciente").text(data.apellido_paciente || ''); // apellido paciente
-                                $("#apellido_medico").text(data.apellido_medico || '');
-                                $("#fecha_consulta").text(data.fecha || ''); // Actualiza el elemento HTML con la fecha de la consulta
-                                $("#id_medico").val(data.id_medico || ''); // Actualiza el input ID del médico
-                                $("#id_paciente").val(data.id_paciente || ''); // Actualiza el input ID del paciente
-                            },
-                            error: function() {
-                                alert('Hubo un error al obtener los datos de la consulta.');
-                            }
-                        });
-                    });
-                </script>
-
-
-                <button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModal()"><i class="fa-solid fa-magnifying-glass"></i></button>
-                <div id="Modalconsulta" class="custom-modal">
-                    <div class="custom-modal-content">
-                        <span class="close" onclick="cerrarModal()"><span class="material-symbols-outlined">
-                                cancel
-                            </span></span>
-                        <iframe id="modal-iframe" src="consulta_Consulta_pacientepormedicoX.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
-                    </div>
-                </div>
-                <script>
-                    // Función para mostrar el modal
-                    function mostrarModal() {
-                        var modal = document.getElementById('Modalconsulta');
-                        modal.style.display = 'block';
-                    }
-
-                    // Función para cerrar el modal
-                    function cerrarModal() {
-                        var modal = document.getElementById('Modalconsulta');
-                        modal.style.display = 'none';
-                    }
-                </script>
-                <input type="checkbox" id="id_consulta_na" name="id_consulta_na">
-                <label for="id_consulta_na">NA</label>
-                <!-- <label id="nombre_paciente" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label> -->
-                <label id="fecha_consulta" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-
-
-
-                <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        var checkbox = document.getElementById("id_consulta_na");
-                        var idMedicoInput = document.getElementById("id_medico");
-                        var idPacienteInput = document.getElementById("id_paciente");
-                        var buscarMedicoBtn = document.getElementById("buscar_medico");
-                        var buscarPacienteBtn = document.getElementById("buscar_paciente");
-                        var labelfecha = document.getElementById("fecha_consulta");
-                        // Función para deshabilitar campos y botones
-                        function disableCampos() {
-                            idMedicoInput.readOnly = true;
-                            idPacienteInput.readOnly = true;
-                            buscarMedicoBtn.disabled = true;
-                            buscarPacienteBtn.disabled = true;
-                            labelfecha.textContent = "";
-                        }
-
-                        // Deshabilitar campos y botones al cargar el documento
-                        disableCampos();
-
-                        // Escuchar cambios en el estado del checkbox
-                        checkbox.addEventListener("change", function() {
-                            if (this.checked) {
-                                // Habilitar campos y botones si se marca el checkbox
-                                idMedicoInput.readOnly = false;
-                                idPacienteInput.readOnly = false;
-                                buscarMedicoBtn.disabled = false;
-                                buscarPacienteBtn.disabled = false;
-                                labelfecha.textContent = "00-00-00";
-                            } else {
-                                // Deshabilitar campos y botones si se desmarca el checkbox
-                                disableCampos();
-                            }
-                        });
-                    });
-                </script>
-
+                <legend> <h4 style=' text-transform: uppercase;text-align: center;'>Realizar Certificado Médico</h4></legend>
+                <!-- ID Certificado Médico -->
+                <label for="id_Cert_medico">ID Certificado Médico</label>
+                <input type="text" id="id_Cert_medico" name="id_Cert_medico" value="<?php echo $nuevoNumerocertificado; ?>" readonly>
                 <!-- ID Centro -->
                 <hr>
                 <label for="id_centro">ID Centro</label>
                 <input type="text" id="id_centro" name="id_centro" required>
-
                 <button class="btn btn-primary " type="button" id="buscar_centro" onclick="mostrarModal2()"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <div id="ModalCENTRO" class="custom-modal">
                     <div class="custom-modal-content">
@@ -846,7 +648,47 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         <iframe id="modal-iframe" src="consulta_centromedicoX.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
                     </div>
                 </div>
-                <script>
+                <label id="nombre" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                <hr>
+                <div>
+                    <label for="id_paciente">ID PACIENTE:</label>
+                    <input type="text" id="id_paciente" name="id_paciente" style="width: 55px;" required>
+                    <button class="btn btn-primary " type="button" id="buscar_paciente" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div id="Modalpaciente" class="custom-modal">
+                        <div class="custom-modal-content">
+                            <span class="close" onclick="cerrarModalpaciente()"><span class="material-symbols-outlined">
+                                    cancel
+                                </span></span>
+                            <iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+                        </div>
+                    </div>
+                    <label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <span style="padding:25px">.</span>
+                    <label for="id_medico"> ID MÉDICO:</label>
+                    <input type="text" id="id_medico" name="id_medico" style="width: 55px;" required>
+                    <button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div id="Modalmedico" class="custom-modal">
+                        <div class="custom-modal-content">
+                            <span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">
+                                    cancel
+                                </span></span>
+                            <iframe id="modal-iframe" src="consulta_medico2.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+                        </div>
+                    </div>
+                    <label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    <label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                </div>
+                <div>
+                <label for="diagnostico">Cuatro clínico/Diagnostico/Motivo del certicado</label><br>
+                <textarea id="diagnostico" name="diagnostico" rows="4" cols="50" required></textarea><br>
+                <label for="tratamiento">Recomendación/Tratamiento:</label><br>
+                <textarea id="tratamiento" name="tratamiento" rows="4" cols="50"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary "><i class="fa-solid fa-floppy-disk"></i>Guardar e <i class="fa-solid fa-print"></i>Imprimir</button>
+            </fieldset>
+        </form>
+        <script>
                     // Función para mostrar el modal
                     function mostrarModal2() {
                         var modal = document.getElementById('ModalCENTRO');
@@ -859,10 +701,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         modal.style.display = 'none';
                     }
                 </script>
-                <!--  <input type="checkbox" id="id_centro_na" name="id_centro_na">
-                <label for="id_centro_na">NA</label> -->
-                <label id="nombre" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                <script>
+        <script>
                     document.addEventListener("DOMContentLoaded", function() {
                         var checkbox = document.getElementById("id_centro_na");
                         var nombreLabel = document.getElementById("nombre");
@@ -896,11 +735,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                     });
                 </script>
 
-                <hr>
-                <div>
-                    <label for="id_paciente">ID PACIENTE:</label>
-                    <input type="text" id="id_paciente" name="id_paciente" style="width: 55px;" required>
-                    <script>
+        <script>
                         $("#id_paciente").on("input", function() {
                             var idPaciente = $(this).val();
                             // Realizar la solicitud AJAX para obtener los datos del paciente
@@ -921,17 +756,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             });
                         });
                     </script>
-                    <button class="btn btn-primary " type="button" id="buscar_paciente" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <div id="Modalpaciente" class="custom-modal">
-                        <div class="custom-modal-content">
-                            <span class="close" onclick="cerrarModalpaciente()"><span class="material-symbols-outlined">
-                                    cancel
-                                </span></span>
-                            <iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
-                        </div>
-                    </div>
-
-                    <script>
+        <script>
                         // Función para mostrar el modal
                         function mostrarModalpaciente() {
                             var modal = document.getElementById('Modalpaciente');
@@ -957,21 +782,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                         }
                     </script>
 
-                    <label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                    <label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                    <span style="padding:25px">.</span>
-                    <label for="id_medico"> ID medico:</label>
-                    <input type="text" id="id_medico" name="id_medico" style="width: 55px;" required>
-                    <button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <div id="Modalmedico" class="custom-modal">
-                        <div class="custom-modal-content">
-                            <span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">
-                                    cancel
-                                </span></span>
-                            <iframe id="modal-iframe" src="consulta_medico2.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
-                        </div>
-                    </div>
-                    <script>
+        <script>
                         $("#id_medico").on("input", function() {
                             var idmedico = $(this).val();
                             // Realizar la solicitud AJAX para obtener los datos del paciente
@@ -992,135 +803,11 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             });
                         });
                     </script>
-                    <label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                    <label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                </div>
-            </fieldset>
 
 
-            <!-- Detalle de la receta -->
-            <fieldset>
-                <legend>Detalle de la Receta</legend>
-                <div>
-                    <label for="id_medicamento">ID Medicamento:</label>
-                    <input type="text" id="id_medicamento">
-                    <button class="btn btn-primary" type="button" onclick="mostrarModal3()"><i class="fa-solid fa-magnifying-glass"></i></button>
-
-                    <div id="Modalmedicamento" class="custom-modal">
-                        <div class="custom-modal-content">
-                            <span class="close" onclick="cerrarModal3()"><span class="material-symbols-outlined">
-                                    cancel
-                                </span></span>
-                            <iframe id="modal-iframe" src="consulta_medicamentoX.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
-                        </div>
-                    </div>
-
-                    <script>
-                        // Función para mostrar el modal
-                        function mostrarModal3() {
-                            var modal = document.getElementById('Modalmedicamento');
-                            modal.style.display = 'block';
-                        }
-
-                        // Función para cerrar el modal
-                        function cerrarModal3() {
-                            var modal = document.getElementById('Modalmedicamento');
-                            modal.style.display = 'none';
-                        }
-                    </script>
-                    <label for="nombre_medicamento">Medicamento:</label>
-                    <label id="nombre_medicamento" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                    <label id="descripcion_medicamento" style=" background-Color:#fffff1;padding:5px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-                    <!-- <input type="text" id="nombre_medicamento"> -->
 
 
-                    <script>
-                        $("#id_medicamento").on("input", function() {
-                            var idMedicamento = $(this).val();
-                            // Realizar la solicitud AJAX para obtener los datos del medicamento
-                            $.ajax({
-                                url: 'consulta_medicamento_Simple.php', // Ruta al archivo PHP adaptado para medicamento
-                                type: 'POST',
-                                data: {
-                                    id_medicamento: idMedicamento
-                                },
-                                dataType: 'json',
-                                success: function(data) {
-                                    $("#nombre_medicamento").text(data.nombre || '');
-                                    $("#descripcion_medicamento").text(data.descripcion || '');
-                                },
-                                error: function() {
-                                    alert('Hubo un error al obtener los datos del medicamento.');
-                                }
-                            });
-                        });
-                    </script>
-                </div>
 
-
-                <div>
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" id="cantidad">
-                    <label for="unidad_medida">Unidad de Medida:</label>
-                    <input type="text" id="unidad_medida">
-                </div>
-
-                <div>
-                    <label for="frecuencia">Frecuencia:</label>
-                    <input type="text" id="frecuencia">
-                    <label for="tiempo_uso">Tiempo de Uso:</label>
-                    <input type="number" id="tiempo_uso"><label for="tiempo_uso">Dia/as</label>
-                </div>
-
-                <button class="btn btn-primary boton" type="button" onclick="agregarDetalle()"><i class="fa-solid fa-square-plus"></i> Agregar</button>
-
-                <!-- Tabla de detalle de la receta -->
-                <table id="tabla_detalle">
-                    <thead>
-                        <tr>
-                            <th>ID Medicamento</th>
-                            <th>Nombre Medicamento</th>
-                            <th>Cantidad</th>
-                            <th>Unidad de Medida</th>
-                            <th>Frecuencia</th>
-                            <th>Tiempo de Uso</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Filas dinámicas se agregarán aquí -->
-                    </tbody>
-                </table>
-
-
-                <!-- Botón para guardar -->
-                <button class="btn btn-primary boton" type="button" onclick="verificarYGuardarReceta()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
-
-
-                <!-- Elemento para mostrar mensajes de error -->
-                <p id="error-message" style="color: red; display: none;"></p>
-                <button style="width: 211px;" class="btn btn-primary boton" id="btnGenerarReporte" onclick="generarReporte()"><i class="fa-solid fa-print"></i> Imprimir última Receta</button>
-                <script>
-                    function generarReporte() {
-                        // Realizar una solicitud AJAX para obtener el último registro de prescripción médica y detalle de prescripción médica
-                        $.ajax({
-                            url: 'obtener_ultimo_registro.php', // Ruta al archivo PHP que obtiene el último registro
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function(data) {
-                                // Redirigir a la página de reporte_receta.php y pasar los datos como parámetros en la URL
-                                window.location.href = 'reporte_receta.php?id_receta=' + data.id_receta;
-                            },
-                            error: function() {
-                                alert('Error al obtener el último registro de prescripción médica.');
-                            }
-                        });
-                    }
-                </script>
-            </fieldset>
-
-
-        </form>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 // Obtener todos los elementos <input type="number">

@@ -656,6 +656,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         fieldset {
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
             text-align: left;
+           
         }
     </style>
 
