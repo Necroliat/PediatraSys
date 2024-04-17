@@ -631,7 +631,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <!-- Encabezado de la Certificado Médico -->
             <fieldset>
-                <legend> <h4 style=' text-transform: uppercase;text-align: center;'><i class="fa-solid fa-receipt"></i>&nbsp;Realizar Certificado Médico</h4></legend>
+                <legend> <h4 style=' text-transform: uppercase;text-align: center;'><i class="fa-solid fa-receipt"></i><b style="color:blue;"><i class="fa-solid fa-stamp"></i></b>&nbsp;Realizar Certificado Médico <b style="color:#494cee;"><i class="fa-solid fa-certificate"></i></b></h4></legend>
                 <!-- ID Certificado Médico -->
                 <label for="id_Cert_medico">ID Certificado Médico</label>
                 <input type="text" id="id_Cert_medico" name="id_Cert_medico" value="<?php echo $nuevoNumerocertificado; ?>" readonly>
