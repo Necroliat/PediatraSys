@@ -405,7 +405,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="#" onclick="cambiarIframe('proces_referimientos.php')" class="nav-link">
                     <i class="fa-solid fa-file-medical"></i>
                     <p>Referimientos</p>
                   </a>

@@ -656,7 +656,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         fieldset {
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
             text-align: left;
-           
+
         }
     </style>
 
@@ -721,7 +721,9 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
             <!-- Encabezado de consulta -->
             <fieldset style="width: 50%; float: left;">
-                <legend>Consulta de Pacientes</legend>
+                <legend>
+                    <h4 style=' text-transform: uppercase;text-align: center;'><i class="fa-solid fa-book-medical"></i>&nbsp;<i class="fa-solid fa-stethoscope"></i>&nbsp;Consulta de Pacientes</h4>
+                </legend>
                 <label for="id_consulta">ID Consulta:</label>
                 <input type="text" id="id_consulta" name="id_consulta" value="<?php echo $idConsulta; ?>" readonly>
 
@@ -970,6 +972,11 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                             // Verificar si el ID del trabajo médico no está vacío
                             if (idTrabajoMedico.trim() === '') {
                                 alert('Por favor, ingresa un ID del Trabajo Médico.');
+                                return;
+                            }
+                            // Verificar si la descripción del trabajo médico no está vacía
+                            if (descripcionTrabajoMedico.trim() === '') {
+                                alert('Por favor, ingresa una Descripción del Trabajo Médico.');
                                 return;
                             }
 
@@ -1303,51 +1310,11 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
 
                 return true;
             }
+
             function mostrarMensaje(mensaje, color) {
                 alert(mensaje); // Mostrar el mensaje con una alerta
             }
-            /* function mostrarMensaje(mensaje, color) {
-                const mensajeDiv = document.getElementById("mensaje");
-                mensajeDiv.textContent = mensaje;
-                mensajeDiv.style.color = color;
-            } */
-            /*  function verificarCamposCompletos() {
-                 const idPaciente = document.getElementById("id_paciente").value.trim();
-                 const fecha = document.getElementById("fecha").value.trim();
-                 const hora = document.getElementById("hora").value.trim();
-                 const nombre_paciente = document.getElementById("nombre_paciente").textContent.trim();
-                 const apellido_paciente = document.getElementById("apellido_paciente").textContent.trim();
-                 const nombre_medico = document.getElementById("nombre_medico").textContent.trim();
-                 const apellido_medico = document.getElementById("apellido_medico").textContent.trim();
-                 if (nombre_paciente === "") {
-                     mostrarMensaje("Por favor, complete id paciente con un dato válido.", "red");
-                     return false;
-                 }
-                 if (apellido_paciente === "") {
-                     mostrarMensaje("Por favor, complete id paciente con un dato válido.", "red");
-                     return false;
-                 }
-                 if (apellido_medico === "") {
-                     mostrarMensaje("Por favor, complete id médico con un dato válido.", "red");
-                     return false;
-                 }
-                 if (nombre_medico === "") {
-                     mostrarMensaje("Por favor, complete id médico con un dato válido.", "red");
-                     return false;
-                 }
-                 if (idPaciente === "" || fecha === "" || hora === "") {
-                     mostrarMensaje("Por favor, complete todos los campos obligatorios.", "red");
-                     return false;
-                 }
 
-                 return true;
-             }
-
-             function mostrarMensaje(mensaje, color) {
-                 const mensajeDiv = document.getElementById("mensaje");
-                 mensajeDiv.textContent = mensaje;
-                 mensajeDiv.style.color = color;
-             } */
 
             function limpiarFormulario() {
                 document.getElementById("fecha").value = "";
@@ -1362,12 +1329,12 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                 }
             }
 
-           /*  document.getElementById("btnguardar").addEventListener("click", function(event) {
-                event.preventDefault();
-                if (verificarCamposCompletos()) {
-                    guardarConsulta();
-                }
-            }); */
+            /*  document.getElementById("btnguardar").addEventListener("click", function(event) {
+                 event.preventDefault();
+                 if (verificarCamposCompletos()) {
+                     guardarConsulta();
+                 }
+             }); */
         </script>
 
 

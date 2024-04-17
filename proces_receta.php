@@ -727,7 +727,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
         <form>
             <!-- Encabezado de la receta -->
             <fieldset>
-                <legend>Realizar Receta</legend>
+                <legend> <H3 style="text-transform: uppercase; text-align:center;"><i class="fa-solid fa-prescription"></i>&nbsp;&nbsp;Realizar Receta</H3> </legend>
                 <!-- ID Receta -->
 
                 <label for="id_receta">ID Receta</label>
