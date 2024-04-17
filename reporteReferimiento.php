@@ -70,15 +70,15 @@ $html = <<<EOD
 <b>Dirección:</b> {$referimiento['centro_direccion']}<br>
 <b>Teléfono:</b> {$referimiento['centro_telefono']}</p>
 <p style="padding:0; text-align:right; text-transform: uppercase;"><b>Fecha:</b> {$today->format('d \d\e F \d\e Y')}</p></div>
-<p><b>Paciente:</b> {$referimiento['paciente_nombre']} {$referimiento['paciente_apellido']}</p>
-<p><b>Edad:</b> {$age} años</p>
+<p><b>Paciente:</b> {$referimiento['paciente_nombre']} {$referimiento['paciente_apellido']}<br>
+<b>Edad:</b> {$age} años</p>
 
-<p style="padding:0; text-align: left;"><b>Médico Remitente:</b> Dr. {$referimiento['medico_nombre']} {$referimiento['medico_apellido']}<br>
+<p style="padding:0; text-align: left;"><b>Médico que Refiere de:</b>{$referimiento['medico_nombre']} {$referimiento['medico_apellido']}<br>
 <b>Especialidad:</b> {$referimiento['medico_especialidad_nombre']}<br>
 <b>Cédula:</b> {$referimiento['medico_cedula']}<br>
 <b>Colegiado con No. de Execuátur:</b> {$referimiento['medico_exequatur']}</p>
 
-<h4 style="padding:0; text-align: left; ">Médico Receptor: {$referimiento['medico_referido']}</h4>
+<h4 style="padding:0; text-align: left; ">Médico al que refiere: {$referimiento['medico_referido']}</h4>
 
 <p><b>Estimado  {$referimiento['medico_referido']}:</b>
 Me permito referir al paciente {$referimiento['paciente_nombre']} {$referimiento['paciente_apellido']}, quien acude a mi consultorio presentando un cuadro de:</p>
