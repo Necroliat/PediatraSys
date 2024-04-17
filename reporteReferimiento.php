@@ -65,30 +65,25 @@ $pdf->AddPage();
 $html = <<<EOD
 <div id="logo" style="text-align:center;"><img src="imagenes/logo/logo.png" width="50" height="50">
 <h5 style="padding:0; margin:0;text-align: center;">PediatraSys</h5>
-</div>
-
-<h2 style="text-align:center;">REFERIMIENTO MÉDICO</h2>
-<h3 style="text-align:center;">{$referimiento['centro_nombre']}</h3>
-<p style="text-align:center;">Dirección: {$referimiento['centro_direccion']}</p>
-<p style="text-align:center;">Teléfono: {$referimiento['centro_telefono']}</p>
-<p style="padding:0; text-align:right; text-transform: uppercase;"><b>Fecha:</b> {$today->format('d \d\e F \d\e Y')}</p>
+<h4 style="text-align:center;">REFERIMIENTO MÉDICO</h4>
+<p style="text-align:center;">{$referimiento['centro_nombre']}<br>
+<b>Dirección:</b> {$referimiento['centro_direccion']}<br>
+<b>Teléfono:</b> {$referimiento['centro_telefono']}</p>
+<p style="padding:0; text-align:right; text-transform: uppercase;"><b>Fecha:</b> {$today->format('d \d\e F \d\e Y')}</p></div>
 <p><b>Paciente:</b> {$referimiento['paciente_nombre']} {$referimiento['paciente_apellido']}</p>
 <p><b>Edad:</b> {$age} años</p>
 
-<h4 style="padding:0; text-align: left; text-transform: uppercase;">Médico Remitente: Dr. {$referimiento['medico_nombre']} {$referimiento['medico_apellido']}</h4>
-<p>Especialidad: {$referimiento['medico_especialidad_nombre']}<br>
-Cédula: {$referimiento['medico_cedula']}<br>
-Colegiado con No. de Execuátur: {$referimiento['medico_exequatur']}</p>
+<p style="padding:0; text-align: left;"><b>Médico Remitente:</b> Dr. {$referimiento['medico_nombre']} {$referimiento['medico_apellido']}<br>
+<b>Especialidad:</b> {$referimiento['medico_especialidad_nombre']}<br>
+<b>Cédula:</b> {$referimiento['medico_cedula']}<br>
+<b>Colegiado con No. de Execuátur:</b> {$referimiento['medico_exequatur']}</p>
 
-<h4 style="padding:0; text-align: left; text-transform: uppercase;">Médico Receptor: {$referimiento['medico_referido']}</h4>
+<h4 style="padding:0; text-align: left; ">Médico Receptor: {$referimiento['medico_referido']}</h4>
 
-<p>Estimado  {$referimiento['medico_referido']}:</p>
-
-<p>Me permito referir al paciente {$referimiento['paciente_nombre']} {$referimiento['paciente_apellido']}, quien acude a mi consultorio presentando un cuadro de:</p>
-
-<p><b>Motivo de consulta y hallazgos:</b><br>{$referimiento['Motivo']}</p>
-
-<p>Observaciones:<br>{$referimiento['Observaciones']}</p>
+<p><b>Estimado  {$referimiento['medico_referido']}:</b>
+Me permito referir al paciente {$referimiento['paciente_nombre']} {$referimiento['paciente_apellido']}, quien acude a mi consultorio presentando un cuadro de:</p>
+<p>{$referimiento['Motivo']}</p>
+<p>{$referimiento['Observaciones']}</p>
 
 <p>Agradezco de antemano su atención y quedo a la espera de sus comentarios.</p>
 
@@ -99,10 +94,7 @@ Colegiado con No. de Execuátur: {$referimiento['medico_exequatur']}</p>
 
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
+
 <p style="font-weight: bold;text-align:center;">Firma:__________________________________</p>
 EOD;
 
