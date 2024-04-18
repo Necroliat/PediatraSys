@@ -914,7 +914,7 @@ function obtenerHistorialConsultas($idPaciente, $idMedico, $conn)
                     </script>
 
 
-                    <!-- <button type="button" onclick="agregarFila()" class="btn btn-primary boton"><i class="fa-solid fa-circle-plus"></i> Agregar</button> -->
+                    
 
 
                     <div id="Modaltrabajomedico" class="custom-modal">
