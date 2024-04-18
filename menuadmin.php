@@ -242,6 +242,12 @@
                     <p>Padres Pacientes</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="#" onclick="cambiarIframe('mant_localizadorp.php')" class="nav-link">
+                  <i class="fa-regular fa-address-book"></i>
+                    <p> Agenda Padres Pacientes</p>
+                  </a>
+                </li>
               </ul>
             </li>
 
@@ -375,7 +381,7 @@
                 </li>
                 <li class="nav-item">
                   <a href="#" onclick="cambiarIframe('consultamedicospacientescitas2.php')" class="nav-link">
-                    <i class="fa-regular fa-calendar-xmark"></i>
+                  <i class="fa-solid fa-clock-rotate-left"></i>
                     <p>Turnos en pantalla</p>
                   </a>
                 </li>

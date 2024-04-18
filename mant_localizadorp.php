@@ -263,6 +263,7 @@ $result = $conn->query($query);
 
         fieldset {
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
+            
         }
     </style>
     <?php //include("menu_lateral_header.php"); ?>
@@ -275,7 +276,7 @@ $result = $conn->query($query);
         <div class="container">
             <form method="POST">
                 <fieldset style=" height:600px;">
-                    <legend>Registrar localizador de padres </legend>
+                    <legend ><h4 style="text-transform: uppercase;">REGISTRAR VALORES AGENDA PADRES </h4></legend>
                     <a href="modulo/localizadorp/agregar.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>Agregar
                     </a>

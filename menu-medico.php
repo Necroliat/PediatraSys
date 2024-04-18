@@ -123,7 +123,7 @@ include("menu_lateral_header.php");
 </head>
 <?php
 
-  include("menu_lateral.php");
+  //include("menu_lateral.php");
 
   ?>
 

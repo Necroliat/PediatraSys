@@ -19,65 +19,77 @@ $idlocalizadorm = $newId;
 // Función de validación de campos
 function validarCampos($campos)
 {
-    foreach ($campos as $campo) {
-        if (empty($_POST[$campo])) {
-            return false;
-        }
-    }
-    return true;
+	foreach ($campos as $campo) {
+		if (empty($_POST[$campo])) {
+			return false;
+		}
+	}
+	return true;
 }
 // Validar campos antes de procesar el formulario
 if (isset($_POST['btnregistrar'])) {
-    $camposRequeridos = ['txtid', 'id_padres', 'txtvalor', 'txtetiqueta'];
-    if (validarCampos($camposRequeridos)) {
-        $idlocalizador = $_POST['txtid'];
-        $identificador = $_POST['id_padres'];
+	$camposRequeridos = ['txtid', 'id_padres', 'txtvalor', 'txtetiqueta'];
+	if (validarCampos($camposRequeridos)) {
+		$idlocalizador = $_POST['txtid'];
+		$identificador = $_POST['id_padres'];
 		$valor = $_POST['txtvalor'];
 		$etiqueta = $_POST['txtetiqueta'];
-      
-        // Insertar datos en la tabla laboratorio
-        $queryAdd = mysqli_query($conn, "INSERT INTO localizador_padres_de_pacientes (ID_Localizador, Identificador, Valor, Etiqueta) VALUES('$idlocalizadorm', '$identificador','$valor','$etiqueta')");
 
-        if (!$queryAdd) {
-            echo "Error con el registro: " . mysqli_error($conn);
-        } else {
-            echo "<script>window.location= '../../mant_localizadorp.php?pag=1' </script>";
-        }
-    } else {
-        echo "<script>alert('Por favor, complete tolos campos');</script>";
-    }
+		// Insertar datos en la tabla laboratorio
+		$queryAdd = mysqli_query($conn, "INSERT INTO localizador_padres_de_pacientes (ID_Localizador, Identificador, Valor, Etiqueta) VALUES('$idlocalizadorm', '$identificador','$valor','$etiqueta')");
+
+		if (!$queryAdd) {
+			echo "Error con el registro: " . mysqli_error($conn);
+		} else {
+			echo "<script>window.location= '../../mant_localizadorp.php?pag=1' </script>";
+		}
+	} else {
+		echo "<script>alert('Por favor, complete tolos campos');</script>";
+	}
 }
 ?>
 
 <html>
 
 <head>
-    <title>Sis_Pediátrico</title>
-    <link rel="icon" type="image/x-icon" href="../../IMAGENES/hospital2.ico">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<title>Sis_Pediátrico</title>
+	<link rel="icon" type="image/x-icon" href="../../IMAGENES/hospital2.ico">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/estilo-paciente.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Estilos personalizados aquí */
-    </style>
- <script>
-        // Función para validar campos antes de enviar el formulario
-        function validarFormulario() {
-            var idlocalizadorm = document.getElementById("txtid").value;
-            var idenficador = document.getElementById("id_padres").value;
+	<meta charset="UTF-8">
+	<!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+	<style>
+		/* Estilos personalizados aquí */
+	</style>
+	<script>
+		// Función para validar campos antes de enviar el formulario
+		function validarFormulario() {
+			var idlocalizadorm = document.getElementById("txtid").value;
+			var idenficador = document.getElementById("id_padres").value;
 			var valor = document.getElementById("txtvalor").value;
 			var etiqueta = document.getElementById("txtetiqueta").value;
 
-            if (idlocalizadorm.trim() === '' || identificador.trim() === '' || valor.trim() === '' || etiqueta.trim() === '') {
-                alert("Por favor, complete toos los campos");
-                return false;
-            }
+			if (idlocalizadorm.trim() === '' || identificador.trim() === '' || valor.trim() === '' || etiqueta.trim() === '') {
+				alert("Por favor, complete toos los campos");
+				return false;
+			}
 
-            return true;
-        }
-    </script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+			return true;
+		}
+	</script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<style>
 		.botones-container {
 			display: flex;
@@ -258,34 +270,7 @@ if (isset($_POST['btnregistrar'])) {
 			font-family: "Copperplate", Fantasy;
 		}
 
-		/* Estilos específicos para el modal personalizado */
-		.custom-modal {
-			display: none;
-			position: fixed;
-			z-index: 9999;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			overflow: auto;
-			background-color: rgba(0, 0, 0, 0.7);
-		}
 
-		.custom-modal-content {
-			width: 80%;
-			height: 80%;
-			margin: auto;
-			background: linear-gradient(to right, #e4e5dc, #45bac9db);
-			padding: 20px;
-			border-radius: 20PX;
-		}
-
-		.custom-close {
-			color: #aaa;
-			float: right;
-			font-size: 28px;
-			font-weight: bold;
-		}
 
 		.custom-close:hover,
 		.custom-close:focus {
@@ -300,6 +285,7 @@ if (isset($_POST['btnregistrar'])) {
 			height: 100%;
 			border: none;
 		}
+
 		body {
 			background: linear-gradient(to right, #E8A9F7, #e4e5dc);
 		}
@@ -308,11 +294,12 @@ if (isset($_POST['btnregistrar'])) {
 			background: linear-gradient(to right, #e4e5dc, #62c4f9);
 			border: 1px solid #ddd;
 			border-radius: 2vw;
-			
+
 			padding: 1vw;
 			box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
 			margin-bottom: 2vw;
 		}
+
 		legend {
 			font-weight: bold;
 			font-size: 16px;
@@ -322,73 +309,172 @@ if (isset($_POST['btnregistrar'])) {
 			border: solid 1px #45bac9db;
 			border-radius: 10px;
 		}
+
+		/* Estilos específicos para el modal personalizado */
+		.custom-modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+
+		.custom-modal-content {
+			opacity: 95%;
+			background-color: #fefefe;
+			margin: 5% auto 0;
+			/* Margen superior ajustado */
+			padding: 20px;
+			border: 1px solid #888;
+			border-radius: 20px;
+			width: 80%;
+			max-width: 1100px;
+			background: linear-gradient(to right, #e4e5dc, #62c4f9);
+			/* Ancho máximo para el contenido */
+		}
+
+		/* Centrar horizontalmente en pantallas pequeñas */
+		@media screen and (max-width: 600px) {
+			.custom-modal-content {
+				width: 90%;
+			}
+		}
+
+
+
+
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 20px;
+			/* Ajustar el tamaño de la fuente */
+			font-weight: bold;
+			color: #d06c6c;
+			padding: 6px 8px;
+			/* Ajustar el padding */
+			border-radius: 50%;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+			color: #cf2626;
+		}
 	</style>
-	<script type="text/javascript">
-		// Obtener el campo de entrada y el nuevo ID
-		var txtId = document.getElementById("txtid");
-		var newId = <?php echo $idLaboratorio; ?>;
-		// Asignar el nuevo ID al campo de entrada
-		txtId.value = newId;
-		// Cambiar el fondo a gris claro
-		txtId.style.backgroundColor = "#f0f0f0";
-		function placeCursorAtEnd() {
-			if (this.setSelectionRange) {
-				// Double the length because Opera is inconsistent about 
-				// whether a carriage return is one character or two.
-				var len = this.value.length * 2;
-				this.setSelectionRange(len, len);
-			} else {
-				// This might work for browsers without setSelectionRange support.
-				this.value = this.value;
+<script>
+		$(document).ready(function() {
+			// Función para aplicar máscara y actualizar el ejemplo según la etiqueta seleccionada
+			function applyMaskAndExample() {
+				var etiqueta = $('#txtetiqueta').val();
+				var valorInput = $('#txtvalor');
+				switch (etiqueta) {
+					case "Telefono":
+					case "Telefono Principal":
+					case "Telefono Alterno":
+					case "Telefono Casa":
+					case "Movil Principal":
+					case "Movil Alterno":
+					case "Movil Corporativo":
+						// Aplicar máscara para teléfono
+						valorInput.mask('(000) 000-0000', {
+							autoclear: false
+						});
+						// Mostrar ejemplo de teléfono
+						valorInput.attr('placeholder', '(123) 456-7890');
+						// Limitar entrada a números y un máximo de 10 dígitos
+						valorInput.attr('maxlength', '14').keypress(function(event) {
+							return (event.which >= 48 && event.which <= 57) || event.which == 8 || event.which == 45 || event.which == 32 || event.which == 40 || event.which == 41 || event.which == 0;
+						});
+						break;
+					case "Email Personal":
+					case "Email Trabajo":
+					case "Email Alternativo":
+						// Quitar máscara de teléfono
+						valorInput.unmask();
+						// Mostrar ejemplo de correo electrónico
+						valorInput.attr('placeholder', 'ejemplo@dominio.com');
+						// Validar formato de correo electrónico
+						valorInput.attr('type', 'email');
+						// Permitir cualquier entrada para correos electrónicos
+						valorInput.off('keypress').removeAttr('maxlength');
+						break;
+					default:
+						// Quitar máscara de teléfono
+						valorInput.unmask();
+						// Quitar ejemplo
+						valorInput.attr('placeholder', '');
+						valorInput.attr('type', 'text');
+						// Permitir cualquier entrada para otros tipos
+						valorInput.off('keypress').removeAttr('maxlength');
+						break;
+				}
 			}
-			if (this.nodeName === "TEXTAREA") {
-				// This will scroll a textarea to the bottom if needed
-				this.scrollTop = 999999;
-			}
-		};
-		window.onload = function() {
-			var input = document.getElementById("txtseg");
 
-			if (obj.addEventListener) {
-				obj.addEventListener("focus", placeCursorAtEnd, false);
-			} else if (obj.attachEvent) {
-				obj.attachEvent('onfocus', placeCursorAtEnd);
-			}
+			// Llamar a la función al cargar la página
+			applyMaskAndExample();
 
-			input.focus();
-		}	
+			// Llamar a la función al cambiar la etiqueta seleccionada
+			$('#txtetiqueta').change(function() {
+				applyMaskAndExample();
+			});
+		});
 	</script>
-<?php
-//include("../../menu_lateral_header.php");
-?>
+	
 </head>
-<?php
-//include("../../menu_lateral.php");
-?>
-<body>
-    <div class="container">
-	<fieldset style=" height:1000px;">
-        <form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
-                <legend>Registrar nuevo localizador</legend>
-                <fieldset class="caja">
-                    <legend class="cajalegend">══ Nuevo localizador ══</legend>
-                    <p style="margin:0;">
-                        <label for="txtid">ID localizador</label>
-                        <input type="text" name="txtid" id="txtid" value="<?php echo $idlocalizadorm; ?>" required readonly>
-                    </p>
 
-                    <p>
-					<div>
+
+<body>
+	<div class="container">
+		<fieldset style="height:1000px;">
+			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
+				<legend>
+					<h4 style="text-transform: uppercase;">REGISTRAR VALORES AGENDA PADRES</h4>
+				</legend>
+				<fieldset class="caja">
+					<legend class="cajalegend" style="text-transform: uppercase;">══ Nuevo valor localizador ══<i class="fa-regular fa-address-book"></i> ══ 📠📮</legend>
+					<p style="margin:0;">
+						<label for="txtid">ID localizador</label>
+						<input type="text" name="txtid" id="txtid" value="<?php echo $idlocalizadorm; ?>" required readonly>
+					</p>
+
+					<p>
+					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
 						<label for="id_padres">ID padre:</label>
-						<input type="text" id="id_padres" name="id_padres" style="width: 115px;"  required>
-						<button id="buscarpadres" class="boton_bus" title="Buscar medicos registrados">
-							<i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i>
-						</button>
-					</div>
-					<div id="Modalpadres" class="custom-modal">
-						<div class="custom-modal-content">
-							<span class="close">&times;</span>
-							<iframe id="modal-iframe" src="../../consulta_padrespacientes.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+						<input type="text" id="id_padres" name="id_padres" style="width: 55px;" required>
+
+						<button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalpadres()"><i class="fa-solid fa-magnifying-glass"></i></button>
+						<div id="Modalpadres" class="custom-modal">
+							<div class="custom-modal-content">
+								<span class="close" onclick="cerrarModalpadres()"><span class="material-symbols-outlined">cancel</span></span>
+								<iframe id="modal-iframe" src="../../consulta_padrespacientes.php" frameborder="0" style="width: 100%; height: 50%;"></iframe>
+							</div>
+						</div>
+						<script>
+							// Función para mostrar el modal
+							function mostrarModalpadres() {
+								var modal = document.getElementById('Modalpadres');
+								modal.style.display = 'block';
+							}
+
+							// Función para cerrar el modal
+							function cerrarModalpadres() {
+								var modal = document.getElementById('Modalpadres');
+								modal.style.display = 'none';
+							}
+						</script>
+						<div>
+							<label for="Nombre_padres">Nombre del padre:</label>
+							<label id="nombre_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+						</div>
+						<div>
+							<label for="Apellido_padres">Apellido del padre:</label>
+							<label id="apellido_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
 						</div>
 					</div>
 					<script>
@@ -407,82 +493,105 @@ if (isset($_POST['btnregistrar'])) {
 									$("#apellido_padres").text(data.apellido || '');
 								},
 								error: function() {
-									alert('Hubo un error al obtener los datos del medico.');
+									alert('Hubo un error al obtener los datos padre.');
 								}
 							});
 						});
 					</script>
-                  <div>
-						<label for="Nombre_padres">Nombre del padre:</label>
-						<label id="nombre_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+					</p>
+					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
+						<div>
+							<label>Etiqueta</label>
+							<select id="txtetiqueta" name="txtetiqueta" style="width: 110px;" autocomplete="off" change="applyMaskAndExample()"required>
+								<option selected value="Telefono">Telefono</option>
+								<option value="Telefono Principal">Telefono Principal</option>
+								<option value="Telefono Alterno">Telefono Alterno</option>
+								<option value="Telefono Casa">Telefono Casa</option>
+								<option value="Movil Principal">Movil Principal</option>
+								<option value="Movil Alterno">Movil Alterno</option>
+								<option value="Movil Corporativo">Movil Corporativo</option>
+								<option value="Email Personal">Email Personal</option>
+								<option value="Email Trabajo">Email Trabajo</option>
+								<option value="Email Alternativo">Email Alternativo</option>
+							</select>
+						</div>
+						<p>
+							<label for="txtvalor">Valor</label>
+							<input type="text" name="txtvalor" id="txtvalor" required>
+						</p>
 					</div>
-					<div>
-						<label for="Apellido_padres">Apellido del padre:</label>
-						<label id="apellido_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
-					</div>
-
-
-                        <!--<label for="txtnombre">Id medico</label>
-                        <input type="text" autofocus name="txtmedico" id="txtmedico" value="<?php //echo $fechacreacion; ?>" required>--> 
-
-
-
-                    </p>
-
-
-                    <p>
-                        <label for="txtvalor">Valor</label>
-                        <input type="text"  name="txtvalor" id="txtvalor" value="<?php echo $valor; ?>" required>
-                    </p>
-                    
-					<div><label>Etiqueta</label>
-                        <select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php echo $etiqueta; ?>"require>
-                            <option selected value="Telefono">Telefono</option>
-                            <option value="Email">Email</option>
-							<option value="Movil">Movil</option>
-                        </select>
-                        <!-- <input type="text" name="txtest" autocomplete="off" require> -->
-                    </div>
-
-                </fieldset>
-                <div class="botones-container">
-                    <button type="submit" name="btnregistrar" value="Registrar">
-                        <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
-                        Registrar
-                    </button>
-                    <a class="boton" href="../../mant_localizadorp.php?pag=<?php echo $pagina; ?>">
-                        <i class="material-icons" style='font-size:21px;text-shadow:2px 2px 4px #000000;vertical-align: text-bottom;'>close</i> Cancelar
-                    </a>
-                </div>
-                <iframe id="modal-iframe" src="../../consulta_localizadorp.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe>
-            </fieldset>
-        </form>
-    </div>
+				</fieldset>
+				<div class="botones-container">
+					<button type="submit" name="btnregistrar" value="Registrar">
+						<i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
+						Registrar
+					</button>
+					<a class="boton" href="../../mant_localizadorp.php?pag=<?php echo $pagina; ?>">
+						<i class="material-icons" style='font-size:21px;text-shadow:2px 2px 4px #000000;vertical-align: text-bottom;'>close</i> Cancelar
+					</a>
+				</div>
+				<iframe id="modal-iframe" src="../../consulta_localizadorp.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe>
+			</form>
+		</fieldset>
+	</div>
+	
 </body>
-  
 <script>
-
-var idpadresActual = "";
-// Obtener referencia al botón y al modal del paciente
-const btnbusquedapadres = document.getElementById("buscarpadres");
-	const modalpadres = document.getElementById("Modalpadres");
-	// Función para mostrar el modal de vacuna
-	function mostrarModalp() {
-		modalpadres.style.display = "block";
-	}
-	// Función para ocultar el modal vacuna
-	function ocultarModalp() {
-		modalpadres.style.display = "none";
-	}
-	// Asignar evento de clic al botón para mostrar u ocultar el modal DE VACUNA y evitar recargar la página
-	btnbusquedapadres.addEventListener("click", function(event) {
-		event.preventDefault(); // Evitar recargar la página
-		if (modalpadres.style.display === "none") {
-			mostrarModalp();
-		} else {
-			ocultarModalp();
+	$(document).ready(function() {
+		// Función para aplicar máscara y actualizar el ejemplo según la etiqueta seleccionada
+		function applyMaskAndExample() {
+			var etiqueta = $('#txtetiqueta').val();
+			var valorInput = $('#txtvalor');
+			switch (etiqueta) {
+				case "Telefono":
+				case "Telefono Principal":
+				case "Telefono Alterno":
+				case "Telefono Casa":
+				case "Movil Principal":
+				case "Movil Alterno":
+				case "Movil Corporativo":
+					// Aplicar máscara para teléfono
+					valorInput.mask('(000) 000-0000', {
+						autoclear: false
+					});
+					// Mostrar ejemplo de teléfono
+					valorInput.attr('placeholder', '(123) 456-7890');
+					// Limitar entrada a números y un máximo de 10 dígitos
+					valorInput.attr('maxlength', '14').keypress(function(event) {
+						return (event.which >= 48 && event.which <= 57) || event.which == 8 || event.which == 45 || event.which == 32 || event.which == 40 || event.which == 41 || event.which == 0;
+					});
+					break;
+				case "Email Personal":
+				case "Email Trabajo":
+				case "Email Alternativo":
+					// Quitar máscara de teléfono
+					valorInput.unmask();
+					// Mostrar ejemplo de correo electrónico
+					valorInput.attr('placeholder', 'ejemplo@dominio.com');
+					// Validar formato de correo electrónico
+					valorInput.attr('type', 'email');
+					// Permitir cualquier entrada para correos electrónicos
+					valorInput.off('keypress').removeAttr('maxlength');
+					break;
+				default:
+					// Quitar máscara de teléfono
+					valorInput.unmask();
+					// Quitar ejemplo
+					valorInput.attr('placeholder', '');
+					valorInput.attr('type', 'text');
+					// Permitir cualquier entrada para otros tipos
+					valorInput.off('keypress').removeAttr('maxlength');
+					break;
+			}
 		}
-	});
-	</script>
 
+		// Llamar a la función al cargar la página
+		applyMaskAndExample();
+
+		// Llamar a la función al cambiar la etiqueta seleccionada
+		$('#txtetiqueta').change(function() {
+			applyMaskAndExample();
+		});
+	});
+</script>
 </html>
