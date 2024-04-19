@@ -380,6 +380,7 @@
       <a href="consultas/Consulta_Consulta_pacientepormedicoP.php"><button onmouseover="mostrarInformacionProceso('infoProceso1')" onmouseout="ocultarInformacionProceso('infoProceso1')"><i class="fa-solid fa-house-chimney-medical"></i> Consultas Médicas</button></a>
       <a href="consultas/Consulta_recetasmedicasP.php"><button onmouseover="mostrarInformacionProceso('infoProceso2')" onmouseout="ocultarInformacionProceso('infoProceso2')"><i class="fa-solid fa-prescription"></i> Consulta Recetas Médicas</button></a>
         <a href="consultas/Consulta_certificadosmedicosP.php"><button onmouseover="mostrarInformacionProceso('infoProceso3')" onmouseout="ocultarInformacionProceso('infoProceso3')"><i class="fa-solid fa-file-medical"></i> Consulta Certificados Médicos</button></a>
+        <a href="consultas/Consulta_certificadosmedicosP.php"><button onmouseover="mostrarInformacionProceso('infoProceso4')" onmouseout="ocultarInformacionProceso('infoProceso4')"><i class="fa-solid fa-file-lines"></i><i class="fa-solid fa-receipt"></i>&nbsp; Consulta referimientos Médicos</button></a>
       </div>
       <div class="contenido">
         <fieldset>
@@ -395,7 +396,8 @@
     var descripcionesProcesos = {
       infoProceso1: "Información: Esta consulta muestra los procesos de consultas médicas.",
       infoProceso2: "Información: Esta consulta permite consultar recetas médicas.",
-      infoProceso3: "Información: Esta consulta permite consultar certificados médicos."
+      infoProceso3: "Información: Esta consulta permite consultar certificados médicos.",
+      infoProceso4: "Información: Esta consulta permite consultar referimientos médicos realizados."
     };
 
     // Función para mostrar la información del botón de Procesos
