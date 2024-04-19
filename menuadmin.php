@@ -51,6 +51,7 @@
     .os-content {
       background: linear-gradient(to right, #E8A9F7, #e4e5dc);
       color: black;
+      font-size: 18px;
     }
 
     .os-viewport {
@@ -89,6 +90,7 @@
     .nav-sidebar>.nav-header,
     .sidebar-form {
       color: black;
+      font-size: 16px ;
     }
   </style>
 
@@ -431,7 +433,7 @@
 
             <li class="nav-header">
               <i class="fa-solid fa-gears"></i>
-              <span style="font-weight: bolder;">═ Consultas y Reportes ═══</span>
+              <span style="font-weight: bolder;">═ Consultas y Reportes</span>
             </li>
             <li class="nav-item">
               <a href="#" onclick="cambiarIframe('menu-consultas.php')" class="nav-link">
