@@ -377,9 +377,9 @@
     <legend>Procesos</legend>
     <div class="divisor">
       <div class="botones">
-      <a href="consultas/consulta_Consulta_pacientepormedicoP.php"><button onmouseover="mostrarInformacionProceso('infoProceso1')" onmouseout="ocultarInformacionProceso('infoProceso1')"><i class="fa-solid fa-house-chimney-medical"></i> Consultas Médicas</button></a>
-        <button onmouseover="mostrarInformacionProceso('infoProceso2')" onmouseout="ocultarInformacionProceso('infoProceso2')"><i class="fa-solid fa-prescription"></i> Consulta Recetas Médicas</button>
-        <button onmouseover="mostrarInformacionProceso('infoProceso3')" onmouseout="ocultarInformacionProceso('infoProceso3')"><i class="fa-solid fa-file-medical"></i> Consulta Certificados Médicos</button>
+      <a href="consultas/Consulta_Consulta_pacientepormedicoP.php"><button onmouseover="mostrarInformacionProceso('infoProceso1')" onmouseout="ocultarInformacionProceso('infoProceso1')"><i class="fa-solid fa-house-chimney-medical"></i> Consultas Médicas</button></a>
+      <a href="consultas/Consulta_recetasmedicasP.php"><button onmouseover="mostrarInformacionProceso('infoProceso2')" onmouseout="ocultarInformacionProceso('infoProceso2')"><i class="fa-solid fa-prescription"></i> Consulta Recetas Médicas</button></a>
+        <a href="consultas/Consulta_certificadosmedicosP.php"><button onmouseover="mostrarInformacionProceso('infoProceso3')" onmouseout="ocultarInformacionProceso('infoProceso3')"><i class="fa-solid fa-file-medical"></i> Consulta Certificados Médicos</button></a>
       </div>
       <div class="contenido">
         <fieldset>
