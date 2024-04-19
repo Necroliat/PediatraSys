@@ -73,7 +73,7 @@ $html = <<<EOD
 <p><b>Paciente:</b> {$referimiento['paciente_nombre']} {$referimiento['paciente_apellido']}<br>
 <b>Edad:</b> {$age} años</p>
 
-<p style="padding:0; text-align: left;"><b>Médico que Refiere de:</b>{$referimiento['medico_nombre']} {$referimiento['medico_apellido']}<br>
+<p style="padding:0; text-align: left;"><b>Médico que que hace el referimiento:</b>{$referimiento['medico_nombre']} {$referimiento['medico_apellido']}<br>
 <b>Especialidad:</b> {$referimiento['medico_especialidad_nombre']}<br>
 <b>Cédula:</b> {$referimiento['medico_cedula']}<br>
 <b>Colegiado con No. de Execuátur:</b> {$referimiento['medico_exequatur']}</p>

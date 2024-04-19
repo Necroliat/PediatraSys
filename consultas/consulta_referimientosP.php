@@ -14,12 +14,16 @@ if ($conn->connect_error) {
 }
 
 // Consulta combinada para obtener los datos de las consultas junto con el nombre del paciente y del médico
-$query = "SELECT cm.*, m.nombre AS medico_nombre, m.apellido AS medico_apellido, m.exequatur, m.cedula, es.especialidad, p.nombre AS paciente_nombre, p.apellido AS paciente_apellido, p.sexo, p.fecha_nacimiento, p.Nacionalidad, p.Con_quien_vive, p.Direccion_reside, i.nombre AS centro_nombre, i.direccion AS centro_direccion, i.telefono AS centro_telefono
-FROM certificado_medico cm
-JOIN medicos m ON cm.id_medico = m.id_medico
-JOIN especialidad es ON m.id_especialidad = es.id_especialidad
-JOIN paciente p ON cm.id_paciente = p.id_paciente
-JOIN institucion_de_salud i ON cm.id_centro = i.id_centro";
+$query = "SELECT r.*, r.medico_referido, r.Fecha_Referimiento, r.Motivo, r.Observaciones, r.id_centro, r.id_medico, r.id_paciente,
+c.nombre AS centro_nombre, c.direccion AS centro_direccion, c.telefono AS centro_telefono,
+m.nombre AS medico_nombre, m.apellido AS medico_apellido, m.cedula AS medico_cedula, m.exequatur AS medico_exequatur, m.id_especialidad AS medico_especialidad,
+p.nombre AS paciente_nombre, p.apellido AS paciente_apellido, p.fecha_nacimiento AS paciente_fecha_nacimiento,
+e.especialidad AS medico_especialidad_nombre
+FROM referimientos r
+INNER JOIN institucion_de_salud c ON r.id_centro = c.id_centro
+INNER JOIN medicos m ON r.id_medico = m.id_medico
+INNER JOIN paciente p ON r.id_paciente = p.id_paciente
+INNER JOIN especialidad e ON m.id_especialidad = e.id_especialidad";
 
 $result = $conn->query($query);
 
@@ -33,7 +37,7 @@ $result = $conn->query($query);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Certificados Médicos</title>
+  <title>Referimientos Medicos</title>
   <!-- Enlaces a los archivos CSS de DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
   <!-- Enlaces a los scripts de JavaScript de jQuery y DataTables -->
@@ -281,7 +285,7 @@ $result = $conn->query($query);
         }
         #tabla_certificado th:nth-child(6), /* Selecciona la sexta columna (Diagnóstico) */
     #tabla_certificado td:nth-child(6) { /* Afecta tanto a la cabecera como a las celdas de la columna */
-        max-width: 20%; /* Establece el ancho máximo al 20% */
+        max-width: 10%; /* Establece el ancho máximo al 20% */
         word-wrap: break-word; /* Hace que las palabras se dividan si no caben en el ancho especificado */
     }
   </style>
@@ -293,7 +297,10 @@ $result = $conn->query($query);
     <div class="centrado">
             <img src="../IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
         </div>
-  <h2 style="padding:0; text-align: center; text-transform: uppercase;"><i class="fa-solid fa-file-medical" style="font-size:32px;color:blue;"></i><i class="fa-solid fa-certificate" style="font-size:32px;color:red;"></i>&nbsp;Consultas Certificados Médicos<i class="fa-solid fa-stamp" style="font-size:32px;color:green;"></i></h2>
+  <h2 style="padding:0; text-align: center; text-transform: uppercase;">
+      <i class="fa-solid fa-user-doctor" style="font-size:32px;color:blue;"></i>
+      <i class="fa-solid fa-right-left" style="font-size:32px;color:red;"></i>
+      <i class="fa-solid fa-user-nurse" style="font-size:32px;color:green;"></i>&nbsp;Consultas Referimiento Médicos</h2>
       <h3 style="padding:0; margin:0;text-align: center;">PediatraSys</h3>
 
   <table id="tabla_certificado" class="display">
@@ -304,7 +311,9 @@ $result = $conn->query($query);
         <th>Apellido</th>
         <th>Médico</th>
         <th>Apellido</th>
-        <th>Diagnóstico</th>
+        <th>Motivo</th>
+        <th>fecha</th>
+        <th>Referido a</th>
         <th>Imprimir</th>
         
     </tr>
@@ -315,13 +324,15 @@ $result = $conn->query($query);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $row["id_certificado_M"] . "</td>";
+            echo "<td>" . $row["ID_Referimiento"] . "</td>";
             echo "<td>" . $row["paciente_nombre"] . "</td>";
              echo "<td>" . $row["paciente_apellido"] . "</td>";
             echo "<td>" . $row["medico_nombre"] . "</td>";
             echo "<td>" . $row["medico_apellido"] . "</td>";
-             echo "<td>" . $row["diagnostico"] . "</td>";
-            echo "<td><a class='btn btn-primary' href='../reporteCertificado.php?id_certificado_M=" . $row["id_certificado_M"] . "'><i class='fa-solid fa-print'></i> Imprimir Certificado</a></td>";
+             echo "<td>" . $row["Motivo"] . "</td>";
+             echo "<td>" . $row["Fecha_Referimiento"] . "</td>";
+            echo "<td>" . $row["medico_referido"] . "</td>";
+            echo "<td><a class='btn btn-primary' href='../reporteReferimiento.php?ID_Referimiento=" . $row["ID_Referimiento"] . "'><i class='fa-solid fa-print'></i> Imprimir Referimiento</a></td>";
 
             echo "</tr>";
         }

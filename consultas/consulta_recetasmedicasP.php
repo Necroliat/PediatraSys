@@ -41,7 +41,7 @@ $result = $conn->query($query);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta de Médicos</title>
+  <title>Consulta Recetas Médicas</title>
   <!-- Enlaces a los archivos CSS de DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
   <!-- Enlaces a los scripts de JavaScript de jQuery y DataTables -->
