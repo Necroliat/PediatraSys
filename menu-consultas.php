@@ -385,7 +385,7 @@
       <div class="contenido">
         <fieldset>
           <legend>INFORMACIÓN ADICIONAL</legend>
-          <p id="infoBotonProcesos"></p>
+          <p id="infoBotonProcesos"></p> 
         </fieldset>
       </div>
     </div>
