@@ -520,32 +520,33 @@ function obtenerHorariosMedico($idMedico)
 				<legend>MODIFICANDO DATOS DEL PACIENTE 📝</legend>
 
 				<DIV><label for="id_paciente">ID de Paciente:</label>
-					<input type="text" id="id_paciente" style="width:115px; background-color:#979998 " name="id_paciente" value="<?php echo $proximoIdPaciente; ?>" readonly>
+					<input type="text" id="id_paciente" style="width:115px; background-color:#979998 " name="id_paciente" value="<?php echo $idpaciente; ?>" readonly>
 				</DIV>
 
 				<div>
 
 					<label for="nombre">Nombre:</label>
-					<input type="text" id="nombre" name="nombre" title="Ingrese su nombre" placeholder="Nombre del infante" required>
+					<input type="text" id="nombre" name="nombre" title="Ingrese su nombre" placeholder="Nombre del infante" value="<?php echo $nombre; ?>" required>
 				</div>
 				<div>
 					<label for="apellido">Apellido:</label>
-					<input type="text" id="apellido" name="apellido" title="Ingrese su apellido" placeholder="Apellido/s del/la niño/a" required>
+					<input type="text" id="apellido" name="apellido" title="Ingrese su apellido" placeholder="Apellido/s del/la niño/a" value="<?php echo $apellido; ?>" required>
 				</div>
 				<fieldset style="width:90%;">
 					<legend>Sexo:</legend>
-					<div style="width:35%;float:left; margin-left: 10%; padding: 1%;">
+					<div style="width:35%; float:left; margin-left: 10%; padding: 1%;">
 						<label for="masculino">Masculino</label>
-						<input type="radio" id="masculino" name="sexo" value="masculino" required>
+						<input type="radio" id="masculino" name="sexo" value="masculino" <?php echo ($sexo == 'masculino') ? 'checked' : ''; ?> required>
 					</div>
-					<div style="width:35%;float:left;padding: 1%;">
+					<div style="width:35%; float:left; padding: 1%;">
 						<label for="femenino">Femenino</label>
-						<input type="radio" id="femenino" name="sexo" value="femenino" required>
+						<input type="radio" id="femenino" name="sexo" value="femenino" <?php echo ($sexo == 'femenino') ? 'checked' : ''; ?> required>
 					</div>
 				</fieldset>
+
 				<div>
 					<label for="fecha_nacimiento">Fecha de nacimiento:</label>
-					<input type="date" id="fecha_nacimiento" name="fecha_nacimiento" title="Seleccione su fecha de nacimiento" required>
+					<input type="date" id="fecha_nacimiento" name="fecha_nacimiento" title="Seleccione su fecha de nacimiento" value="<?php echo $fecnac; ?>" required>
 				</div>
 				<!-- Select para países -->
 				<div>
@@ -815,16 +816,17 @@ function obtenerHorariosMedico($idMedico)
 				<div>
 					<label for="con_quien_vive">Con quién vive:</label>
 					<select id="con_quien_vive" name="con_quien_vive" title="Seleccione con quién vive actualmente" required>
-						<option value="padre_madre" selected>Ambos Padres</option>
-						<option value="padre">Padre</option>
-						<option value="madre">Madre</option>
-						<option value="tutor_legal">Tutor Legal</option>
+						<option value="padre_madre" <?php echo ($vivecon == 'padre_madre') ? 'selected' : ''; ?>>Ambos Padres</option>
+						<option value="padre" <?php echo ($vivecon == 'padre') ? 'selected' : ''; ?>>Padre</option>
+						<option value="madre" <?php echo ($vivecon == 'madre') ? 'selected' : ''; ?>>Madre</option>
+						<option value="tutor_legal" <?php echo ($vivecon == 'tutor_legal') ? 'selected' : ''; ?>>Tutor Legal</option>
 						<!-- Agregar más opciones si es necesario -->
 					</select>
 				</div>
+
 				<div>
 					<label for="direccion">Dirección:</label>
-					<input type="text" id="direccion" name="direccion" title="Ingrese su dirección actual" placeholder="Dirección que reside el infante" required>
+					<input type="text" id="direccion" name="direccion" title="Ingrese su dirección actual" placeholder="Dirección que reside el infante" value="<?php echo $direccion; ?>" required>
 				</div>
 				<script>
 					// Definimos una variable global en JavaScript para el ID de paciente
