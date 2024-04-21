@@ -3,115 +3,35 @@ session_start();
 error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
 $pagina = $_GET['pag'];
-$coddni = $_GET['id_horario'];
-$medico = $_GET['nombre_medico'];
-//$coddni =5;
+$coddni = $_GET['id_vacuna_p'];
 
-$querybuscar = mysqli_query($conn, "SELECT * FROM horario WHERE id_horario =$coddni");
 
-while ($mostrar = mysqli_fetch_array($querybuscar)) {
-	$idhorario2 = $mostrar['id_horario'];
-	$idmedico = $mostrar['id_medico'];
-	$dias = $mostrar['dias'];
-	$etiqueta = $mostrar['Etiqueta'];
-	$horainicio = $mostrar['hora_inicio'];
-	$horafin = $mostrar['hora_fin'];
+
+/* $querybuscar = mysqli_query($conn,"SELECT pv.id_vacuna_p, pv.id_paciente, pv.id_vacuna, pv.dosis, pv.refuerzo, pv.FECHA_APLICACION, tv.nombre AS nombre_vacuna
+FROM pacientes_vacunas pv
+INNER JOIN tipo_vacunas tv ON pv.id_vacuna = tv.id_vacuna
+WHERE pv.id_vacuna_p =12"); */
+
+
+
+$query = "SELECT pv.id_vacuna_p, pv.id_paciente, pv.id_vacuna, pv.dosis, pv.refuerzo, pv.FECHA_APLICACION, tv.nombre AS nombre_vacuna
+          FROM pacientes_vacunas pv
+          INNER JOIN tipo_vacunas tv ON pv.id_vacuna = tv.id_vacuna
+          WHERE pv.id_vacuna_p = $coddni ";
+
+$result = $conn->query($query);
+while ($mostrar = mysqli_fetch_array($result)) {
+
+	$idvacunap = $mostrar["id_vacuna_p"];
+	$idpaciente = $mostrar["id_paciente"];
+	$idvacuna = $mostrar["id_vacuna"];
+	$nombrevacuna = $mostrar["nombre_vacuna"];
+	$dosis = $mostrar["dosis"];
+	$refuerzo = $mostrar["refuerzo"];
+	$fecha = $mostrar["FECHA_APLICACION"];
 }
 ?>
-<?php
 
-// Variable de bandera para indicar si se encontró un choque de horarios
-$choqueEncontrado = false;
-// Función para verificar choques de horarios
-function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta,$idhorario2)
-{
-	global $conn, $choqueEncontrado;
-	// Consulta para verificar choques de horarios para el día específico
-	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias LIKE '%$dia%' AND Estado = 'Activo' AND id_horario <>'$idhorario2'";
-	$result = $conn->query($query);
-	if ($result->num_rows > 0) {
-		while ($row = $result->fetch_assoc()) {
-			$horaInicioDB = $row['hora_inicio'];
-			$horaFinDB = $row['hora_fin'];
-			// Verificar choque de horarios
-			if (($horaInicio >= $horaInicioDB && $horaInicio < $horaFinDB) || ($horaFin > $horaInicioDB && $horaFin <= $horaFinDB)) {
-				// Verificar si el día de la base de datos coincide con el día insertado
-				if (strpos($row['dias'], $dia) !== false) {
-					// Imprimir mensaje de choque de horarios
-					echo "<script>alert('Hay un choque en el día $dia con el horario de $horaInicioDB a $horaFinDB');</script>";
-					// Establecer la variable de bandera en true
-					$choqueEncontrado = true;
-					// Detener la función de verificación
-					return;
-				}
-			}
-		}
-	}
-}
-// Validar campos antes de procesar el formulario
-if (isset($_POST['btnregistrar'])) {
-	// Obtener datos del formulario
-	$idhorario = $_POST['txtid'];
-	$idmedico = $_POST['id_medico'];
-	$diasSeleccionados = $_POST['dia'];
-	$etiqueta = "Regular";
-	/* $etiqueta = $_POST['txtetiqueta']; */
-	$horainicial = $_POST['hora_inicio'];
-	$horafinal = $_POST['hora_fin'];
-	$estado = $_POST['txtestado'];
-	// Verificar choques de horarios para cada día seleccionado
-	foreach ($diasSeleccionados as $dia) {
-		verificarChoques($idmedico, $dia, $horainicial, $horafinal, $etiqueta,$idhorario2);
-		// Si se encontró un choque, detener la ejecución
-		if ($choqueEncontrado) {
-			break;
-		}
-	}
-	// Si no se encontraron choques, proceder con el registro en la base de datos
-	if (!$choqueEncontrado) {
-		// Insertar datos en la tabla horario
-		$dias = implode(", ", $diasSeleccionados);
-		// Actualizar datos en la tabla horario
-		$queryUpdate = mysqli_query($conn, "UPDATE horario SET id_medico = '$idmedico', dias = '$dias', etiqueta = '$etiqueta', hora_inicio = '$horainicial', hora_fin = '$horafinal', Estado = '$estado' WHERE id_horario = '$idhorario2'");
-		if (!$queryUpdate) {
-			echo "Error al actualizar el registro: " . mysqli_error($conn);
-		} else {
-			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-		}
-		/* $queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
-		if (!$queryAdd) {
-			echo "Error con el registro: " . mysqli_error($conn);
-		} else {
-			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-		} */
-	}
-}
-// Función para obtener los horarios del médico
-function obtenerHorariosMedico($idMedico)
-{
-	global $conn;
-	$horarios = array();
-	// Consultar los horarios del médico con el ID correspondiente
-	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' ORDER BY FIELD(dias, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado')";
-	$result = $conn->query($query);
-
-	// Iterar sobre los resultados y guardar en un array asociativo
-	while ($row = $result->fetch_assoc()) {
-		$dia = $row['dias'];
-		$horario = $row['hora_inicio'] . ' - ' . $row['hora_fin'];
-
-		// Verificar si ya existe un horario para este día en el array
-		if (array_key_exists($dia, $horarios)) {
-			// Si existe, agregar el horario a la lista existente
-			$horarios[$dia][] = $horario;
-		} else {
-			// Si no existe, crear una nueva lista para ese día
-			$horarios[$dia] = array($horario);
-		}
-	}
-	return $horarios;
-}
-?>
 
 <html>
 
@@ -132,6 +52,7 @@ function obtenerHorariosMedico($idMedico)
 	<!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<style>
 		/* Estilos personalizados aquí */
 	</style>
@@ -472,35 +393,18 @@ function obtenerHorariosMedico($idMedico)
 		input,
 		label {
 			font-size: 14;
-		}
-	</style>
-	<script>
-		// Función para ejecutar código JavaScript
-		function ejecutarCodigoJavaScript() {
-			$("#id_medico").on("input", function() {
-				var idmedico = $(this).val();
-				// Realizar la solicitud AJAX para obtener los datos del paciente
-				$.ajax({
-					url: '../../consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
-					type: 'POST',
-					data: {
-						id_medico: idmedico
-					},
-					dataType: 'json',
-					success: function(data) {
-						$("#nombre_medico").text(data.nombre || '');
-						$("#apellido_medico").text(data.apellido || '');
-					},
-					error: function() {
-						alert('Hubo un error al obtener los datos del medico.');
-					}
-				});
-			});
+
 		}
 
-		// Ejecutar la función al cargar la página
-		window.onload = ejecutarCodigoJavaScript;
-	</script>
+		.centrado {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 20vh;
+			/* Ajusta según tus necesidades */
+		}
+	</style>
+
 
 	<?php
 	//include("../../menu_lateral_header.php");
@@ -510,192 +414,169 @@ function obtenerHorariosMedico($idMedico)
 //include("../../menu_lateral.php");
 ?>
 
-<body onload="cargarHorariosMedico()">
+<body onload="checkFechaProvista()">
 
 	<div class="container">
-		<fieldset style=" height:650px;">
-			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
-				<legend>MODIFICANDO HORARIO DE TRABAJO DEL MÉDICO ✏✏📝</legend>
-				<fieldset class="caja">
-					<legend class="cajalegend" style="text-align: center;">══ EDITANDO HORARIO PARA EL MÉDICO 📅👩‍⚕️👨‍⚕️ ══</legend>
-					<p style="margin:0;">
-						<label for="txtid">ID horario</label>
-						<input type="text" name="txtid" id="txtid" value="<?php echo $idhorario2; ?>" required readonly>
-					</p>
 
+		<form method="POST">
 
-					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
-						<label for="id_medico">ID medico:</label>
-						<input type="text" id="id_medico" name="id_medico" value="<?php echo $idmedico; ?>" readonly>
-						<!-- <button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button> -->
-						<div id="Modalmedico" class="custom-modal">
-							<div class="custom-modal-content">
-								<span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">cancel</span></span>
-								<iframe id="modal-iframe" src="../../consulta_medico.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
-							</div>
-						</div>
-						<script>
-							// Función para mostrar el modal
-							function mostrarModalmedico() {
-								var modal = document.getElementById('Modalmedico');
-								modal.style.display = 'block';
-							}
+			<fieldset>
+				<legend style="text-transform: uppercase; text-align:center;">💉✏📅</legend>
+				<div class="centrado">
+					<img src="../../IMAGENES/vacunacion.png" class="" alt="Mantenimientos" style="width: 48px; height: 48px;">
+					<h4>EDITAR VACUNA DEL PACIENTE</h4>
+				</div>
+				<div>
+					<label for="id_vacuna">ID Vacuna:</label>
+					<input type="text" id="id_vacuna" name="id_vacuna" style="width: 55px;" value="<?php echo $idvacuna; ?>" required>
+					<button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModalvacuna()"><i class="fa-solid fa-magnifying-glass"></i></button>
 
-							// Función para cerrar el modal
-							function cerrarModalmedico() {
-								var modal = document.getElementById('Modalmedico');
-								modal.style.display = 'none';
-							}
-							$("#id_medico").on("input", function() {
-								var idmedico = $(this).val();
-								// Realizar la solicitud AJAX para obtener los datos del paciente
-								$.ajax({
-									url: '../../consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
-									type: 'POST',
-									data: {
-										id_medico: idmedico
-									},
-									dataType: 'json',
-									success: function(data) {
-										$("#nombre_medico").text(data.nombre || '');
-										$("#apellido_medico").text(data.apellido || '');
-									},
-									error: function() {
-										alert('Hubo un error al obtener los datos del medico.');
-									}
-								});
-							});
-						</script>
-
-						<label for="Nombre_medico">Nombre del Médico:</label>
-						<label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;margin-left:5px;"><?php echo $medico; ?></label>
-						<!-- <label for="Apellido_medico" style="margin-left:5px;">Apellido:</label>
-						<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;margin-left:5px;"></label> -->
+				</div>
+				<div>
+					<label for="Nombre_vacuna">Nombre de la Vacuna:</label>
+					<label id="nombre_vacuna" name="nombre_vacuna" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"><?php echo $nombrevacuna; ?></label>
+				</div>
+				<div id="Modalvacuna" class="custom-modal">
+					<div class="custom-modal-content">
+						<span class="close" onclick="cerrarModalvacuna()"><span class="material-symbols-outlined">
+								cancel
+							</span></span>
+						<iframe id="modal-iframe" src="../../consulta_vacunas.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
 					</div>
+				</div>
+				<script>
+					// Función para mostrar el modal
+					function mostrarModalvacuna() {
+						var modal = document.getElementById('Modalvacuna');
+						modal.style.display = 'block';
+					}
 
-					<fieldset>
-						<legend style="padding: 0%; margin: 0%;">DIAS QUE TRABAJARÁ:</legend>
-						<div id="checklist" style="display: flex; flex-wrap: wrap;">
-							<p style="text-align:center; font-weight:bold;">Dias Laborables:</p>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes" <?php echo strpos($dias, 'Lunes') !== false ? 'checked' : ''; ?>> Lunes</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes" <?php echo strpos($dias, 'Martes') !== false ? 'checked' : ''; ?>> Martes</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles" <?php echo strpos($dias, 'Miércoles') !== false ? 'checked' : ''; ?>> Miércoles</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves" <?php echo strpos($dias, 'Jueves') !== false ? 'checked' : ''; ?>> Jueves</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Viernes" <?php echo strpos($dias, 'Viernes') !== false ? 'checked' : ''; ?>> Viernes</label>
-							<hr style="width: 100%; margin: 10px 0;">
-							<p style="text-align:center; font-weight:bold;">Fin de semana:</p>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Sábado" <?php echo strpos($dias, 'Sábado') !== false ? 'checked' : ''; ?>> Sábado</label>
-						</div>
-					</fieldset>
+					// Función para cerrar el modal
+					function cerrarModalvacuna() {
+						var modal = document.getElementById('Modalvacuna');
+						modal.style.display = 'none';
+					}
+				</script>
 
 
-					<fieldset>
-						<div style="display: flex; flex-wrap: wrap;">
-							<!-- <div><label for="txtetiqueta">Identificador del horario</label>
-								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php //echo $etiqueta; 
-																																?>" require>
+				<div style="border-top:20px;">
+					<label for="dosis">Dosis:</label>
+					<select id="dosis" name="dosis" style="width: 110px;" required>
+						<?php
+						$dosis_values = array("1era", "2da", "3ra", "4ta", "5ta", "6ta", "7ma", "8va", "9na", "10ma", "NA");
+						foreach ($dosis_values as $value) {
+							echo "<option value='$value'";
+							if ($value == $dosis) {
+								echo " selected";
+							}
+							echo ">$value</option>";
+						}
+						?>
+					</select>
+				</div>
+				<div>
+					<label for="refuerzo">Refuerzo:</label>
+					<select id="refuerzo" name="refuerzo" style="width: 110px;">
+						<?php
+						$refuerzo_values = array("1er", "2do", "3ro", "4to", "5to", "6to", "7mo", "8vo", "9no", "10mo", "NA");
+						foreach ($refuerzo_values as $value) {
+							echo "<option value='$value'";
+							if ($value == $refuerzo) {
+								echo " selected";
+							}
+							echo ">$value</option>";
+						}
+						?>
+					</select>
+				</div>
+				<div>
+					<label for="fecha_aplicacion">Fecha de Aplicación:</label>
+					<select id="fecha_aplicacion_select" name="fecha_aplicacion_select" style="width: 180px;" onchange="checkFechaProvista()">
+						<option value="fecha_provista" <?php if ($fecha) echo "selected"; ?>>Fecha Provista</option>
+						<option value="fecha_no_provista" <?php if (!$fecha) echo "selected"; ?>>Fecha No Provista</option>
+					</select>
+					<input type="date" id="fecha_aplicacion_input" name="fecha_aplicacion_input" style="display: none;" value="<?php echo $fecha; ?>">
+				</div>
 
-									<option selected value="Regular">Regular</option>
-									<option value="Alterno">Alterno</option>
-								</select>
-								
-							</div><br> -->
-
-							<div>
-								<label for="hora_inicio">Hora de inicio:</label>
-								<input type="time" id="hora_inicio" name="hora_inicio" value="09:00">
-							</div><br>
-
-							<div>
-								<label for="hora_fin">Hora de fin:</label>
-								<input type="time" id="hora_fin" name="hora_fin" value="18:00">
-							</div><br>
-
-							<div><label>Estado</label>
-								<select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off" required>
-
-									<option selected value="Activo">Activo</option>
-									<option value="Inactivo">Inactivo</option>
-								</select>
-								<!-- <input type="text" name="txtest" autocomplete="off" require> -->
-							</div>
-						</div>
-					</fieldset>
-					<div id="tabla_horarios">
-						<!-- Aquí se mostrará la tabla de horarios -->
-					</div>
-				</fieldset>
 				<div class="botones-container">
-					<button type="submit" name="btnregistrar" value="Registrar">
+					<button type="submit" name="btnmodificar" value="Registrar">
 						<i class="fa-solid fa-file-pen"></i>
 						MODIFICAR
 					</button>
-					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
+					<a class="boton" href="../../mant-pacientevacuna.php?pag=<?php echo $pagina; ?>">
 						<i class="fa-solid fa-circle-xmark"></i> Cancelar
 					</a>
-
-
-
 				</div>
-				<!-- <iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe> -->
-			</form>
-		</fieldset>
-
-
-
-		<script>
-			// Función para cargar la tabla de horarios del médico
-			function cargarHorariosMedico() {
-				var idMedico = document.getElementById('id_medico').value;
-				var tablaHorarios = document.getElementById('tabla_horarios');
-
-				// Realizar una petición AJAX para obtener los horarios del médico
-				$.ajax({
-					type: 'POST',
-					url: '../../obtener_horarios_medico.php',
-					data: {
-						id_medico: idMedico
-					},
-					success: function(data) {
-						// Actualizar la tabla de horarios con los datos recibidos
-						tablaHorarios.innerHTML = data;
-					},
-					error: function() {
-						alert('Error al cargar los horarios del médico.');
-					}
-				});
-			}
-
-			// Escuchar cambios en el input del ID del médico
-			document.getElementById('id_medico').addEventListener('input', cargarHorariosMedico);
-		</script>
-
-
+			</fieldset>
+		</form>
 	</div>
+	<script>
+     function checkFechaProvista() {
+			var fechaAplicacionSelect = document.getElementById('fecha_aplicacion_select');
+			var fechaAplicacionInput = document.getElementById('fecha_aplicacion_input');
+
+			if (fechaAplicacionSelect.value === 'fecha_provista') {
+				fechaAplicacionInput.style.display = 'inline-block';
+			} else {
+				fechaAplicacionInput.style.display = 'none';
+			}
+		}
+
+
+		
+					// Función para búsqueda dinámica del nombre de la vacuna por ID
+					function buscarNombreVacuna() {
+						var idVacuna = $("#id_vacuna").val();
+						$.ajax({
+							url: "../../buscar_nombre_vacuna.php", // Archivo PHP para buscar el nombre de la vacuna por ID
+							type: "POST",
+							data: {
+								id_vacuna: idVacuna
+							},
+							dataType: "json",
+							success: function(data) {
+								$("#nombre_vacuna").text(data ? data.Nombre : "Valor no encontrado");
+							},
+							error: function(error) {
+								console.log("Error:", error);
+							}
+						});
+					}
+
+					// Evento para ejecutar la búsqueda al cambiar el valor del campo ID de la vacuna
+					$("#id_vacuna").on("input", buscarNombreVacuna);
+				
+	</script>
 </body>
 
-<script>
-	var idmedicoActual = "";
-	// Obtener referencia al botón y al modal del paciente
-	const btnbusquedamedico = document.getElementById("buscarmedico");
-	const modalmedico = document.getElementById("Modalmedico");
-	// Función para mostrar el modal de vacuna
-	function mostrarModalm() {
-		modalmedico.style.display = "block";
-	}
-	// Función para ocultar el modal vacuna
-	function ocultarModalm() {
-		modalmedico.style.display = "none";
-	}
-	// Asignar evento de clic al botón para mostrar u ocultar el modal DE VACUNA y evitar recargar la página
-	btnbusquedamedico.addEventListener("click", function(event) {
-		event.preventDefault(); // Evitar recargar la página
-		if (modalmedico.style.display === "none") {
-			mostrarModalm();
-		} else {
-			ocultarModalm();
-		}
-	});
-</script>
+<?php
+
+if (isset($_POST['btnmodificar'])) {
+    $idvacunap2 = $idvacunap;
+    $idpaciente2 = $idpaciente;
+    $idvacuna2 = $_POST['id_vacuna'];
+    $dosis2 = $_POST['dosis'];
+    $refuerzo2 = $_POST['refuerzo'];
+    if ($_POST['fecha_aplicacion_select'] == "fecha_provista") {
+        $fecha2 = $_POST['fecha_aplicacion_input'];
+    } else {
+        $fecha2 = 'fecha_no_provista';
+    }
+    
+    $stmt = $conn->prepare("UPDATE pacientes_vacunas SET id_vacuna_p=?, id_paciente=?, id_vacuna=?, dosis=?, refuerzo=?, FECHA_APLICACION=? WHERE id_vacuna_p=?");
+    $stmt->bind_param("iiisssi", $idvacunap2, $idpaciente2, $idvacuna2, $dosis2, $refuerzo2, $fecha2, $idvacunap2);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        echo "<script> alert('Registro actualizado con éxito.');</script>";
+        echo "<script>window.location= '../../mant-pacientevacuna.php?pag=$pagina';</script>";
+    } else {
+        echo "<script> alert('Error al actualizar el registro o ningún cambio necesario.');</script>";
+    }
+
+    $stmt->close();
+}
+
+?>
 
 </html>

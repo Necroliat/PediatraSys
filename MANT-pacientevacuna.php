@@ -4,11 +4,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Sis_Pediátrico</title>
-    <link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
+	<link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
 	<link rel="stylesheet" type="text/css" href="css/estilo-paciente.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 	<style>
 		.caja {
 			border: 3px solid #ddd;
@@ -40,8 +41,8 @@
 			grid-template-rows: repeat(2, 1fr);
 			grid-gap: 6px 10px;
 			margin-left: 2%;
-            margin-right: 2%;
-            padding: 0;
+			margin-right: 2%;
+			padding: 0;
 		}
 
 		label {
@@ -137,46 +138,46 @@
 		}
 
 		/* Estilos específicos para el modal personalizado */
-        .custom-modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
+		.custom-modal {
+			display: none;
+			position: fixed;
+			z-index: 9999;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.7);
+		}
 
-        .custom-modal-content {
-            width: 80%;
-            height: 80%;
-            margin: auto;
-            background: linear-gradient(to right, #e4e5dc, #45bac9db);
-            padding: 20px;
-            border-radius: 20px;
+		.custom-modal-content {
+			width: 80%;
+			height: 80%;
+			margin: auto;
+			background: linear-gradient(to right, #e4e5dc, #45bac9db);
+			padding: 20px;
+			border-radius: 20px;
 
-            /* Agregado para permitir desplazamiento si el contenido es demasiado grande */
-            box-sizing: border-box;
-            /* Asegura que el padding no afecte el tamaño total */
-            font-size: 12px;
-            /* Tamaño de fuente relativo al tamaño del contenedor */
-            max-width: 100%;
-            /* Evitar que el texto se salga del contenedor */
-        }
+			/* Agregado para permitir desplazamiento si el contenido es demasiado grande */
+			box-sizing: border-box;
+			/* Asegura que el padding no afecte el tamaño total */
+			font-size: 12px;
+			/* Tamaño de fuente relativo al tamaño del contenedor */
+			max-width: 100%;
+			/* Evitar que el texto se salga del contenedor */
+		}
 
-        .custom-modal-content p,
-        table,
-        th,
-        td,
-        tr {
-            font-size: 1em;
-            /* Tamaño de fuente relativo al tamaño del contenedor */
-            max-width: 100%;
-            /* Evitar que el texto se salga del contenedor */
-        }
+		.custom-modal-content p,
+		table,
+		th,
+		td,
+		tr {
+			font-size: 1em;
+			/* Tamaño de fuente relativo al tamaño del contenedor */
+			max-width: 100%;
+			/* Evitar que el texto se salga del contenedor */
+		}
 
 		.custom-close {
 			color: #aaa;
@@ -199,13 +200,21 @@
 			border: none;
 		}
 
-		body{
-	background: linear-gradient(to right, #E8A9F7,#e4e5dc );
-}
+		body {
+			background: linear-gradient(to right, #E8A9F7, #e4e5dc);
+		}
 
-fieldset {	
-	background: linear-gradient(to right,#e4e5dc ,#62c4f9 );	
-}
+		fieldset {
+			background: linear-gradient(to right, #e4e5dc, #62c4f9);
+		}
+
+		#tabla_consultas th,
+		#tabla_consultas td {
+			max-width: 100px;
+			/* Ancho máximo de las celdas */
+			word-wrap: break-word;
+			/* Permitir que el texto largo se divida en múltiples líneas */
+		}
 	</style>
 	<?php
 

@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta para obtener el historial de vacunas del paciente con el ID especificado
-$query = "SELECT pv.id_vacuna_p, pv.id_paciente, pv.id_vacuna, pv.dosis, pv.refuerzo, pv.FECHA_APLICACION, tv.nombre AS nombre_vacuna
+$query = "SELECT pv.id_vacuna_p ,pv.id_vacuna_p, pv.id_paciente, pv.id_vacuna, pv.dosis, pv.refuerzo, pv.FECHA_APLICACION, tv.nombre AS nombre_vacuna
           FROM pacientes_vacunas pv
           INNER JOIN tipo_vacunas tv ON pv.id_vacuna = tv.id_vacuna
           WHERE pv.id_paciente = '$idPaciente'";
@@ -37,7 +37,7 @@ $result = $conn->query($query);
     <!-- Enlaces a los scripts de JavaScript de jQuery y DataTables -->
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-
+    <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
     <style>
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
@@ -70,6 +70,13 @@ $result = $conn->query($query);
     font-weight: bold; /* Cambiar a negritas */
     font-family: "Copperplate",  Fantasy;
    }
+   #tabla_consultas th,
+        #tabla_consultas td {
+            max-width: 100px;
+            /* Ancho máximo de las celdas */
+            word-wrap: break-word;
+            /* Permitir que el texto largo se divida en múltiples líneas */
+        }
   </style>
 </head>
 
@@ -79,14 +86,15 @@ $result = $conn->query($query);
     <?php
     if ($result->num_rows > 0) {
     ?>
-        <table id="tabla_vacunas" class="display" style="width:100%; font-size: x-small;">
+        <table id="tabla_vacunas" class="display" style="width:100%; ">
             <thead>
                 <tr>
-                    <th>ID Vacuna</th>
-                    <th>Nombre Vacuna</th>
+                    <th>ID</th>
+                    <th>Vacuna</th>
                     <th>Dosis</th>
                     <th>Refuerzo</th>
-                    <th>Fecha Aplicación</th>
+                    <th>Fecha</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,6 +106,7 @@ $result = $conn->query($query);
                     echo "<td>" . $row["dosis"] . "</td>";
                     echo "<td>" . $row["refuerzo"] . "</td>";
                     echo "<td>" . $row["FECHA_APLICACION"] . "</td>";
+                    echo "<td><a class='btn btn-primary' href='modulo/vacunas/editar.php?id_vacuna_p=" . $row["id_vacuna_p"] . "'><i class='fa-solid fa-pencil'></i> Editar</a></td>";
                     echo "</tr>";
                 }
                 ?>
