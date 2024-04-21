@@ -530,6 +530,7 @@ mysqli_close($conn);
 				<legend>Datos del Paciente</legend>
 				<DIV><label for="id_paciente">ID de Paciente:</label>
 					<input type="text" id="id_paciente" style="width:115px; background-color:#979998 " name="id_paciente" value="<?php echo $proximoIdPaciente; ?>" readonly>
+					<a class='btn btn-primary' href="mant-paciente.php"><i class='fa-solid fa-pencil'></i> Editar Pacientes</a>
 				</DIV>
 
 				<div>

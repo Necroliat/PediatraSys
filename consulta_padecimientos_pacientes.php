@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta para obtener el historial de padecimientos del paciente con el ID especificado
-$query = "SELECT dhc.id_padecimiento, pc.nombre_padecimiento, dhc.desde_cuando
+$query = "SELECT dhc.id_padecimiento,hc.ID_Paciente, pc.nombre_padecimiento,dhc.IDdetalle_HC, dhc.desde_cuando
           FROM historia_clinica hc
           INNER JOIN detalle_historia_clinica dhc ON hc.ID_Hist_Clic = dhc.ID_Hist_Clic
           INNER JOIN padecimientos_comunes pc ON dhc.id_padecimiento = pc.id_padecimiento
@@ -38,47 +38,60 @@ $result = $conn->query($query);
     <!-- Enlaces a los scripts de JavaScript de jQuery y DataTables -->
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 
 
     <style>
-    .dataTables_wrapper .dataTables_filter input {
-      border: 1px solid #aaa;
-      border-radius: 3px;
-      padding: 5px;
-      background-color: white;
-      color: inherit;
-      margin-left: 3px;
-    }
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            padding: 5px;
+            background-color: white;
+            color: inherit;
+            margin-left: 3px;
+        }
 
-    tr:hover {
-      background-color: #A8A4DE;
-    }
+        tr:hover {
+            background-color: #A8A4DE;
+        }
 
-    .resaltado {
-      background-color: #A8A4DE;
-    }
-    #tabla_seguros tbody tr:hover {
-       background-color: #A8A4DE;
-       cursor: pointer;
-   }
-   #tabla_seguros tbody tr:active {
-    background-color: #5bc0f7;
-    cursor: pointer;
-   border:4px solid red ;
-    transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease; /* Animaciones de 0.5 segundos */
-    box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red; /* Sombra inicial y sombra roja */
-    font-size: 25px;
-    color: white; /* Cambiar el color del texto */
-    font-weight: bold; /* Cambiar a negritas */
-    font-family: "Copperplate",  Fantasy;
-   }
-  </style>
+        .resaltado {
+            background-color: #A8A4DE;
+        }
+
+        #tabla_padecimientos tbody tr:hover {
+            background-color: #A8A4DE;
+            cursor: pointer;
+        }
+
+        #tabla_padecimientos tbody tr:active {
+            background-color: #5bc0f7;
+            cursor: pointer;
+            border: 4px solid red;
+            transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease;
+            /* Animaciones de 0.5 segundos */
+            box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
+            /* Sombra inicial y sombra roja */
+            font-size: 25px;
+            color: white;
+            /* Cambiar el color del texto */
+            font-weight: bold;
+            /* Cambiar a negritas */
+            font-family: "Copperplate", Fantasy;
+        }
+
+        #tabla_padecimientos th,
+        #tabla_padecimientos td {
+            max-width: 100px;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 
 <body>
     <h5 style="padding: 0; margin: 0; text-align:center;">Consulta de Padecimientos del Paciente</h5>
-<br>
-<br>
+    <br>
+    <br>
     <?php
     if ($result->num_rows > 0) {
     ?>
@@ -98,7 +111,7 @@ $result = $conn->query($query);
                     echo "<td>" . $row["id_padecimiento"] . "</td>";
                     echo "<td>" . $row["nombre_padecimiento"] . "</td>";
                     echo "<td>" . $row["desde_cuando"] . "</td>";
-                    echo "<td><button class='padecimientocam' data-id='" . $row["id_padecimiento"] . "' data-nombre='" . $row["nombre_padecimiento"] . "' data-desde='" . $row["desde_cuando"] . "'>Modificar</button></td>";
+                    echo "<td><a class='btn btn-primary' href='modulo/historia/editar.php?IDdetalle_HC=" . $row["IDdetalle_HC"] . "'><i class='fa-solid fa-pencil'></i> Editar</a></td>";
                     echo "</tr>";
                 }
                 ?>
@@ -127,7 +140,7 @@ $result = $conn->query($query);
     </div>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#tabla_padecimientos').DataTable({
                 dom: 'frtip', // Mostrar solo búsqueda y paginación
                 language: {
@@ -136,7 +149,7 @@ $result = $conn->query($query);
             });
 
             // Asociar un evento de clic al botón "Modificar" de cada fila de la tabla
-            $(".padecimientocam").click(function () {
+            $(".padecimientocam").click(function() {
                 // Obtener los datos del padecimiento desde los atributos data del botón
                 var idPadecimiento = $(this).data("id");
                 var nombrePadecimiento = $(this).data("nombre");
@@ -152,12 +165,12 @@ $result = $conn->query($query);
             });
 
             // Ocultar el modal cuando se hace clic en el botón "Cerrar"
-            $(".close").click(function () {
+            $(".close").click(function() {
                 $("#modalEditar").hide();
             });
 
             // Enviar los datos actualizados al servidor utilizando AJAX
-            $("#formularioModificar").submit(function (event) {
+            $("#formularioModificar").submit(function(event) {
                 event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
 
                 var formData = new FormData(this); // Obtener los datos del formulario
@@ -169,7 +182,7 @@ $result = $conn->query($query);
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
+                    success: function(data) {
                         if (data.success) {
                             alert("Padecimiento actualizado exitosamente.");
                             // Cerrar el modal de edición
@@ -180,7 +193,7 @@ $result = $conn->query($query);
                             alert("Error al actualizar el padecimiento.");
                         }
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         console.error('Error:', errorThrown);
                     }
                 });

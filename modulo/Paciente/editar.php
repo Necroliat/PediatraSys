@@ -20,100 +20,7 @@ while ($mostrar = mysqli_fetch_array($querybuscar)) {
 	$direccion = $mostrar['Direccion_reside'];
 }
 ?>
-<?php
 
-// Variable de bandera para indicar si se encontró un choque de horarios
-$choqueEncontrado = false;
-// Función para verificar choques de horarios
-function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta, $idhorario2)
-{
-	global $conn, $choqueEncontrado;
-	// Consulta para verificar choques de horarios para el día específico
-	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias LIKE '%$dia%' AND Estado = 'Activo' AND id_horario <>'$idhorario2'";
-	$result = $conn->query($query);
-	if ($result->num_rows > 0) {
-		while ($row = $result->fetch_assoc()) {
-			$horaInicioDB = $row['hora_inicio'];
-			$horaFinDB = $row['hora_fin'];
-			// Verificar choque de horarios
-			if (($horaInicio >= $horaInicioDB && $horaInicio < $horaFinDB) || ($horaFin > $horaInicioDB && $horaFin <= $horaFinDB)) {
-				// Verificar si el día de la base de datos coincide con el día insertado
-				if (strpos($row['dias'], $dia) !== false) {
-					// Imprimir mensaje de choque de horarios
-					echo "<script>alert('Hay un choque en el día $dia con el horario de $horaInicioDB a $horaFinDB');</script>";
-					// Establecer la variable de bandera en true
-					$choqueEncontrado = true;
-					// Detener la función de verificación
-					return;
-				}
-			}
-		}
-	}
-}
-// Validar campos antes de procesar el formulario
-if (isset($_POST['btnregistrar'])) {
-	// Obtener datos del formulario
-	$idhorario = $_POST['txtid'];
-	$idmedico = $_POST['id_medico'];
-	$diasSeleccionados = $_POST['dia'];
-	$etiqueta = "Regular";
-	/* $etiqueta = $_POST['txtetiqueta']; */
-	$horainicial = $_POST['hora_inicio'];
-	$horafinal = $_POST['hora_fin'];
-	$estado = $_POST['txtestado'];
-	// Verificar choques de horarios para cada día seleccionado
-	foreach ($diasSeleccionados as $dia) {
-		verificarChoques($idmedico, $dia, $horainicial, $horafinal, $etiqueta, $idhorario2);
-		// Si se encontró un choque, detener la ejecución
-		if ($choqueEncontrado) {
-			break;
-		}
-	}
-	// Si no se encontraron choques, proceder con el registro en la base de datos
-	if (!$choqueEncontrado) {
-		// Insertar datos en la tabla horario
-		$dias = implode(", ", $diasSeleccionados);
-		// Actualizar datos en la tabla horario
-		$queryUpdate = mysqli_query($conn, "UPDATE horario SET id_medico = '$idmedico', dias = '$dias', etiqueta = '$etiqueta', hora_inicio = '$horainicial', hora_fin = '$horafinal', Estado = '$estado' WHERE id_horario = '$idhorario2'");
-		if (!$queryUpdate) {
-			echo "Error al actualizar el registro: " . mysqli_error($conn);
-		} else {
-			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-		}
-		/* $queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
-		if (!$queryAdd) {
-			echo "Error con el registro: " . mysqli_error($conn);
-		} else {
-			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-		} */
-	}
-}
-// Función para obtener los horarios del médico
-function obtenerHorariosMedico($idMedico)
-{
-	global $conn;
-	$horarios = array();
-	// Consultar los horarios del médico con el ID correspondiente
-	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' ORDER BY FIELD(dias, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado')";
-	$result = $conn->query($query);
-
-	// Iterar sobre los resultados y guardar en un array asociativo
-	while ($row = $result->fetch_assoc()) {
-		$dia = $row['dias'];
-		$horario = $row['hora_inicio'] . ' - ' . $row['hora_fin'];
-
-		// Verificar si ya existe un horario para este día en el array
-		if (array_key_exists($dia, $horarios)) {
-			// Si existe, agregar el horario a la lista existente
-			$horarios[$dia][] = $horario;
-		} else {
-			// Si no existe, crear una nueva lista para ese día
-			$horarios[$dia] = array($horario);
-		}
-	}
-	return $horarios;
-}
-?>
 
 <html>
 
@@ -834,11 +741,11 @@ function obtenerHorariosMedico($idMedico)
 				</script>
 
 				<div class="botones-container">
-					<button type="submit" name="btnregistrar" value="Registrar">
+					<button type="submit" name="btnmodificar" value="Registrar">
 						<i class="fa-solid fa-file-pen"></i>
 						MODIFICAR
 					</button>
-					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
+					<a class="boton" href="../../mant-paciente.php?pag=<?php echo $pagina; ?>">
 						<i class="fa-solid fa-circle-xmark"></i> Cancelar
 					</a>
 				</div>
@@ -904,3 +811,35 @@ function obtenerHorariosMedico($idMedico)
 </script>
 
 </html>
+<?php
+
+if (isset($_POST['btnmodificar'])) {
+
+	$idpaciente = $_POST['id_paciente'];
+	$nombre = $_POST['nombre'];
+	$apellido = $_POST['apellido'];
+	$sexo = $_POST['sexo'];
+	$fecnac = $_POST['fecha_nacimiento'];
+	$nacion =$_POST['pais'];
+	$vivecon = $_POST['con_quien_vive'];
+	$direccion = $_POST['direccion'];
+
+   
+	$stmt = $conn->prepare("UPDATE paciente SET nombre=?, apellido=?, sexo=?, fecha_nacimiento=?, Nacionalidad=?, Con_quien_vive=?, Direccion_reside=? WHERE id_paciente=?");
+	$stmt->bind_param("sssssssi", $nombre, $apellido, $sexo, $fecnac, $nacion, $vivecon, $direccion, $idpaciente);
+	$stmt->execute();
+	
+	if ($stmt->affected_rows > 0) {
+		echo "<script> alert('Registro actualizado con éxito.');</script>";
+		echo "<script>window.location= '../../mant-paciente.php?pag=$pagina' </script>";
+	} else {
+		echo "<script> alert('Error al actualizar el registro o ningún cambio necesario.');</script>";
+	}
+	
+	$stmt->close();
+	
+
+    /* $querymodificar = mysqli_query($conn, "UPDATE paciente SET id_paciente='$idMedico',cedula='$cedula', exequatur='$exequatur', nombre='$nombre', apellido='$apellido',id_especialidad='$idEspecialidad' WHERE id_medico= $idMedico "); */
+    
+}
+?>

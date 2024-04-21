@@ -3,115 +3,26 @@ session_start();
 error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
 $pagina = $_GET['pag'];
-$coddni = $_GET['id_horario'];
-$medico = $_GET['nombre_medico'];
-//$coddni =5;
+$coddni = $_GET['IDdetalle_HC'];
 
-$querybuscar = mysqli_query($conn, "SELECT * FROM horario WHERE id_horario =$coddni");
+
+
+$querybuscar = mysqli_query($conn, "SELECT dhc.ID_Hist_Clic,dhc.id_padecimiento,hc.ID_Paciente, pc.nombre_padecimiento,dhc.IDdetalle_HC, dhc.desde_cuando, dhc.notas
+FROM historia_clinica hc
+INNER JOIN detalle_historia_clinica dhc ON hc.ID_Hist_Clic = dhc.ID_Hist_Clic
+INNER JOIN padecimientos_comunes pc ON dhc.id_padecimiento = pc.id_padecimiento
+WHERE dhc.IDdetalle_HC = '$coddni'");
 
 while ($mostrar = mysqli_fetch_array($querybuscar)) {
-	$idhorario2 = $mostrar['id_horario'];
-	$idmedico = $mostrar['id_medico'];
-	$dias = $mostrar['dias'];
-	$etiqueta = $mostrar['Etiqueta'];
-	$horainicio = $mostrar['hora_inicio'];
-	$horafin = $mostrar['hora_fin'];
+	$idpadecimiento = $mostrar['id_padecimiento'];
+	$notas = $mostrar['notas'];
+	$nombrepadecimiento = $mostrar['nombre_padecimiento'];
+	$desdecuando = $mostrar['desde_cuando'];
+	$iddetalle = $mostrar['IDdetalle_HC'];
+	$idhistoria = $mostrar['ID_Hist_Clic'];
 }
 ?>
-<?php
 
-// Variable de bandera para indicar si se encontró un choque de horarios
-$choqueEncontrado = false;
-// Función para verificar choques de horarios
-function verificarChoques($idMedico, $dia, $horaInicio, $horaFin, $etiqueta,$idhorario2)
-{
-	global $conn, $choqueEncontrado;
-	// Consulta para verificar choques de horarios para el día específico
-	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' AND dias LIKE '%$dia%' AND Estado = 'Activo' AND id_horario <>'$idhorario2'";
-	$result = $conn->query($query);
-	if ($result->num_rows > 0) {
-		while ($row = $result->fetch_assoc()) {
-			$horaInicioDB = $row['hora_inicio'];
-			$horaFinDB = $row['hora_fin'];
-			// Verificar choque de horarios
-			if (($horaInicio >= $horaInicioDB && $horaInicio < $horaFinDB) || ($horaFin > $horaInicioDB && $horaFin <= $horaFinDB)) {
-				// Verificar si el día de la base de datos coincide con el día insertado
-				if (strpos($row['dias'], $dia) !== false) {
-					// Imprimir mensaje de choque de horarios
-					echo "<script>alert('Hay un choque en el día $dia con el horario de $horaInicioDB a $horaFinDB');</script>";
-					// Establecer la variable de bandera en true
-					$choqueEncontrado = true;
-					// Detener la función de verificación
-					return;
-				}
-			}
-		}
-	}
-}
-// Validar campos antes de procesar el formulario
-if (isset($_POST['btnregistrar'])) {
-	// Obtener datos del formulario
-	$idhorario = $_POST['txtid'];
-	$idmedico = $_POST['id_medico'];
-	$diasSeleccionados = $_POST['dia'];
-	$etiqueta = "Regular";
-	/* $etiqueta = $_POST['txtetiqueta']; */
-	$horainicial = $_POST['hora_inicio'];
-	$horafinal = $_POST['hora_fin'];
-	$estado = $_POST['txtestado'];
-	// Verificar choques de horarios para cada día seleccionado
-	foreach ($diasSeleccionados as $dia) {
-		verificarChoques($idmedico, $dia, $horainicial, $horafinal, $etiqueta,$idhorario2);
-		// Si se encontró un choque, detener la ejecución
-		if ($choqueEncontrado) {
-			break;
-		}
-	}
-	// Si no se encontraron choques, proceder con el registro en la base de datos
-	if (!$choqueEncontrado) {
-		// Insertar datos en la tabla horario
-		$dias = implode(", ", $diasSeleccionados);
-		// Actualizar datos en la tabla horario
-		$queryUpdate = mysqli_query($conn, "UPDATE horario SET id_medico = '$idmedico', dias = '$dias', etiqueta = '$etiqueta', hora_inicio = '$horainicial', hora_fin = '$horafinal', Estado = '$estado' WHERE id_horario = '$idhorario2'");
-		if (!$queryUpdate) {
-			echo "Error al actualizar el registro: " . mysqli_error($conn);
-		} else {
-			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-		}
-		/* $queryAdd = mysqli_query($conn, "INSERT INTO horario (id_horario, id_medico, dias, etiqueta, hora_inicio, hora_fin, Estado) VALUES('$idhorario', '$idmedico','$dias','$etiqueta','$horainicial','$horafinal','$estado')");
-		if (!$queryAdd) {
-			echo "Error con el registro: " . mysqli_error($conn);
-		} else {
-			echo "<script>window.location= '../../mant_horario.php?pag=1' </script>";
-		} */
-	}
-}
-// Función para obtener los horarios del médico
-function obtenerHorariosMedico($idMedico)
-{
-	global $conn;
-	$horarios = array();
-	// Consultar los horarios del médico con el ID correspondiente
-	$query = "SELECT * FROM horario WHERE id_medico = '$idMedico' ORDER BY FIELD(dias, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado')";
-	$result = $conn->query($query);
-
-	// Iterar sobre los resultados y guardar en un array asociativo
-	while ($row = $result->fetch_assoc()) {
-		$dia = $row['dias'];
-		$horario = $row['hora_inicio'] . ' - ' . $row['hora_fin'];
-
-		// Verificar si ya existe un horario para este día en el array
-		if (array_key_exists($dia, $horarios)) {
-			// Si existe, agregar el horario a la lista existente
-			$horarios[$dia][] = $horario;
-		} else {
-			// Si no existe, crear una nueva lista para ese día
-			$horarios[$dia] = array($horario);
-		}
-	}
-	return $horarios;
-}
-?>
 
 <html>
 
@@ -132,6 +43,7 @@ function obtenerHorariosMedico($idMedico)
 	<!-- <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css"> -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<style>
 		/* Estilos personalizados aquí */
 	</style>
@@ -510,192 +422,123 @@ function obtenerHorariosMedico($idMedico)
 //include("../../menu_lateral.php");
 ?>
 
-<body onload="cargarHorariosMedico()">
+<body>
 
 	<div class="container">
-		<fieldset style=" height:650px;">
-			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
-				<legend>MODIFICANDO HORARIO DE TRABAJO DEL MÉDICO ✏✏📝</legend>
-				<fieldset class="caja">
-					<legend class="cajalegend" style="text-align: center;">══ EDITANDO HORARIO PARA EL MÉDICO 📅👩‍⚕️👨‍⚕️ ══</legend>
-					<p style="margin:0;">
-						<label for="txtid">ID horario</label>
-						<input type="text" name="txtid" id="txtid" value="<?php echo $idhorario2; ?>" required readonly>
-					</p>
 
+		<form method="POST">
 
-					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
-						<label for="id_medico">ID medico:</label>
-						<input type="text" id="id_medico" name="id_medico" value="<?php echo $idmedico; ?>" readonly>
-						<!-- <button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalmedico()"><i class="fa-solid fa-magnifying-glass"></i></button> -->
-						<div id="Modalmedico" class="custom-modal">
-							<div class="custom-modal-content">
-								<span class="close" onclick="cerrarModalmedico()"><span class="material-symbols-outlined">cancel</span></span>
-								<iframe id="modal-iframe" src="../../consulta_medico.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
-							</div>
-						</div>
-						<script>
-							// Función para mostrar el modal
-							function mostrarModalmedico() {
-								var modal = document.getElementById('Modalmedico');
-								modal.style.display = 'block';
-							}
+			<fieldset id="fieldsetContainer">
+				<legend> EDITAR PADECIMIENTO DEL PACIENTE</legend>
+				<label for="id_padecimiento">ID Padecimiento:</label>
+				<input type="text" id="id_padecimiento" name="id_padecimiento" style="width:55px" value="<?php echo $idpadecimiento; ?>" required>
 
-							// Función para cerrar el modal
-							function cerrarModalmedico() {
-								var modal = document.getElementById('Modalmedico');
-								modal.style.display = 'none';
-							}
-							$("#id_medico").on("input", function() {
-								var idmedico = $(this).val();
-								// Realizar la solicitud AJAX para obtener los datos del paciente
-								$.ajax({
-									url: '../../consulta_apellido_nombre_medico.php', // Ruta al archivo PHP que creamos
-									type: 'POST',
-									data: {
-										id_medico: idmedico
-									},
-									dataType: 'json',
-									success: function(data) {
-										$("#nombre_medico").text(data.nombre || '');
-										$("#apellido_medico").text(data.apellido || '');
-									},
-									error: function() {
-										alert('Hubo un error al obtener los datos del medico.');
-									}
-								});
-							});
-						</script>
+				<button class="btn btn-primary " type="button" id="buscar_consulta" onclick="mostrarModalHistoriaClinica()"><i class="fa-solid fa-magnifying-glass"></i></button>
 
-						<label for="Nombre_medico">Nombre del Médico:</label>
-						<label id="nombre_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;margin-left:5px;"><?php echo $medico; ?></label>
-						<!-- <label for="Apellido_medico" style="margin-left:5px;">Apellido:</label>
-						<label id="apellido_medico" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;margin-left:5px;"></label> -->
+				<div>
+					<label for="Nombre_padecimiento">Nombre del padecimiento:</label>
+					<label id="nombre_padecimiento" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"><?php echo $nombrepadecimiento; ?></label>
+				</div>
+				<div id="ModalHistoriaClinica" class="custom-modal">
+					<div class="custom-modal-content">
+						<span class="close" onclick="cerrarModalHistoriaClinica()"><span class="material-symbols-outlined">
+								cancel
+							</span></span>
+						<iframe id="modal-iframe" src="../../consulta_padecimientos.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
 					</div>
+				</div>
+				<script>
+					// Función para mostrar el modal
+					function mostrarModalHistoriaClinica() {
+						var modal = document.getElementById('ModalHistoriaClinica');
+						modal.style.display = 'block';
+					}
 
-					<fieldset>
-						<legend style="padding: 0%; margin: 0%;">DIAS QUE TRABAJARÁ:</legend>
-						<div id="checklist" style="display: flex; flex-wrap: wrap;">
-							<p style="text-align:center; font-weight:bold;">Dias Laborables:</p>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Lunes" <?php echo strpos($dias, 'Lunes') !== false ? 'checked' : ''; ?>> Lunes</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Martes" <?php echo strpos($dias, 'Martes') !== false ? 'checked' : ''; ?>> Martes</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Miércoles" <?php echo strpos($dias, 'Miércoles') !== false ? 'checked' : ''; ?>> Miércoles</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Jueves" <?php echo strpos($dias, 'Jueves') !== false ? 'checked' : ''; ?>> Jueves</label>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Viernes" <?php echo strpos($dias, 'Viernes') !== false ? 'checked' : ''; ?>> Viernes</label>
-							<hr style="width: 100%; margin: 10px 0;">
-							<p style="text-align:center; font-weight:bold;">Fin de semana:</p>
-							<label style="margin-right: 10px;"><input type="checkbox" name="dia[]" value="Sábado" <?php echo strpos($dias, 'Sábado') !== false ? 'checked' : ''; ?>> Sábado</label>
-						</div>
-					</fieldset>
+					// Función para cerrar el modal
+					function cerrarModalHistoriaClinica() {
+						var modal = document.getElementById('ModalHistoriaClinica');
+						modal.style.display = 'none';
+					}
+				</script>
 
-
-					<fieldset>
-						<div style="display: flex; flex-wrap: wrap;">
-							<!-- <div><label for="txtetiqueta">Identificador del horario</label>
-								<select id="txtetiqueta" name="txtetiqueta" style=" width: 110px; " autocomplete="off" value="<?php //echo $etiqueta; 
-																																?>" require>
-
-									<option selected value="Regular">Regular</option>
-									<option value="Alterno">Alterno</option>
-								</select>
-								
-							</div><br> -->
-
-							<div>
-								<label for="hora_inicio">Hora de inicio:</label>
-								<input type="time" id="hora_inicio" name="hora_inicio" value="09:00">
-							</div><br>
-
-							<div>
-								<label for="hora_fin">Hora de fin:</label>
-								<input type="time" id="hora_fin" name="hora_fin" value="18:00">
-							</div><br>
-
-							<div><label>Estado</label>
-								<select id="txtestado" name="txtestado" style=" width: 110px; " autocomplete="off" required>
-
-									<option selected value="Activo">Activo</option>
-									<option value="Inactivo">Inactivo</option>
-								</select>
-								<!-- <input type="text" name="txtest" autocomplete="off" require> -->
-							</div>
-						</div>
-					</fieldset>
-					<div id="tabla_horarios">
-						<!-- Aquí se mostrará la tabla de horarios -->
-					</div>
-				</fieldset>
+				<label for="notas">Notas:</label>
+				<input type="text" id="notas" name="notas" value="<?php echo $notas; ?>">
+				<br>
+				<label for="desde_cuando">Desde cuándo:</label>
+				<input type="date" id="desde_cuando" name="desde_cuando" value="<?php echo $desdecuando; ?>" onchange="calculateYears()"><br>
+				<span id="yearsSince"></span>
 				<div class="botones-container">
-					<button type="submit" name="btnregistrar" value="Registrar">
+					<button type="submit" name="btnmodificar" value="Registrar">
 						<i class="fa-solid fa-file-pen"></i>
 						MODIFICAR
 					</button>
-					<a class="boton" href="../../mant_horario.php?pag=<?php echo $pagina; ?>">
+					<a class="boton" href="../../mant_paciente_historiaClinica.php?pag=<?php echo $pagina; ?>">
 						<i class="fa-solid fa-circle-xmark"></i> Cancelar
 					</a>
-
-
-
 				</div>
-				<!-- <iframe id="modal-iframe" src="../../consulta_horario.php" frameborder="0" style="width: 100%; height: 100%;max-height:700px;"></iframe> -->
-			</form>
-		</fieldset>
-
-
-
-		<script>
-			// Función para cargar la tabla de horarios del médico
-			function cargarHorariosMedico() {
-				var idMedico = document.getElementById('id_medico').value;
-				var tablaHorarios = document.getElementById('tabla_horarios');
-
-				// Realizar una petición AJAX para obtener los horarios del médico
-				$.ajax({
-					type: 'POST',
-					url: '../../obtener_horarios_medico.php',
-					data: {
-						id_medico: idMedico
-					},
-					success: function(data) {
-						// Actualizar la tabla de horarios con los datos recibidos
-						tablaHorarios.innerHTML = data;
-					},
-					error: function() {
-						alert('Error al cargar los horarios del médico.');
-					}
-				});
-			}
-
-			// Escuchar cambios en el input del ID del médico
-			document.getElementById('id_medico').addEventListener('input', cargarHorariosMedico);
-		</script>
-
-
+			</fieldset>
+		</form>
 	</div>
+	<script>
+		function buscarNombrePadecimiento() {
+			var idPadecimiento = $("#id_padecimiento").val();
+			$.ajax({
+				type: "POST",
+				url: "../../buscar_padecimiento.php",
+				data: {
+					id_padecimiento: idPadecimiento
+				},
+				dataType: "json",
+				success: function(data) {
+					$("#nombre_padecimiento").text(data ? data.nombre_padecimiento :
+						"Valor no encontrado");
+				},
+				error: function(error) {
+					console.log("Error:", error);
+				}
+			});
+		}
+
+		// Evento para ejecutar la búsqueda al cambiar el valor del campo ID de la vacuna
+		$("#id_padecimiento").on("input", buscarNombrePadecimiento);
+
+
+
+		function calculateYears() {
+			const fechaSeleccionada = document.getElementById("desde_cuando").value;
+			const fechaActual = new Date();
+			const diferencia = fechaActual.getFullYear() - new Date(fechaSeleccionada).getFullYear();
+			document.getElementById("yearsSince").textContent = "Lleva padeciendo esta enfermedad durante " + diferencia +
+				" años.";
+		}
+	</script>
 </body>
 
-<script>
-	var idmedicoActual = "";
-	// Obtener referencia al botón y al modal del paciente
-	const btnbusquedamedico = document.getElementById("buscarmedico");
-	const modalmedico = document.getElementById("Modalmedico");
-	// Función para mostrar el modal de vacuna
-	function mostrarModalm() {
-		modalmedico.style.display = "block";
+<?php
+
+if (isset($_POST['btnmodificar'])) {
+
+	$iddetalle2 = $iddetalle;
+	$idhistoria2 = $idhistoria; // Esta variable está mal etiquetada, parece ser la hora y no el ID.
+	$id_padecimiento2 = $_POST['id_padecimiento'];
+	$notas2 = $_POST['notas'];
+	$desde_cuando2 = $_POST['desde_cuando'];
+
+	
+	$stmt = $conn->prepare("UPDATE detalle_historia_clinica SET ID_Hist_Clic=?, id_padecimiento=?, notas=?, desde_cuando=? WHERE IDdetalle_HC=?");
+	$stmt->bind_param("iissi", $idhistoria2, $id_padecimiento2, $notas2, $desde_cuando2, $iddetalle2);
+	$stmt->execute();
+
+	if ($stmt->affected_rows > 0) {
+		echo "<script> alert('Registro actualizado con éxito.');</script>";
+		echo "<script>window.location= '../../mant_paciente_historiaClinica.php?pag=$pagina';</script>";
+	} else {
+		echo "<script> alert('Error al actualizar el registro o ningún cambio necesario.');</script>";
 	}
-	// Función para ocultar el modal vacuna
-	function ocultarModalm() {
-		modalmedico.style.display = "none";
-	}
-	// Asignar evento de clic al botón para mostrar u ocultar el modal DE VACUNA y evitar recargar la página
-	btnbusquedamedico.addEventListener("click", function(event) {
-		event.preventDefault(); // Evitar recargar la página
-		if (modalmedico.style.display === "none") {
-			mostrarModalm();
-		} else {
-			ocultarModalm();
-		}
-	});
-</script>
+
+	$stmt->close();
+}
+
+?>
 
 </html>
