@@ -120,13 +120,29 @@ $fecha_actual = date("d/m/Y");
 echo "<h5 style='text-transform: uppercase;'>Citas del Día - Dr./Dra $nombre_medico $apellido_medico - $fecha_actual</h5>";
         
         //DATE(c.fecha) ='CURDATE()'
-        
-    $sql = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
+ $sql = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
+        FROM citas c
+        INNER JOIN paciente p ON c.id_paciente = p.id_paciente
+        WHERE c.id_medico = " . $idMedico . " 
+        AND DATE(c.fecha) = CURDATE() 
+        AND (c.ESTADO = 'Vigente' OR c.ESTADO = 'En consulta');";
+
+$result = $conn->query($sql);
+echo $row['nombre_paciente'] . "<br>";
+/*if (!$result) {
+    echo "Error al ejecutar la consulta: " . $conn->error;
+} else {
+    // Procesar resultados si es necesario
+    while ($row = $result->fetch_assoc()) {
+        // Hacer algo con cada fila
+        echo $row['nombre_paciente'] . "<br>";
+    }
+}*/
+    
+    /*$sql = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
                 FROM citas c
                 INNER JOIN paciente p ON c.id_paciente = p.id_paciente
-                WHERE c.id_medico = $idMedico AND c.fecha='$fecha_actual2'  AND ESTADO='Vigente' OR ESTADO='En consulta'";
-
-    $result = $conn->query($sql);
+                WHERE c.id_medico = $idMedico AND c.fecha='$fecha_actual2'  AND ESTADO='Vigente' OR ESTADO='En consulta'";*/
 
     if ($result->num_rows > 0) {
      echo "<table class='table table-striped zebra-table rounded-corners'>
@@ -197,11 +213,7 @@ $sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado
                       FROM citas c
                       INNER JOIN paciente p ON c.id_paciente = p.id_paciente
                       WHERE c.id_medico = $idMedico AND c.fecha='$fecha_actual2'  AND (ESTADO = 'Cancelada' OR ESTADO = 'Atendida')";
-/*// Consulta para obtener las citas canceladas o atendidas
-$sql_segunda_tabla = "SELECT c.id_cita, c.fecha, c.hora, c.id_paciente, c.Estado, CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente
-                FROM citas c
-                INNER JOIN paciente p ON c.id_paciente = p.id_paciente
-                WHERE c.id_medico = $idMedico AND DATE(c.fecha) ='2024-04-13'  AND ESTADO='Atendida' OR ESTADO='Cancelada'";*/
+
 $result_segunda_tabla = $conn->query($sql_segunda_tabla);
 
 if ($result_segunda_tabla->num_rows > 0) {

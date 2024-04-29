@@ -169,7 +169,7 @@ function obtenerDatosMedico($idMedico, $conn)
         window.parent.document.getElementById("nombre_medico").textContent = nombreMedico;
         window.parent.document.getElementById("apellido_medico").textContent = apellidoMedico;
         window.parent.document.getElementById("id_medico").focus();
-
+        window.parent.cargarHorariosMedico();
         var currentPath = window.parent.location.pathname;
         var currentPage = currentPath.substring(currentPath.lastIndexOf("/") + 1);
 
