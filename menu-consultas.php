@@ -165,14 +165,11 @@
     }
 
     .divisor {
-      /* Agregar grid */
-      display: grid;
+    /*   display: grid;
       grid-template-columns: repeat(4, 1fr);
-      /* 4 columnas con el mismo ancho */
       grid-column-gap: 10px;
-      /* Espacio entre columnas */
-      grid-row-gap: 10px;
-      /* Espacio entre filas */
+      grid-row-gap: 10px; */
+     
     }
 
     fieldset fieldset legend {
@@ -207,42 +204,36 @@
     }
 
     .divisor {
-      /* Agregar grid */
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      /* Dos columnas de igual ancho */
-      grid-column-gap: 10px;
-      /* Espacio entre columnas */
-    }
+  /* Agregar grid */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 5px;
+  grid-auto-rows:200px;
+}
 
-    .botones {
-      /* Estilo para la columna de los botones */
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      /* Dos columnas de igual ancho */
-      grid-column-gap: 5px;
-      /* Espacio entre columnas */
-      grid-row-gap: 10px;
-      /* Espacio entre filas (separación vertical) */
-    }
+.botones {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 40px; /* Definir una altura fija para cada fila */
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+}
 
-    .botones button {
-      /* Estilo para los botones dentro de la columna de botones */
-      width: 100%;
-      /* Los botones ocuparán todo el ancho de su contenedor */
-    }
+.botones button {
+  width: 100%;
+  /* Mantener el alto constante */
+  height: 40px; /* Ajusta el valor según sea necesario */
+}
 
-    /* Estilo para la descripción */
-    .descripcion {
-      display: none;
-      /* Por defecto, la descripción estará oculta */
-    }
+.descripcion {
+  display: none;
+}
 
-    /* Mostrar descripción al pasar el mouse sobre los botones */
-    .botones button:hover+.descripcion {
-      display: block;
-      /* Mostrar la descripción al pasar el mouse sobre el botón */
-    }
+/* Mostrar la descripción solo cuando se pasa el mouse sobre el botón */
+.botones button:hover+.descripcion {
+  display: block;
+}
+
   </style>
 </head>
 
@@ -296,6 +287,7 @@
        <a href="consultas/consulta_especialidadP.php"><button onmouseover="mostrarInformacionMedico('infoMedico3')" onmouseout="ocultarInformacionMedico('infoMedico3')"><i class="fa-solid fa-staff-snake"></i> Especialidad Médico</button></a>
         <button onmouseover="mostrarInformacionMedico('infoMedico4')" onmouseout="ocultarInformacionMedico('infoMedico4')"><i class="fa-solid fa-calendar-days"></i> Horario Médico</button>
         <button onmouseover="mostrarInformacionMedico('infoMedico5')" onmouseout="ocultarInformacionMedico('infoMedico5')"><i class="fa-solid fa-address-book"></i> Directorio Médico</button>
+      
       </div>
       <div class="contenido">
         <fieldset>
@@ -380,7 +372,7 @@
       <a href="consultas/Consulta_Consulta_pacientepormedicoP.php"><button onmouseover="mostrarInformacionProceso('infoProceso1')" onmouseout="ocultarInformacionProceso('infoProceso1')"><i class="fa-solid fa-house-chimney-medical"></i> Consultas Médicas</button></a>
       <a href="consultas/Consulta_recetasmedicasP.php"><button onmouseover="mostrarInformacionProceso('infoProceso2')" onmouseout="ocultarInformacionProceso('infoProceso2')"><i class="fa-solid fa-prescription"></i> Consulta Recetas Médicas</button></a>
         <a href="consultas/Consulta_certificadosmedicosP.php"><button onmouseover="mostrarInformacionProceso('infoProceso3')" onmouseout="ocultarInformacionProceso('infoProceso3')"><i class="fa-solid fa-file-medical"></i> Consulta Certificados Médicos</button></a>
-        <a href="consultas/consulta_referimientosP.php"><button onmouseover="mostrarInformacionProceso('infoProceso4')" onmouseout="ocultarInformacionProceso('infoProceso4')"><i class="fa-solid fa-file-lines"></i><i class="fa-solid fa-receipt"></i>&nbsp; Consulta referimientos Médicos</button></a>
+        <a href="consultas/consulta_referimientosP.php"><button onmouseover="mostrarInformacionProceso('infoProceso4')" onmouseout="ocultarInformacionProceso('infoProceso4')"><i class="fa-solid fa-file-lines"></i><i class="fa-solid fa-receipt"></i>&nbsp; Referimientos Médicos</button></a>
       </div>
       <div class="contenido">
         <fieldset>
