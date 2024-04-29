@@ -12,9 +12,10 @@ if ($conn->connect_error) {
   die("Error de conexión: " . $conn->connect_error);
 }
 
-// Consulta para obtener los datos de la tabla "laboratorio"
+// Consulta para obtener los datos de la tabla "laboratorio     "MIN(np.id_paciente) AS id_nino,
 $query = "SELECT 
-MIN(np.ID_Padre) AS id_nino_padre,
+
+np.ID_Padre AS id_nino_padre,
 p.id_paciente,
 p.nombre AS nombre_paciente,
 p.apellido AS apellido_paciente,

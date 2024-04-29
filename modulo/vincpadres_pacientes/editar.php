@@ -75,9 +75,9 @@ if (isset($_POST['btnregistrar'])) {
 
 	// Si no hay errores, proceder con la inserción
 	if (count($errores) == 0) {
-		// Realizar la consulta para verificar si ya existe una relación entre el padre y el paciente
+		// Realizar la consulta para verificar si ya existe una relación entre el padre y el paciente MIN(np.ID_Padre) AS id_nino_padre
 		$query_verificacion = "SELECT 
-                                    MIN(np.ID_Padre) AS id_nino_padre,
+                                    np.ID_Padre AS id_nino_padre,
                                     p.id_paciente,
                                     p.nombre AS nombre_paciente,
                                     p.apellido AS apellido_paciente,
