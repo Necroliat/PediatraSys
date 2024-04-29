@@ -4,6 +4,53 @@ session_start();
 error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
 $pagina = $_GET['pag'];
+$coddni = $_GET['ID_Relacion'];
+
+//$coddni =5;
+
+//$querybuscar = mysqli_query($conn, "SELECT * FROM paciente WHERE id_paciente =$coddni");
+$querybuscar = "SELECT 
+MIN(np.ID_Padre) AS id_nino_padre,
+p.id_paciente,
+p.nombre AS nombre_paciente,
+p.apellido AS apellido_paciente,
+dpp.nombre AS nombre_padre,
+dpp.apellido AS apellido_padre,
+Tipo_Padre,ID_Relacion
+FROM 
+nino_padre np
+JOIN 
+paciente p ON np.id_paciente = p.id_paciente  
+JOIN 
+datos_padres_de_pacientes dpp ON np.ID_Padre = dpp.Numidentificador  
+WHERE 
+np.ID_Relacion=$coddni
+GROUP BY 
+p.id_paciente
+ORDER BY 
+p.id_paciente;";
+
+// Ejecutar la consulta
+$resultado = mysqli_query($conn, $querybuscar);
+
+// Verificar si se encontraron resultados
+if ($resultado) {
+	// Recorrer los resultados
+	while ($mostrar = mysqli_fetch_array($resultado)) {
+		$id_nino_padre = $mostrar['id_nino_padre'];
+		$id_relacion = $mostrar['ID_Relacion'];
+		$id_paciente = $mostrar['id_paciente'];
+		$nombre_paciente = $mostrar['nombre_paciente'];
+		$apellido_paciente = $mostrar['apellido_paciente'];
+		$nombre_padre = $mostrar['nombre_padre'];
+		$apellido_padre = $mostrar['apellido_padre'];
+		$tipo_padre = $mostrar['Tipo_Padre'];
+
+		// Aquí puedes hacer lo que necesites con los datos obtenidos
+	}
+} 
+
+
 
 if (isset($_POST['btnregistrar'])) {
 	$id_paciente = isset($_POST['id_paciente']) ? $_POST['id_paciente'] : null;
@@ -56,7 +103,8 @@ if (isset($_POST['btnregistrar'])) {
 			echo "<script>alert('El padre/madre/tutor ya está vinculado(a) a este paciente.');</script>";
 		} else {
 
-			$query_insercion = "INSERT INTO `nino_padre`(`id_paciente`, `ID_Padre`, `Tipo_Padre`) VALUES ('$id_paciente', '$id_padres', '$tipo_padre')";
+			$query_actualizacion = "UPDATE nino_padre SET ID_Padre = '$id_padres', Tipo_Padre = '$tipo_padre' WHERE ID_Relacion = $id_relacion";
+            mysqli_query($conn, $query_actualizacion);
 
 			echo "<script>alert('Registro exitoso!');</script>";
 			echo "<script>window.location= '../../MANT_PadresConPacientes.php?pag=$pagina';</script>";
@@ -457,7 +505,7 @@ if (isset($_POST['btnregistrar'])) {
 					</legend>
 					<div>
 						<label for="id_paciente">ID PACIENTE:</label>
-						<input type="text" id="id_paciente" name="id_paciente" style="width: 55px;" required>
+						<input type="text" id="id_paciente" name="id_paciente" style="width: 55px;" required value="<?php echo $id_paciente ?>" readonly>
 						<script>
 							$("#id_paciente").on("input", function() {
 								var idPaciente = $(this).val();
@@ -479,7 +527,7 @@ if (isset($_POST['btnregistrar'])) {
 								});
 							});
 						</script>
-						<button class="btn btn-primary " type="button" id="buscar_paciente" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button>
+						<!-- <button class="btn btn-primary " type="button" id="buscar_paciente" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button> -->
 						<div id="Modalpaciente" class="custom-modal">
 							<div class="custom-modal-content">
 								<span class="close" onclick="cerrarModalpaciente()"><span class="material-symbols-outlined">
@@ -515,14 +563,14 @@ if (isset($_POST['btnregistrar'])) {
 							}
 						</script>
 
-						<label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required></label>
-						<label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required></label>
+						<label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required><?php echo  $nombre_paciente ?></label>
+						<label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required><?php echo $apellido_paciente ?></label>
 						<span style="padding:25px">.</span>
 					</div>
 
 					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
 						<label for="id_padres">ID del Padre/Madre/Tutor:</label>
-						<input type="text" id="id_padres" name="id_padres" style="width: 55px;" required>
+						<input type="text" id="id_padres" name="id_padres" style="width: 155px;" required value=" <?php echo $id_nino_padre ?>">
 
 						<button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalpadres()"><i class="fa-solid fa-magnifying-glass"></i></button>
 						<div id="Modalpadres" class="custom-modal">
@@ -545,24 +593,25 @@ if (isset($_POST['btnregistrar'])) {
 							}
 						</script>
 						<div>
-							<label id="nombre_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required></label>
+							<label id="nombre_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required><?php echo $nombre_padre ?></label>
 
-							<label id="apellido_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required></label>
+							<label id="apellido_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required><?php echo $apellido_padre ?></label>
 						</div>
 
 					</div>
 
-					<label for="Tipo_Padre">Tipo de Padre:</label>
+					<label for="Tipo_Padre">Parentesco:</label>
 					<select id="Tipo_Padre" name="Tipo_Padre" required>
-						<option value="Padre">Padre</option>
-						<option value="Madre">Madre</option>
-						<option value="Tutor Legal">Tutor Legal</option>
+						<option value="Padre" <?php if ($tipo_padre == "Padre") echo "selected"; ?>>Padre</option>
+						<option value="Madre" <?php if ($tipo_padre == "Madre") echo "selected"; ?>>Madre</option>
+						<option value="Tutor Legal" <?php if ($tipo_padre == "Tutor Legal") echo "selected"; ?>>Tutor Legal</option>
 					</select><br><br>
+
 				</fieldset>
 				<div class="botones-container2">
 					<button class="btn btn-primary" type="submit" name="btnregistrar" value="Registrar" onclick="return validarLabels();">
-						<i class="fa-solid fa-plus"></i>
-						Vincular Padre y Paciente
+						✏
+						Editar vínculo Padre del Paciente
 					</button>
 					<a class="btn btn-primary" href="../../MANT_PadresConPacientes.php?pag=<?php echo $pagina; ?>">
 						<i class="fa-solid fa-xmark"></i> Cancelar
