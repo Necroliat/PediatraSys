@@ -247,7 +247,13 @@
                 <li class="nav-item">
                   <a href="#" onclick="cambiarIframe('mant_localizadorp.php')" class="nav-link">
                   <i class="fa-regular fa-address-book"></i>
-                    <p> Agenda Padres Pacientes</p>
+                    <p> Agenda Padres </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" onclick="cambiarIframe('MANT_PadresConPacientes.php')" class="nav-link">
+                  <i class="fa-solid fa-people-arrows"></i>
+                    <br><p> Vincular <br> Padre-Paciente</p>
                   </a>
                 </li>
               </ul>

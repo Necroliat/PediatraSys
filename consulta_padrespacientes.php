@@ -17,23 +17,10 @@ if ($conn->connect_error) {
 $query = "SELECT * FROM datos_padres_de_pacientes";
 $result = $conn->query($query);
 
-// Función para obtener los datos del médico por ID
-function obtenerDatosMedico($idMedico, $conn)
+
+
+function in_iframe()
 {
-  $query = "SELECT Nombre, Apellido FROM datos_padres_de_pacientes WHERE Numidentificador  = '$idpadres'";
-  $result = $conn->query($query);
-
-  if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $datospadre = array('Nombre' => $row['Nombre'], 'Apellido' => $row['Apellido']);
-    return $datospadre;
-  } else {
-    return false;
-  }
-}
-
-
-function in_iframe() {
   return $_SERVER['HTTP_REFERER'] !== null && $_SERVER['HTTP_REFERER'] !== $_SERVER['REQUEST_URI'];
 }
 ?>
@@ -69,13 +56,24 @@ function in_iframe() {
     .resaltado {
       background-color: #A8A4DE;
     }
-    
-    #tabla_medicos tbody tr:hover {
-       background-color: #A8A4DE;
-       cursor: pointer;
+
+    #tabla_padres tbody tr:hover {
+      background-color: #A8A4DE;
+      cursor: pointer;
     }
 
-    
+    #tabla_padres tbody tr:active {
+      background-color: #5bc0f7;
+      cursor: pointer;
+      border: 4px solid red;
+      transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease;
+      box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
+      font-size: 25px;
+      color: white;
+      font-weight: bold;
+      font-family: "Copperplate", Fantasy;
+    }
+
 
     .clasebotonVER {
       color: #f0f0f0;
@@ -101,7 +99,7 @@ function in_iframe() {
 </head>
 
 <body>
-  
+
 
   <table id="tabla_padres" class="display">
     <thead>
@@ -147,7 +145,8 @@ function in_iframe() {
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },
+        pageLength: 5
       });
 
       // Asignar un evento de clic a las filas de la tabla
@@ -188,4 +187,3 @@ function in_iframe() {
 </body>
 
 </html>
-
