@@ -6,6 +6,23 @@ require_once "../../include/conec.php";
 
 $pagina = $_GET['pag'];
 
+
+$query1 = "SELECT MAX(ID_Localizador) AS max_id FROM localizador_padres_de_pacientes";
+$result = $conn->query($query1);
+if ($result->num_rows > 0) {
+	$row = $result->fetch_assoc();
+	$lastId = $row["max_id"];
+	$newId1 = $lastId + 1;
+} else {
+	// Si no hay registros en la tabla, asignar el ID inicial
+	$newId1 = 1;
+}
+// Guardar el nuevo ID en una variable PHP
+$idlocalizadorm = $newId1;
+
+
+
+
 // Consultar el último ID de la tabla datos_padres_de_pacientes
 $query = "SELECT MAX(Numidentificador) AS max_id FROM datos_padres_de_pacientes";
 $result = $conn->query($query);
@@ -38,8 +55,9 @@ function existeIdentificador($conn, $numIdentificador)
 }
 
 // Validar campos antes de procesar el formulario
+
 if (isset($_POST['btnregistrar'])) {
-    $camposRequeridos = ['txtnumidentificador', 'txttipo_identificador', 'txtnombre', 'txtapellido', 'txtparentesco', 'txtnacionalidad', 'txtsexo', 'txtdireccion', 'txtocupacion'];
+    $camposRequeridos = ['txtnumidentificador', 'txttipo_identificador', 'txtnombre', 'txtapellido', 'txtparentesco', 'txtnacionalidad', 'txtsexo', 'txtdireccion', 'txtocupacion','txtvalor_telefono','txtetiqueta_telefono','txtvalor_email','txtetiqueta_email'];
 
     if (validarCampos($camposRequeridos)) {
         $numIdentificador = $_POST['txtnumidentificador'];
@@ -47,7 +65,7 @@ if (isset($_POST['btnregistrar'])) {
 
         // Verificar si el identificador ya existe
         if (existeIdentificador($conn, $numIdentificador)) {
-            echo "<script>alert('El número de identificación ya existe. Por favor, ingrese otro número.');</script>";
+            echo "<script>alert('El número de identificación:".$numIdentificador." ya existe. Por favor, ingrese otro número>');</script>";
         } else {
             $nombre = $_POST['txtnombre'];
             $apellido = $_POST['txtapellido'];
@@ -56,20 +74,41 @@ if (isset($_POST['btnregistrar'])) {
             $sexo = $_POST['txtsexo'];
             $direccion = $_POST['txtdireccion'];
             $ocupacion = $_POST['txtocupacion'];
-
+            $valor_telefono = $_POST['txtvalor_telefono'];
+            $etiqueta_telefono = $_POST['txtetiqueta_telefono'];
+            $valor_email = $_POST['txtvalor_email'];
+            $etiqueta_email = $_POST['txtetiqueta_email'];
             // Insertar datos en la tabla datos_padres_de_pacientes
             $queryAdd = mysqli_query($conn, "INSERT INTO datos_padres_de_pacientes(Numidentificador, Tipo_Identificador, Nombre, Apellido, Parentesco, Nacionalidad, Sexo, Direccion, Ocupacion) VALUES('$numIdentificador', '$tipoIdentificador', '$nombre', '$apellido', '$parentesco', '$nacionalidad', '$sexo', '$direccion', '$ocupacion')");
 
             if (!$queryAdd) {
                 echo "Error con el registro: " . mysqli_error($conn);
             } else {
-                echo "<script>window.location= '../../mant_padres_pacientes.php?pag=1' </script>";
+                // Obtener el ID del padre recién insertado
+               // $idPadreInsertado = mysqli_insert_id($conn);
+
+                // Insertar registros en la tabla localizador_padres_de_pacientes
+                $idlocalizadorm = $newId1;
+                $nuevoIDLocalizador = $idlocalizadorm + 1;
+                // Resto del código para insertar registros en localizador_padres_de_pacientes...
+                $query_localizador = "INSERT INTO localizador_padres_de_pacientes(ID_Localizador, Identificador, Valor, Etiqueta) VALUES ('$idlocalizadorm', '$numIdentificador', '$valor_telefono', '$etiqueta_telefono'), ('$nuevoIDLocalizador', '$numIdentificador', '$valor_email', '$etiqueta_email')";
+
+                $result_localizador = mysqli_query($conn, $query_localizador);
+
+                if (!$result_localizador) {
+                    echo "Error con el registro en localizador_padres_de_pacientes: " . mysqli_error($conn);
+                } else {
+                    echo "<script>window.location= '../../mant_padres_pacientes.php?pag=1' </script>";
+                }
             }
         }
     } else {
         echo "<script>alert('Por favor, complete todos los campos');</script>";
     }
 }
+
+
+
 ?>
 <html>
 
@@ -80,9 +119,74 @@ if (isset($_POST['btnregistrar'])) {
     <link rel="stylesheet" type="text/css" href="css/estilo-paciente.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <style>
         /* Estilos personalizados aquí */
     </style>
+    <script>
+        $(document).ready(function() {
+            // Función para aplicar máscara y actualizar el ejemplo según la etiqueta seleccionada
+            function applyMaskAndExample(selectId) {
+                var etiqueta = $('#' + selectId).val();
+                var valorInput = $('#' + selectId).closest('div').next().find('input');
+
+                switch (etiqueta) {
+                    case "Telefono":
+                    case "Telefono Principal":
+                    case "Telefono Alterno":
+                    case "Telefono Casa":
+                    case "Movil Principal":
+                    case "Movil Alterno":
+                    case "Movil Corporativo":
+                        // Aplicar máscara para teléfono
+                        valorInput.mask('(000) 000-0000', {
+                            autoclear: false
+                        });
+                        // Mostrar ejemplo de teléfono
+                        valorInput.attr('placeholder', '(123) 456-7890');
+                        // Limitar entrada a números y un máximo de 10 dígitos
+                        valorInput.attr('maxlength', '14').keypress(function(event) {
+                            return (event.which >= 48 && event.which <= 57) || event.which == 8 || event.which == 45 || event.which == 32 || event.which == 40 || event.which == 41 || event.which == 0;
+                        });
+                        break;
+                    case "Email Personal":
+                    case "Email Trabajo":
+                    case "Email Alternativo":
+                        // Quitar máscara de teléfono
+                        valorInput.unmask();
+                        // Mostrar ejemplo de correo electrónico
+                        valorInput.attr('placeholder', 'ejemplo@dominio.com');
+                        // Validar formato de correo electrónico
+                        valorInput.attr('type', 'email');
+                        // Permitir cualquier entrada para correos electrónicos
+                        valorInput.off('keypress').removeAttr('maxlength');
+                        break;
+                    default:
+                        // Quitar máscara de teléfono
+                        valorInput.unmask();
+                        // Quitar ejemplo
+                        valorInput.attr('placeholder', '');
+                        valorInput.attr('type', 'text');
+                        // Permitir cualquier entrada para otros tipos
+                        valorInput.off('keypress').removeAttr('maxlength');
+                        break;
+                }
+            }
+
+            // Llamar a la función al cargar la página para cada select
+            $('select[id^="txtetiqueta"]').each(function() {
+                applyMaskAndExample($(this).attr('id'));
+            });
+
+            // Llamar a la función al cambiar la etiqueta seleccionada para cada select
+            $('select[id^="txtetiqueta"]').change(function() {
+                var selectId = $(this).attr('id');
+                applyMaskAndExample(selectId);
+            });
+        });
+    </script>
+
     <script>
         // Función para validar campos antes de enviar el formulario
         function validarFormulario() {
@@ -132,7 +236,7 @@ if (isset($_POST['btnregistrar'])) {
             }
         };
 
-        window.onload = function () {
+        window.onload = function() {
             var input = document.getElementById("txtnumidentificador");
 
             if (input.addEventListener) {
@@ -143,7 +247,6 @@ if (isset($_POST['btnregistrar'])) {
 
             input.focus();
         }
-
     </script>
 
 
@@ -427,17 +530,16 @@ if (isset($_POST['btnregistrar'])) {
                     <legend class="cajalegend">══ ➕ Agregar Padres de Pacientes 👪 ══</legend>
                     <p>
                         <label for="txttipo_identificador">Tipo Identificador</label>
-                        <select id="txttipo_identificador" name="txttipo_identificador" style=" width: 110px; "
-                            autocomplete="off" require>
+                        <select id="txttipo_identificador" name="txttipo_identificador" style=" width: 110px; " autocomplete="off" require>
                             <option selected value="Cédula" selected>Cédula</option>
                             <option value="Pasaporte">Pasaporte</option>
                         </select>
-                        <!-- <input type="text" autofocus name="txttipo_identificador" id="txttipo_identificador" value="<?php //echo $tipoIdentificador; ?>" required> -->
+                        <!-- <input type="text" autofocus name="txttipo_identificador" id="txttipo_identificador" value="<?php //echo $tipoIdentificador; 
+                                                                                                                            ?>" required> -->
                     </p>
                     <p style="margin:0;">
                         <label for="txtnumidentificador">Num. Identificador</label>
-                        <input type="text" name="txtnumidentificador" id="txtnumidentificador"
-                            value="<?php echo $numIdentificador; ?>" required>
+                        <input type="text" name="txtnumidentificador" id="txtnumidentificador" value="<?php echo $numIdentificador; ?>" required>
                     </p>
                     <script>
                         // Obtenemos el elemento del campo de selección
@@ -447,7 +549,7 @@ if (isset($_POST['btnregistrar'])) {
                         const input = document.getElementById("txtnumidentificador");
 
                         // Agregamos un evento de cambio al campo de selección
-                        select.addEventListener("change", function () {
+                        select.addEventListener("change", function() {
                             // Obtenemos el valor seleccionado del campo de selección
                             const valorSeleccionado = select.value;
 
@@ -481,7 +583,7 @@ if (isset($_POST['btnregistrar'])) {
                             const input = document.getElementById("txtnumidentificador");
 
                             // Agregar evento de cambio al campo de selección
-                            select.addEventListener("change", function () {
+                            select.addEventListener("change", function() {
                                 // Obtener el valor seleccionado del campo de selección
                                 const valorSeleccionado = select.value;
 
@@ -506,8 +608,6 @@ if (isset($_POST['btnregistrar'])) {
                             // Disparar el evento de cambio al cargar la página
                             select.dispatchEvent(new Event("change"));
                         }
-
-
                     </script>
 
 
@@ -522,7 +622,7 @@ if (isset($_POST['btnregistrar'])) {
                                 var txtCedula = document.getElementById('txtnumidentificador');
 
                                 // Definir la máscara de entrada
-                                var cedulaMask = function (event) {
+                                var cedulaMask = function(event) {
                                     var cedulaValue = event.target.value;
                                     var cedulaFormatted = cedulaValue.replace(/\D/g, '')
                                         .replace(/(\d{3})(\d{7})(\d{1})/, '$1-$2-$3');
@@ -535,7 +635,7 @@ if (isset($_POST['btnregistrar'])) {
                                 // Guardar la función de máscara en una propiedad del elemento
                                 txtCedula.cedulaMask = cedulaMask;
                             } else {
-                                
+
 
                                 // Obtener el elemento del campo de texto
                                 var txtCedula = document.getElementById('txtnumidentificador');
@@ -547,7 +647,6 @@ if (isset($_POST['btnregistrar'])) {
                                 }
                             }
                         }
-
                     </script>
                     <br>
                     <p>
@@ -556,13 +655,11 @@ if (isset($_POST['btnregistrar'])) {
                     </p>
                     <p>
                         <label for="txtapellido">Apellido</label>
-                        <input type="text" name="txtapellido" id="txtapellido" value="<?php echo $apellido; ?>"
-                            required>
+                        <input type="text" name="txtapellido" id="txtapellido" value="<?php echo $apellido; ?>" required>
                     </p>
                     <p>
                         <label for="txtparentesco">Parentesco</label>
-                        <select id="txtparentesco" name="txtparentesco" style=" width: 110px; " autocomplete="off"
-                            require>
+                        <select id="txtparentesco" name="txtparentesco" style=" width: 110px; " autocomplete="off" require>
                             <option selected value="Madre">Madre</option>
                             <option value="Padre">Padre</option>
                             <option value="Tutor/a Legal">Tutor/a Legal</option>
@@ -573,12 +670,12 @@ if (isset($_POST['btnregistrar'])) {
                             <option value="Hermanastro/a">Hermanastro/a</option>
                             <option value="NA">No Aplica</option>
                         </select>
-                        <!-- <input type="text" name="txtparentesco" id="txtparentesco" value="<?php //echo $parentesco; ?>" required> -->
+                        <!-- <input type="text" name="txtparentesco" id="txtparentesco" value="<?php //echo $parentesco; 
+                                                                                                ?>" required> -->
                     </p>
                     <p>
                         <label for="txtnacionalidad">Nacionalidad</label>
-                        <select id="txtnacionalidad" name="txtnacionalidad" title="Seleccione nacionalidad"
-                            style=" width:250px" required>
+                        <select id="txtnacionalidad" name="txtnacionalidad" title="Seleccione nacionalidad" style=" width:250px" required>
                             <option value="Afganistán">Afganistán</option>
                             <option value="Albania">Albania</option>
                             <option value="Alemania">Alemania</option>
@@ -816,7 +913,8 @@ if (isset($_POST['btnregistrar'])) {
                             <option value="Zimbabue">Zimbabue</option>
                         </select>
 
-                        <!-- <input type="text" name="txtnacionalidad" id="txtnacionalidad" value="<?php //echo $nacionalidad; ?>" required> -->
+                        <!-- <input type="text" name="txtnacionalidad" id="txtnacionalidad" value="<?php //echo $nacionalidad; 
+                                                                                                    ?>" required> -->
                     </p>
                     <p>
                         <label for="txtsexo">Sexo</label>
@@ -833,24 +931,57 @@ if (isset($_POST['btnregistrar'])) {
                     </p>
                     <p>
                         <label for="txtocupacion">Ocupación</label>
-                        <input type="text" name="txtocupacion" id="txtocupacion" value="<?php echo $ocupacion; ?>"
-                            required>
+                        <input type="text" name="txtocupacion" id="txtocupacion" value="<?php echo $ocupacion; ?>" required>
                     </p>
+
                 </fieldset>
+                <fieldset>
+                    <legend>CONTACTO PRINCIPAL</legend>
+                    <div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
+                        <div>
+                            <label>Telefono</label>
+                            <select id="txtetiqueta_telefono" name="txtetiqueta_telefono" style="width: 110px;" autocomplete="off" required>
+                                <option selected value="Telefono">Telefono</option>
+                                <option value="Telefono Principal">Telefono Principal</option>
+                                <option value="Telefono Alterno">Telefono Alterno</option>
+                                <option value="Telefono Casa">Telefono Casa</option>
+                                <option value="Movil Principal">Movil Principal</option>
+                                <option value="Movil Alterno">Movil Alterno</option>
+                                <option value="Movil Corporativo">Movil Corporativo</option>
+                            </select>
+                        </div>
+                        <p>
+                            <label for="txtvalor_telefono">Número</label>
+                            <input type="text" name="txtvalor_telefono" id="txtvalor_telefono" required>
+                        </p>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
+                        <div>
+                            <label>Email</label>
+                            <select id="txtetiqueta_email" name="txtetiqueta_email" style="width: 110px;" autocomplete="off" required>
+                                <option value="Email Personal">Email Personal</option>
+                                <option value="Email Trabajo">Email Trabajo</option>
+                                <option value="Email Alternativo">Email Alternativo</option>
+                            </select>
+                        </div>
+                        <p>
+                            <label for="txtvalor_email">Valor</label>
+                            <input type="text" name="txtvalor_email" id="txtvalor_email" required>
+                        </p>
+                    </div>
+                </fieldset>
+
                 <div class="botones-container">
                     <button type="submit" name="btnregistrar" value="Registrar">
-                        <i class="material-icons"
-                            style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
+                        <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
                         Registrar
                     </button>
                     <a class="boton" href="../../mant_padres_pacientes.php?pag=<?php echo $pagina; ?>">
-                        <i class="material-icons"
-                            style='font-size:21px;text-shadow:2px 2px 4px #000000;vertical-align: text-bottom;'>close</i>
+                        <i class="material-icons" style='font-size:21px;text-shadow:2px 2px 4px #000000;vertical-align: text-bottom;'>close</i>
                         Cancelar
                     </a>
                 </div>
-                <iframe id="modal-iframe" src="../../consulta_padrespacientes2.php" frameborder="0"
-                    style="width: 100%; height: 100%;max-height:500px;"></iframe>
+                <iframe id="modal-iframe" src="../../consulta_padrespacientes2.php" frameborder="0" style="width: 100%; height: 100%;max-height:500px;"></iframe>
         </fieldset>
         </form>
     </div>
