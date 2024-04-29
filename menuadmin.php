@@ -357,6 +357,12 @@
                 <p>Laboratorio</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="#" onclick="cambiarIframe('backup/php/index.php')" class="nav-link">
+              <i class="fa-solid fa-download"></i>
+                <p>Backup</p>
+              </a>
+            </li>
 
             <li class="nav-header">
               <i class="fa-solid fa-gears"></i>

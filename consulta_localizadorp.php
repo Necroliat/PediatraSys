@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta para obtener los datos de la tabla "laboratorio"
-$query = "SELECT lp.ID_Localizador, CONCAT(dp.Nombre, ' ', dp.Apellido) AS nombre_apellido_padre, lp.Valor, lp.Etiqueta
+$query = "SELECT lp.ID_Localizador, CONCAT(dp.Nombre, ' ', dp.Apellido) AS nombre_apellido_padre, lp.Valor, lp.Etiqueta,identificador
 FROM localizador_padres_de_pacientes lp
 JOIN datos_padres_de_pacientes dp ON lp.Identificador = dp.Numidentificador;";
 $result = $conn->query($query);
@@ -333,7 +333,7 @@ function in_iframe()
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
+        },pageLength: 5 
       });
       var table = $('#tabla_localizador').DataTable();
       $('#tabla_localizador').on('click', 'tr', function() {
@@ -359,6 +359,7 @@ function in_iframe()
     <thead>
       <tr>
         <th>Id localizador</th>
+        <th>identificador</th>
         <th>Padre</th>
         <th>Valor</th>
         <th>Etiqueta</th>
@@ -373,6 +374,7 @@ function in_iframe()
         while ($row = $result->fetch_assoc()) {
           echo "<tr onclick=\"seleccionarlocalizador('" . $row["ID_Localizador"] . "', '" . $row["nombre_apellido_padre"] . "', '" . $row["Valor"] . "', '" . $row["Etiqueta"] . "')\">";
           echo "<td>" . $row["ID_Localizador"] . "</td>";
+          echo "<td>" . $row["identificador"] . "</td>";
           echo "<td>" . $row["nombre_apellido_padre"] . "</td>";
           echo "<td>" . $row["Valor"] . "</td>";
           echo "<td>" . $row["Etiqueta"] . "</td>";
