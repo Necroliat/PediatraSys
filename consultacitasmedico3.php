@@ -49,10 +49,14 @@
 
     th {
       background-color: rgba(255, 255, 255, 0.7);
+      max-width: 100px;
+            word-wrap: break-word;
     }
    table{
-    margin-left:10%;
-    margin-right:10%;
+    margin-left:5%;
+    margin-right:5%;
+   
+    word-wrap: break-word;
    }
     table,
     tr,
@@ -172,15 +176,15 @@
       echo"<div class='centrado3'>";
       echo '<table border="1" cellspacing="0" cellpadding="5">
         <tr>
-            <th>ID Cita</th>
+            <th>Num</th>
             <th>Fecha</th>
             <th>Hora</th>
-            <th>ID Paciente</th>
-            <th>Nombre Paciente</th>
-            <th>ID Médico</th>
-            <th>Nombre Médico</th>
-            <th>Nombre Padre</th>
-            <th>Email Padre</th>
+            <th>ID</th>
+            <th>Paciente</th>
+            <th>ID</th>
+            <th>Médico</th>
+            <th>Padre</th>
+            <th>Email</th>
         </tr>';
 
       if ($result && $result->num_rows > 0) {
