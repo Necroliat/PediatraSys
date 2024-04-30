@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -96,6 +102,7 @@
 </head>
 
 <body>
+<form method="post">
   <fieldset>
     <div class="centrado">
       <img src='IMAGENES/icons8-lleno-enviado-100.png' alt='Mantenimientos' style='width: 100px; height: 100px;'>
@@ -212,34 +219,68 @@
 
 
 
-      <div id="tablaCitas">
-        <script>
-          $(document).ready(function() {
-            function fetchCitas() {
-              $.ajax({
-                url: 'fetch_citas.php',
-                type: 'GET',
-                data: {
-                  idMedico: '<?php echo $idMedico; ?>', // Asegúrate de que esta variable tiene valor
-                  fechaActual: '<?php echo $fecha_actual2; ?>' // Asegúrate de que esta variable tiene valor
-                },
-                success: function(data) {
-                  $('#tablaCitas').html(data); // Actualiza el contenido de la tabla
-                }
-              });
-            }
-
-            setInterval(fetchCitas, 200); // Actualiza cada 2 segundos
-          });
-        </script>
-      </div>
-
+     
+<br>
 
       <a href="consultamedicospacientescitas3.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
         <i class="fa-solid fa-left-long"></i> Regresar
       </a>
     </div>
   </fieldset>
+  <button type="submit" name="sendEmails" class="btn btn-success">Enviar Recordatorios</button>
+</form>
 </body>
+<?php
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sendEmails'])) {
+
+// Incluye PHPMailer
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+$mail = new PHPMailer(true);
+
+try {
+    // Configuración del servidor SMTP
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'jr5887@unphu.edu.do';  // Tu cuenta de Gmail
+    $mail->Password   = 'umbralnemesis';        // Tu contraseña de Gmail
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Port       = 465;
+
+    // Recorrido de cada correo encontrado
+    $result->data_seek(0); // Vuelve al principio si ya has recorrido los resultados
+    while ($row = $result->fetch_assoc()) {
+        $mail->setFrom('jr5887@unphu.edu.do', 'PediatraSys');
+        $mail->addAddress($row['email_padre']);     // Añade el correo del padre
+
+        // Contenido del correo
+        $mail->isHTML(true);
+        $mail->Subject = 'Recordatorio de cita con el pediatra';
+        $mail->Body    = "Estimado/a " . htmlspecialchars($row['nombre_padre']) . ",<br><br>" .
+                         "Le recordamos que tiene una cita programada con el Dr. " . htmlspecialchars($nombre_medico) . " " . htmlspecialchars($apellido_medico) .
+                         " el día " . htmlspecialchars($row['fecha']) . " a las " . htmlspecialchars($row['hora']) . ".<br>" .
+                         "Por favor, de no poder asistir, comuníquese con la secretaría para cancelarla.<br><br>" .
+                         "Gracias,<br>PediatraSys";
+
+        $mail->send();
+        $mail->clearAddresses();
+    }
+
+    echo 'Los correos han sido enviados.';
+} catch (Exception $e) {
+    echo "No se pudo enviar el correo. Mailer Error: {$mail->ErrorInfo}";
+}
+
+
+}
+
+
+
+?>
 </html>
