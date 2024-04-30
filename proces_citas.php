@@ -578,7 +578,7 @@ if (isset($_POST['btnregistrar'])) {
 ?>
 
 
-<body>
+<body >
 	<div class="container" style="padding:0%;  ">
 
 		<fieldset style=" height:600px;">
