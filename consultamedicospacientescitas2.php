@@ -52,6 +52,23 @@ if (isset($_GET['id_medico'])) {
   <meta charset="UTF-8">
 
  <style>
+  *{font-size: medium;}
+  #tabla_medico {
+      font-size: medium;
+    }
+
+    #tabla_medico tr:nth-child(odd) {
+     
+      background-color: rgba(255,255,255,0.2);
+      font-weight: 500;
+      /* Color de fondo para las filas imparese */
+    }
+
+    #tabla_medico tr:nth-child(even) {
+      background-color: rgba(128,128,128,0.2);
+      font-weight: 500;
+      /* Color de fondo para las filas pares */
+    }
     body {
       background: linear-gradient(to right, #E8A9F7, #e4e5dc);
     }
@@ -301,7 +318,7 @@ if (isset($_GET['id_medico'])) {
                 echo "<tr>";
                 echo "<td>" . $fila["id_medico"] . "</td>";
                 echo "<td>" . $fila["nombre_medico"] . "</td>";
-                echo "<td><a class='btn btn-primary' href='?id_medico=" . $fila["id_medico"] . "'><i class='fas fa-stethoscope'></i> Consultar</a></td>";
+                echo "<td><a class='btn btn-primary' href='?id_medico=" . $fila["id_medico"] . "'><i class='fa-solid fa-clock-rotate-left'></i> Turnos </a></td>";
 
                 echo "</tr>";
             }

@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 // Verificar si se ha seleccionado un médico para consultar sus citas
 if (isset($_GET['id_medico'])) {
   $_SESSION['id_medico'] = $_GET['id_medico'];
-  header("Location: consultacitasmedico.php");
+  header("Location: consultacitasmedico3.php");
   exit(); // Terminar el script después de redirigir
 }
 ?>
@@ -289,10 +289,12 @@ if (isset($_GET['id_medico'])) {
 
 <body>
   <fieldset>
-    <div class="centrado">
-      <img src="IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
-    </div>
-    <h5 style="padding:0; text-align: center; text-transform: uppercase;">Seleccionar Doctor para ver citas de Hoy...</h5>
+  <div class="centrado">
+  <img src='IMAGENES/icons8-lleno-enviado-100.png'  alt='Mantenimientos'style='width: 100px; height: 100px;'>
+  <img src='IMAGENES/icons8-carta-del-hospital-100.png'  alt='Mantenimientos'style='width: 100px; height: 100px;'>
+           
+        </div>
+    <h5 style="padding:0; text-align: center; text-transform: uppercase;">Seleccionar Doctor para ver citas próximos 7 Dias</h5>
 
     <h6 style="padding:0; margin:0;text-align: center;">PediatraSys</h6>
     <div class='container'>
@@ -318,7 +320,7 @@ if (isset($_GET['id_medico'])) {
               echo "<tr>";
               echo "<td>" . $fila["id_medico"] . "</td>";
               echo "<td>" . $fila["nombre_medico"] . "</td>";
-              echo "<td><a class='btn btn-primary' href='?id_medico=" . $fila["id_medico"] . "'><i class='fas fa-stethoscope'></i> Consultar</a></td>";
+              echo "<td><a class='btn btn-primary' href='?id_medico=" . $fila["id_medico"] . "'><i class='fa-solid fa-square-envelope'></i>&nbsp;Notificar</a></td>";
 
               echo "</tr>";
             }

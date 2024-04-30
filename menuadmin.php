@@ -399,6 +399,12 @@
                     <p>Turnos en pantalla</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="#" onclick="cambiarIframe('consultamedicospacientescitas3.php')" class="nav-link">
+                  <i class="fa-solid fa-paper-plane"></i><i class="fa-solid fa-square-envelope"></i>
+                    <p>Notificar Pacientes</p>
+                  </a>
+                </li>
 
 
 
