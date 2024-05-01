@@ -225,12 +225,10 @@
       <a href="consultamedicospacientescitas3.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
         <i class="fa-solid fa-left-long"></i> Regresar
       </a>
+      <button type="submit" name="sendEmails" class="btn btn-success"><i class="fa-regular fa-paper-plane"></i>&nbsp;Enviar Recordatorios</button>
+    
     </div>
-  </fieldset>
-  <button type="submit" name="sendEmails" class="btn btn-success">Enviar Recordatorios</button>
-</form>
-</body>
-<?php
+    <?php
   use PHPMailer\PHPMailer\PHPMailer;
   use PHPMailer\PHPMailer\Exception;
 
@@ -283,4 +281,9 @@ try {
 
 
 ?>
+  </fieldset>
+  
+</form>
+</body>
+
 </html>
