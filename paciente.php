@@ -1892,6 +1892,69 @@ mysqli_close($conn);
 
 		// Función para validar los campos antes de guardar
 		function validarCampos() {
+    const campos = [
+        { id: "nombre", label: "Nombre" },
+        { id: "apellido", label: "Apellido" },
+        { id: "fecha_nacimiento", label: "Fecha de nacimiento" },
+        { id: "pais", label: "País" },
+        { id: "con_quien_vive", label: "Con quien vive" },
+        { id: "direccion", label: "Dirección" }
+    ];
+
+    let formCompleto = true;
+    const mensajeErrorDiv = document.getElementById("error-banner");
+    mensajeErrorDiv.innerHTML = ""; // Limpiar mensajes de error anteriores
+    mensajeErrorDiv.style.display = "none"; // Ocultar el banner de error por defecto
+
+    campos.forEach(campo => {
+        const inputCampo = document.getElementById(campo.id);
+        const valor = inputCampo.value.trim();
+
+        if (!valor) {
+            formCompleto = false;
+            inputCampo.classList.add("campo-incompleto");
+
+            // Agregar mensaje de error al div
+            const mensajeError = document.createElement("p");
+            mensajeError.textContent = `El campo "${campo.label}" es obligatorio.`;
+            mensajeErrorDiv.appendChild(mensajeError);
+        } else if (campo.id === "fecha_nacimiento" && !esFechaValida(valor)) {
+            formCompleto = false;
+            inputCampo.classList.add("campo-incompleto");
+
+            // Agregar mensaje de error al div
+            const mensajeError = document.createElement("p");
+            mensajeError.textContent = `El campo "Fecha de nacimiento" debe contener una fecha válida en formato dd/mm/yyyy.`;
+            mensajeErrorDiv.appendChild(mensajeError);
+        } else {
+            inputCampo.classList.remove("campo-incompleto");
+        }
+    });
+
+    // Verificar si el campo de seguro de salud tiene un valor y su correspondiente nombre de seguro
+    const idSeguroSalud = document.getElementById("Id_seguro_salud").value.trim();
+    const labelNombreSeguro = document.getElementById("Nombre_seguro").textContent.trim();
+
+    if (idSeguroSalud && (labelNombreSeguro === "" || labelNombreSeguro === "Dato no encontrado")) {
+        formCompleto = false;
+        const inputSeguroSalud = document.getElementById("Id_seguro_salud");
+        inputSeguroSalud.classList.add("campo-incompleto");
+
+        // Agregar mensaje de error al div
+        const mensajeError = document.createElement("p");
+        mensajeError.textContent = `El campo "Seguro de salud" debe contener un ID de seguro válido con un nombre de seguro asociado.`;
+        mensajeErrorDiv.appendChild(mensajeError);
+    }
+
+    if (!formCompleto) {
+        // Mostrar el banner de error en la parte superior
+        mensajeErrorDiv.style.display = "block";
+    }
+
+    return formCompleto;
+}
+
+		/* function validarCampos() {
 			const campos = [{
 					id: "nombre",
 					label: "Nombre"
@@ -1961,7 +2024,7 @@ mysqli_close($conn);
 			const labelNombreSeguro = document.getElementById("Nombre_seguro").textContent.trim();
 			const idSeguroSalud = document.getElementById("Id_seguro_salud").value.trim();
 			if (labelNombreSeguro === "" || labelNombreSeguro === "Dato no encontrado") {
-				formCompleto = false;
+				//formCompleto = false;
 				const inputSeguroSalud = document.getElementById("Id_seguro_salud");
 				inputSeguroSalud.classList.add("campo-incompleto");
 
@@ -1977,7 +2040,7 @@ mysqli_close($conn);
 			}
 
 			return formCompleto;
-		}
+		} */
 
 		function esFechaValida(fecha) {
 			// Verificar si el valor ingresado es un número
@@ -2078,11 +2141,24 @@ mysqli_close($conn);
 				xhr.open("POST", "guardar_datos_paciente.php", true);
 				xhr.setRequestHeader("Content-Type", "application/json");
 				xhr.onreadystatechange = function() {
-					if (xhr.readyState === 4 && xhr.status === 200) {
+
+
+					if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert(xhr.responseText); // Mostrar el mensaje de éxito o error retornado desde PHP
+                    setTimeout(() => {
+                        window.location.reload(); // Recargar la página después de mostrar el mensaje
+                    }, 2000); // 2000 milisegundos = 2 segundos
+                } else {
+                    alert("Error al guardar los datos. Por favor, intente nuevamente.");
+                }
+            }
+					/* if (xhr.readyState === 4 && xhr.status === 200) {
 						alert(xhr.responseText); // Mostrar el mensaje de éxito o error retornado desde PHP
+						window.location.reload();
 					} else if (xhr.readyState === 4 && xhr.status !== 200) {
 						alert("Error al guardar los datos. Por favor, intente nuevamente.");
-					}
+					} */
 				};
 
 				// Convertir el array de datos a formato JSON
@@ -2118,7 +2194,7 @@ mysqli_close($conn);
 
 			// Llamar a la función guardar()
 			guardar();
-			//location.reload();
+			location.reload();
 		});
 
 
