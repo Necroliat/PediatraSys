@@ -358,9 +358,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" onclick="cambiarIframe('mant_laboratorio.php')" class="nav-link">
+              <a href="#" onclick="cambiarIframe('mant-tipos_analisis.php')" class="nav-link">
                 <i class="fa-solid fa-flask"></i>
-                <p>Laboratorio</p>
+                <p>Análisis</p>
               </a>
             </li>
             <li class="nav-item">
