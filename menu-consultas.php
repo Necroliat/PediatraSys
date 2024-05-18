@@ -321,7 +321,7 @@
   </script>
 
 
-  <fieldset id="Catálogos datos médicos" style=" height: 500px;">
+  <fieldset id="Catálogos datos médicos" style=" height: 400px;">
     <legend>Catálogos datos médicos</legend>
     <div class="divisor">
       <div class="botones">
