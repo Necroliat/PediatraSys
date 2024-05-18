@@ -325,7 +325,7 @@ $result = $conn->query($query);
                                             echo "<td>" . $row["NSS"] . "</td>";
                                             echo "<td>" . $row["Id_seguro_salud"] . "</td>";
                                             echo "<td>" . $row["seguro_nombre"] . "</td>";
-                                            echo "<td><a class='btn btn-primary' href='modulo/Paciente/editar.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-pencil'></i> Editar</a></td>";
+                                            echo "<td><a class='btn btn-primary' href='modulo/Paciente-seguro/editar.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-pencil'></i> Editar</a></td>";
                                             echo "</tr>";
                                         }
                                     } else {

@@ -30,7 +30,7 @@ $pagina = $_GET['pag'];
 	<style>
 		/* Estilos personalizados aquí */
 	</style>
-	
+
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<style>
 		.botones-container {
@@ -351,7 +351,7 @@ $pagina = $_GET['pag'];
 			font-size: 14;
 		}
 	</style>
-	
+
 
 	<?php
 	//include("../../menu_lateral_header.php");
@@ -365,9 +365,9 @@ $pagina = $_GET['pag'];
 
 	<div class="container">
 		<fieldset style=" height:650px;">
-		<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
+			<form class="contenedor_popup" method="POST" onsubmit="return validarFormulario();">
 				<fieldset>
-					<legend>Datos de Seguro del paciente</legend>
+					<legend>Vincular seguro con paciente</legend>
 					<fieldset class="caja" width="100%">
 						<div>
 							<label for="id_paciente">Id Paciente:</label>
@@ -378,7 +378,7 @@ $pagina = $_GET['pag'];
 									<span class="close" onclick="cerrarModalpaciente()"><span class="material-symbols-outlined">
 											cancel
 										</span></span>
-									<iframe id="modal-iframe" src="../../consulta_paciente.php" frameborder="0" style="width: 100%; height: 70%;"></iframe>
+									<iframe id="modal-iframe" src="../../consulta_paciente-sinseguro.php" frameborder="0" style="width: 100%; height: 70%;"></iframe>
 								</div>
 							</div>
 							<script>
@@ -411,7 +411,7 @@ $pagina = $_GET['pag'];
 								var idPaciente = $(this).val();
 								// Realizar la solicitud AJAX para obtener los datos del paciente
 								$.ajax({
-									url: '../../consulta_apellido_nombre_paciente.php', // Ruta al archivo PHP que creamos
+									url: '../../consulta_apellido_nombre_paciente-sinseguro.php', // Ruta al archivo PHP que creamos
 									type: 'POST',
 									data: {
 										id_paciente: idPaciente
@@ -496,28 +496,38 @@ $pagina = $_GET['pag'];
 						<i class="fa-solid fa-file-pen"></i>
 						Registrar
 					</button>
-					<a class="boton" href="../../mant-paciente.php?pag=<?php echo $pagina; ?>">
+					<a class="boton" href="../../mant-paciente-seguro.php?pag=<?php echo $pagina; ?>">
 						<i class="fa-solid fa-circle-xmark"></i> Cancelar
 					</a>
 				</div>
 			</form>
 		</fieldset>
 		<script>
-    function validarFormulario() {
-        // Obtener todos los campos del formulario
-        var id_paciente = document.getElementById('id_paciente').value.trim();
-        var NSS = document.getElementById('NSS').value.trim();
-        var Id_seguro_salud = document.getElementById('Id_seguro_salud').value.trim();
+			function validarFormulario() {
+				// Obtener todos los campos del formulario
+				var id_paciente = document.getElementById('id_paciente').value.trim();
+				var NSS = document.getElementById('NSS').value.trim();
+				var Id_seguro_salud = document.getElementById('Id_seguro_salud').value.trim();
 
-        // Verificar que ningún campo esté vacío
-        if (id_paciente === "" || NSS === "" || Id_seguro_salud === "") {
-            alert("Por favor, complete todos los campos obligatorios.");
-            return false; // Prevenir el envío del formulario
-        }
+				// Obtener los valores de las etiquetas
+				var nombre_paciente = document.getElementById('nombre_paciente').textContent.trim();
+				var apellido_paciente = document.getElementById('apellido_paciente').textContent.trim();
 
-        return true; // Permitir el envío del formulario
-    }
-</script>
+				// Verificar que ningún campo del formulario esté vacío
+				if (id_paciente === "" || NSS === "" || Id_seguro_salud === "") {
+					alert("Por favor, complete todos los campos obligatorios.");
+					return false; // Prevenir el envío del formulario
+				}
+
+				// Verificar que las etiquetas no estén vacías
+				if (nombre_paciente === "" || apellido_paciente === "") {
+					alert("El ID del paciente no es válido. Por favor, verifique.");
+					return false; // Prevenir el envío del formulario
+				}
+
+				return true; // Permitir el envío del formulario
+			}
+		</script>
 	</div>
 </body>
 
@@ -526,34 +536,34 @@ $pagina = $_GET['pag'];
 </html>
 <?php
 if (isset($_POST['btnmodificar'])) {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "pediatra_sis";
+	$servername = "localhost";
+	$username = "root";
+	$password = "";
+	$database = "pediatra_sis";
 
-    // Crear conexión
-    $conn = new mysqli($servername, $username, $password, $database);
+	// Crear conexión
+	$conn = new mysqli($servername, $username, $password, $database);
 
-    // Verificar conexión
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
+	// Verificar conexión
+	if ($conn->connect_error) {
+		die("Conexión fallida: " . $conn->connect_error);
+	}
 
-    // Obtener los datos del formulario
-    $id_paciente = $_POST['id_paciente'];
-    $NSS = $_POST['NSS'];
-    $Id_seguro_salud = $_POST['Id_seguro_salud'];
+	// Obtener los datos del formulario
+	$id_paciente = $_POST['id_paciente'];
+	$NSS = $_POST['NSS'];
+	$Id_seguro_salud = $_POST['Id_seguro_salud'];
 
-    // Consulta SQL para insertar datos en la tabla seguro_paciente
-    $sql = "INSERT INTO seguro_paciente (NSS, id_paciente, Id_seguro_salud) VALUES ('$NSS', '$id_paciente', '$Id_seguro_salud')";
+	// Consulta SQL para insertar datos en la tabla seguro_paciente
+	$sql = "INSERT INTO seguro_paciente (NSS, id_paciente, Id_seguro_salud) VALUES ('$NSS', '$id_paciente', '$Id_seguro_salud')";
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Datos guardados exitosamente.'); window.location.href='../../mant-paciente-seguro.php';</script>";
-    } else {
-        echo "<script>alert('Error al guardar los datos: " . $conn->error . "'); window.location.href='../../mant-paciente-seguro.php';</script>";
-    }
+	if ($conn->query($sql) === TRUE) {
+		echo "<script>alert('Datos guardados exitosamente.'); window.location.href='../../mant-paciente-seguro.php';</script>";
+	} else {
+		echo "<script>alert('Error al guardar los datos: " . $conn->error . "'); window.location.href='../../mant-paciente-seguro.php';</script>";
+	}
 
-    // Cerrar la conexión
-    $conn->close();
+	// Cerrar la conexión
+	$conn->close();
 }
 ?>

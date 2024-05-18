@@ -1,15 +1,11 @@
 <?php
 session_start();
-
 error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
-
 $pagina = $_GET['pag'];
-
 // Consultar el último ID de la tabla medicos
 $query = "SELECT MAX(id_medico) AS max_id FROM medicos";
 $result = $conn->query($query);
-
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $lastId = $row["max_id"];
@@ -18,7 +14,6 @@ if ($result->num_rows > 0) {
     // Si no hay registros en la tabla, asignar el ID inicial
     $newId = 1;
 }
-
 // Guardar el nuevo ID en una variable PHP
 $idMedico = $newId;
 

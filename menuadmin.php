@@ -256,6 +256,12 @@
                     <br><p> Vincular <br> Padre-Paciente</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="#" onclick="cambiarIframe('mant-paciente-seguro.php')" class="nav-link">
+                  <i class="fa-solid fa-id-card"></i>
+                    <br><p> Vincular <br> Seguros-Paciente</p>
+                  </a>
+                </li>
               </ul>
             </li>
 
