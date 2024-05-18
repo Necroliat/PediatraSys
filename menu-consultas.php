@@ -214,15 +214,16 @@
 .botones {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 40px; /* Definir una altura fija para cada fila */
+  grid-auto-rows: 60px; /* Definir una altura fija para cada fila */
   grid-column-gap: 5px;
-  grid-row-gap: 5px;
+  grid-row-gap: 10px;
 }
 
 .botones button {
   width: 100%;
   /* Mantener el alto constante */
-  height: 40px; /* Ajusta el valor según sea necesario */
+
+  height: 60px; /* Ajusta el valor según sea necesario */
 }
 
 .descripcion {
@@ -320,7 +321,7 @@
   </script>
 
 
-  <fieldset id="Catálogos datos médicos">
+  <fieldset id="Catálogos datos médicos" style=" height: 500px;">
     <legend>Catálogos datos médicos</legend>
     <div class="divisor">
       <div class="botones">
