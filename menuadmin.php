@@ -449,6 +449,13 @@
                     <p>Certificados</p>
                   </a>
                 </li>
+                <li class="nav-item">
+
+                  <a href="#" onclick="cambiarIframe('proces_analitica_paciente.php')" class="nav-link">
+                  <i class="fa-solid fa-flask-vial"></i><i class="fa-solid fa-file-waveform"></i>
+                    <p>Análisis</p>
+                  </a>
+                </li>
 
 
 
