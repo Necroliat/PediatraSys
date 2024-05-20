@@ -100,7 +100,6 @@
   <title>Citas del Día</title>
 
 </head>
-
 <body>
 <form method="post">
   <fieldset>
@@ -110,7 +109,7 @@
     </div>
     <h5 style="padding:0; text-align: center; text-transform: uppercase;">notificar via correo a padres</h5>
     <h6 style="padding:0; margin:0;text-align: center;">PediatraSys</h6>
-    <div class="table-responsive" >
+    <div class="table-responsive">
       <!--    <h2>Citas del Día</h2>-->
 
       <?php
@@ -128,9 +127,6 @@
         die("Conexión fallida: " . $conn->connect_error);
       }
 
-
-
-
       $idMedico =  $_SESSION['id_medico'];
       // Obtener el nombre y apellido del médico
       $sql_medico = "SELECT nombre, apellido FROM medicos WHERE id_medico = $idMedico";
@@ -146,7 +142,6 @@
       // Obtener la fecha actual en formato corto
       $fecha_actual = date("d/m/Y");
       $fecha_actual2 = date("Y-m-d");
-
 
       $idMedico = $_SESSION['id_medico'];  // Asegúrate de que el ID del médico está guardado en sesión
 
@@ -180,7 +175,7 @@
             np.ID_Relacion";
 
       $result = $conn->query($sql);
-      echo"<div class='centrado3'>";
+      echo "<div class='centrado3'>";
       echo '<table border="1" cellspacing="0" cellpadding="5">
         <tr>
             <th>Num</th>
@@ -192,10 +187,10 @@
             <th>Médico</th>
             <th>Padre</th>
             <th>Email</th>
+            <th>Notificar</th>
         </tr>';
 
       if ($result && $result->num_rows > 0) {
-        // output data of each row
         while ($row = $result->fetch_assoc()) {
           echo '<tr>
                 <td>' . htmlspecialchars($row['id_cita']) . '</td>
@@ -207,83 +202,119 @@
                 <td>' . htmlspecialchars($row['nombre_medico']) . '</td>
                 <td>' . htmlspecialchars($row['nombre_padre']) . '</td>
                 <td>' . htmlspecialchars($row['email_padre']) . '</td>
+                <td>
+                  <form method="post">
+                    <input type="hidden" name="email_padre" value="' . htmlspecialchars($row['email_padre']) . '">
+                    <button type="submit" name="sendSingleEmail" class="btn btn-warning">Notificar</button>
+                  </form>
+                </td>
               </tr>';
         }
       } else {
-        echo '<tr><td colspan="9">No hay citas disponibles</td></tr>';
+        echo '<tr><td colspan="10">No hay citas disponibles</td></tr>';
       }
 
       echo '</table>';
-      echo"</div>";
+      echo "</div>";
       ?>
 
-
-
-     
-<br>
-
+      <br>
       <a href="consultamedicospacientescitas3.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
         <i class="fa-solid fa-left-long"></i> Regresar
       </a>
       <button type="submit" name="sendEmails" class="btn btn-success"><i class="fa-regular fa-paper-plane"></i>&nbsp;Enviar Recordatorios</button>
-    
     </div>
     <?php
-  use PHPMailer\PHPMailer\PHPMailer;
-  use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sendEmails'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sendEmails'])) {
 
-// Incluye PHPMailer
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+      // Incluye PHPMailer
+      require 'PHPMailer/src/Exception.php';
+      require 'PHPMailer/src/PHPMailer.php';
+      require 'PHPMailer/src/SMTP.php';
 
-$mail = new PHPMailer(true);
+      $mail = new PHPMailer(true);
 
-try {
-    // Configuración del servidor SMTP
-    $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';
-    $mail->SMTPAuth   = true;
-    $mail->Username   = 'pediatrasys.lv.do@gmail.com';  // Tu cuenta de Gmail
-    $mail->Password   = 'lcyk hwku lmhf kenx';        // Tu contraseña de Gmail
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-    $mail->Port       = 465;
+      try {
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'pediatrasys.lv.do@gmail.com';  // Tu cuenta de Gmail
+        $mail->Password   = 'lcyk hwku lmhf kenx';        // Tu contraseña de Gmail
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
 
-    // Recorrido de cada correo encontrado
-    $result->data_seek(0); // Vuelve al principio si ya has recorrido los resultados
-    while ($row = $result->fetch_assoc()) {
+        // Recorrido de cada correo encontrado
+        $result->data_seek(0); // Vuelve al principio si ya has recorrido los resultados
+        while ($row = $result->fetch_assoc()) {
+          $mail->setFrom('pediatrasys.lv.do@gmail.com', 'PediatraSys');
+          $mail->addAddress($row['email_padre']);     // Añade el correo del padre
+
+          // Contenido del correo
+          $mail->isHTML(true);
+          $mail->Subject = 'Recordatorio de cita con el pediatra';
+          $mail->Body    = "Estimado/a " . htmlspecialchars($row['nombre_padre']) . ",<br><br>" .
+                           "Le recordamos que tiene una cita programada con el Dr. " . htmlspecialchars($nombre_medico) . " " . htmlspecialchars($apellido_medico) .
+                           " el día " . htmlspecialchars($row['fecha']) . " a las " . htmlspecialchars($row['hora']) . ".<br>" .
+                           "Por favor, de no poder asistir, comuníquese con la secretaría para cancelarla.<br><br>" .
+                           "Gracias,<br>PediatraSys";
+
+          $mail->send();
+          $mail->clearAddresses();
+        }
+
+        echo 'Los correos han sido enviados.';
+      } catch (Exception $e) {
+        echo "No se pudo enviar el correo. Mailer Error: {$mail->ErrorInfo}";
+      }
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sendSingleEmail'])) {
+
+      // Incluye PHPMailer
+      require 'PHPMailer/src/Exception.php';
+      require 'PHPMailer/src/PHPMailer.php';
+      require 'PHPMailer/src/SMTP.php';
+
+      $mail = new PHPMailer(true);
+
+      try {
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'pediatrasys.lv.do@gmail.com';  // Tu cuenta de Gmail
+        $mail->Password   = 'lcyk hwku lmhf kenx';        // Tu contraseña de Gmail
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+
+        $emailPadre = $_POST['email_padre'];
+
+        // Añade el correo del padre
         $mail->setFrom('pediatrasys.lv.do@gmail.com', 'PediatraSys');
-        $mail->addAddress($row['email_padre']);     // Añade el correo del padre
+        $mail->addAddress($emailPadre);
 
         // Contenido del correo
         $mail->isHTML(true);
         $mail->Subject = 'Recordatorio de cita con el pediatra';
-        $mail->Body    = "Estimado/a " . htmlspecialchars($row['nombre_padre']) . ",<br><br>" .
+        $mail->Body    = "Estimado/a,<br><br>" .
                          "Le recordamos que tiene una cita programada con el Dr. " . htmlspecialchars($nombre_medico) . " " . htmlspecialchars($apellido_medico) .
-                         " el día " . htmlspecialchars($row['fecha']) . " a las " . htmlspecialchars($row['hora']) . ".<br>" .
+                         ".<br>" .
                          "Por favor, de no poder asistir, comuníquese con la secretaría para cancelarla.<br><br>" .
                          "Gracias,<br>PediatraSys";
 
         $mail->send();
-        $mail->clearAddresses();
+        echo 'El correo ha sido enviado a ' . htmlspecialchars($emailPadre) . '.';
+      } catch (Exception $e) {
+        echo "No se pudo enviar el correo. Mailer Error: {$mail->ErrorInfo}";
+      }
     }
-
-    echo 'Los correos han sido enviados.';
-} catch (Exception $e) {
-    echo "No se pudo enviar el correo. Mailer Error: {$mail->ErrorInfo}";
-}
-
-
-}
-
-
-
-?>
+    ?>
   </fieldset>
-  
 </form>
 </body>
-
 </html>
+
