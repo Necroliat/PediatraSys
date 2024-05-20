@@ -246,15 +246,15 @@ try {
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'jr5887@unphu.edu.do';  // Tu cuenta de Gmail
-    $mail->Password   = 'umbralnemesis';        // Tu contraseña de Gmail
+    $mail->Username   = 'pediatrasys.lv.do@gmail.com';  // Tu cuenta de Gmail
+    $mail->Password   = 'lcyk hwku lmhf kenx';        // Tu contraseña de Gmail
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = 465;
 
     // Recorrido de cada correo encontrado
     $result->data_seek(0); // Vuelve al principio si ya has recorrido los resultados
     while ($row = $result->fetch_assoc()) {
-        $mail->setFrom('jr5887@unphu.edu.do', 'PediatraSys');
+        $mail->setFrom('pediatrasys.lv.do@gmail.com', 'PediatraSys');
         $mail->addAddress($row['email_padre']);     // Añade el correo del padre
 
         // Contenido del correo
