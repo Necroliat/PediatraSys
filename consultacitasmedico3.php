@@ -145,7 +145,40 @@
 
       $idMedico = $_SESSION['id_medico'];  // Asegúrate de que el ID del médico está guardado en sesión
 
+
       $sql = "SELECT 
+      c.id_cita,
+      c.fecha,
+      c.hora,
+      c.id_paciente,
+      CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente,
+      c.id_medico,
+      CONCAT(m.nombre, ' ', m.apellido) AS nombre_medico,
+      CONCAT(dp.Nombre, ' ', dp.Apellido) AS nombre_padre,
+      (
+          SELECT lp.Valor 
+          FROM localizador_padres_de_pacientes lp 
+          WHERE lp.Identificador = dp.Numidentificador AND lp.Valor LIKE '%@%'
+          ORDER BY lp.ID_Localizador ASC 
+          LIMIT 1
+      ) AS email_padre
+  FROM 
+      citas c
+      INNER JOIN paciente p ON c.id_paciente = p.id_paciente
+      INNER JOIN medicos m ON c.id_medico = m.id_medico
+      INNER JOIN nino_padre np ON np.id_paciente = p.id_paciente
+      INNER JOIN datos_padres_de_pacientes dp ON dp.Numidentificador = np.ID_Padre
+  WHERE 
+      c.id_medico = $idMedico 
+      AND c.fecha >= CURDATE()
+  ORDER BY 
+      c.fecha, c.hora;";
+
+
+
+
+
+      /* $sql = "SELECT 
             c.id_cita,
             c.fecha,
             c.hora,
@@ -173,7 +206,7 @@
             c.id_cita
         ORDER BY 
             np.ID_Relacion";
-
+ */
       $result = $conn->query($sql);
       echo "<div class='centrado3'>";
       echo '<table border="1" cellspacing="0" cellpadding="5">
