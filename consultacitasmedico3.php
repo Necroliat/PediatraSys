@@ -15,6 +15,25 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- Agrega estilos personalizados -->
+  <!-- Enlaces a los archivos CSS externos -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+  <!-- Enlaces a los scripts de JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
   <style>
     /* Estilos personalizados */
     .zebra-table tbody tr:nth-of-type(odd) {
@@ -178,35 +197,7 @@
 
 
 
-      /* $sql = "SELECT 
-            c.id_cita,
-            c.fecha,
-            c.hora,
-            c.id_paciente,
-            CONCAT(p.nombre, ' ', p.apellido) AS nombre_paciente,
-            c.id_medico,
-            CONCAT(m.nombre, ' ', m.apellido) AS nombre_medico,
-            CONCAT(dp.Nombre, ' ', dp.Apellido) AS nombre_padre,
-            (
-                SELECT lp.Valor 
-                FROM localizador_padres_de_pacientes lp 
-                WHERE lp.Identificador = dp.Numidentificador AND lp.Valor LIKE '%@%'
-                ORDER BY lp.ID_Localizador ASC 
-                LIMIT 1
-            ) AS email_padre
-        FROM 
-            citas c
-            INNER JOIN paciente p ON c.id_paciente = p.id_paciente
-            INNER JOIN medicos m ON c.id_medico = m.id_medico
-            INNER JOIN nino_padre np ON np.id_paciente = p.id_paciente
-            INNER JOIN datos_padres_de_pacientes dp ON dp.Numidentificador = np.ID_Padre
-        WHERE 
-            c.id_medico = $idMedico
-        GROUP BY 
-            c.id_cita
-        ORDER BY 
-            np.ID_Relacion";
- */
+     
       $result = $conn->query($sql);
       echo "<div class='centrado3'>";
       echo '<table border="1" cellspacing="0" cellpadding="5">
