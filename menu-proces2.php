@@ -198,17 +198,7 @@
         </div>
       </div>
     </a>
-    <a href="consultamedicospacientescitas2.php">
-      <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">TURNOS DE HOY</div>
-          <img src="IMAGENES/TURNOS-100.png" class="card-icon" alt="Mantenimientos">
-          <div class="card-description">
-          <p>LISTA DE TURNOS VIGENTES</p>
-          </div>
-        </div>
-      </div>
-    </a>
+    
     
     <a href="consultamedicospacientescitas2.php">
       <div class="card-wrapper">

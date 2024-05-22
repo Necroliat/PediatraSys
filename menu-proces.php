@@ -174,13 +174,50 @@
   </div>
 
   <div class="card-container">
-    <a href="proces_citas.php">
+  <a href="mant_citasmedicas.php">
       <div class="card-wrapper">
         <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
           <div class="card-title" style="font-family: Arial Black; color:black;">CITAS</div>
           <img src="IMAGENES/citamedica-64.png" class="card-icon" alt="Mantenimientos">
           <div class="card-description">
           <p>Generar las citas</p>
+          </div>
+        </div>
+      </div>
+    </a>
+
+   
+    <a href="consultamedicospacientescitas.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">CITAS DE HOY</div>
+          <img src="IMAGENES/CITASMEDICAS-100.png" class="card-icon" alt="Mantenimientos">
+          <div class="card-description">
+          <p>Citas del Medico</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    
+    <a href="consultamedicospacientescitas2.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">TURNOS  DE HOY EN PANTALLA</div>
+          <img src="IMAGENES/TURNOS2-100.png" class="card-icon" alt="Mantenimientos">
+          <div class="card-description">
+          <p>LISTA DE TURNOS VIGENTES EN PANTALLA</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a href="consultamedicospacientescitas3.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">ENVIAR NOTIFICACION </div>
+          <img src="IMAGENES/correo-100.png" class="card-icon" alt="Mantenimientos">
+          <div class="card-description">
+          <p>NOTIFICAR A PADRES DE LOS PACIENTES SOBRE FUTURAS CITAS</p>
           </div>
         </div>
       </div>
@@ -228,6 +265,17 @@
           <img src="IMAGENES/receta-100.png" class="card-icon" alt="Procesos">
           <div class="card-description">
             <p>Proceso hacer recetas.</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a href="proces_analitica_paciente.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">Indicación Análisis</b></div>
+          <img src="IMAGENES/microscopio-100.png" class="card-icon" alt="Procesos">
+          <div class="card-description">
+            <p>Proceso indicación de análisis.</p>
           </div>
         </div>
       </div>
