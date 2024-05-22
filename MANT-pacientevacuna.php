@@ -215,6 +215,10 @@
 			word-wrap: break-word;
 			/* Permitir que el texto largo se divida en múltiples líneas */
 		}
+
+		#vacunasTabla {
+			word-wrap: break-word;
+		}
 	</style>
 	<?php
 
@@ -294,34 +298,28 @@
 
 
 
-				<fieldset class="caja">
+				<fieldset class="caja" style="border-radius: 15px; padding: 10px;">
 					<legend class="cajalegend">══ Datos de la Vacuna ══</legend>
 					<div>
 						<label for="id_vacuna">ID Vacuna:</label>
 						<input type="text" id="id_vacuna" style="width: 115px;" required>
-						<button id="buscarvacuna" class="boton_bus" title="Buscar vacunas registras en el sistema">
-							<i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i>
+						<button id="buscarvacuna" class="boton_bus" title="Buscar vacunas registradas en el sistema">
+							<i class="material-icons" style="font-size: 32px; color: #a4e5df; text-shadow: 2px 2px 4px #000;">search</i>
 						</button>
 					</div>
 					<div>
 						<label for="Nombre_vacuna">Nombre de la Vacuna:</label>
-						<label id="nombre_vacuna" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+						<label id="nombre_vacuna" style="background-color: #fffff1; padding: 8px; border-radius: 10px; box-shadow: 2px 2px 4px #000;"></label>
 					</div>
-
-
 					<div id="Modalvacuna" class="custom-modal">
 						<div class="custom-modal-content">
 							<span class="close">&times;</span>
 							<iframe id="modal-iframe" src="consulta_vacunas.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
-
 						</div>
 					</div>
-
-
-
-					<div style="border-top:20px;">
+					<div>
 						<label for="dosis">Dosis:</label>
-						<select id="dosis" style=" width: 110px; ">
+						<select id="dosis" style="width: 110px;">
 							<option selected value="1era">1era</option>
 							<option value="2da">2da</option>
 							<option value="3ra">3ra</option>
@@ -337,7 +335,7 @@
 					</div>
 					<div>
 						<label for="refuerzo">Refuerzo:</label>
-						<select id="refuerzo" style=" width: 110px; ">
+						<select id="refuerzo" style="width: 110px;">
 							<option value="1er">1era</option>
 							<option value="2do">2da</option>
 							<option value="3ro">3ra</option>
@@ -359,40 +357,53 @@
 						</select>
 						<input type="date" id="fecha_aplicacion_input" style="display: none;">
 					</div>
-					<button id="agregarVacuna" onclick="agregarVacuna(); return false;" type="button" class="btn btn-primary" style="width: 120px;vertical-align: baseline; font-weight:bold;">
-						<i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
-						Agregar
-					</button>
-
-					<!-- <button id="agregarVacuna" class="boton" onclick="agregarVacuna(); return false;">
-					<i class="material-icons" style="font-size:32px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
-					Agregar
-				</button> -->
-
-					<button id="modificarVacuna" class="boton" style="display: none;">
-						<i class="material-icons" style="font-size:32px;color:#f33112;text-shadow:2px 2px 4px #000000;">edit</i>
-						Modificar
-					</button>
-
-					<button id="cancelarEdicion" class="boton" style="display: none;">
-						<i class="material-icons" style="font-size:32px;color:#f33112;text-shadow:2px 2px 4px #000000;">cancel</i>
-						Cancelar
-					</button>
-					<table id="vacunasTabla" style=" font-size: 14px;">
-						<thead>
-							<tr>
-								<th>ID Vacuna</th>
-								<th>Nombre de Vacuna</th>
-								<th>Dosis</th>
-								<th>Refuerzo</th>
-								<th>Fecha de Aplicación</th>
-								<th>Modificar</th>
-								<th>Eliminar</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
+					<div>
+						<button id="agregarVacuna" onclick="agregarVacuna(); return false;" type="button" class="btn btn-primary" style="width: 120px; vertical-align: baseline; font-weight: bold;">
+							<i class="material-icons" style="font-size: 21px; color: #12f333; text-shadow: 2px 2px 4px #000;">add</i>
+							Agregar
+						</button>
+						<button id="modificarVacuna" class="boton" style="display: none;">
+							<i class="material-icons" style="font-size: 32px; color: #f33112; text-shadow: 2px 2px 4px #000;">edit</i>
+							Modificar
+						</button>
+						<button id="cancelarEdicion" class="boton" style="display: none;">
+							<i class="material-icons" style="font-size: 32px; color: #f33112; text-shadow: 2px 2px 4px #000;">cancel</i>
+							Cancelar
+						</button>
+					</div>
+					<div>
+						<table id="vacunasTabla" style="font-size: 14px; width: 100%; margin-top: 20px;">
+							<thead>
+								<tr>
+									<th>ID Vacuna</th>
+									<th>Nombre de Vacuna</th>
+									<th>Dosis</th>
+									<th>Refuerzo</th>
+									<th>Fecha de Aplicación</th>
+									<th>Modificar</th>
+									<th>Eliminar</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div style="margin-top: 20px; padding: 0; text-align: center;">
+						<button class="boton" id="btnguardar">
+							<i class="material-icons" style="font-size: 32px; color: #f0f0f0; text-shadow: 2px 2px 4px #000;">save</i>
+							Guardar
+						</button>
+						<button class="boton" onclick="resetForm()" id="btnreset">
+							<i class="material-icons" style="font-size: 32px; color: #f0f0f0; text-shadow: 2px 2px 4px #000;">autorenew</i>
+							Reset
+						</button>
+						<a href="menu-pacientes.php" class="claseboton" id="btnatras">
+							<i class="material-icons" style="font-size: 32px; color: #f0f0f0; text-shadow: 2px 2px 4px #000;">arrow_back</i>
+							Atrás
+						</a>
+					</div>
+					<div id="error-message" style="color: red;"></div>
 				</fieldset>
+
 				<script>
 					// Función para búsqueda dinámica del nombre de la vacuna por ID
 					function buscarNombreVacuna() {
@@ -423,18 +434,7 @@
 				<div id="historial_vacunas" style="font-size:14px;"></div>
 
 			</fieldset>
-			<div style=" margin-top:-20;padding:0; height:0cm;">
-				<button class="boton" id="btnguardar">
-					<i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">save</i> Guardar
-				</button>
-				<button class="boton" onclick="resetForm()" id="btnreset">
-					<i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">autorenew</i> Reset
-				</button>
-				<a href="menu-pacientes.php" class="claseboton" id="btnatras">
-					<i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">arrow_back</i> Atrás
-				</a>
-			</div>
-			<div id="error-message" style="color: red;"></div>
+
 		</div>
 
 
@@ -755,6 +755,7 @@
 
 
 			// Función para agregar una vacuna
+			
 			function agregarVacuna() {
 				// Verificar si la combinación ya existe en la tabla
 				var nombre = nombreVacunaLabel.innerText;

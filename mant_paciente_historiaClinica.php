@@ -202,6 +202,9 @@
         fieldset {
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
         }
+        #padecimientosTabla{
+            word-wrap: break-word;
+        }
     </style>
     <?php
 
