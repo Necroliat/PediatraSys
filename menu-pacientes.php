@@ -159,14 +159,14 @@
 
 
 
-     <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
+    <!--  <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
        <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atras
      </a>
 
      <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
        <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
-     </a>
-     <a id="redireccionar" href="#" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
+     </a> -->
+     <!-- <a id="redireccionar" href="#" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
        <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
 
        <script>
@@ -176,7 +176,7 @@
          });
        </script>
 
-     </a>
+     </a> -->
      
 
      <div class="card-container">

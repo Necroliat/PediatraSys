@@ -156,10 +156,10 @@
     <h3 style="padding: 1%;text-align: center;text-transform: uppercase;font-family: bitter; color:black; padding: 5px; width: 100%; display: flex; flex-direction: column; align-items: center; font-weight:bolder;">Menú de Mantenimientos</h3>
     <img src="IMAGENES\app90.png" class="" alt="crud" height="48" width="48">
     <div class="botones-container" style="margin-top:0%;">
-      <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
+      <!-- <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
         <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
-      </a>
-      <a id="redireccionar" href="#" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
+      </a> -->
+      <!-- <a id="redireccionar" href="#" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
         <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
 
         <script>
@@ -169,7 +169,7 @@
           });
         </script>
 
-      </a>
+      </a> -->
     </div>
   </div>
 
@@ -197,7 +197,7 @@
         </div>
       </div>
     </a>
-    <a href="mant-Agregaruser.php">
+<!--     <a href="mant-Agregaruser.php">
       <div class="card-wrapper">
         <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
 
@@ -206,7 +206,7 @@
           <div class="card-description"> Registrar y editar listado usuarios del sistema.</div>
         </div>
       </div>
-    </a>
+    </a> -->
 
     <a href="mant-centromedico.php">
       <div class="card-wrapper">

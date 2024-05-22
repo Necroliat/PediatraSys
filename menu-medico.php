@@ -191,12 +191,12 @@ include("menu_lateral_header.php");
 </div>
 
 
-  <div class="botones-container">
+  <!-- <div class="botones-container">
   <a href="menu-mant.php" class="claseboton">← Atrás</a>
     <a href="index.php" class="claseboton">Login</a>
     <a href="menu.php" class="claseboton">Menú Principal</a>
     
-  </div>
+  </div> -->
 <script>
 
 </script>
