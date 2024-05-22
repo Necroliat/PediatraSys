@@ -4,39 +4,10 @@
   <title>Sis_Pediátrico</title>
   <link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
   <!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIS_Pediátrico</title>
+  <link href="https://fonts.googleapis.com/css?family=Anton:regular" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Bitter:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Obtén todos los títulos de tarjetas
-      var cardTitles = document.querySelectorAll('.card-title');
-
-      // Agrega el evento hover a cada título de tarjeta
-      cardTitles.forEach(function(cardTitle) {
-        cardTitle.addEventListener('mouseenter', function() {
-          // Encuentra la tarjeta padre de este título
-          var card = this.closest('.card');
-
-          // Aplica el efecto solo a la tarjeta encontrada
-          if (card) {
-            card.style.transform = 'scale(1.1)';
-          }
-        });
-
-        cardTitle.addEventListener('mouseleave', function() {
-          // Encuentra la tarjeta padre de este título
-          var card = this.closest('.card');
-
-          // Restablece la transformación solo a la tarjeta encontrada
-          if (card) {
-            card.style.transform = 'scale(1)';
-          }
-        });
-      });
-    });
-  </script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Obtén todos los títulos de tarjetas
@@ -81,7 +52,7 @@
     .card {
       float: left;
       width: 150px;
-      height: 190px;
+      height: 150px;
       padding: 10px;
       border-radius: 10px;
       box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
@@ -138,7 +109,7 @@
       width: 100%;
       float: left;
       text-align: center;
-
+     
     }
 
     .boton {
@@ -167,99 +138,100 @@
       margin-right: 10px;
       margin-left: 10px;
     }
+
+    
   </style>
   <?php
 
   include("menu_lateral_header.php");
 
   ?>
-
 </head>
+
+<?php
+//include("menu_lateral.php");
+?>
 
 <body>
 
-
-
-  <?php
-
-  //include("menu_lateral.php");
-
-  ?>
-
-
   <div style="width:100%; padding: 6px; width: 100%; display: flex; flex-direction: column; align-items: center;">
-    <h2 style="padding: 1%;text-align: center;text-transform: uppercase;font-family: bitter; color:black; padding: 15px; width: 100%; display: flex; flex-direction: column; align-items: center;">
-      Menú Principal</h2>
-    <img src="IMAGENES\Browser.256.png" class="" alt="crud" width="82px" heigth="82px">
-
-
-    <a id="redireccionar" href="#" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
-      <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i>
-      Login
-    </a>
-    <script>
+    <h3 style="padding: 1%;text-align: center;text-transform: uppercase;font-family: bitter; color:black; padding: 5px; width: 100%; display: flex; flex-direction: column; align-items: center; font-weight:bolder;">Menú de procesos</h3>
+    <img src="IMAGENES\app90.png" class="" alt="crud" height="48" width="48">
+    <div class="botones-container" style="margin-top:0%;">
+      <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
+        <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
+      </a>
+      <a id="redireccionar" href="#" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;font-size:small;">
+        <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">login</i> Login
+      </a>
+      <script>
       document.getElementById("redireccionar").addEventListener("click", function(event) {
         event.preventDefault(); // Evita el comportamiento predeterminado del enlace
         window.top.location.href = "index.php"; // Redirige a menuadmin.php en la ventana principal
       });
     </script>
+    </div>
   </div>
-  </div>
-
-  <!-- <h2 style="padding: 5%;text-align: center;text-transform: uppercase;">Menú Principal Sistema de Pediatría</h2> -->
-
-
 
   <div class="card-container">
-    <a href="menu-mant.php">
+    <a href="proces_citas.php">
       <div class="card-wrapper">
-        <div class="card">
-          <div class="card-title">Mantenimientos</div>
-          <img src="IMAGENES/Mantenimientos.png" class="card-icon" alt="Mantenimientos">
+        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">CITAS</div>
+          <img src="IMAGENES/citamedica-64.png" class="card-icon" alt="Mantenimientos">
           <div class="card-description">
-            <p>Realizar operaciones de mantenimiento sobre
-              la base de datos.</p>
+          <p>Generar las citas</p>
           </div>
         </div>
       </div>
     </a>
-    
-    <a href="menu-consultas.php">
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-title">Consultas y Reportes</div>
-        <div>
-        <img src="IMAGENES/consultas.png" class="card-icon" alt="Consultas"> <img src="IMAGENES/reportes.png" class="card-icon" alt="Reportes">
-        </div>
-        <div class="card-description">
-          <p>Realizar consultas personalizadas sobre la base de datos y Generar reportes comunes.</p>
-        </div>
-      </div>
-    </div>
-    </a>
-    <a href="menu-proces2.php">
-      <div class="card-wrapper">
-        <div class="card">
-          <div class="card-title">Procesos</div>
-          <img src="IMAGENES/procesos.png" class="card-icon" alt="Procesos">
-          <div class="card-description">
-            <p>Ejecutar procesos que involucran procedimientos medicos.</p>
-          </div>
-        </div>
-      </div>
-    </a>
-   <!--  <div class="card-wrapper">
-      <div class="card">
-        <div class="card-title">Reportes</div>
-        <img src="IMAGENES/reportes.png" class="card-icon" alt="Reportes">
-        <div class="card-description">
-          <p>Generar reportes comunes</p>
-        </div>
-      </div>
-    </div> -->
-  
-  </div>
 
+    <a href="proces_CERTIFICADOMEDICO.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">Cert. Médico</b></div>
+          <img src="IMAGENES/certificado-98.png" class="card-icon" alt="Procesos">
+          <div class="card-description">
+            <p>Generar Certificados Medicos.</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a href="proces_referimientos.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">Ref. Médico</b></div>
+          <img src="IMAGENES/certificado-98.png" class="card-icon" alt="Procesos">
+          <div class="card-description">
+            <p>Generar Referimientos Medicos.</p>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="proces_consulta.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">Consulta Medica</b></div>
+          <img src="IMAGENES/consulta-64.png" class="card-icon" alt="Procesos">
+          <div class="card-description">
+            <p>Proceso consulta, Médico - Paciente.</p>
+          </div>
+        </div>
+      </div>
+    </a>
+   
+    <a href="proces_receta.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">Receta</b></div>
+          <img src="IMAGENES/receta-100.png" class="card-icon" alt="Procesos">
+          <div class="card-description">
+            <p>Proceso hacer recetas.</p>
+          </div>
+        </div>
+      </div>
+    </a>
 
 </body>
 
