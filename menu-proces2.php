@@ -174,7 +174,7 @@
   </div>
 
   <div class="card-container">
-    <a href="proces_citas.php">
+    <a href="mant_citasmedicas.php">
       <div class="card-wrapper">
         <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
           <div class="card-title" style="font-family: Arial Black; color:black;">CITAS</div>
@@ -186,52 +186,56 @@
       </div>
     </a>
 
-    <a href="proces_CERTIFICADOMEDICO.php">
+   
+    <a href="consultamedicospacientescitas.php">
       <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">Cert. Médico</b></div>
-          <img src="IMAGENES/certificado-98.png" class="card-icon" alt="Procesos">
+        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">CITAS DE HOY</div>
+          <img src="IMAGENES/CITASMEDICAS-100.png" class="card-icon" alt="Mantenimientos">
           <div class="card-description">
-            <p>Generar Certificados Medicos.</p>
+          <p>Citas del Medico</p>
           </div>
         </div>
       </div>
     </a>
-    <a href="proces_referimientos.php">
+    <a href="consultamedicospacientescitas2.php">
       <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">Ref. Médico</b></div>
-          <img src="IMAGENES/certificado-98.png" class="card-icon" alt="Procesos">
+        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">TURNOS DE HOY</div>
+          <img src="IMAGENES/TURNOS-100.png" class="card-icon" alt="Mantenimientos">
           <div class="card-description">
-            <p>Generar Referimientos Medicos.</p>
+          <p>LISTA DE TURNOS VIGENTES</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="consultamedicospacientescitas2.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">TURNOS  DE HOY EN PANTALLA</div>
+          <img src="IMAGENES/TURNOS2-100.png" class="card-icon" alt="Mantenimientos">
+          <div class="card-description">
+          <p>LISTA DE TURNOS VIGENTES EN PANTALLA</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a href="consultamedicospacientescitas3.php">
+      <div class="card-wrapper">
+        <div class="card" style="background: linear-gradient(to right, hsl(182, 43%, 76%), #62c4f9); ">
+          <div class="card-title" style="font-family: Arial Black; color:black;">ENVIAR NOTIFICACION </div>
+          <img src="IMAGENES/correo-100.png" class="card-icon" alt="Mantenimientos">
+          <div class="card-description">
+          <p>NOTIFICAR A PADRES DE LOS PACIENTES SOBRE FUTURAS CITAS</p>
           </div>
         </div>
       </div>
     </a>
 
-    <a href="proces_consulta.php">
-      <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">Consulta Medica</b></div>
-          <img src="IMAGENES/consulta-64.png" class="card-icon" alt="Procesos">
-          <div class="card-description">
-            <p>Proceso consulta, Médico - Paciente.</p>
-          </div>
-        </div>
-      </div>
-    </a>
+    
    
-    <a href="proces_receta.php">
-      <div class="card-wrapper">
-        <div class="card" style="background: linear-gradient(to right, #e4e5dc, #62c4f9); ">
-          <div class="card-title" style="font-family: Arial Black; color:black;">Receta</b></div>
-          <img src="IMAGENES/receta-100.png" class="card-icon" alt="Procesos">
-          <div class="card-description">
-            <p>Proceso hacer recetas.</p>
-          </div>
-        </div>
-      </div>
-    </a>
+    
 
 </body>
 
