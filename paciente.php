@@ -1892,67 +1892,197 @@ mysqli_close($conn);
 
 		// Función para validar los campos antes de guardar
 		function validarCampos() {
-    const campos = [
-        { id: "nombre", label: "Nombre" },
-        { id: "apellido", label: "Apellido" },
-        { id: "fecha_nacimiento", label: "Fecha de nacimiento" },
-        { id: "pais", label: "País" },
-        { id: "con_quien_vive", label: "Con quien vive" },
-        { id: "direccion", label: "Dirección" }
-    ];
+			const campos = [{
+					id: "nombre",
+					label: "Nombre"
+				},
+				{
+					id: "apellido",
+					label: "Apellido"
+				},
+				{
+					id: "fecha_nacimiento",
+					label: "Fecha de nacimiento"
+				},
+				{
+					id: "pais",
+					label: "País"
+				},
+				{
+					id: "con_quien_vive",
+					label: "Con quien vive"
+				},
+				{
+					id: "direccion",
+					label: "Dirección"
+				}
+			];
 
-    let formCompleto = true;
-    const mensajeErrorDiv = document.getElementById("error-banner");
-    mensajeErrorDiv.innerHTML = ""; // Limpiar mensajes de error anteriores
-    mensajeErrorDiv.style.display = "none"; // Ocultar el banner de error por defecto
+			let formCompleto = true;
+			const mensajeErrorDiv = document.getElementById("error-banner");
+			mensajeErrorDiv.innerHTML = ""; // Limpiar mensajes de error anteriores
+			mensajeErrorDiv.style.display = "none"; // Ocultar el banner de error por defecto
 
-    campos.forEach(campo => {
-        const inputCampo = document.getElementById(campo.id);
-        const valor = inputCampo.value.trim();
+			campos.forEach(campo => {
+				const inputCampo = document.getElementById(campo.id);
+				const valor = inputCampo.value.trim();
 
-        if (!valor) {
-            formCompleto = false;
-            inputCampo.classList.add("campo-incompleto");
+				if (!valor) {
+					formCompleto = false;
+					inputCampo.classList.add("campo-incompleto");
 
-            // Agregar mensaje de error al div
-            const mensajeError = document.createElement("p");
-            mensajeError.textContent = `El campo "${campo.label}" es obligatorio.`;
-            mensajeErrorDiv.appendChild(mensajeError);
-        } else if (campo.id === "fecha_nacimiento" && !esFechaValida(valor)) {
-            formCompleto = false;
-            inputCampo.classList.add("campo-incompleto");
+					// Agregar mensaje de error al div
+					const mensajeError = document.createElement("p");
+					mensajeError.textContent = `El campo "${campo.label}" es obligatorio.`;
+					mensajeErrorDiv.appendChild(mensajeError);
+				} else if (campo.id === "fecha_nacimiento" && !esFechaValida(valor)) {
+					formCompleto = false;
+					inputCampo.classList.add("campo-incompleto");
 
-            // Agregar mensaje de error al div
-            const mensajeError = document.createElement("p");
-            mensajeError.textContent = `El campo "Fecha de nacimiento" debe contener una fecha válida en formato dd/mm/yyyy.`;
-            mensajeErrorDiv.appendChild(mensajeError);
-        } else {
-            inputCampo.classList.remove("campo-incompleto");
-        }
-    });
+					// Agregar mensaje de error al div
+					const mensajeError = document.createElement("p");
+					mensajeError.textContent = `El campo "Fecha de nacimiento" debe contener una fecha válida en formato dd/mm/yyyy.`;
+					mensajeErrorDiv.appendChild(mensajeError);
+				} else {
+					inputCampo.classList.remove("campo-incompleto");
+				}
+			});
 
-    // Verificar si el campo de seguro de salud tiene un valor y su correspondiente nombre de seguro
-    const idSeguroSalud = document.getElementById("Id_seguro_salud").value.trim();
-    const labelNombreSeguro = document.getElementById("Nombre_seguro").textContent.trim();
+			// Verificar campos de seguro
+			const idSeguroSalud = document.getElementById("Id_seguro_salud").value.trim();
+			const nss = document.getElementById("NSS").value.trim();
+			const labelNombreSeguro = document.getElementById("Nombre_seguro").textContent.trim();
 
-    if (idSeguroSalud && (labelNombreSeguro === "" || labelNombreSeguro === "Dato no encontrado")) {
-        formCompleto = false;
-        const inputSeguroSalud = document.getElementById("Id_seguro_salud");
-        inputSeguroSalud.classList.add("campo-incompleto");
+			const seguroLlenado = idSeguroSalud || nss || labelNombreSeguro;
+			const seguroCompleto = idSeguroSalud && nss && labelNombreSeguro && labelNombreSeguro !== "Dato no encontrado";
 
-        // Agregar mensaje de error al div
-        const mensajeError = document.createElement("p");
-        mensajeError.textContent = `El campo "Seguro de salud" debe contener un ID de seguro válido con un nombre de seguro asociado.`;
-        mensajeErrorDiv.appendChild(mensajeError);
-    }
+			if (seguroLlenado && !seguroCompleto) {
+				formCompleto = false;
 
-    if (!formCompleto) {
-        // Mostrar el banner de error en la parte superior
-        mensajeErrorDiv.style.display = "block";
-    }
+				if (!idSeguroSalud) {
+					document.getElementById("Id_seguro_salud").classList.add("campo-incompleto");
+					const mensajeError = document.createElement("p");
+					mensajeError.textContent = `El campo "ID de Seguro de salud" es obligatorio si se llena algún campo de seguro.`;
+					mensajeErrorDiv.appendChild(mensajeError);
+				}
 
-    return formCompleto;
-}
+				if (!nss) {
+					document.getElementById("NSS").classList.add("campo-incompleto");
+					const mensajeError = document.createElement("p");
+					mensajeError.textContent = `El campo "NSS" es obligatorio si se llena algún campo de seguro.`;
+					mensajeErrorDiv.appendChild(mensajeError);
+				}
+
+				if (!labelNombreSeguro || labelNombreSeguro === "Dato no encontrado") {
+					document.getElementById("Nombre_seguro").classList.add("campo-incompleto");
+					const mensajeError = document.createElement("p");
+					mensajeError.textContent = `El campo "Nombre de Seguro" debe ser válido si se llena algún campo de seguro.`;
+					mensajeErrorDiv.appendChild(mensajeError);
+				}
+			}
+
+			if (!formCompleto) {
+				// Mostrar el banner de error en la parte superior
+				mensajeErrorDiv.style.display = "block";
+			}
+
+			return formCompleto;
+		}
+
+		function esFechaValida(fecha) {
+			// Implementación de la función para validar la fecha en formato dd/mm/yyyy
+			const regex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/(\d{4})$/;
+			if (!fecha.match(regex)) return false;
+
+			const [dia, mes, año] = fecha.split('/').map(num => parseInt(num, 10));
+			const date = new Date(año, mes - 1, dia);
+			return date.getFullYear() === año && date.getMonth() === mes - 1 && date.getDate() === dia;
+		}
+
+
+
+
+
+
+		/* 		function validarCampos() {
+					const campos = [{
+							id: "nombre",
+							label: "Nombre"
+						},
+						{
+							id: "apellido",
+							label: "Apellido"
+						},
+						{
+							id: "fecha_nacimiento",
+							label: "Fecha de nacimiento"
+						},
+						{
+							id: "pais",
+							label: "País"
+						},
+						{
+							id: "con_quien_vive",
+							label: "Con quien vive"
+						},
+						{
+							id: "direccion",
+							label: "Dirección"
+						}
+					];
+
+					let formCompleto = true;
+					const mensajeErrorDiv = document.getElementById("error-banner");
+					mensajeErrorDiv.innerHTML = ""; // Limpiar mensajes de error anteriores
+					mensajeErrorDiv.style.display = "none"; // Ocultar el banner de error por defecto
+
+					campos.forEach(campo => {
+						const inputCampo = document.getElementById(campo.id);
+						const valor = inputCampo.value.trim();
+
+						if (!valor) {
+							formCompleto = false;
+							inputCampo.classList.add("campo-incompleto");
+
+							// Agregar mensaje de error al div
+							const mensajeError = document.createElement("p");
+							mensajeError.textContent = `El campo "${campo.label}" es obligatorio.`;
+							mensajeErrorDiv.appendChild(mensajeError);
+						} else if (campo.id === "fecha_nacimiento" && !esFechaValida(valor)) {
+							formCompleto = false;
+							inputCampo.classList.add("campo-incompleto");
+
+							// Agregar mensaje de error al div
+							const mensajeError = document.createElement("p");
+							mensajeError.textContent = `El campo "Fecha de nacimiento" debe contener una fecha válida en formato dd/mm/yyyy.`;
+							mensajeErrorDiv.appendChild(mensajeError);
+						} else {
+							inputCampo.classList.remove("campo-incompleto");
+						}
+					});
+
+					// Verificar si el campo de seguro de salud tiene un valor y su correspondiente nombre de seguro
+					const idSeguroSalud = document.getElementById("Id_seguro_salud").value.trim();
+					const labelNombreSeguro = document.getElementById("Nombre_seguro").textContent.trim();
+
+					if (idSeguroSalud && (labelNombreSeguro === "" || labelNombreSeguro === "Dato no encontrado")) {
+						formCompleto = false;
+						const inputSeguroSalud = document.getElementById("Id_seguro_salud");
+						inputSeguroSalud.classList.add("campo-incompleto");
+
+						// Agregar mensaje de error al div
+						const mensajeError = document.createElement("p");
+						mensajeError.textContent = `El campo "Seguro de salud" debe contener un ID de seguro válido con un nombre de seguro asociado.`;
+						mensajeErrorDiv.appendChild(mensajeError);
+					}
+
+					if (!formCompleto) {
+						// Mostrar el banner de error en la parte superior
+						mensajeErrorDiv.style.display = "block";
+					}
+
+					return formCompleto;
+				} */
 
 		/* function validarCampos() {
 			const campos = [{
@@ -2144,15 +2274,15 @@ mysqli_close($conn);
 
 
 					if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    alert(xhr.responseText); // Mostrar el mensaje de éxito o error retornado desde PHP
-                    setTimeout(() => {
-                        window.location.reload(); // Recargar la página después de mostrar el mensaje
-                    }, 2000); // 2000 milisegundos = 2 segundos
-                } else {
-                    alert("Error al guardar los datos. Por favor, intente nuevamente.");
-                }
-            }
+						if (xhr.status === 200) {
+							alert(xhr.responseText); // Mostrar el mensaje de éxito o error retornado desde PHP
+							setTimeout(() => {
+								window.location.reload(); // Recargar la página después de mostrar el mensaje
+							}, 2000); // 2000 milisegundos = 2 segundos
+						} else {
+							alert("Error al guardar los datos. Por favor, intente nuevamente.");
+						}
+					}
 					/* if (xhr.readyState === 4 && xhr.status === 200) {
 						alert(xhr.responseText); // Mostrar el mensaje de éxito o error retornado desde PHP
 						window.location.reload();
