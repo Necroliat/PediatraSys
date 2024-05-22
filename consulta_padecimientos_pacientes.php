@@ -64,7 +64,7 @@ $result = $conn->query($query);
             cursor: pointer;
         }
 
-        #tabla_padecimientos tbody tr:active {
+        #tabla_padecimientos2 tbody tr:active {
             background-color: #5bc0f7;
             cursor: pointer;
             border: 4px solid red;
@@ -98,9 +98,9 @@ $result = $conn->query($query);
         <table id="tabla_padecimientos" class="display" style="width: 100%;font-size:12px;">
             <thead>
                 <tr>
-                    <th>ID Padecimiento</th>
-                    <th>Nombre Padecimiento</th>
-                    <th>Desde Cuando</th>
+                    <th>ID</th>
+                    <th>Padecimiento</th>
+                    <th>Desde</th>
                     <th>ACCION</th>
                 </tr>
             </thead>

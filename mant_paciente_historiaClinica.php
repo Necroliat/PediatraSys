@@ -220,7 +220,7 @@
 
     <form id="formpadecimientos">
         <div class="container">
-            <fieldset style=" height:800px">
+            <fieldset style=" height:1100px">
                 <legend>Padecimientos del Paciente</legend>
                 <fieldset class="caja">
                     <legend class="cajalegend">══ Datos del Paciente ══</legend>
@@ -265,27 +265,31 @@
                     </div>
 
                     <div id="Modalpaciente" class="custom-modal">
-						<div class="custom-modal-content">
-							<span class="close">&times;</span>
-							<iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
-						</div>
-					</div>
+                        <div class="custom-modal-content">
+                            <span class="close">&times;</span>
+                            <iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
                 </fieldset>
 
                 <!--▓▓▓▓▓▓  (┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)  ▓▓▓▓▓▓ -->
                 <!--▓▓▓▓▓▓  (┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)(┬┬﹏┬┬)  ▓▓▓▓▓▓ -->
-                <fieldset class="caja" style=" border-radius:25px;">
+                <fieldset class="caja" style="border-radius:15px; padding: 10px;">
                     <legend class="cajalegend">══ Datos |PADECIMIENTO | ENFERMEDAD | CONDICIÓN MEDICA ══</legend>
-                    <!-- <hr style="margin-top:35px;padding:5px; background-Color:rgba(29,167,226,0.39)"> -->
-                    <label for="id_padecimiento">ID Padecimiento:</label>
-                    <input type="text" id="id_padecimiento" style="width:110px">
-                    <button id="busquedaHC" class="boton_bus" title="Buscar Padecimientos/enfermedades registrados/as">
-                        <i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i>
-                    </button>
-                    <div>
-                        <label for="Nombre_padecimiento">Nombre del padecimiento:</label>
-                        <label id="nombre_padecimiento" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+
+                    <div style="margin-bottom: 15px;">
+                        <label for="id_padecimiento">ID Padecimiento:</label>
+                        <input type="text" id="id_padecimiento" style="width:110px">
+                        <button id="busquedaHC" class="boton_bus" title="Buscar Padecimientos/enfermedades registrados/as">
+                            <i class="material-icons" style="font-size:32px;color:#a4e5dfe8;text-shadow:2px 2px 4px #000000;">search</i>
+                        </button>
                     </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label for="Nombre_padecimiento">Nombre del padecimiento:</label>
+                        <label id="nombre_padecimiento" style="background-color:#fffff1;padding:8px;border-radius:10px;box-shadow:2px 2px 4px #000000;"></label>
+                    </div>
+
                     <div id="ModalHistoriaClinica" class="custom-modal">
                         <div class="custom-modal-content">
                             <span class="close">&times;</span>
@@ -293,40 +297,58 @@
                         </div>
                     </div>
 
+                    <div style="margin-bottom: 15px;">
+                        <label for="notas">Notas:</label>
+                        <input type="text" id="notas">
+                    </div>
 
+                    <div style="margin-bottom: 15px;">
+                        <label for="desde_cuando">Desde cuándo:</label>
+                        <input type="date" id="desde_cuando" onchange="calculateYears()">
+                        <br>
+                        <span id="yearsSince" style="padding:8px;border-radius:10px;"></span>
+                    </div>
 
+                    <div style="margin-bottom: 15px;">
+                        <button id="btnAgregarPadecimiento" onclick="agregarPadecimiento(); return false;" type="button" class="btn btn-primary" style="width: 120px;vertical-align: baseline; font-weight:bold;">
+                            <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
+                            Agregar
+                        </button>
+                        <button id="btnModificarPadecimiento" style="display: none;">Modificar</button>
+                        <button id="btnCancelarEdicion" style="display: none;">Cancelar</button>
+                    </div>
 
-                    <label for="notas">Notas:</label>
-                    <input type="text" id="notas">
-                    <br>
-                    <label for="desde_cuando">Desde cuándo:</label>
-                    <input type="date" id="desde_cuando" onchange="calculateYears()"><br>
-                    <span id="yearsSince" style=" padding:8px; border-radius:10px;"></span>
+                    <div style="overflow-x:auto; margin-bottom: 15px;">
+                        <table id="padecimientosTabla" style="font-size: 12px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>ID Padecimiento</th>
+                                    <th>Nombre del Padecimiento</th>
+                                    <th>Notas</th>
+                                    <th>Desde cuándo</th>
+                                    <th>Modificar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
 
-                    <button id="btnAgregarPadecimiento" onclick="agregarPadecimiento(); return false;" type="button" class="btn btn-primary" style="width: 120px;vertical-align: baseline; font-weight:bold;">
-                        <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i>
-                        Agregar
-                    </button>
-                    <!-- <button id="btnAgregarPadecimiento" class="btn btn-primary" style=" width:115px">
-                        <i class="material-icons" style="font-size:21px;color:#12f333;text-shadow:2px 2px 4px #000000;">add</i> *Agregar P
-                    </button> -->
-                    <!-- Botones adicionales para Modificar y Cancelar -->
-                    <button id="btnModificarPadecimiento" style="display: none;">Modificar</button>
-                    <button id="btnCancelarEdicion" style="display: none;">Cancelar</button>
-                    <table id="padecimientosTabla" style=" font-size: 12px;">
-                        <thead>
-                            <tr>
-                                <th>ID Padecimiento</th>
-                                <th>Nombre del Padecimiento</th>
-                                <th>Notas</th>
-                                <th>Desde cuándo</th>
-                                <th>Modificar</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div style="text-align: center;">
+                        <button class="boton" id="btnguardar">
+                            <i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">save</i> Guardar
+                        </button>
+                        <button class="boton" onclick="resetForm()" id="btnreset">
+                            <i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">autorenew</i> Reset
+                        </button>
+                        <a href="menu-pacientes.php" class="claseboton" id="btnatras">
+                            <i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">arrow_back</i> Atrás
+                        </a>
+                    </div>
+
+                    <div id="error-message" style="color: red; text-align: center;"></div>
                 </fieldset>
+
                 <script>
                     function buscarNombrePadecimiento() {
                         var idPadecimiento = $("#id_padecimiento").val();
@@ -352,19 +374,7 @@
                 <input type="hidden" id="tieneDatosPadecimientos" name="tieneDatosPadecimientos" value="">
 
 
-                <div style=" margin-top:-20;padding:0; height:0cm;">
-                    <button class="boton" id="btnguardar">
-                        <i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">save</i> Guardar
-                    </button>
-                    <button class="boton" onclick="resetForm()" id="btnreset">
-                        <i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">autorenew</i> Reset
-                    </button>
-                    <a href="menu-pacientes.php" class="claseboton" id="btnatras">
-                        <i class="material-icons" style="font-size:32px;color:#f0f0f0;text-shadow:2px 2px 4px #000;">arrow_back</i> Atrás
-                    </a>
 
-                    <div id="error-message" style="color: red;"></div>
-                </div>
 
 
                 <div id="mensajePadecimientoCapturado"></div>
@@ -579,22 +589,108 @@
         // Restaurar estilos del fieldset y ocultar botones "Modificar" y "Cancelar"
         restoreFieldsetStyle();
 
-        // Función para agregar un nuevo padecimiento a la tabla
         function agregarPadecimiento() {
+    const idPadecimiento = $("#id_padecimiento").val();
+    const nombrePadecimiento = $("#nombre_padecimiento").text();
+    const notas = $("#notas").val();
+    const desdeCuando = $("#desde_cuando").val();
+
+    // Verificar si el padecimiento ya existe en la tabla
+    if (padecimientoYaExiste(idPadecimiento)) {
+        alert('Este padecimiento ya existe, registrado para ese paciente, observe el historial');
+        return;
+    }
+
+    // Verificar si el campo "id_paciente" está completo
+    if (!verificarIdPacienteCompleto()) {
+        return; // Salir de la función si no está completo
+    }
+
+    if (!notas.trim()) {
+        notas = "ninguna nota/descripción";
+    }
+
+    if (idPadecimiento && desdeCuando) {
+        const table = $("#padecimientosTabla");
+        const tbody = table.find("tbody");
+        const row = $("<tr>");
+
+        row.html(`
+            <td>${idPadecimiento}</td>
+            <td>${nombrePadecimiento}</td>
+            <td>${notas}</td>
+            <td>${desdeCuando}</td>
+            <td><button class="modificarPadecimiento">Modificar</button></td>
+            <td><button class="eliminarPadecimiento" onclick="confirm('¿Desea eliminar este padecimiento?')">Eliminar</button></td>
+        `);
+
+        tbody.append(row);
+        table.css("display", "table");
+    }
+
+    // Limpiar los campos después de agregar el padecimiento
+    $("#id_padecimiento").val("");
+    $("#nombre_padecimiento").text("");
+    $("#notas").val("");
+    $("#desde_cuando").val("");
+    $("#yearsSince").text("");
+
+    const tieneDatosPadecimientos = $("#padecimientosTabla tbody tr").length > 0;
+    document.getElementById("tieneDatosPadecimientos").value = tieneDatosPadecimientos;
+
+    // Actualiza las variables globales
+    idPacienteActual = $("#id_paciente").val();
+    cantidadFilasPadecimientos = $("#padecimientosTabla tbody tr").length;
+}
+
+function padecimientoYaExiste(idPadecimiento) {
+    let existe = false;
+    $("#padecimientosTabla tbody tr").each(function() {
+        const rowIdPadecimiento = $(this).find("td").eq(0).text();
+        if (rowIdPadecimiento === idPadecimiento) {
+            existe = true;
+            return false; // Terminar el bucle
+        }
+    });
+    return existe;
+}
+
+$("#btnAgregarPadecimiento").click(function() {
+    const idPadecimiento = $("#id_padecimiento").val();
+    const desdeCuando = $("#desde_cuando").val();
+
+    // Validar que idPadecimiento no esté vacío y desdeCuando sea una fecha válida
+    if (!idPadecimiento) {
+        alert("Por favor, seleccione un padecimiento.");
+        return false;
+    }
+
+    if (!isValidDate(desdeCuando)) {
+        alert("Por favor, ingrese una fecha válida.");
+        return false;
+    }
+
+    agregarPadecimiento();
+    return false; // Evita el envío del formulario
+});
+
+
+        // Función para agregar un nuevo padecimiento a la tabla
+/*         function agregarPadecimiento() {
 
             const idPadecimiento = $("#id_padecimiento").val();
             const nombrePadecimiento = $("#nombre_padecimiento").text();
             /*var nombrePadecimiento = $("#nombre_padecimiento").text(); /**/
-            const notas = $("#notas").val();
+        /*     const notas = $("#notas").val();
             const desdeCuando = $("#desde_cuando").val();
 
 
             if (verificarPadecimientoExistente(nombrePadecimiento)) {
                 alert('Este padecimiento ya existía, registrado para ese paciente, observe el historial');
                 return;
-            }
+            } */
             // // Verificar si el campo "id_paciente" está completo
-            if (!verificarIdPacienteCompleto()) {
+         /*    if (!verificarIdPacienteCompleto()) {
                 return; // Salir de la función si no está completo
             }
 
@@ -607,10 +703,7 @@
                 const table = $("#padecimientosTabla");
                 const tbody = table.find("tbody");
                 const row = $("<tr>");
-                // if (idPadecimiento && notas && desdeCuando) {
-                //     const table = $("#padecimientosTabla");
-                //     const tbody = table.find("tbody");
-                //     const row = $("<tr>");
+
 
                 row.html(`
             <td>${idPadecimiento}</td>
@@ -631,14 +724,11 @@
             $("#desde_cuando").val("");
             $("#yearsSince").text("");
 
-            // // Actualizar el valor del campo oculto tieneDatosPadecimientos
-            // const tieneDatosPadecimientos = document.getElementById("padecimientosTabla").getElementsByTagName("tbody")[0].hasChildNodes();
-            // document.getElementById("tieneDatosPadecimientos").value = tieneDatosPadecimientos;
             const tieneDatosPadecimientos = $("#padecimientosTabla tbody tr").length > 0;
-            document.getElementById("tieneDatosPadecimientos").value = tieneDatosPadecimientos;
+            document.getElementById("tieneDatosPadecimientos").value = tieneDatosPadecimientos; */
 
             // Limpiar los campos después de agregar el padecimiento
-            $("#id_padecimiento").val("");
+         /*    $("#id_padecimiento").val("");
             $("#nombre_padecimiento").text("");
             $("#notas").val("");
             $("#desde_cuando").val("");
@@ -665,7 +755,7 @@
 
             agregarPadecimiento();
             return false; // Evita el envío del formulario
-        });
+        }); */ 
 
         // Función para validar si una cadena es una fecha válida
         function isValidDate(dateString) {
@@ -948,7 +1038,7 @@
                 for (var i = filas.length - 1; i > 0; i--) {
                     tabla.deleteRow(i);
                 }
-                
+
 
             } else if (xhr.readyState === 4 && xhr.status !== 200) {
                 // Mostrar el mensaje de alerta
