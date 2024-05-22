@@ -19,12 +19,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"];
 
     // Consultar el usuario en la base de datos
-    $sql = "SELECT * FROM usuario WHERE nombre_usuario = '$username' AND Pass1 = '$password'";
+    $sql = "SELECT * FROM usuario WHERE nombre_usuario = '$username' AND Pass1 = '$password' AND estado = 'Activo'";
     $result = $conn->query($sql);
-
+  
     if ($result->num_rows === 1) {
-        // Inicio de sesión exitoso, redirigir al menú
-        header("Location: menuadmin.php");
+        // Obtener los datos del usuario
+        $user = $result->fetch_assoc();
+        
+        // Verificar el rol del usuario
+        $role = $user['rol'];
+
+        // Redirigir según el rol del usuario
+        if ($role == 'Secretaría') {
+            header("Location: menusecre.php");
+        } elseif ($role == 'Administrador') {
+            header("Location: menuadmin.php");
+        } elseif ($role == 'Doctor') {
+            header("Location: menudoctor.php");
+        }
         exit();
     } else {
         $message = "Usuario o contraseña incorrectos";
@@ -34,8 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 // Cerrar la conexión
 $conn->close();
-
 ?>
+
 
 
 <!DOCTYPE html>
