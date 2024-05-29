@@ -69,25 +69,7 @@ function in_iframe()
     }
 
     
-    .clasebotonVER {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: 1px solid #e4e5dc;
-      outline: none;
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-      font-size: 16px;
-      padding: 7px;
-      margin: 5px;
-    }
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
+
   </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
@@ -284,26 +266,7 @@ function in_iframe()
         border: none;
     }
 
-    .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-            font-size: 14px;
-            padding: 7px;
-            margin: 5px;
-
-        }
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
+    
 
     .clasebotonazul:hover {
         background: linear-gradient(to right, #4a90e2, #63b8ff);
@@ -325,8 +288,29 @@ function in_iframe()
         padding: 7px;
         margin: 5px;
     }
-    </style>
+    .clasebotonVER {
+            border: none;
+            outline: none;
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            color: #080808;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 7px;
+            margin: 5px;
 
+        }
+
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+    </style>
+<script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
   <script>
     $(document).ready(function() {
       $('#tabla_localizador').DataTable({
@@ -379,7 +363,7 @@ function in_iframe()
           echo "<td>" . $row["Valor"] . "</td>";
           echo "<td>" . $row["Etiqueta"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/localizadorp/editar.php?ID_Localizador=$row[ID_Localizador]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:15px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td> <a class='clasebotonVER' href=\"modulo/localizadorp/editar.php?ID_Localizador=$row[ID_Localizador]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='fa-solid fa-pencil'></i>Editar</a> </td>";
           echo "</tr>";
         }
       } else {

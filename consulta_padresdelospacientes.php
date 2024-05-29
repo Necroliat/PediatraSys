@@ -61,7 +61,7 @@ function in_iframe()
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 
   <style>
     .dataTables_wrapper .dataTables_filter input {
@@ -88,24 +88,26 @@ function in_iframe()
 
     
     .clasebotonVER {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: 1px solid #e4e5dc;
-      outline: none;
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-      font-size: 16px;
-      padding: 7px;
-      margin: 5px;
-    }
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
+            border: none;
+            outline: none;
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            color: #080808;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 7px;
+            margin: 5px;
+
+        }
+
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
   </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
@@ -303,23 +305,23 @@ function in_iframe()
     }
 
     .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
+            border: none;
             outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
             border-radius: 7px;
             width: auto;
             text-decoration: none;
             height: 40px;
-            font-size: 12px;
+            color: #080808;
+            font-size: 13px;
+            font-weight: bold;
             padding: 7px;
             margin: 5px;
 
         }
+
         .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
+            background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -343,6 +345,27 @@ function in_iframe()
         padding: 7px;
         margin: 5px;
     }
+    .clasebotonVER {
+            border: none;
+            outline: none;
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            color: #080808;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 7px;
+            margin: 5px;
+
+        }
+
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
     </style>
 
   <script>
@@ -404,7 +427,7 @@ function in_iframe()
           echo "<td>" . $row["apellido_padre"] . "</td>";
           echo "<td>" . $row["Tipo_Padre"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/vincpadres_pacientes/editar.php?ID_Relacion=$row[ID_Relacion]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td> <a class='clasebotonVER' href=\"modulo/vincpadres_pacientes/editar.php?ID_Relacion=$row[ID_Relacion]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='fa-solid fa-pencil'></i>Editar</a> </td>";
           echo "</tr>";
         }
       } else {

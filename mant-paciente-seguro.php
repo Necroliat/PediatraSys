@@ -244,20 +244,21 @@ $result = $conn->query($query);
         .clasebotonVER {
             border: none;
             outline: none;
-            background: linear-gradient(to right, #05c20e, #84e788);
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
             border-radius: 7px;
             width: auto;
             text-decoration: none;
             height: 40px;
             color: #080808;
-            font-size: 16px;
+            font-size: 13px;
+            font-weight: bold;
             padding: 7px;
             margin: 5px;
 
         }
 
         .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
+            background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -325,7 +326,7 @@ $result = $conn->query($query);
                                             echo "<td>" . $row["NSS"] . "</td>";
                                             echo "<td>" . $row["Id_seguro_salud"] . "</td>";
                                             echo "<td>" . $row["seguro_nombre"] . "</td>";
-                                            echo "<td><a class='btn btn-primary' href='modulo/Paciente-seguro/editar.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-pencil'></i> Editar</a></td>";
+                                            echo "<td><a class='clasebotonVER' href='modulo/Paciente-seguro/editar.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-pencil'></i> Editar</a></td>";
                                             echo "</tr>";
                                         }
                                     } else {
@@ -342,7 +343,7 @@ $result = $conn->query($query);
                     <div style="text-align:center">
                     </div>
                 </fieldset>
-                <div style=" margin-top:-20;padding:0; height:0cm;">
+                <!-- <div style=" margin-top:-20;padding:0; height:0cm;">
                     <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
                     </a>
@@ -352,7 +353,7 @@ $result = $conn->query($query);
                     <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
                     </a>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

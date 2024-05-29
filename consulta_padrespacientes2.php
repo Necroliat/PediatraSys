@@ -58,6 +58,10 @@ function in_iframe()
 
 
   <style>
+    .dividir{
+      word-wrap: break-word;
+      width: 100px;
+    }
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 3px;
@@ -81,25 +85,7 @@ function in_iframe()
     }
 
     
-    .clasebotonVER {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: 1px solid #e4e5dc;
-      outline: none;
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-      font-size: 16px;
-      padding: 7px;
-      margin: 5px;
-    }
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
+    
   </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
@@ -299,26 +285,8 @@ function in_iframe()
         border: none;
     }
 
-    .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-            font-size: 10px;
-            padding: 7px;
-            margin: 5px;
+   
 
-        }
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
 
     .clasebotonazul:hover {
         background: linear-gradient(to right, #4a90e2, #63b8ff);
@@ -336,10 +304,31 @@ function in_iframe()
         text-decoration: none;
         height: 40px;
 
-        font-size: 16px;
+        font-size: 13px;
         padding: 7px;
         margin: 5px;
     }
+    .clasebotonVER {
+            border: none;
+            outline: none;
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            color: #080808;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 7px;
+            margin: 5px;
+
+        }
+
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
     </style>
 
   <script>
@@ -368,6 +357,7 @@ function in_iframe()
       window.close();
     }
   </script>
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -393,14 +383,14 @@ function in_iframe()
           echo "<tr onclick=\"seleccionarpadrepaciente('" . $row["Numidentificador"] . "', '" . $row["Nombre"] . "', '" . $row["Apellido"] . "')\">";
           echo "<td>" . $row["Numidentificador"] . "</td>";
           echo "<td>" . $row["Tipo_Identificador"] . "</td>";
-          echo "<td>" . $row["Nombre"] . "</td>";
-          echo "<td>" . $row["Apellido"] . "</td>";
+          echo "<td class='dividir'>" . $row["Nombre"] . "</td>";
+          echo "<td class='dividir'>" . $row["Apellido"] . "</td>";
           echo "<td>" . $row["Parentesco"] . "</td>";
-          echo "<td>" . $row["Nacionalidad"] . "</td>";
+          echo "<td class='dividir'>" . $row["Nacionalidad"] . "</td>";
           echo "<td>" . $row["Sexo"] . "</td>";
-          echo "<td>" . $row["Direccion"] . "</td>";
+          echo "<td class='dividir'>" . $row["Direccion"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/padrespacientes/editar.php?Numidentificador=$row[Numidentificador]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:15px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td> <a class='clasebotonVER' href=\"modulo/padrespacientes/editar.php?Numidentificador=$row[Numidentificador]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='fa-solid fa-pencil'></i>Editar</a> </td>";
           echo "</tr>";
         }
       } else {

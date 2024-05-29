@@ -61,7 +61,7 @@ $result = $conn->query($query);
 
         .container {
             display: grid;
-            grid-template-columns: 106%;
+            grid-template-columns: 110%;
             grid-template-rows: auto auto auto;
             /* Cambié repeat(3, 1fr) por auto para ajustar la altura automáticamente */
             grid-gap: 6px 10px;
