@@ -328,7 +328,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
             echo "<td>" . $row["sexo"] . "</td>";
             echo "<td>" . $row["fecha_nacimiento"] . "</td>";
             echo "<td>" . $row["Nacionalidad"] . "</td>";
-            echo "<td><a class='btn btn-primary' href='../reporte_receta.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-syringe'></i> Vacunas</a></td>";
+            echo "<td><a class='btn btn-primary' href='consulta_vacunas2.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-syringe'></i> Vacunas</a></td>";
            
             echo "</tr>";
           }

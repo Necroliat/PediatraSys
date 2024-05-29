@@ -5,6 +5,9 @@ $username = "root";
 $password = "";
 $database = "pediatra_sis";
 
+// Obtener id_paciente de la solicitud GET y validarlo
+$idpaciente = isset($_GET['id_paciente']) ? intval($_GET['id_paciente']) : 0;
+
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -14,11 +17,47 @@ if ($conn->connect_error) {
 }
 
 // Consulta para obtener los datos de la tabla "tipo_vacunas"
-$query = "SELECT * FROM tipo_vacunas";
+$query = "
+SELECT 
+    pv.id_vacuna_p, 
+    pv.id_paciente, 
+    CONCAT(p.nombre, ' ', p.apellido) AS nombre_completo, 
+    pv.id_vacuna, 
+    tv.nombre AS nombre_vacuna, 
+    pv.dosis, 
+    pv.refuerzo, 
+    pv.FECHA_APLICACION
+FROM 
+    pacientes_vacunas pv
+JOIN 
+    paciente p ON pv.id_paciente = p.id_paciente
+JOIN 
+    tipo_vacunas tv ON pv.id_vacuna = tv.id_vacuna
+WHERE 
+    pv.id_paciente = $idpaciente
+";
+
+// Ejecutar la consulta
 $result = $conn->query($query);
 
+// Verificar si hay resultados y almacenar el nombre completo del paciente
+$nombre_completo = "";
+if ($result->num_rows > 0) {
+    while ($mostrar = $result->fetch_assoc()) {
+        $nombre_completo = $mostrar['nombre_completo'];
+    }
+} else {
+    // Si no hay resultados, obtener el nombre del paciente para mostrar en la tabla
+    $query_paciente = "SELECT CONCAT(nombre, ' ', apellido) AS nombre_completo FROM paciente WHERE id_paciente = $idpaciente";
+    $result_paciente = $conn->query($query_paciente);
+    if ($result_paciente->num_rows > 0) {
+        $row_paciente = $result_paciente->fetch_assoc();
+        $nombre_completo = $row_paciente['nombre_completo'];
+    }
+}
+
 function in_iframe() {
-  return $_SERVER['HTTP_REFERER'] !== null && $_SERVER['HTTP_REFERER'] !== $_SERVER['REQUEST_URI'];
+  return isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] !== $_SERVER['REQUEST_URI'];
 }
 ?>
 
@@ -28,7 +67,8 @@ function in_iframe() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta de Tipos de Vacunas</title>
+<title>Consulta/Reporte Vacunas del Paciente <?php  echo $nombre_completo ; ?> </title>
+    
   <!-- Enlaces a los archivos CSS externos -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
@@ -43,29 +83,168 @@ function in_iframe() {
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
-  <script>
- 
 
 
-    $(document).ready(function() {
-      $('#tabla_tipos_vacunas').DataTable({
-        dom: 'frtip', // Mostrar solo búsqueda y paginación
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
-      });
-    });
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
 
-    function seleccionarVacuna(idVacuna, nombreVacuna) {
-      var openerWindow = window.opener;
-      openerWindow.document.getElementById("id_vacuna").value = idVacuna;
-      openerWindow.document.getElementById("nombre_vacuna").textContent = nombreVacuna;
-      window.close();
+ <style>
+  table{color:black;}
+    body {
+      background: linear-gradient(to right, #E8A9F7, #e4e5dc);
     }
-  </script>
+
+    fieldset {
+      background: linear-gradient(to right, #e4e5dc, #62c4f9);
+    }
+
+    /* Estilos para las tarjetas (card) */
+    .card {
+      float: left;
+      width: 150px;
+      height: 150px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(to right, #e4e5dc, #62c4f9);
+      text-align: center;
+      margin-bottom: 30px;
+      color: #444;
+      margin: 10px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+      background: linear-gradient(to right, #62c4f9, #e4e5dc);
+      box-shadow: 2px 2px 4px #000000;
+    }
+
+    .card-description {
+      text-align: center;
+      display: none;
+      font-size: small;
+    }
+
+    .card:hover .card-description {
+      display: block;
+      text-align: center;
+      max-height: 2000px;
+
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 5px;
+      margin: 0% 25% 0% 25%;
+    }
+
+    .card img {
+      width: 32px;
+      height: 32px;
+      margin-top: 5px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .botones-container {
+      margin: 2px;
+      padding: 2px;
+      box-sizing: unset;
+      width: 100%;
+      float: left;
+      text-align: center;
+
+    }
+
+    .boton {
+      border: none;
+      outline: none;
+      height: 15px;
+      color: #fff;
+      font-size: 14px;
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+      cursor: pointer;
+      border-radius: 2vw;
+      width: 80px;
+      margin-top: 2vw;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: auto;
+      min-height: 20px;
+    }
+
+    .boton:hover {
+      scale: 1.1;
+      background: linear-gradient(to right, #63b8ff, #4a90e2);
+      box-shadow: 2px 2px 4px #000000;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+
+    fieldset {
+      font-size: medium;
+    }
+
+    * {
+      font-size: medium;
+    }
+
+    fieldset {
+      border: 1px solid #ddd;
+      border-radius: 2vw;
+      background: linear-gradient(to right, #e4e5dc, #45bac9db);
+      padding: 1vw;
+      box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
+      margin: 50px;
 
 
-<style>
+    }
+
+    .divisor {
+      /* Agregar grid */
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      /* 4 columnas con el mismo ancho */
+      grid-column-gap: 10px;
+      /* Espacio entre columnas */
+      grid-row-gap: 10px;
+      /* Espacio entre filas */
+    }
+
+    fieldset fieldset legend {
+      font-size: 14px;
+      text-transform: uppercase;
+      padding-left: 10%;
+      padding-right: 10%;
+      background-color: transparent;
+    }
+
+    legend {
+      font-weight: bold;
+      font-size: 18px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 1vw;
+      background: linear-gradient(to right, #e4e5dc, #45bac9db);
+      border: solid 1px #45bac9db;
+      border-radius: 10px;
+      width: 100%;
+    }
+  </style>
+    <style>
+        table,tr,td{ color: black;}
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 3px;
@@ -82,384 +261,398 @@ function in_iframe() {
     .resaltado {
       background-color: #A8A4DE;
     }
+
     #tabla_tipos_vacunas tbody tr:hover {
-       background-color: #A8A4DE;
-       cursor: pointer;
-   }
-   /* #tabla_tipos_vacunas tbody tr:active {
-    background-color: #5bc0f7;
-    cursor: pointer;
-   border:4px solid red ;
-    transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease; /* Animaciones de 0.5 segundos */
-   /* box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red; 
-    font-size: 25px;
-    color: white; 
-    font-weight: bold; 
-    font-family: "Copperplate",  Fantasy;
-  /* } */
-   .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-           
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-          
-            font-size: 16px;
-            padding: 7px;
-            margin: 5px;
+      background-color: #A8A4DE;
+      cursor: pointer;
+    }
 
-        }
+    #tabla_tipos_vacunas tbody tr:active {
+      background-color: #5bc0f7;
+      cursor: pointer;
+      border: 4px solid red;
+      transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease;
+      /* Animaciones de 0.5 segundos */
+      box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
+      /* Sombra inicial y sombra roja */
+      font-size: 25px;
+      color: white;
+      /* Cambiar el color del texto */
+      font-weight: bold;
+      /* Cambiar a negritas */
+      font-family: "Copperplate", Fantasy;
+    }
 
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    .clasebotonVER {
+      color: #f0f0f0;
+      text-shadow: 2px 2px 4px #000000;
+      font-weight: bold;
+      border: 1px solid #e4e5dc;
+      outline: none;
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+
+      border-radius: 7px;
+      width: auto;
+      text-decoration: none;
+      height: 40px;
+
+      font-size: 16px;
+      padding: 7px;
+      margin: 5px;
+
+    }
+
+    .clasebotonVER:hover {
+      background: linear-gradient(to right, #84e788, #05c20e);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    } .centrado {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 20vh;
+            /* Ajusta según tus necesidades */
         }
   </style>
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <style>
-    .dataTables_wrapper .dataTables_filter input {
-        border: 1px solid #aaa;
-        border-radius: 3px;
-        padding: 5px;
-        background-color: white;
-        color: inherit;
-        margin-left: 3px;
-    }
-    </style>
-    <style>
-    .dataTables_wrapper .dataTables_filter input {
-        border: 1px solid #aaa;
-        border-radius: 3px;
-        padding: 5px;
-        background-color: white;
-        color: inherit;
-        margin-left: 3px;
-    }
-
-    tr:hover {
-        background-color: #A8A4DE;
-    }
-
-    .resaltado {
-        background-color: #A8A4DE;
-    }
-
-    #tabla_tipos_vacunas tbody tr:hover {
-        background-color: #A8A4DE;
-        cursor: pointer;
-    }
-
-    /* #tabla_tipos_vacunas tbody tr:active {
-        background-color: #5bc0f7;
-        cursor: pointer;
-        border: 4px solid red;
-        transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease;
-        /* Animaciones de 0.5 segundos */
-        /*box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
-        /* Sombra inicial y sombra roja */
-       /* font-size: 25px;
-        color: white;
-        /* Cambiar el color del texto */
-       /* font-weight: bold;
-        /* Cambiar a negritas */
-       /* font-family: "Copperplate", Fantasy;
-   /* } */
-    </style>
 
 
-    <style>
-    .caja {
-        border: 3px solid #ddd;
-        padding: 10px;
-        box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.1);
-        margin: 10px;
-        border-radius: 5px;
-    }
 
-    .cajalegend {
-        border: 0px solid rgba(102, 153, 144, 0.0);
-        font-weight: bolder;
-        font-size: 16px;
-        color: white;
-        margin: 0;
-        padding: 0;
-        background-color: transparent;
-        border-radius: 2px;
-        margin-top: -20px;
-        text-shadow: 2px 1px 2px #000000;
-
-
-    }
-
-    .container {
-        display: grid;
-        grid-template-columns: 80%;
-        grid-template-rows: repeat(3, 1fr);
-        grid-gap: 6px 10px;
-        margin-left: 10%;
-        margin-right: 10%;
-    }
-
-    label {
-        font-size: 14px;
-        color: #444;
-        margin: 8px;
-        font-weight: bold;
-    }
-
-    button,
-    input,
-    optgroup,
-    select,
-    textarea {
-        margin: 0;
-
-        font-size: 12px;
-        line-height: 14px;
-        margin: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="date"],
-    select {
-
-        width: 150px;
-        height: 40px;
-        color: #444;
-        margin-bottom: 6%;
-        border: none;
-        border-bottom: 0.1vw solid #444;
-        outline: none;
-        border-radius: 10px;
-
-    }
-
-    button {
-        border: none;
-        outline: none;
-        color: #fff;
-        font-size: 1.6vw;
-        background: linear-gradient(to right, #4a90e2, #63b8ff);
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 2vw;
-
-        margin: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: auto;
-        min-height: 40px;
-    }
-
-
-    .boton_bus {
-        border: none;
-        outline: none;
-        height: 4vw;
-        color: #fff;
-        font-size: 1.6vw;
-        background: linear-gradient(to right, #4a90e2, #63b8ff);
-        cursor: pointer;
-        border-radius: 60px;
-        width: 60px;
-        margin-top: 2vw;
-        text-decoration: none;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: auto;
-
-
-    }
-
-    .boton_bus:active {
-        background-color: #5bc0f7;
-        scale: 1.5;
-        cursor: pointer;
-
-        transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.8s ease, font-weight 0.8s ease;
-        /* Animaciones de 0.5 segundos */
-        box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red;
-        /* Sombra inicial y sombra roja */
-        font-size: 25px;
-        color: white;
-        /* Cambiar el color del texto */
-        font-weight: bold;
-        /* Cambiar a negritas */
-        font-family: "Copperplate", Fantasy;
-    }
-
-    /* Estilos específicos para el modal personalizado */
-    .custom-modal {
-        display: none;
-        position: fixed;
-        z-index: 9999;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    .custom-modal-content {
-        width: 80%;
-        height: 80%;
-        margin: auto;
-        background: linear-gradient(to right, #e4e5dc, #45bac9db);
-        padding: 20px;
-        border-radius: 20PX;
-    }
-
-    .custom-close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .custom-close:hover,
-    .custom-close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    /* Estilos adicionales específicos para el iframe dentro del modal */
-    .custom-iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-
-    .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-           
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-          
-            font-size: 16px;
-            padding: 7px;
-            margin: 5px;
-
-        }
-
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
-
-    .clasebotonazul:hover {
-        background: linear-gradient(to right, #4a90e2, #63b8ff);
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
-    .clasebotonazul {
-        color: #f0f0f0;
-        text-shadow: 2px 2px 4px #000000;
-        font-weight: bold;
-        border: none;
-        outline: none;
-        background: linear-gradient(to right, #63b8ff,#4a90e2);
-        border-radius: 7px;
-        width: auto;
-        text-decoration: none;
-        height: 40px;
-
-        font-size: 16px;
-        padding: 7px;
-        margin: 5px;
-
-    }
-
-    
-    </style>
+   
   
 </head>
 
 <body>
-  
+  <fieldset>
+    <legend></legend>
+    <div class="centrado">
+      <img src="../IMAGENES/LOGO/LOGO.png" alt="Mantenimientos" style="width: 100px; height: 100px;">
+    </div>
+    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Vacunas del Paciente: <?php echo $nombre_completo; ?></h2>
+    <h3 style="padding:0; margin:0;text-align: center;">PediatraSys</h3>
 
-<table id="tabla_tipos_vacunas" class="display" style="width:90%">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Nombre</th>`
-        <th style="width: 200px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">Descrip.</th>
-        <th>Dosis</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php
-      // Iterar a través de los resultados de la consulta y generar filas en la tabla
-      if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-          echo "<tr onclick=\"seleccionarVacuna('" . $row["id_vacuna"] . "', '" . $row["nombre"] . "')\">";
-          echo "<td>" . $row["id_vacuna"] . "</td>";
-          echo "<td>" . $row["nombre"] . "</td>";
-          echo "<td>" . $row["descripcion"] . "</td>";
-          echo "<td>" . $row["total_dosis"] . "</td>";
-          echo "<td style='width:24%'> <a class='clasebotonVER' href=\"modulo/vacuna/editar.php?id_vacuna=$row[id_vacuna]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+    <table id="tabla_tipos_vacunas" class="display" style="width:90%">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Id Vacuna</th>
+            <th>Nombre Vacuna</th>
+            <th>Dosis</th>
+            <th>Refuerzo</th>
+            <th>Fecha de Aplicación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+            // Inicializar la consulta para obtener datos de las vacunas
+            $query_vacunas = "SELECT 
+                                pv.id_vacuna_p, 
+                                pv.id_paciente, 
+                                CONCAT(p.nombre, ' ', p.apellido) AS nombre_completo, 
+                                pv.id_vacuna, 
+                                tv.nombre AS nombre_vacuna, 
+                                pv.dosis, 
+                                pv.refuerzo, 
+                                pv.FECHA_APLICACION
+                              FROM 
+                                pacientes_vacunas pv
+                              JOIN 
+                                paciente p ON pv.id_paciente = p.id_paciente
+                              JOIN 
+                                tipo_vacunas tv ON pv.id_vacuna = tv.id_vacuna
+                              WHERE 
+                                pv.id_paciente = $idpaciente;";
 
-          echo "</tr>";
+            $result_vacunas = $conn->query($query_vacunas);
+
+            // Verificar resultados y llenar la tabla
+            if ($result_vacunas && $result_vacunas->num_rows > 0) {
+              while ($row = $result_vacunas->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row["id_vacuna_p"] . "</td>";
+                echo "<td>" . $row["id_vacuna"] . "</td>";
+                echo "<td>" . htmlspecialchars($row["nombre_vacuna"], ENT_QUOTES, 'UTF-8') . "</td>";
+                echo "<td>" . $row["dosis"] . "</td>";
+                echo "<td>" . $row["refuerzo"] . "</td>";
+                echo "<td>" . $row["FECHA_APLICACION"] . "</td>";
+                echo "</tr>";
+              }
+            } else {
+              // Mostrar una fila con el nombre del paciente y los demás campos en 0
+              echo "<tr>";
+              echo "<td>0</td>";
+              echo "<td>0</td>";
+              echo "<td>Ninguna vacuna registrada</td>";
+              echo "<td>0</td>";
+              echo "<td>0</td>";
+              echo "<td>0</td>";
+              echo "</tr>";
+            }
+          ?>
+        </tbody>
+    </table>
+    <a href="consulta_paciente-vacunas_p.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small; vertical-align: baseline; font-weight:bold;">
+      <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">reply</i> atrás
+    </a>
+  </fieldset>
+    <script>
+   function configurarTabla() {
+  var idioma = {
+    "processing": "Procesando...",
+    "lengthMenu": "Mostrar _MENU_ registros",
+    "zeroRecords": "No se encontraron resultados",
+    "emptyTable": "Ningún dato disponible en esta tabla",
+    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+    "search": "Buscar:",
+    "loadingRecords": "Cargando...",
+    "paginate": {
+      "first": "Primero",
+      "last": "Último",
+      "next": "Siguiente",
+      "previous": "Anterior"
+    },
+    "aria": {
+      "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+      "sortDescending": ": Activar para ordenar la columna de manera descendente"
+    },
+    "buttons": {
+      "copy": "Copiar",
+      "colvis": "Visibilidad",
+      "collection": "Colección",
+      "colvisRestore": "Restaurar visibilidad",
+      "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
+      "copySuccess": {
+        "1": "Copiada 1 fila al portapapeles",
+        "_": "Copiadas %ds fila al portapapeles"
+      },
+      "copyTitle": "Copiar al portapapeles",
+      "csv": "CSV",
+      "excel": "Excel",
+      "pageLength": {
+        "-1": "Mostrar todas las filas",
+        "_": "Mostrar %d filas"
+      },
+      "pdf": "PDF",
+      "print": "Imprimir",
+      "renameState": "Cambiar nombre",
+      "updateState": "Actualizar",
+      "createState": "Crear Estado",
+      "removeAllStates": "Remover Estados",
+      "removeState": "Remover",
+      "savedStates": "Estados Guardados",
+      "stateRestore": "Estado %d"
+    },
+    "autoFill": {
+      "cancel": "Cancelar",
+      "fill": "Rellene todas las celdas con <i>%d<\/i>",
+      "fillHorizontal": "Rellenar celdas horizontalmente",
+      "fillVertical": "Rellenar celdas verticalmente"
+    },
+    "decimal": ",",
+    "searchBuilder": {
+      "add": "Añadir condición",
+      "button": {
+        "0": "Constructor de búsqueda",
+        "_": "Constructor de búsqueda (%d)"
+      },
+      "clearAll": "Borrar todo",
+      "condition": "Condición",
+      "conditions": {
+        "date": {
+          "before": "Antes",
+          "between": "Entre",
+          "empty": "Vacío",
+          "equals": "Igual a",
+          "notBetween": "No entre",
+          "not": "Diferente de",
+          "after": "Después",
+          "notEmpty": "No Vacío"
+        },
+        "number": {
+          "between": "Entre",
+          "equals": "Igual a",
+          "gt": "Mayor a",
+          "gte": "Mayor o igual a",
+          "lt": "Menor que",
+          "lte": "Menor o igual que",
+          "notBetween": "No entre",
+          "notEmpty": "No vacío",
+          "not": "Diferente de",
+          "empty": "Vacío"
+        },
+        "string": {
+          "contains": "Contiene",
+          "empty": "Vacío",
+          "endsWith": "Termina en",
+          "equals": "Igual a",
+          "startsWith": "Empieza con",
+          "not": "Diferente de",
+          "notContains": "No Contiene",
+          "notStartsWith": "No empieza con",
+          "notEndsWith": "No termina con",
+          "notEmpty": "No Vacío"
+        },
+        "array": {
+          "not": "Diferente de",
+          "equals": "Igual",
+          "empty": "Vacío",
+          "contains": "Contiene",
+          "notEmpty": "No Vacío",
+          "without": "Sin"
         }
-      } else {
-        echo "<tr><td colspan='2'>No se encontraron resultados.</td></tr>";
+      },
+      "data": "Data",
+      "deleteTitle": "Eliminar regla de filtrado",
+      "leftTitle": "Criterios anulados",
+      "logicAnd": "Y",
+      "logicOr": "O",
+      "rightTitle": "Criterios de sangría",
+      "title": {
+        "0": "Constructor de búsqueda",
+        "_": "Constructor de búsqueda (%d)"
+      },
+      "value": "Valor"
+    },
+    "searchPanes": {
+      "clearMessage": "Borrar todo",
+      "collapse": {
+        "0": "Paneles de búsqueda",
+        "_": "Paneles de búsqueda (%d)"
+      },
+      "count": "{total}",
+      "countFiltered": "{shown} ({total})",
+      "emptyPanes": "Sin paneles de búsqueda",
+      "loadMessage": "Cargando paneles de búsqueda",
+      "title": "Filtros Activos - %d",
+      "showMessage": "Mostrar Todo",
+      "collapseMessage": "Colapsar Todo"
+    },
+    "select": {
+      "cells": {
+        "1": "1 celda seleccionada",
+        "_": "%d celdas seleccionadas"
+      },
+      "columns": {
+        "1": "1 columna seleccionada",
+        "_": "%d columnas seleccionadas"
+      },
+      "rows": {
+        "1": "1 fila seleccionada",
+        "_": "%d filas seleccionadas"
       }
-      ?>
-    </tbody>
-  </table>
+    },
+    "thousands": ".",
+    "datetime": {
+      "previous": "Anterior",
+      "hours": "Horas",
+      "minutes": "Minutos",
+      "seconds": "Segundos",
+      "unknown": "-",
+      "amPm": [
+        "AM",
+        "PM"
+      ],
+      "months": {
+        "0": "Enero",
+        "1": "Febrero",
+        "10": "Noviembre",
+        "11": "Diciembre",
+        "2": "Marzo",
+        "3": "Abril",
+        "4": "Mayo",
+        "5": "Junio",
+        "6": "Julio",
+        "7": "Agosto",
+        "8": "Septiembre",
+        "9": "Octubre"
+      },
+      "weekdays": {
+        "0": "Dom",
+        "1": "Lun",
+        "2": "Mar",
+        "4": "Jue",
+        "5": "Vie",
+        "3": "Mié",
+        "6": "Sáb"
+      },
+      "next": "Próximo"
+    },
+    "editor": {
+      "close": "Cerrar",
+      "create": {
+        "button": "Nuevo",
+        "title": "Crear Nuevo Registro",
+        "submit": "Crear"
+      },
+      "edit": {
+        "button": "Editar",
+        "title": "Editar Registro",
+        "submit": "Actualizar"
+      },
+      "remove": {
+        "button": "Eliminar",
+        "title": "Eliminar Registro",
+        "submit": "Eliminar",
+        "confirm": {
+          "_": "¿Está seguro de que desea eliminar %d filas?",
+          "1": "¿Está seguro de que desea eliminar 1 fila?"
+        }
+      },
+      "error": {
+        "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Más información&lt;\\\/a&gt;).<\/a>"
+      },
+      "multi": {
+        "title": "Múltiples Valores",
+        "restore": "Deshacer Cambios",
+        "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo.",
+        "info": "Los elementos seleccionados contienen diferentes valores para este registro. Para editar y establecer todos los elementos de este registro con el mismo valor, haga clic o pulse aquí, de lo contrario conservarán sus valores individuales."
+      }
+    },
+    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+    "stateRestore": {
+      "creationModal": {
+        "button": "Crear",
+        "name": "Nombre:",
+        "order": "Clasificación",
+        "paging": "Paginación",
+        "select": "Seleccionar",
+        "columns": {
+          "search": "Búsqueda de Columna",
+          "visible": "Visibilidad de Columna"
+        },
+        "title": "Crear Nuevo Estado",
+        "toggleLabel": "Incluir:",
+        "scroller": "Posición de desplazamiento",
+        "search": "Búsqueda",
+        "searchBuilder": "Búsqueda avanzada"
+      },
+      "removeJoiner": "y",
+      "removeSubmit": "Eliminar",
+      "renameButton": "Cambiar Nombre",
+      "duplicateError": "Ya existe un Estado con este nombre.",
+      "emptyStates": "No hay Estados guardados",
+      "removeTitle": "Remover Estado",
+      "renameTitle": "Cambiar Nombre Estado",
+      "emptyError": "El nombre no puede estar vacío.",
+      "removeConfirm": "¿Seguro que quiere eliminar %s?",
+      "removeError": "Error al eliminar el Estado",
+      "renameLabel": "Nuevo nombre para %s:"
+    },
+    "infoThousands": "."
+  };
+  
+  $('#tabla_tipos_vacunas').DataTable({
+    dom: 'Bfrtip',
+    buttons: [
+      'copy', 'csv', 'excel', 'pdf', 'print'
+    ],
+    language: idioma
+  });
+}
 
-  <script>
-    //evento click para el mantenimiento del paciente
-
-    $(document).ready(function() {
-      // Asignar un evento de clic a las filas de la tabla
-      $("#tabla_tipos_vacunas tbody").on("click", "tr", function() {
-        // Obtener las celdas de la fila clicada
-        var celdas = $(this).find("td");
-
-        // Obtener los datos de las celdas
-        var idVacuna = celdas.eq(0).text();
-        var nombreVacuna = celdas.eq(1).text();
-
-        // Asignar los valores al campo de texto y al label en paciente.php
-        window.parent.document.getElementById("id_vacuna").value = idVacuna;
-        window.parent.document.getElementById("nombre_vacuna").textContent = nombreVacuna;
-
-        setTimeout(function() {
-          window.parent.document.getElementById('Modalvacuna').style.display = 'none';
-        }, 600);
-      });
-
-      // Asignar un evento de clic al botón de cierre del modal
-      window.parent.document.querySelector("#Modalvacuna .close").addEventListener("click", function() {
-        // Cerrar el modal
-        window.parent.document.getElementById("Modalvacuna").style.display = "none";
-      });
-
-      // Evitar que el evento de clic en el modal cierre el modal
-      window.parent.document.querySelector("#Modalvacuna .modal-content").addEventListener("click", function(event) {
-        event.stopPropagation();
-      });
-    });
+configurarTabla();
   </script>
 
 </body>
