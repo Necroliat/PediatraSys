@@ -312,15 +312,21 @@ function obtenerDatosPaciente($idPaciente, $conn)
           <th>Sexo</th>
           <th>Fecha Nacimiento</th>
           <th>Nacionalidad</th>
+          <th>Conteo</th> <!-- Nueva columna Conteo -->
           <th>consultar</th>
-         
         </tr>
       </thead>
       <tbody>
         <?php
-        // Iterar a través de los resultados de la consulta y generar filas en la tabla
+        // Asumiendo que la consulta original para pacientes ya ha sido ejecutada y guardada en $result
         if ($result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
+            // Subconsulta para contar las vacunas vinculadas a cada paciente
+            $id_paciente = $row["id_paciente"];
+            $query_vacunas = "SELECT COUNT(*) AS conteo FROM pacientes_vacunas WHERE id_paciente = $id_paciente";
+            $result_vacunas = $conn->query($query_vacunas);
+            $conteo = $result_vacunas->fetch_assoc()['conteo'];
+
             echo "<tr>";
             echo "<td>" . $row["id_paciente"] . "</td>";
             echo "<td>" . $row["nombre"] . "</td>";
@@ -328,8 +334,8 @@ function obtenerDatosPaciente($idPaciente, $conn)
             echo "<td>" . $row["sexo"] . "</td>";
             echo "<td>" . $row["fecha_nacimiento"] . "</td>";
             echo "<td>" . $row["Nacionalidad"] . "</td>";
+            echo "<td>" . $conteo . "</td>"; // Mostrar el conteo
             echo "<td><a class='btn btn-primary' href='consulta_vacunas2.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-syringe'></i> Vacunas</a></td>";
-           
             echo "</tr>";
           }
         } else {
