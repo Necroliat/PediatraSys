@@ -300,7 +300,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
     <div class="centrado">
             <img src="../IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
         </div>
-    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Consulta de Pacientes</h2>
+    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Consulta de Pacientes X Vacunas</h2>
     <h3 style="padding:0; text-align: center; ">PediatraSys</h3>
 
     <table id="tabla_pacientes" class="display">
@@ -328,6 +328,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
             echo "<td>" . $row["sexo"] . "</td>";
             echo "<td>" . $row["fecha_nacimiento"] . "</td>";
             echo "<td>" . $row["Nacionalidad"] . "</td>";
+            echo "<td><a class='btn btn-primary' href='../reporte_receta.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-syringe'></i> Vacunas</a></td>";
            
             echo "</tr>";
           }
