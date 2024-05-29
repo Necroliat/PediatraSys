@@ -77,30 +77,32 @@ function in_iframe() {
 
     
 
-    .clasebotonVER {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: 1px solid #e4e5dc;
-      outline: none;
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-      font-size: 11px;
-      padding: 7px;
-      margin: 5px;
-    }
-
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
+   
     #tabla_medicos{
       font-size:14px;
     }
+    .clasebotonVER {
+            border: none;
+            outline: none;
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            color: #080808;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 7px;
+            margin: 5px;
+
+        }
+
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
   </style>
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -130,7 +132,7 @@ function in_iframe() {
           echo "<td>" . $row["nombre"] . "</td>";
           echo "<td>" . $row["apellido"] . "</td>";
           echo "<td>" . $row["especialidad"] . "</td>";
-          echo "<td style='width:24%'> <a class='clasebotonVER' href=\"modulo/medicos/editar.php?id_medico=$row[id_medico]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:11px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td style='width:24%'> <a class='clasebotonVER' href=\"modulo/medicos/editar.php?id_medico=$row[id_medico]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='fa-solid fa-pencil'></i>Editar</a> </td>";
           echo "</tr>";
         }
       } else {
@@ -145,7 +147,7 @@ function in_iframe() {
       $('#tabla_medicos').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: 'css/es-ES.json' // Ruta al archivo de traducción
         },pageLength: 10
       });
 
