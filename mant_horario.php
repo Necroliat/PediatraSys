@@ -289,7 +289,7 @@ $result = $conn->query($query);
                     <div style="text-align:center">
                     </div>
                 </fieldset>
-                <div style=" margin-top:-20;padding:0; height:0cm;">
+              <!--   <div style=" margin-top:-20;padding:0; height:0cm;">
                     <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
                     </a>
@@ -299,7 +299,7 @@ $result = $conn->query($query);
                     <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
                     </a>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

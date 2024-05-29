@@ -358,7 +358,7 @@ background: linear-gradient(to right,#e4e5dc ,#62c4f9 );
 
 
         </fieldset>
-        <div style=" margin-top:-20;padding:0; height:0cm;">
+        <!-- <div style=" margin-top:-20;padding:0; height:0cm;">
             <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                 <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
             </a>
@@ -368,7 +368,7 @@ background: linear-gradient(to right,#e4e5dc ,#62c4f9 );
             <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                 <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
             </a>
-        </div>
+        </div> -->
         </form>
     </div>
 </body>

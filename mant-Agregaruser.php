@@ -324,7 +324,7 @@ fieldset {
             <iframe id="modal-iframe" src="consulta_usuario2.php" frameborder="0" style="width: 100%; height: 100%;"></iframe>
         
         </fieldset>
-        <div style=" margin-top:-20;padding:0; height:0cm;">
+        <!-- <div style=" margin-top:-20;padding:0; height:0cm;">
         <a href="menu.php" id="btnatras" class="btn btn-primary boton"
             style="width: 120px;vertical-align: baseline; font-weight:bold;">
             <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i>
@@ -340,7 +340,7 @@ fieldset {
             <i class="material-icons"
                 style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
         </a>
-    </div>
+    </div> -->
         </div>
 </body>
 
