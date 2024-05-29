@@ -295,7 +295,7 @@ function in_iframe()
             width: auto;
             text-decoration: none;
             height: 40px;
-            font-size: 16px;
+            font-size: 14px;
             padding: 7px;
             margin: 5px;
 
@@ -358,8 +358,8 @@ function in_iframe()
   <table id="tabla_localizador" class="display" style="width:100%">
     <thead>
       <tr>
-        <th>Id localizador</th>
-        <th>identificador</th>
+        <th>Id </th>
+        <th>Céd/pass</th>
         <th>Padre</th>
         <th>Valor</th>
         <th>Etiqueta</th>
@@ -379,7 +379,7 @@ function in_iframe()
           echo "<td>" . $row["Valor"] . "</td>";
           echo "<td>" . $row["Etiqueta"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/localizadorp/editar.php?ID_Localizador=$row[ID_Localizador]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td> <a class='clasebotonVER' href=\"modulo/localizadorp/editar.php?ID_Localizador=$row[ID_Localizador]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:15px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
           echo "</tr>";
         }
       } else {

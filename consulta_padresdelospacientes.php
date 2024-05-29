@@ -171,11 +171,11 @@ function in_iframe()
 
     .container {
         display: grid;
-        grid-template-columns: 80%;
+        grid-template-columns: 100%;
         grid-template-rows: repeat(3, 1fr);
         grid-gap: 6px 10px;
-        margin-left: 10%;
-        margin-right: 10%;
+        margin-left: 2%;
+        margin-right: 2%;
     }
     label {
         font-size: 14px;
@@ -273,7 +273,7 @@ function in_iframe()
     }
 
     .custom-modal-content {
-        width: 80%;
+        width: 100%;
         height: 80%;
         margin: auto;
         background: linear-gradient(to right, #e4e5dc, #45bac9db);
@@ -313,7 +313,7 @@ function in_iframe()
             width: auto;
             text-decoration: none;
             height: 40px;
-            font-size: 16px;
+            font-size: 12px;
             padding: 7px;
             margin: 5px;
 
@@ -381,10 +381,10 @@ function in_iframe()
         <th>ID Pact.</th>
         <th>Paciente</th>
         <th>Apellido</th>
-        <th>ID Padre</th>
+        <th>ID P.</th>
         <th>Padre</th>
         <th>Apellido</th>
-        <th>Parentezco</th>
+        <th>Paret</th>
        <th>Acción</th>
         
       </tr>

@@ -358,7 +358,7 @@ function in_iframe()
   <table id="tabla_localizadorm" class="display" style="width:100%">
     <thead>
       <tr>
-        <th>Id localizadorm</th>
+        <th>Id</th>
         <th>Doctor</th>
         <th>Valor</th>
         <th>Etiqueta</th>
