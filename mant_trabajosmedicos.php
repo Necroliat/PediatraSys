@@ -225,25 +225,25 @@ $result = $conn->query($query);
         }
 
         .clasebotonVER {
-            border: none;
+          color:#f0f0f0;
+          text-shadow:2px 2px 4px #000000;
+          font-weight: bold;
+            border: 1px solid #e4e5dc;
             outline: none;
-            background: linear-gradient(to right, #05c20e, #84e788);
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
             border-radius: 7px;
             width: auto;
             text-decoration: none;
             height: 40px;
-            color: #080808;
-            font-size: 16px;
+            font-size: 13px;
             padding: 7px;
             margin: 5px;
 
         }
-
         .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
-
         .dataTables_wrapper {
             position: relative;
             clear: both;
@@ -264,6 +264,7 @@ $result = $conn->query($query);
         fieldset {
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
         }
+        *{font-size:medium;}
     </style>
     <?php //include("menu_lateral_header.php"); ?>
 </head>
@@ -289,7 +290,7 @@ $result = $conn->query($query);
                     <div style="text-align:center">
                     </div>
                 </fieldset>
-                <div style=" margin-top:-20;padding:0; height:0cm;">
+                <!-- <div style=" margin-top:-20;padding:0; height:0cm;">
                     <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
                     </a>
@@ -299,7 +300,7 @@ $result = $conn->query($query);
                     <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                         <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
                     </a>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

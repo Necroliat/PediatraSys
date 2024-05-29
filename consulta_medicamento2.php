@@ -246,23 +246,22 @@ function in_iframe() {
             border: 1px solid #e4e5dc;
             outline: none;
             background: linear-gradient(to right, #4a90e2, #63b8ff);
-           
             border-radius: 7px;
             width: auto;
             text-decoration: none;
             height: 40px;
-          
-            font-size: 16px;
+            font-size: 13px;
             padding: 7px;
             margin: 5px;
 
         }
-
         .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
-    </style>
+
+  </style>
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
   <script>
       function configurarTabla() {
   var idioma = {

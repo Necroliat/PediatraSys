@@ -73,23 +73,18 @@ $result = $conn->query($query);
           font-weight: bold;
             border: 1px solid #e4e5dc;
             outline: none;
-            background: linear-gradient(to right, DeepSkyBlue,Cyan);
-
-           
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
             border-radius: 7px;
             width: auto;
             text-decoration: none;
             height: 40px;
-          
-            font-size: 16px;
+            font-size: 13px;
             padding: 7px;
             margin: 5px;
 
         }
-
         .clasebotonVER:hover {
-          background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
-
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
 

@@ -277,7 +277,6 @@ function in_iframe() {
             margin: 5px;
 
         }
-
         .clasebotonVER:hover {
             background: linear-gradient(to right, #63b8ff, #4a90e2);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -296,7 +295,7 @@ function in_iframe() {
       $('#tabla_centros').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: 'css/es-ES.json' // Ruta al archivo de traducción
         },pageLength: 5
       });
     });
@@ -321,7 +320,7 @@ function in_iframe() {
   <table id="tabla_centros" class="display" style="width:100%">
     <thead>
       <tr>
-        <th>Id centro</th>
+        <th>Id</th>
         <th>Nombre</th>
         <th>Direccion</th>
         <th>Telefono</th>
@@ -334,7 +333,7 @@ function in_iframe() {
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
           echo "<tr onclick=\"seleccionarcentro('" . $row["Id_centro"] . "', '" . $row["nombre"] . "', '" . $row["direccion"] . "','" . $row["telefono"] . "')\">";
-          echo "<td>" . $row["id_centro"] . "</td>";
+          echo "<td>" . $row["id_centro."] . "</td>";
           echo "<td>" . $row["nombre"] . "</td>";
           echo "<td>" . $row["direccion"] . "</td>";
           echo "<td>" . $row["telefono"] . "</td>";

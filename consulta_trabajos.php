@@ -61,31 +61,13 @@ function in_iframe()
       background-color: #A8A4DE;
     }
 
-    #tabla_laboratorios tbody tr:hover {
+    #tabla_trabajos tbody tr:hover {
       background-color: #A8A4DE;
       cursor: pointer;
     }
 
     
-    .clasebotonVER {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: 1px solid #e4e5dc;
-      outline: none;
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-      font-size: 16px;
-      padding: 7px;
-      margin: 5px;
-    }
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
+    
   </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
@@ -116,7 +98,7 @@ function in_iframe()
         background-color: #A8A4DE;
     }
 
-    #tabla_tipos_vacunas tbody tr:hover {
+    #tabla_trabajos tbody tr:hover {
         background-color: #A8A4DE;
         cursor: pointer;
     }
@@ -282,27 +264,7 @@ function in_iframe()
         border: none;
     }
 
-    .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-            font-size: 16px;
-            padding: 7px;
-            margin: 5px;
-
-        }
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
-
+   
     .clasebotonazul:hover {
         background: linear-gradient(to right, #4a90e2, #63b8ff);
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -323,7 +285,31 @@ function in_iframe()
         padding: 7px;
         margin: 5px;
     }
-    </style>
+
+    .clasebotonVER {
+          color:#f0f0f0;
+          text-shadow:2px 2px 4px #000000;
+          font-weight: bold;
+            border: 1px solid #e4e5dc;
+            outline: none;
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            font-size: 13px;
+            padding: 7px;
+            margin: 5px;
+
+        }
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+table{/* word-wrap: break-word; */
+font-size:14px}
+  </style>
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 
   <script>
     $(document).ready(function() {
@@ -353,10 +339,10 @@ function in_iframe()
 </head>
 
 <body>
-  <table id="tabla_trabajos" class="display" style="width:100%;font-size:10px;">
+  <table id="tabla_trabajos" class="display2" style="width:100%;font-size:14px;">
     <thead>
       <tr>
-        <th>Id Trabajo Medico</th>
+        <th>Id </th>
         <th>Fecha De Creacion</th>
         <th>Descripcion</th>
         <th> </th>

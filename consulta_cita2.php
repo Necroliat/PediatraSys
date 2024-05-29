@@ -67,25 +67,7 @@ function in_iframe()
     }
 
     
-    .clasebotonVER {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: 1px solid #e4e5dc;
-      outline: none;
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-      font-size: 16px;
-      padding: 7px;
-      margin: 5px;
-    }
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
+   
   </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
@@ -293,44 +275,25 @@ function in_iframe()
             width: auto;
             text-decoration: none;
             height: 40px;
-            font-size: 16px;
+            font-size: 13px;
             padding: 7px;
             margin: 5px;
 
         }
         .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
 
-    .clasebotonazul:hover {
-        background: linear-gradient(to right, #4a90e2, #63b8ff);
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
-    .clasebotonazul {
-        color: #f0f0f0;
-        text-shadow: 2px 2px 4px #000000;
-        font-weight: bold;
-        border: none;
-        outline: none;
-        background: linear-gradient(to right, #63b8ff,#4a90e2);
-        border-radius: 7px;
-        width: auto;
-        text-decoration: none;
-        height: 40px;
-
-        font-size: 16px;
-        padding: 7px;
-        margin: 5px;
-    }
-    </style>
+  </style>
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 
   <script>
     $(document).ready(function() {
       $('#tabla_citas').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: 'css/es-ES.json' // Ruta al archivo de traducción
         }
       });
       var table = $('#tabla_citas').DataTable();

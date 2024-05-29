@@ -72,23 +72,18 @@ $result = $conn->query($query);
           font-weight: bold;
             border: 1px solid #e4e5dc;
             outline: none;
-            background: linear-gradient(to right, DeepSkyBlue,Cyan);
-
-           
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
             border-radius: 7px;
             width: auto;
             text-decoration: none;
             height: 40px;
-          
-            font-size: 16px;
+            font-size: 13px;
             padding: 7px;
             margin: 5px;
 
         }
-
         .clasebotonVER:hover {
-          background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
-
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -102,7 +97,7 @@ $result = $conn->query($query);
   <table id="tabla_centros" class="display" style="width:100%">
     <thead>
       <tr>
-        <th>Id centro</th>
+        <th>Id centro.</th>
         <th>Nombre</th>
         <th>Direccion</th>
         <th>Telefono</th>
@@ -132,7 +127,7 @@ $result = $conn->query($query);
       $('#tabla_centros').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: 'css/es-ES.json' // Ruta al archivo de traducción
         
         },pageLength: 5 
       });

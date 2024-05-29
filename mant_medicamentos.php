@@ -417,11 +417,11 @@ fieldset {
                 <div>
                     <iframe id="modal-iframe" src="consulta_medicamento2.php" frameborder="0" style="width: 100%; height: 100%;margin:0%; padding:0%;"></iframe>
 
-                    <div class="botones-container2" style=" margin-top:-80px; padding:0%">
-                        <!-- <a href="menu-mant.php" class="claseboton">← Atrás</a>
+                   <!--  <div class="botones-container2" style=" margin-top:-80px; padding:0%">
+                  <a href="menu-mant.php" class="claseboton">← Atrás</a>
                         <a href="index.php" class="claseboton">Login</a>
                         <a href="menu.php" class="claseboton">Menú Principal</a>-->
-                        <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
+                       <!--  <a href="menu.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                             <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">menu</i> Menú Principal
                         </a>
                         <a href="index.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
@@ -430,7 +430,7 @@ fieldset {
                         <a href="menu-mant.php" id="btnatras" class="btn btn-primary boton" style="width: 120px;vertical-align: baseline; font-weight:bold;">
                             <i class="material-icons" style="font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">arrow_back</i> Atrás
                         </a>
-                    </div>
+                    </div> --> 
                 </div>
             </fieldset>
         </form>

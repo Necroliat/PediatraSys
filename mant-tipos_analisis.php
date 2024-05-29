@@ -232,22 +232,23 @@ $result = $conn->query($query);
         }
 
         .clasebotonVER {
-            border: none;
+          color:#f0f0f0;
+          text-shadow:2px 2px 4px #000000;
+          font-weight: bold;
+            border: 1px solid #e4e5dc;
             outline: none;
-            background: linear-gradient(to right, #05c20e, #84e788);
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
             border-radius: 7px;
             width: auto;
             text-decoration: none;
             height: 40px;
-            color: #080808;
-            font-size: 16px;
+            font-size: 13px;
             padding: 7px;
             margin: 5px;
 
         }
-
         .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -270,6 +271,7 @@ $result = $conn->query($query);
 
         fieldset {
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
+        
         }
     </style>
     <?php //include("menu_lateral_header.php"); 
@@ -295,8 +297,8 @@ $result = $conn->query($query);
                                 <thead>
                                     <tr>
                                         <th>ID Análisis</th>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
+                                        <th style="word-wrap: break-word;width:100px;">Nombre</th>
+                                        <th style="word-wrap: break-word;width:200px;">Descripción</th>
                                         <th>Editar</th>
                                     </tr>
                                 </thead>
@@ -326,8 +328,8 @@ $result = $conn->query($query);
                                             echo "<tr>";
                                             echo "<td>" . $row["id_analisis"] . "</td>";
                                             echo "<td>" . $row["Nombre"] . "</td>";
-                                            echo "<td>" . $row["descripcion"] . "</td>";
-                                            echo "<td><a class='btn btn-primary' href='modulo/tiposanalisis/editar.php?id_analisis=" . $row["id_analisis"] . "'><i class='fa-solid fa-pencil'></i> Editar</a></td>";
+                                            echo "<td style=>" . $row["descripcion"] . "</td>";
+                                            echo "<td><a class='clasebotonVER' href='modulo/tiposanalisis/editar.php?id_analisis=" . $row["id_analisis"] . "'><i class='fa-solid fa-pencil'></i> Editar</a></td>";
                                             echo "</tr>";
                                         }
                                     } else {

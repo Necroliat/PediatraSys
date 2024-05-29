@@ -330,40 +330,7 @@ function in_iframe() {
        background-color: #A8A4DE;
        cursor: pointer;
    }
-   /* #tabla_tipos_vacunas tbody tr:active {
-    background-color: #5bc0f7;
-    cursor: pointer;
-   border:4px solid red ;
-    transition: background-color 0.8s ease, box-shadow 0.8s ease, color 0.5s ease, font-weight 0.8s ease; /* Animaciones de 0.5 segundos */
-   /* box-shadow: 0 0 5px rgba(91, 192, 247, 0.8), 0 0 10px red; 
-    font-size: 25px;
-    color: white; 
-    font-weight: bold; 
-    font-family: "Copperplate",  Fantasy;
-  /* } */
-   .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-           
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-          
-            font-size: 16px;
-            padding: 7px;
-            margin: 5px;
-
-        }
-
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
+  
   </style>
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -586,29 +553,7 @@ function in_iframe() {
         border: none;
     }
 
-    .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-           
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-          
-            font-size: 16px;
-            padding: 7px;
-            margin: 5px;
-
-        }
-
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
+  
 
     .clasebotonazul:hover {
         background: linear-gradient(to right, #4a90e2, #63b8ff);
@@ -632,9 +577,29 @@ function in_iframe() {
 
     }
 
-    
-    </style>
-  
+    .clasebotonVER {
+          color:#f0f0f0;
+          text-shadow:2px 2px 4px #000000;
+          font-weight: bold;
+            border: 1px solid #e4e5dc;
+            outline: none;
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            font-size: 13px;
+            padding: 7px;
+            margin: 5px;
+
+        }
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+table{word-wrap: break-word;}
+  </style>
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 </head>
 
 <body>

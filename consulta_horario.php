@@ -71,25 +71,25 @@ function in_iframe()
 
 
     .clasebotonVER {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: 1px solid #e4e5dc;
-      outline: none;
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-      font-size: 16px;
-      padding: 7px;
-      margin: 5px;
-    }
+          color:#f0f0f0;
+          text-shadow:2px 2px 4px #000000;
+          font-weight: bold;
+            border: 1px solid #e4e5dc;
+            outline: none;
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            font-size: 13px;
+            padding: 7px;
+            margin: 5px;
 
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
+        }
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
   </style>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <style>
@@ -303,33 +303,7 @@ function in_iframe()
 
     }
 
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .clasebotonazul:hover {
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .clasebotonazul {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: none;
-      outline: none;
-      background: linear-gradient(to right, #63b8ff, #4a90e2);
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-
-      font-size: 16px;
-      padding: 7px;
-      margin: 5px;
-    }
-
+    
     #tabla_horario th,
     #tabla_horario td {
       max-width: 100px;
@@ -344,7 +318,7 @@ function in_iframe()
       $('#tabla_horario').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: 'css/es-ES.json' // Ruta al archivo de traducción
         }
       });
       var table = $('#tabla_horario').DataTable();
@@ -364,6 +338,7 @@ function in_iframe()
       window.close();
     }
   </script>
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -387,7 +362,7 @@ function in_iframe()
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
           echo "<tr onclick=\"seleccionarhorario('" . $row["id_horario"] . "', '" . $row["id_medico"] . "', '" . $row["nombre_medico"] . "')\">";
-          echo "<td>" . $row["id_horario"] . "</td>";//nombre_medico
+          echo "<td>" . $row["id_horario"] . "</td>"; //nombre_medico
           echo "<td>" . $row["id_medico"] . "</td>";
           echo "<td>" . $row["nombre_medico"] . "</td>";
           echo "<td>" . $row["dias"] . "</td>";
@@ -396,10 +371,9 @@ function in_iframe()
           echo "<td>" . $row["hora_fin"] . "</td>";
           echo "<td>" . $row["Estado"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/horario/editar.php?id_horario=$row[id_horario]&pag=$pagina&nombre_medico=" . urlencode($row["nombre_medico"]) . "\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:12px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td> <a class='clasebotonVER' href=\"modulo/horario/editar.php?id_horario=$row[id_horario]&pag=$pagina&nombre_medico=" . urlencode($row["nombre_medico"]) . "\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='fa-solid fa-pencil'></i>Editar</a> </td>";
 
-          /* echo "<td> <a class='clasebotonVER' href=\"modulo/horario/editar.php?id_horario=$row[id_horario]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:12px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>"; */
-          
+
           echo "</tr>";
         }
       } else {

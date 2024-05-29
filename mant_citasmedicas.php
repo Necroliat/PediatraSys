@@ -245,29 +245,25 @@ function in_iframe()
     }
 
     .clasebotonVER {
-      color: #f0f0f0;
-      text-shadow: 2px 2px 4px #000000;
-      font-weight: bold;
-      border: 1px solid #e4e5dc;
-      outline: none;
-      background: linear-gradient(to right, #4a90e2, #63b8ff);
+          color:#f0f0f0;
+          text-shadow:2px 2px 4px #000000;
+          font-weight: bold;
+            border: 1px solid #e4e5dc;
+            outline: none;
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            border-radius: 7px;
+            width: auto;
+            text-decoration: none;
+            height: 40px;
+            font-size: 13px;
+            padding: 7px;
+            margin: 5px;
 
-      border-radius: 7px;
-      width: auto;
-      text-decoration: none;
-      height: 40px;
-
-      font-size: 16px;
-      padding: 7px;
-      margin: 5px;
-
-    }
-
-    .clasebotonVER:hover {
-      background: linear-gradient(to right, #84e788, #05c20e);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-      text-align: center;
-    } .centrado {
+        }
+        .clasebotonVER:hover {
+            background: linear-gradient(to right, #63b8ff, #4a90e2);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }.centrado {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -324,8 +320,8 @@ function in_iframe()
         echo "<td>" . $row["nombre_medico"] . "</td>";
         
 echo "<td style='width:24%'> 
-        <button class='clasebotonVER' onclick=\"window.location.href = 'modulo/citas/editar.php?id_cita={$row['id_cita']}&nombre_paciente=" . urlencode($row['nombre_paciente']) . "&nombre_medico=" . urlencode($row['nombre_medico']) . "&pag=$pagina';\">
-            <i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar
+        <button class='clasebotonVER2 btn btn-primary' onclick=\"window.location.href = 'modulo/citas/editar.php?id_cita={$row['id_cita']}&nombre_paciente=" . urlencode($row['nombre_paciente']) . "&nombre_medico=" . urlencode($row['nombre_medico']) . "&pag=$pagina';\">
+        <i class='fa-solid fa-pencil'></i>Editar
         </button> 
       </td>";
 
