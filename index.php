@@ -58,6 +58,7 @@ $conn->close();
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="icon" type="image/x-icon" href="IMAGENES/hospital2.ico">
     <style>
+     
         body {
             background: linear-gradient(to right, #E8A9F7, #e4e5dc);
         }
@@ -77,7 +78,7 @@ $conn->close();
             background: linear-gradient(to right, #e4e5dc, #62c4f9);
             text-align: center;
             margin-bottom: 30px;
-            color: #444;
+            color: #000000;
             margin: 10px;
             transition: transform 0.3s;
             position: relative;
@@ -137,6 +138,7 @@ $conn->close();
             height: 20vh;
             /* Ajusta según tus necesidades */
         }
+        *{color:black;}
     </style>
 </head>
 

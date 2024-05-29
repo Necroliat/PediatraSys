@@ -279,10 +279,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 170px;
             padding: 10px;
             font-size: 14;
-            color: #444;
+            color: #000000;
             margin-bottom: 2vw;
             border: none;
-            border-bottom: 0.1vw solid #444;
+            border-bottom: 0.1vw solid #000000;
             outline: none;
             border-radius: 15px;
             margin: 10px;

@@ -159,7 +159,7 @@ function in_iframe()
     }
     label {
         font-size: 14px;
-        color: #444;
+        color: #000000;
         margin: 8px;
         font-weight: bold;
     }
@@ -181,10 +181,10 @@ function in_iframe()
     select {
         width: 150px;
         height: 40px;
-        color: #444;
+        color: #000000;
         margin-bottom: 6%;
         border: none;
-        border-bottom: 0.1vw solid #444;
+        border-bottom: 0.1vw solid #000000;
         outline: none;
         border-radius: 10px;
     }

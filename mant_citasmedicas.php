@@ -75,7 +75,7 @@ function in_iframe()
       background: linear-gradient(to right, #e4e5dc, #62c4f9);
       text-align: center;
       margin-bottom: 30px;
-      color: #444;
+      color: #000000;
       margin: 10px;
       flex-direction: column;
       align-items: center;
