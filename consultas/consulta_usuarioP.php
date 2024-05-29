@@ -64,6 +64,7 @@ function obtenerDatosUsuario($idUsuario, $conn)
   <meta charset="UTF-8">
 
  <style>
+  table{color:black;}
     body {
       background: linear-gradient(to right, #E8A9F7, #e4e5dc);
     }

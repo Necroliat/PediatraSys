@@ -70,6 +70,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
   <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <style>
+    table{color:black;}
     body {
       background: linear-gradient(to right, #E8A9F7, #e4e5dc);
     }

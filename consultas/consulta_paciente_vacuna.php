@@ -39,6 +39,7 @@ $result = $conn->query($query);
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
     <style>
+        table{color:black;}
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 10px;

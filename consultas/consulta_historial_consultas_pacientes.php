@@ -39,6 +39,7 @@ $result = $conn->query($query);
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
     <style>
+        table{color:black;}
         /* Estilos CSS */
     </style>
 </head>

@@ -46,6 +46,7 @@ function in_iframe()
 
 
   <style>
+    table{color:black;}
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 3px;
