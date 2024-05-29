@@ -263,7 +263,8 @@ function in_iframe() {
           font-weight: bold;
             border: 1px solid #e4e5dc;
             outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
+
            
             border-radius: 7px;
             width: auto;
@@ -277,7 +278,8 @@ function in_iframe() {
         }
 
         .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
+          background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
+
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
     </style>
@@ -294,7 +296,7 @@ function in_iframe() {
       $('#tabla_centros').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: 'css/es-ES.json' // Ruta al archivo de traducción // Ruta al archivo de traducción
         }
       });
     });
@@ -319,7 +321,7 @@ function in_iframe() {
   <table id="tabla_centros" class="display" style="width:100%">
     <thead>
       <tr>
-        <th>Id centro</th>
+        <th>Id centro.</th>
         <th>Nombre</th>
         <th>Direccion</th>
         <th>Telefono</th>

@@ -288,42 +288,28 @@ function in_iframe()
           font-weight: bold;
             border: 1px solid #e4e5dc;
             outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            background: linear-gradient(to right, DeepSkyBlue,Cyan);
+
+           
             border-radius: 7px;
             width: auto;
             text-decoration: none;
             height: 40px;
+          
             font-size: 16px;
             padding: 7px;
             margin: 5px;
 
         }
+
         .clasebotonVER:hover {
-            background: linear-gradient(to right, #84e788, #05c20e);
+          background: linear-gradient(to right, DeepSkyBlue,LightSkyBlue);
+
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
 
-    .clasebotonazul:hover {
-        background: linear-gradient(to right, #4a90e2, #63b8ff);
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
-    .clasebotonazul {
-        color: #f0f0f0;
-        text-shadow: 2px 2px 4px #000000;
-        font-weight: bold;
-        border: none;
-        outline: none;
-        background: linear-gradient(to right, #63b8ff,#4a90e2);
-        border-radius: 7px;
-        width: auto;
-        text-decoration: none;
-        height: 40px;
-
-        font-size: 16px;
-        padding: 7px;
-        margin: 5px;
-    }
-    </style>
+  </style>
+  <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 
   <script>
     $(document).ready(function() {
@@ -385,7 +371,7 @@ function in_iframe()
           echo "<td>" . $row["Paciente"] . "</td>";
           echo "<td>" . $row["nombre_seguro"] . "</td>";
           echo "</td>"; // Closing tag for the td element
-          echo "<td> <a class='clasebotonVER' href=\"modulo/citas/editar.php?id_cita=$row[id_cita]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='material-icons' style='font-size:21px;color:#f0f0f0;text-shadow:2px 2px 4px #000000;'>edit</i>Editar</a> </td>";
+          echo "<td> <a class='clasebotonVER' href=\"modulo/citas/editar.php?id_cita=$row[id_cita]&pag=$pagina\" " . (in_iframe() ? 'target="_parent"' : '') . "><i class='fa-solid fa-pencil'></i>Editar</a> </td>";
           echo "</tr>";
         }
       } else {
