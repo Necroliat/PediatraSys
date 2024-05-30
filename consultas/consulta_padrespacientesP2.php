@@ -5,6 +5,9 @@ $username = "root";
 $password = "";
 $database = "pediatra_sis";
 
+// Obtener id_paciente de la solicitud GET y validarlo
+$idpaciente = isset($_GET['id_paciente']) ? intval($_GET['id_paciente']) : 0;
+
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -13,45 +16,67 @@ if ($conn->connect_error) {
   die("Error de conexión: " . $conn->connect_error);
 }
 
-// Consulta para obtener los datos de la tabla "paciente"
-$query = "SELECT id_paciente, nombre, apellido, sexo, fecha_nacimiento, Nacionalidad, Con_quien_vive, Direccion_reside FROM paciente";
+// Consulta para obtener los datos de los padres vinculados al paciente
+$query = "
+SELECT 
+    dp.Numidentificador, 
+    dp.Tipo_Identificador, 
+    dp.Nombre, 
+    dp.Apellido, 
+    dp.Parentesco, 
+    dp.Nacionalidad, 
+    dp.Sexo, 
+    dp.Direccion, 
+    dp.Ocupacion, 
+    CONCAT(p.nombre, ' ', p.apellido) AS nombre_completo
+FROM 
+    nino_padre np
+JOIN 
+    datos_padres_de_pacientes dp ON np.ID_Padre = dp.Numidentificador
+JOIN 
+    paciente p ON np.id_paciente = p.id_paciente
+WHERE 
+    np.id_paciente = $idpaciente
+";
+
+// Ejecutar la consulta
 $result = $conn->query($query);
 
-// Función para obtener los datos del paciente por ID
-function obtenerDatosPaciente($idPaciente, $conn)
-{
-  $query = "SELECT nombre, apellido FROM paciente WHERE id_paciente = '$idPaciente'";
-  $result = $conn->query($query);
-
-  if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $datosPaciente = array('nombre' => $row['nombre'], 'apellido' => $row['apellido']);
-    return $datosPaciente;
-  } else {
-    return false;
-  }
+// Verificar si hay resultados y almacenar el nombre completo del paciente
+$nombre_completo = "";
+if ($result->num_rows > 0) {
+    while ($mostrar = $result->fetch_assoc()) {
+        $nombre_completo = $mostrar['nombre_completo'];
+    }
+} else {
+    // Si no hay resultados, obtener el nombre del paciente para mostrar en la tabla
+    $query_paciente = "SELECT CONCAT(nombre, ' ', apellido) AS nombre_completo FROM paciente WHERE id_paciente = $idpaciente";
+    $result_paciente = $conn->query($query_paciente);
+    if ($result_paciente->num_rows > 0) {
+        $row_paciente = $result_paciente->fetch_assoc();
+        $nombre_completo = $row_paciente['nombre_completo'];
+    }
 }
 
+function in_iframe() {
+  return isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] !== $_SERVER['REQUEST_URI'];
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
+<meta charset="utf-8">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta/Reporte General de los Pacientes</title>
+  <title>Consulta/Reporte Padres del Paciente <?php echo $nombre_completo; ?> </title>
   <!-- Enlaces a los archivos CSS de DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
   <!-- Enlaces a los scripts de JavaScript de jQuery y DataTables -->
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-
-  <!-- Enlaces a los archivos CSS externos -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-
-  <!-- Enlaces a los scripts de JavaScript -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- Enlaces a los scripts de JavaScript -->
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
@@ -69,8 +94,9 @@ function obtenerDatosPaciente($idPaciente, $conn)
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
   <meta charset="UTF-8">
-  <style>
-    table{color:black;}
+
+ <style>
+  table{color:black;}
     body {
       background: linear-gradient(to right, #E8A9F7, #e4e5dc);
     }
@@ -220,8 +246,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
       width: 100%;
     }
   </style>
-
-  <style>
+    <style>
     .dataTables_wrapper .dataTables_filter input {
       border: 1px solid #aaa;
       border-radius: 3px;
@@ -239,12 +264,12 @@ function obtenerDatosPaciente($idPaciente, $conn)
       background-color: #A8A4DE;
     }
 
-    #tabla_pacientes tbody tr:hover {
+    #tabla_padres tbody tr:hover {
       background-color: #A8A4DE;
       cursor: pointer;
     }
 
-    #tabla_pacientes tbody tr:active {
+    #tabla_padres tbody tr:active {
       background-color: #5bc0f7;
       cursor: pointer;
       border: 4px solid red;
@@ -283,8 +308,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
       background: linear-gradient(to right, #84e788, #05c20e);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
       text-align: center;
-    }
-    .centrado {
+    } .centrado {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -298,73 +322,86 @@ function obtenerDatosPaciente($idPaciente, $conn)
   <fieldset>
     <legend></legend>
     <div class="centrado">
-            <img src="../IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
-        </div>
-    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Consulta de Pacientes X Padecimientos para: </h2>
-    <h3 style="padding:0; text-align: center; ">PediatraSys</h3>
+      <img src="../IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
+    </div>
+    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Padres del Paciente: <?php echo $nombre_completo; ?></h2>
+    <h3 style="padding:0; margin:0; text-align: center;">PediatraSys</h3>
 
-    <table id="tabla_pacientes" class="display">
+    <table id="tabla_padres" class="display" style="width:90%">
       <thead>
         <tr>
-          <th>ID Paciente</th>
+          <th>ID Padre</th>
+          <th>Tipo Identificador</th>
           <th>Nombre</th>
           <th>Apellido</th>
-          <th>Sexo</th>
-          <th>Fecha Nacimiento</th>
+          <th>Parentesco</th>
           <th>Nacionalidad</th>
-          <th>Conteo</th> <!-- Nueva columna Conteo -->
-          <th>consultar</th>
+          <th>Sexo</th>
+          <th>Dirección</th>
+          <th>Ocupación</th>
         </tr>
       </thead>
       <tbody>
         <?php
-        // Asumiendo que la consulta original para pacientes ya ha sido ejecutada y guardada en $result
+          $query2 = "
+SELECT 
+    dp.Numidentificador, 
+    dp.Tipo_Identificador, 
+    dp.Nombre, 
+    dp.Apellido, 
+    dp.Parentesco, 
+    dp.Nacionalidad, 
+    dp.Sexo, 
+    dp.Direccion, 
+    dp.Ocupacion, 
+    CONCAT(p.nombre, ' ', p.apellido) AS nombre_completo
+FROM 
+    nino_padre np
+JOIN 
+    datos_padres_de_pacientes dp ON np.ID_Padre = dp.Numidentificador
+JOIN 
+    paciente p ON np.id_paciente = p.id_paciente
+WHERE 
+    np.id_paciente = $idpaciente
+";
+
+// Ejecutar la consulta
+$result = $conn->query($query2);
         if ($result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
-            // Subconsulta para contar los padecimientos vinculados a cada paciente
-            $id_paciente = $row["id_paciente"];
-            $query_padecimientos = "SELECT COUNT(*) AS conteo 
-                                    FROM detalle_historia_clinica dhc 
-                                    JOIN historia_clinica hc ON dhc.ID_Hist_Clic = hc.ID_Hist_Clic 
-                                    WHERE hc.ID_Paciente = $id_paciente";
-            $result_padecimientos = $conn->query($query_padecimientos);
-            $conteo = $result_padecimientos->fetch_assoc()['conteo'];
-
             echo "<tr>";
-            echo "<td>" . $row["id_paciente"] . "</td>";
-            echo "<td>" . $row["nombre"] . "</td>";
-            echo "<td>" . $row["apellido"] . "</td>";
-            echo "<td>" . $row["sexo"] . "</td>";
-            echo "<td>" . $row["fecha_nacimiento"] . "</td>";
-            echo "<td>" . $row["Nacionalidad"] . "</td>";
-            echo "<td>" . $conteo . "</td>"; // Mostrar el conteo
-            echo "<td><a class='btn btn-primary' href='consulta_padecimientosP2.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-bandage'></i> &nbsp;H. Clínica</a></td>";
+            echo "<td>" . $row["Numidentificador"] . "</td>";
+            echo "<td>" . htmlspecialchars($row["Tipo_Identificador"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>" . htmlspecialchars($row["Nombre"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>" . htmlspecialchars($row["Apellido"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>" . htmlspecialchars($row["Parentesco"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>" . htmlspecialchars($row["Nacionalidad"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>" . htmlspecialchars($row["Sexo"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>" . htmlspecialchars($row["Direccion"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>" . htmlspecialchars($row["Ocupacion"], ENT_QUOTES, 'UTF-8') . "</td>";
             echo "</tr>";
           }
         } else {
-          echo "<tr><td colspan='8'>No se encontraron resultados.</td></tr>";
+          // Mostrar una fila con valores específicos cuando no se encuentran resultados
+          echo "<tr>";
+          echo "<td>0</td>";
+          echo "<td>0</td>";
+          echo "<td>0</td>";
+          echo "<td>0</td>";
+          echo "<td>0</td>";
+          echo "<td>0</td>";
+          echo "<td>0</td>";
+          echo "<td>0</td>";
+          echo "<td>0</td>";
+          echo "</tr>";
         }
         ?>
-      </tbody>
-    </table>
-
-    <a href="../menu-consultas.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
-      <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">reply</i> atrás
+    </tbody>
+  </table>
+<a href="consulta_paciente-padres_p.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
+      <i class="material-icons" style="font-size:small;color:#f0f0f0;text-shadow:2px 2px 4px #000000;">reply</i> Atrás
     </a>
   </fieldset>
-  <script>
-    /*$(document).ready(function() {
-      $('#tabla_pacientes').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-          'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
-        }
-      });
-    });*/
-  </script>
     <script>
    function configurarTabla() {
   var idioma = {
@@ -612,7 +649,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
     "infoThousands": "."
   };
   
-  $('#tabla_pacientes').DataTable({
+  $('#tabla_padres').DataTable({
     dom: 'Bfrtip',
     buttons: [
       'copy', 'csv', 'excel', 'pdf', 'print'
@@ -628,7 +665,3 @@ configurarTabla();
 
 </html>
 
-<?php
-// Cerrar la conexión
-$conn->close();
-?>

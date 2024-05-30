@@ -300,51 +300,60 @@ function obtenerDatosPaciente($idPaciente, $conn)
     <div class="centrado">
             <img src="../IMAGENES/LOGO/LOGO.png" class="" alt="Mantenimientos" style="width: 100px; height: 100px;">
         </div>
-    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Consulta de Pacientes X Padecimientos para: </h2>
+    <h2 style="padding:0; text-align: center; text-transform: uppercase;">Consulta de Pacientes X Padres</h2>
     <h3 style="padding:0; text-align: center; ">PediatraSys</h3>
 
     <table id="tabla_pacientes" class="display">
-      <thead>
-        <tr>
-          <th>ID Paciente</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Sexo</th>
-          <th>Fecha Nacimiento</th>
-          <th>Nacionalidad</th>
-          <th>Conteo</th> <!-- Nueva columna Conteo -->
-          <th>consultar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        // Asumiendo que la consulta original para pacientes ya ha sido ejecutada y guardada en $result
-        if ($result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-            // Subconsulta para contar los padecimientos vinculados a cada paciente
-            $id_paciente = $row["id_paciente"];
-            $query_padecimientos = "SELECT COUNT(*) AS conteo 
-                                    FROM detalle_historia_clinica dhc 
-                                    JOIN historia_clinica hc ON dhc.ID_Hist_Clic = hc.ID_Hist_Clic 
-                                    WHERE hc.ID_Paciente = $id_paciente";
-            $result_padecimientos = $conn->query($query_padecimientos);
-            $conteo = $result_padecimientos->fetch_assoc()['conteo'];
+  <thead>
+    <tr>
+      <th>ID Paciente</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Sexo</th>
+      <th>Fecha Nacimiento</th>
+      <th>Nacionalidad</th>
+      <th>Conteo</th> <!-- Nueva columna Conteo -->
+      <th>Consultar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    // Asumiendo que la consulta original para pacientes ya ha sido ejecutada y guardada en $result
+    if ($result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+        // Subconsulta para contar los padres vinculados a cada paciente
+        $id_paciente = $row["id_paciente"];
+        $query_padres = "SELECT COUNT(*) AS conteo 
+                         FROM nino_padre 
+                         WHERE id_paciente = $id_paciente";
+        $result_padres = $conn->query($query_padres);
+        $conteo = $result_padres->fetch_assoc()['conteo'];
 
-            echo "<tr>";
-            echo "<td>" . $row["id_paciente"] . "</td>";
-            echo "<td>" . $row["nombre"] . "</td>";
-            echo "<td>" . $row["apellido"] . "</td>";
-            echo "<td>" . $row["sexo"] . "</td>";
-            echo "<td>" . $row["fecha_nacimiento"] . "</td>";
-            echo "<td>" . $row["Nacionalidad"] . "</td>";
-            echo "<td>" . $conteo . "</td>"; // Mostrar el conteo
-            echo "<td><a class='btn btn-primary' href='consulta_padecimientosP2.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-bandage'></i> &nbsp;H. Clínica</a></td>";
-            echo "</tr>";
-          }
-        } else {
-          echo "<tr><td colspan='8'>No se encontraron resultados.</td></tr>";
-        }
-        ?>
+        echo "<tr>";
+        echo "<td>" . $row["id_paciente"] . "</td>";
+        echo "<td>" . $row["nombre"] . "</td>";
+        echo "<td>" . $row["apellido"] . "</td>";
+        echo "<td>" . $row["sexo"] . "</td>";
+        echo "<td>" . $row["fecha_nacimiento"] . "</td>";
+        echo "<td>" . $row["Nacionalidad"] . "</td>";
+        echo "<td>" . $conteo . "</td>"; // Mostrar el conteo
+        echo "<td><a class='btn btn-primary' href='consulta_padrespacientesP2.php?id_paciente=" . $row["id_paciente"] . "'><i class='fa-solid fa-people-roof'></i> &nbsp;Padres</a></td>";
+        echo "</tr>";
+      }
+    } else {
+      // Mostrar una fila con valores específicos cuando no se encuentran resultados
+      echo "<tr>";
+      echo "<td>0</td>";
+      echo "<td>0</td>";
+      echo "<td>0</td>";
+      echo "<td>0</td>";
+      echo "<td>0</td>";
+      echo "<td>0</td>";
+      echo "<td>0</td>"; // Columna conteo con 0
+      echo "<td>0</td>";
+      echo "</tr>";
+    }
+    ?>
       </tbody>
     </table>
 

@@ -250,7 +250,7 @@
 
         <a href="consultas/consulta_paciente-padecimientos_p.php"><button onmouseover="mostrarInformacion('info3')" onmouseout="ocultarInformacion('info3')"><span class="material-symbols-outlined">diagnosis</span> Historia clínica paciente</button></a>
 
-        <a href="consultas/consulta_padrespacientesP.php"><button onmouseover="mostrarInformacion('info4')" onmouseout="ocultarInformacion('info4')"><i class="fa-solid fa-people-roof"></i> Consulta Padres Pacientes</button></a>
+        <a href="consultas/consulta_paciente-padres_p.php"><button onmouseover="mostrarInformacion('info4')" onmouseout="ocultarInformacion('info4')"><i class="fa-solid fa-people-roof"></i> Consulta Padres Pacientes</button></a>
       </div>
       <div class="contenido">
         <fieldset>
