@@ -301,30 +301,35 @@ $result_padecimientos = $conn->query($query_padecimientos);
       <h3 style="padding:0; margin:0;text-align: center;">PediatraSys</h3>
 
  <table id="tabla_padecimientos" class="display" style="width:90%">
-      <thead>
-        <tr>
-          <th>ID Detalle</th>
-          <th>Nombre Padecimiento</th>
-          <th>Notas</th>
-          <th>Desde Cuándo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        if ($result_padecimientos->num_rows > 0) {
-          while ($row = $result_padecimientos->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row["IDdetalle_HC"] . "</td>";
-            echo "<td>" . htmlspecialchars($row["nombre_padecimiento"], ENT_QUOTES, 'UTF-8') . "</td>";
-            echo "<td>" . htmlspecialchars($row["notas"], ENT_QUOTES, 'UTF-8') . "</td>";
-            echo "<td>" . $row["desde_cuando"] . "</td>";
-            echo "</tr>";
-          }
-        } else {
-          // Mostrar una fila indicando que no se encontraron resultados
-          echo "<tr><td colspan='4'>No se encontraron resultados.</td></tr>";
-        }
-        ?>
+  <thead>
+    <tr>
+      <th>ID Detalle</th>
+      <th>Nombre Padecimiento</th>
+      <th>Notas</th>
+      <th>Desde Cuándo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    if ($result_padecimientos->num_rows > 0) {
+      while ($row = $result_padecimientos->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . $row["IDdetalle_HC"] . "</td>";
+        echo "<td>" . htmlspecialchars($row["nombre_padecimiento"], ENT_QUOTES, 'UTF-8') . "</td>";
+        echo "<td>" . htmlspecialchars($row["notas"], ENT_QUOTES, 'UTF-8') . "</td>";
+        echo "<td>" . $row["desde_cuando"] . "</td>";
+        echo "</tr>";
+      }
+    } else {
+      // Mostrar una fila con valores específicos cuando no se encuentran resultados
+      echo "<tr>";
+      echo "<td>0</td>";
+      echo "<td>Ningún padecimiento registrado</td>";
+      echo "<td>0</td>";
+      echo "<td>0</td>";
+      echo "</tr>";
+    }
+    ?>
     </tbody>
   </table>
 <a href="consulta_paciente-padecimientos_p.php" id="btnatras" class="btn btn-primary" style="width: 120px; font-size:small;vertical-align: baseline; font-weight:bold;">
