@@ -245,8 +245,11 @@
     <div class="divisor">
       <div class="botones">
         <a href="consultas/consulta_paciente_p.php"><button onmouseover="mostrarInformacion('info1')" onmouseout="ocultarInformacion('info1')"><i class="fa-solid fa-hospital-user"></i> Consulta Paciente General</button></a>
+
         <a href="consultas/consulta_paciente-vacunas_p.php"><button onmouseover="mostrarInformacion('info2')" onmouseout="ocultarInformacion('info2')"><i class="fa-solid fa-syringe"></i> Consulta Vacunas Paciente</button></a>
-        <button onmouseover="mostrarInformacion('info3')" onmouseout="ocultarInformacion('info3')"><span class="material-symbols-outlined">diagnosis</span> Historia clínica paciente</button>
+
+        <a href="consultas/consulta_paciente-padecimientos_p.php"><button onmouseover="mostrarInformacion('info3')" onmouseout="ocultarInformacion('info3')"><span class="material-symbols-outlined">diagnosis</span> Historia clínica paciente</button></a>
+
         <a href="consultas/consulta_padrespacientesP.php"><button onmouseover="mostrarInformacion('info4')" onmouseout="ocultarInformacion('info4')"><i class="fa-solid fa-people-roof"></i> Consulta Padres Pacientes</button></a>
       </div>
       <div class="contenido">
