@@ -290,7 +290,7 @@
        <a href="consultas/consulta_trabajomedicoP.php"><button onmouseover="mostrarInformacionMedico('infoMedico2')" onmouseout="ocultarInformacionMedico('infoMedico2')"><i class="fa-solid fa-book-medical"></i> Trabajo/actividad Médico/a</button></a>
        <a href="consultas/consulta_especialidadP.php"><button onmouseover="mostrarInformacionMedico('infoMedico3')" onmouseout="ocultarInformacionMedico('infoMedico3')"><i class="fa-solid fa-staff-snake"></i> Especialidad Médico</button></a>
         <button onmouseover="mostrarInformacionMedico('infoMedico4')" onmouseout="ocultarInformacionMedico('infoMedico4')"><i class="fa-solid fa-calendar-days"></i> Horario Médico</button>
-        <button onmouseover="mostrarInformacionMedico('infoMedico5')" onmouseout="ocultarInformacionMedico('infoMedico5')"><i class="fa-solid fa-address-book"></i> Directorio Médico</button>
+        <a href="consultas/consulta_localizadorm_P.php"><button onmouseover="mostrarInformacionMedico('infoMedico5')" onmouseout="ocultarInformacionMedico('infoMedico5')"><i class="fa-solid fa-address-book"></i> Directorio Médico</button></a>
       
       </div>
       <div class="contenido">
