@@ -154,7 +154,7 @@
 
 <body>
 
-  <div style="width:100%; padding: 6px; width: 100%; display: flex; flex-direction: column; align-items: center;">
+<!--   <div style="width:100%; padding: 6px; width: 100%; display: flex; flex-direction: column; align-items: center;">
     <h3 style="padding: 1%;text-align: center;text-transform: uppercase;font-family: bitter; color:black; padding: 5px; width: 100%; display: flex; flex-direction: column; align-items: center; font-weight:bolder;">Menú de procesos</h3>
     <img src="IMAGENES\app90.png" class="" alt="crud" height="48" width="48">
     <div class="botones-container" style="margin-top:0%;">
@@ -171,7 +171,7 @@
       });
     </script>
     </div>
-  </div>
+  </div> -->
 
   <div class="card-container">
     <a href="mant_citasmedicas.php">
