@@ -28,37 +28,18 @@ if (isset($_POST['btnregistrar'])) {
 
     // Si no hay errores, proceder con la inserción
     if (count($errores) == 0) {
-        // Realizar la consulta para verificar si ya existe una relación entre el padre y el paciente
-        $query_verificacion = "SELECT 
-                                    MIN(np.ID_Padre) AS id_nino_padre
-                                FROM 
-                                    nino_padre np
-                                WHERE 
-                                    np.id_paciente = ? 
-                                    AND np.ID_Padre = ?";
+        // Preparar y ejecutar la consulta de inserción
+        $query_insercion = "INSERT INTO nino_padre (id_paciente, ID_Padre, Tipo_Padre) VALUES (?, ?, ?)";
+        $stmt_insercion = $conn->prepare($query_insercion);
+        $stmt_insercion->bind_param("iss", $id_paciente, $id_padres, $tipo_padre);
 
-        $stmt_verificacion = $conn->prepare($query_verificacion);
-        $stmt_verificacion->bind_param("is", $id_paciente, $id_padres);
-        $stmt_verificacion->execute();
-        $stmt_verificacion->store_result();
-
-        if ($stmt_verificacion->num_rows > 0) {
-            echo "<script>alert('El padre/madre/tutor ya está vinculado(a) a este paciente.');</script>";
+        if ($stmt_insercion->execute()) {
+            echo "<script>alert('Registro exitoso!');</script>";
+            echo "<script>window.location.href = '../../MANT_PadresConPacientes.php?pag=$pagina';</script>";
         } else {
-            // Preparar y ejecutar la consulta de inserción
-            $query_insercion = "INSERT INTO nino_padre (id_paciente, ID_Padre, Tipo_Padre) VALUES (?, ?, ?)";
-            $stmt_insercion = $conn->prepare($query_insercion);
-            $stmt_insercion->bind_param("iss", $id_paciente, $id_padres, $tipo_padre);
-
-            if ($stmt_insercion->execute()) {
-                echo "<script>alert('Registro exitoso!');</script>";
-                echo "<script>window.location.href = '../../MANT_PadresConPacientes.php?pag=$pagina';</script>";
-            } else {
-                echo "<script>alert('Error en la inserción: " . $stmt_insercion->error . "');</script>";
-            }
-            $stmt_insercion->close();
+            echo "<script>alert('Error en la inserción: " . $stmt_insercion->error . "');</script>";
         }
-        $stmt_verificacion->close();
+        $stmt_insercion->close();
     } else {
         // Mostrar alertas si hay errores
         foreach ($errores as $error) {
@@ -66,6 +47,9 @@ if (isset($_POST['btnregistrar'])) {
         }
     }
 }
+
+
+
 
 /* session_start();
 error_reporting(E_ALL & ~E_WARNING);
