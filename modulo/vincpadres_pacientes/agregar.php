@@ -6,46 +6,60 @@ require_once "../../include/conec.php"; // Asegúrate de que el archivo de conex
 $pagina = isset($_GET['pag']) ? $_GET['pag'] : 1;
 
 if (isset($_POST['btnregistrar'])) {
-	$id_paciente = isset($_POST['id_paciente']) ? $_POST['id_paciente'] : null;
-	$id_padres = isset($_POST['id_padres']) ? $_POST['id_padres'] : null;
-	$tipo_padre = isset($_POST['Tipo_Padre']) ? $_POST['Tipo_Padre'] : null;
-	$errores = [];
+    $id_paciente = isset($_POST['id_paciente']) ? $_POST['id_paciente'] : null;
+    $id_padres = isset($_POST['id_padres']) ? $_POST['id_padres'] : null;
+    $tipo_padre = isset($_POST['Tipo_Padre']) ? $_POST['Tipo_Padre'] : null;
+    $errores = [];
 
-	// Verificar que el ID del paciente no esté vacío
-	if (empty($id_paciente)) {
-		$errores[] = "Por favor ingrese el ID del paciente.";
-	}
+    // Verificar que el ID del paciente no esté vacío
+    if (empty($id_paciente)) {
+        $errores[] = "Por favor ingrese el ID del paciente.";
+    }
 
-	// Verificar que el ID de los padres no esté vacío
-	if (empty($id_padres)) {
-		$errores[] = "Por favor ingrese el ID del padre/madre/tutor.";
-	}
+    // Verificar que el ID de los padres no esté vacío
+    if (empty($id_padres)) {
+        $errores[] = "Por favor ingrese el ID del padre/madre/tutor.";
+    }
 
-	// Verificar que el tipo de padre no esté vacío
-	if (empty($tipo_padre)) {
-		$errores[] = "Por favor seleccione el tipo de padre.";
-	}
+    // Verificar que el tipo de padre no esté vacío
+    if (empty($tipo_padre)) {
+        $errores[] = "Por favor seleccione el tipo de padre.";
+    }
 
-	// Si no hay errores, proceder con la inserción
-	if (count($errores) == 0) {
-		// Preparar y ejecutar la consulta de inserción
-		$query_insercion = "INSERT INTO nino_padre (id_paciente, ID_Padre, Tipo_Padre) VALUES (?, ?, ?)";
-		$stmt_insercion = $conn->prepare($query_insercion);
-		$stmt_insercion->bind_param("iss", $id_paciente, $id_padres, $tipo_padre);
+    // Si no hay errores, proceder con la verificación y la inserción
+    if (count($errores) == 0) {
+        // Verificar si ya existe una relación entre el padre y el paciente
+        $query_verificacion = "SELECT COUNT(*) as total FROM nino_padre WHERE id_paciente = ? AND ID_Padre = ?";
+        $stmt_verificacion = $conn->prepare($query_verificacion);
+        $stmt_verificacion->bind_param("is", $id_paciente, $id_padres);
+        $stmt_verificacion->execute();
+        $result_verificacion = $stmt_verificacion->get_result();
+        $row = $result_verificacion->fetch_assoc();
+        $stmt_verificacion->close();
 
-		if ($stmt_insercion->execute()) {
-			echo "<script>alert('Registro exitoso!');</script>";
-			echo "<script>window.location.href = '../../MANT_PadresConPacientes.php?pag=$pagina';</script>";
-		} else {
-			echo "<script>alert('Error en la inserción: " . $stmt_insercion->error . "');</script>";
-		}
-		$stmt_insercion->close();
-	} else {
-		// Mostrar alertas si hay errores
-		foreach ($errores as $error) {
-			echo "<script>alert('$error');</script>";
-		}
-	}
+        if ($row['total'] > 0) {
+            // Ya existe una relación, mostrar un mensaje de error
+            echo "<script>alert('❌❌El padre/madre/tutor ya está vinculado(a) a este paciente. inserción cancelada');</script>";
+        } else {
+            // No existe una relación, proceder con la inserción
+            $query_insercion = "INSERT INTO nino_padre (id_paciente, ID_Padre, Tipo_Padre) VALUES (?, ?, ?)";
+            $stmt_insercion = $conn->prepare($query_insercion);
+            $stmt_insercion->bind_param("iss", $id_paciente, $id_padres, $tipo_padre);
+
+            if ($stmt_insercion->execute()) {
+                echo "<script>alert('✅Registro exitoso!');</script>";
+                echo "<script>window.location.href = '../../MANT_PadresConPacientes.php?pag=$pagina';</script>";
+            } else {
+                echo "<script>alert('Error en la inserción: " . $stmt_insercion->error . "');</script>";
+            }
+            $stmt_insercion->close();
+        }
+    } else {
+        // Mostrar alertas si hay errores
+        foreach ($errores as $error) {
+            echo "<script>alert('$error');</script>";
+        }
+    }
 }
 
 
