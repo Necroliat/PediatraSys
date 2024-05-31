@@ -6,46 +6,46 @@ require_once "../../include/conec.php"; // Asegúrate de que el archivo de conex
 $pagina = isset($_GET['pag']) ? $_GET['pag'] : 1;
 
 if (isset($_POST['btnregistrar'])) {
-    $id_paciente = isset($_POST['id_paciente']) ? $_POST['id_paciente'] : null;
-    $id_padres = isset($_POST['id_padres']) ? $_POST['id_padres'] : null;
-    $tipo_padre = isset($_POST['Tipo_Padre']) ? $_POST['Tipo_Padre'] : null;
-    $errores = [];
+	$id_paciente = isset($_POST['id_paciente']) ? $_POST['id_paciente'] : null;
+	$id_padres = isset($_POST['id_padres']) ? $_POST['id_padres'] : null;
+	$tipo_padre = isset($_POST['Tipo_Padre']) ? $_POST['Tipo_Padre'] : null;
+	$errores = [];
 
-    // Verificar que el ID del paciente no esté vacío
-    if (empty($id_paciente)) {
-        $errores[] = "Por favor ingrese el ID del paciente.";
-    }
+	// Verificar que el ID del paciente no esté vacío
+	if (empty($id_paciente)) {
+		$errores[] = "Por favor ingrese el ID del paciente.";
+	}
 
-    // Verificar que el ID de los padres no esté vacío
-    if (empty($id_padres)) {
-        $errores[] = "Por favor ingrese el ID del padre/madre/tutor.";
-    }
+	// Verificar que el ID de los padres no esté vacío
+	if (empty($id_padres)) {
+		$errores[] = "Por favor ingrese el ID del padre/madre/tutor.";
+	}
 
-    // Verificar que el tipo de padre no esté vacío
-    if (empty($tipo_padre)) {
-        $errores[] = "Por favor seleccione el tipo de padre.";
-    }
+	// Verificar que el tipo de padre no esté vacío
+	if (empty($tipo_padre)) {
+		$errores[] = "Por favor seleccione el tipo de padre.";
+	}
 
-    // Si no hay errores, proceder con la inserción
-    if (count($errores) == 0) {
-        // Preparar y ejecutar la consulta de inserción
-        $query_insercion = "INSERT INTO nino_padre (id_paciente, ID_Padre, Tipo_Padre) VALUES (?, ?, ?)";
-        $stmt_insercion = $conn->prepare($query_insercion);
-        $stmt_insercion->bind_param("iss", $id_paciente, $id_padres, $tipo_padre);
+	// Si no hay errores, proceder con la inserción
+	if (count($errores) == 0) {
+		// Preparar y ejecutar la consulta de inserción
+		$query_insercion = "INSERT INTO nino_padre (id_paciente, ID_Padre, Tipo_Padre) VALUES (?, ?, ?)";
+		$stmt_insercion = $conn->prepare($query_insercion);
+		$stmt_insercion->bind_param("iss", $id_paciente, $id_padres, $tipo_padre);
 
-        if ($stmt_insercion->execute()) {
-            echo "<script>alert('Registro exitoso!');</script>";
-            echo "<script>window.location.href = '../../MANT_PadresConPacientes.php?pag=$pagina';</script>";
-        } else {
-            echo "<script>alert('Error en la inserción: " . $stmt_insercion->error . "');</script>";
-        }
-        $stmt_insercion->close();
-    } else {
-        // Mostrar alertas si hay errores
-        foreach ($errores as $error) {
-            echo "<script>alert('$error');</script>";
-        }
-    }
+		if ($stmt_insercion->execute()) {
+			echo "<script>alert('Registro exitoso!');</script>";
+			echo "<script>window.location.href = '../../MANT_PadresConPacientes.php?pag=$pagina';</script>";
+		} else {
+			echo "<script>alert('Error en la inserción: " . $stmt_insercion->error . "');</script>";
+		}
+		$stmt_insercion->close();
+	} else {
+		// Mostrar alertas si hay errores
+		foreach ($errores as $error) {
+			echo "<script>alert('$error');</script>";
+		}
+	}
 }
 
 
@@ -514,13 +514,15 @@ if (isset($_POST['btnregistrar'])) {
 								var idPaciente = $(this).val();
 								// Realizar la solicitud AJAX para obtener los datos del paciente
 								$.ajax({
-									url: 'consulta_apellido_nombre_paciente.php', // Ruta al archivo PHP que creamos
+									url: '../../consulta_apellido_nombre_paciente.php', // Ruta al archivo PHP que creamos
 									type: 'POST',
 									data: {
 										id_paciente: idPaciente
 									},
 									dataType: 'json',
 									success: function(data) {
+										
+										actualizarTablaPadres(idPaciente);
 										$("#nombre_paciente").text(data.nombre || '');
 										$("#apellido_paciente").text(data.apellido || '');
 									},
@@ -529,6 +531,25 @@ if (isset($_POST['btnregistrar'])) {
 									}
 								});
 							});
+
+							function actualizarTablaPadres(idPaciente) {
+								// Realizar la solicitud AJAX para obtener los datos de los padres vinculados
+								$.ajax({
+									url: 'consulta_padres_vinculados.php',
+									type: 'POST',
+									data: {
+										id_paciente: idPaciente
+									},
+									dataType: 'html',
+									success: function(data) {
+										
+										$("#tabla_padres_vinculados").html(data);
+									},
+									error: function() {
+										alert('Hubo un error al obtener los datos de los padres vinculados.');
+									}
+								});
+							}
 						</script>
 						<button class="btn btn-primary " type="button" id="buscar_paciente" onclick="mostrarModalpaciente()"><i class="fa-solid fa-magnifying-glass"></i></button>
 						<div id="Modalpaciente" class="custom-modal">
@@ -569,6 +590,14 @@ if (isset($_POST['btnregistrar'])) {
 						<label id="nombre_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required></label>
 						<label id="apellido_paciente" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required></label>
 						<span style="padding:25px">.</span>
+
+
+						<div id="tabla_padres_vinculados">
+							<!-- Aquí se mostrará la tabla de padres vinculados -->
+						</div>
+						<script>
+
+						</script>
 					</div>
 
 					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">

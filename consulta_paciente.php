@@ -167,7 +167,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
       $('#tabla_pacientes').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: 'css/es-ES.json' // Ruta al archivo de traducción
         },pageLength: 4
       });
 
@@ -189,7 +189,7 @@ function obtenerDatosPaciente($idPaciente, $conn)
         window.parent.document.getElementById("nombre_paciente").textContent = nombrePaciente;
         window.parent.document.getElementById("apellido_paciente").textContent = apellidoPaciente;
         window.parent.document.getElementById("id_paciente").focus();
-      
+        window.parent.actualizarTablaPadres(idPaciente);
         var currentPath = window.parent.location.pathname;
         var currentPage = currentPath.substring(currentPath.lastIndexOf("/") + 1);
         // Verificar la página actual y ejecutar la función correspondiente en el window.parent
