@@ -13,32 +13,33 @@ if ($conn->connect_error) {
 }
 
 // Obtener el ID del paciente enviado por AJAX
-$idpadre = $_POST['Numidentificador'];
+$idpadre = $_POST['id_padres'];
 
-// Consulta para obtener el nombre y el apellido del paciente
-$query = "SELECT Nombre, Apellido FROM datos_padres_de_pacientes WHERE Numidentificador = '$idpadre'";
-$result = $conn->query($query);
+// Preparar la consulta
+$stmt = $conn->prepare("SELECT Nombre, Apellido FROM datos_padres_de_pacientes WHERE Numidentificador LIKE ? LIMIT 1");
+$likeIdpadre = "%$idpadre%";
+$stmt->bind_param("s", $likeIdpadre);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $nombrepadre = $row['Nombre'];
     $apellidopadre = $row['Apellido'];
-
-    // Devolver el nombre y el apellido del paciente como JSON
-    $response = array(
-        'nombre' => $nombrepadre,
-        'apellido' => $apellidopadre
-    );
-    echo json_encode($response);
 } else {
-    // No se encontró ningún paciente con ese ID
-    $response = array(
-        'nombre' => '',
-        'apellido' => ''
-    );
-    echo json_encode($response);
+    // No se encontró ningún paciente con ese ID, se establece un valor predeterminado
+    $nombrepadre = '';
+    $apellidopadre = '';
 }
 
+// Devolver el nombre y el apellido del paciente como JSON
+$response = array(
+    'nombre' => $nombrepadre,
+    'apellido' => $apellidopadre
+);
+echo json_encode($response);
+
 // Cerrar la conexión
+$stmt->close();
 $conn->close();
 ?>

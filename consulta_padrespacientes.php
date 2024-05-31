@@ -170,7 +170,7 @@ table{word-wrap: break-word;}
         window.parent.document.getElementById("nombre_padres").textContent = nombrepadre;
         window.parent.document.getElementById("apellido_padres").textContent = apellidopadre;
         window.parent.document.getElementById("id_padres").focus();
-
+        windows.parent.actualizarTablaPacientes(idPadres);
         var currentPath = window.parent.location.pathname;
         var currentPage = currentPath.substring(currentPath.lastIndexOf("/") + 1);
 

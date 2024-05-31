@@ -521,7 +521,7 @@ if (isset($_POST['btnregistrar'])) {
 									},
 									dataType: 'json',
 									success: function(data) {
-										
+
 										actualizarTablaPadres(idPaciente);
 										$("#nombre_paciente").text(data.nombre || '');
 										$("#apellido_paciente").text(data.apellido || '');
@@ -542,7 +542,7 @@ if (isset($_POST['btnregistrar'])) {
 									},
 									dataType: 'html',
 									success: function(data) {
-										
+
 										$("#tabla_padres_vinculados").html(data);
 									},
 									error: function() {
@@ -602,8 +602,76 @@ if (isset($_POST['btnregistrar'])) {
 
 					<div style="display: flex; flex-wrap: wrap;vertical-align: baseline;align-items: baseline;">
 						<label for="id_padres">ID del Padre/Madre/Tutor:</label>
-						<input type="text" id="id_padres" name="id_padres" style="width: 55px;" required>
+						<input type="text" id="id_padres" name="id_padres" style="width: 255px;" required>
+						<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+						<script>
+							$("#id_padres").on("input", function() {
+								var idPadres = $(this).val().trim();
 
+								if (idPadres.length > 0) {
+									// Realizar la solicitud AJAX para obtener los datos del padre
+									$.ajax({
+										url: '../../consulta_apellido_nombre_padre.php',
+										type: 'POST',
+										data: {
+											id_padres: idPadres
+										},
+										dataType: 'json',
+										success: function(data) {
+											$("#nombre_padres").text(data.nombre || '');
+											$("#apellido_padres").text(data.apellido || '');
+
+											// Llamar a la función para actualizar la tabla de pacientes vinculados
+											actualizarTablaPacientes(idPadres);
+										},
+										error: function() {
+											alert('Hubo un error al obtener los datos del padre.');
+										}
+									});
+								} else {
+									// Limpiar los campos si no hay nada escrito
+									$("#nombre_padres").text('');
+									$("#apellido_padres").text('');
+								}
+							});
+
+
+							/* function actualizarTablaPadres(idPaciente) {
+								// Realizar la solicitud AJAX para obtener los datos de los padres vinculados
+								$.ajax({
+									url: 'consulta_padres_vinculados.php',
+									type: 'POST',
+									data: {
+										id_paciente: idPaciente
+									},
+									dataType: 'html',
+									success: function(data) {
+										$("#tabla_padres_vinculados").html(data);
+									},
+									error: function() {
+										alert('Hubo un error al obtener los datos de los padres vinculados.');
+									}
+								});
+							} */
+
+							function actualizarTablaPacientes(idPadres) {
+								// Realizar la solicitud AJAX para obtener los datos de los pacientes vinculados
+								$.ajax({
+									url: 'consulta_pacientes_vinculados.php',
+									type: 'POST',
+									data: {
+										id_padres: idPadres
+									},
+									dataType: 'html',
+									success: function(data) {
+										$("#tabla_pacientes_vinculados").html(data);
+									},
+									error: function() {
+										alert('Hubo un error al obtener los datos de los pacientes vinculados.');
+									}
+								});
+							}
+						</script>
 						<button class="btn btn-primary " type="button" id="buscar_medico" onclick="mostrarModalpadres()"><i class="fa-solid fa-magnifying-glass"></i></button>
 						<div id="Modalpadres" class="custom-modal">
 							<div class="custom-modal-content">
@@ -629,7 +697,9 @@ if (isset($_POST['btnregistrar'])) {
 
 							<label id="apellido_padres" style=" background-Color:#fffff1;padding:8px; border-radius:10px;box-shadow:2px 2px 4px #000000;" required></label>
 						</div>
-
+						<div id="tabla_pacientes_vinculados">
+							<!-- Aquí se mostrará la tabla de pacientes vinculados -->
+						</div>
 					</div>
 
 					<label for="Tipo_Padre">Tipo de Padre:</label>
