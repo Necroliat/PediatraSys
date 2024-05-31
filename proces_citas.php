@@ -661,7 +661,7 @@ if (isset($_POST['btnregistrar'])) {
 									<span class="close" onclick="cerrarModalpaciente()"><span class="material-symbols-outlined">
 											cancel
 										</span></span>
-									<iframe id="modal-iframe" src="consulta_paciente.php" frameborder="0" style="width: 100%; height: 70%;"></iframe>
+									<iframe id="modal-iframe" src="consulta_pacienteconpadres.php" frameborder="0" style="width: 100%; height: 70%;"></iframe>
 								</div>
 							</div>
 

@@ -1,6 +1,73 @@
 <?php
-
 session_start();
+error_reporting(E_ALL & ~E_WARNING);
+require_once "../../include/conec.php"; // Asegúrate de que el archivo de conexión esté correctamente configurado
+
+$pagina = isset($_GET['pag']) ? $_GET['pag'] : 1;
+
+if (isset($_POST['btnregistrar'])) {
+    $id_paciente = isset($_POST['id_paciente']) ? $_POST['id_paciente'] : null;
+    $id_padres = isset($_POST['id_padres']) ? $_POST['id_padres'] : null;
+    $tipo_padre = isset($_POST['Tipo_Padre']) ? $_POST['Tipo_Padre'] : null;
+    $errores = [];
+
+    // Verificar que el ID del paciente no esté vacío
+    if (empty($id_paciente)) {
+        $errores[] = "Por favor ingrese el ID del paciente.";
+    }
+
+    // Verificar que el ID de los padres no esté vacío
+    if (empty($id_padres)) {
+        $errores[] = "Por favor ingrese el ID del padre/madre/tutor.";
+    }
+
+    // Verificar que el tipo de padre no esté vacío
+    if (empty($tipo_padre)) {
+        $errores[] = "Por favor seleccione el tipo de padre.";
+    }
+
+    // Si no hay errores, proceder con la inserción
+    if (count($errores) == 0) {
+        // Realizar la consulta para verificar si ya existe una relación entre el padre y el paciente
+        $query_verificacion = "SELECT 
+                                    MIN(np.ID_Padre) AS id_nino_padre
+                                FROM 
+                                    nino_padre np
+                                WHERE 
+                                    np.id_paciente = ? 
+                                    AND np.ID_Padre = ?";
+
+        $stmt_verificacion = $conn->prepare($query_verificacion);
+        $stmt_verificacion->bind_param("is", $id_paciente, $id_padres);
+        $stmt_verificacion->execute();
+        $stmt_verificacion->store_result();
+
+        if ($stmt_verificacion->num_rows > 0) {
+            echo "<script>alert('El padre/madre/tutor ya está vinculado(a) a este paciente.');</script>";
+        } else {
+            // Preparar y ejecutar la consulta de inserción
+            $query_insercion = "INSERT INTO nino_padre (id_paciente, ID_Padre, Tipo_Padre) VALUES (?, ?, ?)";
+            $stmt_insercion = $conn->prepare($query_insercion);
+            $stmt_insercion->bind_param("iss", $id_paciente, $id_padres, $tipo_padre);
+
+            if ($stmt_insercion->execute()) {
+                echo "<script>alert('Registro exitoso!');</script>";
+                echo "<script>window.location.href = '../../MANT_PadresConPacientes.php?pag=$pagina';</script>";
+            } else {
+                echo "<script>alert('Error en la inserción: " . $stmt_insercion->error . "');</script>";
+            }
+            $stmt_insercion->close();
+        }
+        $stmt_verificacion->close();
+    } else {
+        // Mostrar alertas si hay errores
+        foreach ($errores as $error) {
+            echo "<script>alert('$error');</script>";
+        }
+    }
+}
+
+/* session_start();
 error_reporting(E_ALL & ~E_WARNING);
 require_once "../../include/conec.php";
 $pagina = $_GET['pag'];
@@ -66,7 +133,7 @@ if (isset($_POST['btnregistrar'])) {
 		echo "<script>" . implode("", $errores) . "</script>";
 	}
 }
-
+ */
 ?>
 
 <html>
