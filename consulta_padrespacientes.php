@@ -76,26 +76,30 @@ function in_iframe()
 
 
     .clasebotonVER {
-          color:#f0f0f0;
-          text-shadow:2px 2px 4px #000000;
-          font-weight: bold;
-            border: 1px solid #e4e5dc;
-            outline: none;
-            background: linear-gradient(to right, #4a90e2, #63b8ff);
-            border-radius: 7px;
-            width: auto;
-            text-decoration: none;
-            height: 40px;
-            font-size: 13px;
-            padding: 7px;
-            margin: 5px;
+      color: #f0f0f0;
+      text-shadow: 2px 2px 4px #000000;
+      font-weight: bold;
+      border: 1px solid #e4e5dc;
+      outline: none;
+      background: linear-gradient(to right, #4a90e2, #63b8ff);
+      border-radius: 7px;
+      width: auto;
+      text-decoration: none;
+      height: 40px;
+      font-size: 13px;
+      padding: 7px;
+      margin: 5px;
 
-        }
-        .clasebotonVER:hover {
-            background: linear-gradient(to right, #63b8ff, #4a90e2);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
-table{word-wrap: break-word;}
+    }
+
+    .clasebotonVER:hover {
+      background: linear-gradient(to right, #63b8ff, #4a90e2);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    table {
+      word-wrap: break-word;
+    }
   </style>
   <script src="https://kit.fontawesome.com/726ca5cfb3.js" crossorigin="anonymous"></script>
 </head>
@@ -146,7 +150,7 @@ table{word-wrap: break-word;}
       $('#tabla_padres').DataTable({
         dom: 'frtip', // Mostrar solo búsqueda y paginación
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json' // Ruta al archivo de traducción
+          url: 'css/es-ES.json' // Ruta al archivo de traducción
         },
         pageLength: 5
       });
@@ -169,8 +173,9 @@ table{word-wrap: break-word;}
         window.parent.document.getElementById("id_padres").value = idpadres;
         window.parent.document.getElementById("nombre_padres").textContent = nombrepadre;
         window.parent.document.getElementById("apellido_padres").textContent = apellidopadre;
+        window.parent.actualizarTablaPacientes(idpadres); // Corregido aquí
         window.parent.document.getElementById("id_padres").focus();
-        windows.parent.actualizarTablaPacientes(idPadres);
+
         var currentPath = window.parent.location.pathname;
         var currentPage = currentPath.substring(currentPath.lastIndexOf("/") + 1);
 
@@ -185,6 +190,7 @@ table{word-wrap: break-word;}
       });
     });
   </script>
+
 
 </body>
 
